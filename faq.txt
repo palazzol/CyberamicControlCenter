@@ -1,0 +1,58 @@
+Unofficial Cyberamic Control Center FAQ
+Frank Palazzolo
+Version: 19 Feb 2024
+
+Disclaimer:
+
+I worked at a Pizza Time Theatre as a high-school student.  Nothing in this document is "official".  The information is based on my own memories, reconstructed by documentation I found on the Internet, and hardware found by myself and other people
+
+System Description:
+
+The Cyberamic Control Center was designed to control the various animatronic stages at Chuck E. Cheese's Pizza Time Theatre.
+It's original design was a rack-mounted system, consisting of a Teac reel-to-reel tape deck, a card-cage computer, and various power supplies and audio amplifiers.
+
+Program tapes were distributed on 7-inch reels, which contained mono-audio on one track, and modulated data in the form of audio on the other track.
+The control computer had control of the tape deck, so that it could read the audio and data tracks, play the shows from the tape, while generating the control signals to run the animatronics.  Various lighted pushbuttons on the from panel would control the operation of the system.
+
+The data on the tape was ASCII, known as "SongCode" or "Chuck E" format.  The relation between the control codes, the show tracks, and the driver channels is not 100% understood at this time, but it is being worked on.  Some additional data on the tapes was used to allow the system to know, for example, whether a program was Birthday-themed or not.  Because of this, there was a button which could jump to a Birthday program, for example.
+
+Control Computer:
+
+The control computer was modular, consisting of a number of a backplane and a number of cards, so that it could scale to controlling different numbers of channels.
+The first three slots were 122-pin, and were reserved for the Transport, Audio Control, and CPU Cards.  The rest of the slots were 50-pin, and were designed for character driver and light driver cards.  All slots had 50-pins in common, while the first 3 slots had extra pins for dedicated functions.
+
+Console:
+
+The Rack-Mounted front panel box contained the various power supplies as well as 8 lighted switches, a power switch, a power indicator, voltage test points, and an AGC knob.  Later variations appear to delete the AGC knob.
+
+Card Descriptions:
+
+- The Orignal CPU card was based on a 1 Mhz, 6502 processor, 2 6532 RIOT chips, and a 4K EPROM containing the firmware.  It could directly access the from panel buttons, and had 8 indicator LEDs.
+
+- The Transport Card contained a 6821 PIA, a UART, and circuitry to decode the data track.  The data was 4800 baud 8N1 serial data, with zero crossings between each bit. The idle state "1" has no mid-bit transition, and "0"s having a mid-bit transition.  It had 6 indicator LEDs.
+
+- The Audio Control Card contained a 6821 PIA, comparators, and analog circuitry including op amps, and DACs.  (At this time, this is not very well understood, but it was reponsible for routing and processing the audio track.  It may also have been possible to override the audio track, as there appears to be background audio and microphone inputs as well.  This card had 7 indicator LEDs.
+
+- The Character and Light Driver cards each contains a 6821 PIA, and were used to switch 24V power to various solenoids or relays, via ribbon connectors on the backs of the cards.  The Character Cards had 14 channels each, while the Light Driver cards have 16 channels.  There were one LED per control channel on these cards.
+
+Firmware:
+
+All of the firmware for the original unit is currently unknown.  This version of the Cyberamic Control Center was used from the earliest rollout of the Pizza Time Theatre until the mid-to-late 1980's. It appears that at least some of controllers for the Caberet stages were never upgraded beyond this original configuration.  This makes sense, because there was little or no new content for those stages after the merger of Pizza Time Theatre and Showbiz.
+
+Discrepencies:
+
+The Audio card seems to have at least two revisions.  Rev A contains an Audio Out amplifier, where Rev C does not.
+The Backplane schematics appear to contain a Microphone amplifier, but the drawings don't show a connector.  Further, the backplane schematics show a J19 Audio Out RCA jack, while at least one revision of the backplane (mine) doesn't have this.
+
+Upgrade to SVHS:
+
+At some point (1988?), the system was upgraded to use SVHS tapes instead of Reel-to-reel tapes.  It appears that the Audio Control care was replaced by a new A/V Control card, which was apparently just a slot #6 character card modified to switch 5V instead of 24V.  This card was used to interface with a new TRIAD A/V switcher.  The Audio data track still went to the existing Transport card.  I believe the low level format of the audio data must not have changed, since the same hardware was used to decode it.  It may be that a certain firmware upgrade was needed to support this configuration, but maybe not?
+
+Upgrade to new 68HC11 CPU
+
+Later, in 1993, the system was upgraded again to include an LCD display, and a new CPU card based on a 68HC11 chip.  The functionality of the original Transport card and the A/V Control card were also up-integrated into the new system, so only an adapter card was needed in the Transport slot.  Fortunately, version 1.6 is Cyberstar firmware is available and has been analyzed.  It contains some diagnostics for the system, as well as protocol handlers for at least two variants of the data protocol, R12 and CNR.
+
+Upgrade to DVD? Floppy?:
+
+Later variations of the system used DVDs and Floppy disks to run.  I have very little information about this.
+
