@@ -1,0 +1,44 @@
+
+Trying to sort out the audio board before the trip:
+
+U4 ULN2003:
+Drives 7 LEDS from PIA pins 3-9
+PA1 - DS1
+...
+PA7 - DS7
+
+Also go to LM339 pins U3/U2 
+
+U3 pin 14 - PA1
+U3 pin 13 - PA3
+U3 pin  1 - PA0
+U3 pin  2 - PA2
+
+U3 pin 1 - U3 pin 3
+U3 pin 11 - U3 pin 13
+U3 pin 7 - U2 Pin 9
+
+U2 pin 1 - U2 pin 3
+U2 pin 11 - U2 pin 33
+U2 pin 5 - +5
+
+PB0-PB7 - parallel connections to all DAC08s
+
+---
+
+multiturn pots:
+rev A
+    - R36 Game Rm Out
+    - R38 Music In
+    - R34 Audio Out
+    - R19 AGC
+rev C
+    - R34 Audio Out deleted
+
+---
+
+Game Rm Out Pot tied to MC1458
+
+
+
+
