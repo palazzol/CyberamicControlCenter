@@ -263,8 +263,8 @@ L1DCC:
 	lda	#$40
 	sta	board_0_periph/ddr_reg_b
 	sta	board_1_periph/ddr_reg_b
+	sta	board_2_periph/ddr_reg_b
 	sta	board_3_periph/ddr_reg_b
-	sta	board_4_periph/ddr_reg_b
 	lda	#$3C
 	sta	audio_control_reg_a
 	lda	#$34

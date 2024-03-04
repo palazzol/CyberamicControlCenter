@@ -36,8 +36,8 @@ symbol		0x0081	board_0_control_reg_a
 symbol		0x0082	board_0_periph/ddr_reg_b
 symbol		0x0083	board_0_control_reg_b
 symbol		0x0086	board_1_periph/ddr_reg_b
-symbol		0x008A	board_3_periph/ddr_reg_b
-symbol		0x008E	board_4_periph/ddr_reg_b
+symbol		0x008A	board_2_periph/ddr_reg_b
+symbol		0x008E	board_3_periph/ddr_reg_b
 symbol		0x0200	U18_PORTA
 symbol		0x0201	U18_DDRA
 symbol		0x0202	U18_PORTB

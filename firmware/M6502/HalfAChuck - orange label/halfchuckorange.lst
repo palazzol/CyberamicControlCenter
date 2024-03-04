@@ -278,8 +278,8 @@
 1DCF : A9 40		" @"		lda	#$40
 1DD1 : 85 82		"  "		sta	board_0_periph/ddr_reg_b
 1DD3 : 85 86		"  "		sta	board_1_periph/ddr_reg_b
-1DD5 : 85 8A		"  "		sta	board_3_periph/ddr_reg_b
-1DD7 : 85 8E		"  "		sta	board_4_periph/ddr_reg_b
+1DD5 : 85 8A		"  "		sta	board_2_periph/ddr_reg_b
+1DD7 : 85 8E		"  "		sta	board_3_periph/ddr_reg_b
 1DD9				L1DD9:
 1DD9 : AD 02 03		"   "		lda	transport_periph/ddr_reg_b
 1DDC : 4A		"J"		lsr	a
@@ -587,8 +587,8 @@ Value		Type	Name
 0082		Data	board_0_periph/ddr_reg_b
 0083		Data	board_0_control_reg_b
 0086		Data	board_1_periph/ddr_reg_b
-008A		Data	board_3_periph/ddr_reg_b
-008E		Data	board_4_periph/ddr_reg_b
+008A		Data	board_2_periph/ddr_reg_b
+008E		Data	board_3_periph/ddr_reg_b
 0200		Data	U18_PORTA
 0201		Data	U18_DDRA
 0202		Data	U18_PORTB
