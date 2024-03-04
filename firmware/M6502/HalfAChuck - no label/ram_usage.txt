@@ -1,0 +1,54 @@
+
+original - ram locations
+
+0000		Data	RAM_start
+Just used as an offset for indexed operations
+
+;
+; Timer block
+;
+
+0050		Data	RAM_50      ; 1 msec timer
+0051		Data	RAM_51      ; 1 msec timer
+0052		Data	RAM_52      ; 1 msec timer
+
+0053		Data	RAM_53      ; 1 msec master counter
+Set to 100 regularly
+
+0054		Data	RAM_54      ; 0.1 sec timer
+
+0055		Data	RAM_55      ; 0.1 sec master counter
+Set to 100 regularly
+
+0056		Data	RAM_56      ; 10 sec timer
+;
+
+0057		Data	RAM_57
+Used with Timer read
+
+0058		Data	RAM_58
+??? counter for loop at 1D8E
+
+0059		Data	RAM_59
+??? counter for loop
+
+005A		Data	RAM_5A
+??? counter?
+
+005B		Data	RAM_5B
+0x80 Running / 0x00 Stopped?
+
+005C		Data	RAM_5C
+buffer for incoming serial data
+
+005D		Data	RAM_5D
+buffer for bit mask
+
+005E		Data	RAM_5E
+buffer for channel byte (with on/off)
+
+005F		Data	RAM_5F
+temp storage for irq bits (timer and PA7)
+
+0064		Data	RAM_64
+current board address

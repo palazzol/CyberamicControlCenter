@@ -1,0 +1,55 @@
+
+cpu		6502
+
+org		0x1C00
+
+vector      0x1FFA  NMIVEC
+vector      0x1FFC  RESETVEC RESET
+vector      0x1FFE  IRQVEC
+
+symbol		0x0000	RAM_start
+symbol		0x0050	RAM_50
+symbol		0x0051	RAM_51
+symbol		0x0052	RAM_52
+symbol		0x0053	RAM_53
+symbol		0x0054	RAM_54
+symbol		0x0055	RAM_55
+symbol		0x0056	RAM_56
+symbol		0x0057	RAM_57
+symbol		0x0058	RAM_58
+symbol		0x0059	RAM_59
+symbol		0x005A	RAM_5A
+symbol		0x005B	RAM_5B
+symbol		0x005C	RAM_5C
+symbol		0x005D	RAM_5D
+symbol		0x005E	RAM_5E
+symbol		0x005F	RAM_5F
+symbol		0x0064	RAM_64
+symbol		0x0080	board_0_periph/ddr_reg_a
+symbol		0x0081	board_0_control_reg_a
+symbol		0x0082	board_0_periph/ddr_reg_b
+symbol		0x0083	board_0_control_reg_b
+symbol		0x0086	board_1_periph/ddr_reg_b
+symbol		0x008A	board_3_periph/ddr_reg_b
+symbol		0x008E	board_4_periph/ddr_reg_b
+symbol		0x0200	U18_PORTA
+symbol		0x0201	U18_DDRA
+symbol		0x0202	U18_PORTB
+symbol		0x0203	U18_DDRB
+symbol		0x0204	U18_timer
+symbol		0x0205	U18_edge_detect_control_DI_pos
+symbol		0x0215	U18_timer_8T_DI
+symbol		0x0280	U19_PORTA
+symbol		0x0281	U19_DDRA
+symbol		0x0282	U19_PORTB
+symbol		0x0283	U19_DDRB
+symbol		0x0300	transport_periph/ddr_reg_a
+symbol		0x0301	transport_control_reg_a
+symbol		0x0302	transport_periph/ddr_reg_b
+symbol		0x0303	transport_control_reg_b
+symbol		0x0380	audio_periph/ddr_reg_a
+symbol		0x0381	audio_control_reg_a
+symbol		0x0382	audio_periph/ddr_reg_b
+symbol		0x0383	audio_control_reg_b
+
+code		0xFFFC	reset
