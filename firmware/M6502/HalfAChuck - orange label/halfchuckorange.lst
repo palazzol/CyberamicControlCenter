@@ -182,17 +182,17 @@
 1D32 : A2 00		"  "		ldx	#$00
 1D34				L1D34:
 1D34 : A9 30		" 0"		lda	#$30
-1D36 : 95 81		"  "		sta	board_0_control_reg_a,x
-1D38 : 95 83		"  "		sta	board_0_control_reg_b,x
+1D36 : 95 81		"  "		sta	board_1_control_reg_a,x
+1D38 : 95 83		"  "		sta	board_1_control_reg_b,x
 1D3A : A9 FF		"  "		lda	#$FF
-1D3C : 95 80		"  "		sta	board_0_periph/ddr_reg_a,x
-1D3E : 95 82		"  "		sta	board_0_periph/ddr_reg_b,x
+1D3C : 95 80		"  "		sta	board_1_periph/ddr_reg_a,x
+1D3E : 95 82		"  "		sta	board_1_periph/ddr_reg_b,x
 1D40 : A9 34		" 4"		lda	#$34
-1D42 : 95 81		"  "		sta	board_0_control_reg_a,x
-1D44 : 95 83		"  "		sta	board_0_control_reg_b,x
+1D42 : 95 81		"  "		sta	board_1_control_reg_a,x
+1D44 : 95 83		"  "		sta	board_1_control_reg_b,x
 1D46 : A9 00		"  "		lda	#$00
-1D48 : 95 80		"  "		sta	board_0_periph/ddr_reg_a,x
-1D4A : 95 82		"  "		sta	board_0_periph/ddr_reg_b,x
+1D48 : 95 80		"  "		sta	board_1_periph/ddr_reg_a,x
+1D4A : 95 82		"  "		sta	board_1_periph/ddr_reg_b,x
 1D4C : E8		" "		inx
 1D4D : E8		" "		inx
 1D4E : E8		" "		inx
@@ -276,10 +276,10 @@
 1DCC				L1DCC:
 1DCC : AD 00 03		"   "		lda	transport_periph/ddr_reg_a
 1DCF : A9 40		" @"		lda	#$40
-1DD1 : 85 82		"  "		sta	board_0_periph/ddr_reg_b
-1DD3 : 85 86		"  "		sta	board_1_periph/ddr_reg_b
-1DD5 : 85 8A		"  "		sta	board_2_periph/ddr_reg_b
-1DD7 : 85 8E		"  "		sta	board_3_periph/ddr_reg_b
+1DD1 : 85 82		"  "		sta	board_1_periph/ddr_reg_b
+1DD3 : 85 86		"  "		sta	board_2_periph/ddr_reg_b
+1DD5 : 85 8A		"  "		sta	board_3_periph/ddr_reg_b
+1DD7 : 85 8E		"  "		sta	board_4_periph/ddr_reg_b
 1DD9				L1DD9:
 1DD9 : AD 02 03		"   "		lda	transport_periph/ddr_reg_b
 1DDC : 4A		"J"		lsr	a
@@ -582,13 +582,13 @@ Value		Type	Name
 0062		Data	RAM_62
 0063		Data	RAM_63
 0064		Data	RAM_64
-0080		Data	board_0_periph/ddr_reg_a
-0081		Data	board_0_control_reg_a
-0082		Data	board_0_periph/ddr_reg_b
-0083		Data	board_0_control_reg_b
-0086		Data	board_1_periph/ddr_reg_b
-008A		Data	board_2_periph/ddr_reg_b
-008E		Data	board_3_periph/ddr_reg_b
+0080		Data	board_1_periph/ddr_reg_a
+0081		Data	board_1_control_reg_a
+0082		Data	board_1_periph/ddr_reg_b
+0083		Data	board_1_control_reg_b
+0086		Data	board_2_periph/ddr_reg_b
+008A		Data	board_3_periph/ddr_reg_b
+008E		Data	board_4_periph/ddr_reg_b
 0200		Data	U18_PORTA
 0201		Data	U18_DDRA
 0202		Data	U18_PORTB

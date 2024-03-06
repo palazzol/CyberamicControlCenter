@@ -173,17 +173,17 @@ L1D33:
 	ldx	#$00
 L1D3F:
 	lda	#$30
-	sta	board_0_control_reg_a,x
-	sta	board_0_control_reg_b,x
+	sta	board_1_control_reg_a,x
+	sta	board_1_control_reg_b,x
 	lda	#$FF
-	sta	board_0_periph/ddr_reg_a,x
-	sta	board_0_periph/ddr_reg_b,x
+	sta	board_1_periph/ddr_reg_a,x
+	sta	board_1_periph/ddr_reg_b,x
 	lda	#$34
-	sta	board_0_control_reg_a,x
-	sta	board_0_control_reg_b,x
+	sta	board_1_control_reg_a,x
+	sta	board_1_control_reg_b,x
 	lda	#$00
-	sta	board_0_periph/ddr_reg_a,x
-	sta	board_0_periph/ddr_reg_b,x
+	sta	board_1_periph/ddr_reg_a,x
+	sta	board_1_periph/ddr_reg_b,x
 	inx
 	inx
 	inx
@@ -261,10 +261,10 @@ L1DBE:
 L1DCC:
 	lda	transport_periph/ddr_reg_a
 	lda	#$40
-	sta	board_0_periph/ddr_reg_b
 	sta	board_1_periph/ddr_reg_b
 	sta	board_2_periph/ddr_reg_b
 	sta	board_3_periph/ddr_reg_b
+	sta	board_4_periph/ddr_reg_b
 	lda	#$3C
 	sta	audio_control_reg_a
 	lda	#$34
