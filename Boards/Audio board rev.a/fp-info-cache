@@ -1,4 +1,4 @@
-21762372446464336
+21764082211156891
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -53424,6 +53424,13 @@ CP Radial series Radial pin pitch 12.90mm  diameter 35mm Electrolytic Capacitor
 2
 2
 Evan's parts
+CP_Radial_Tantal_D4mm_P3.81mm
+CP, Radial_Tantal series, Radial, pin pitch=5.00mm, , diameter=4.5mm, Tantal Electrolytic Capacitor, http://cdn-reichelt.de/documents/datenblatt/B300/TANTAL-TB-Serie%23.pdf
+CP Radial_Tantal series Radial pin pitch 5.00mm  diameter 4.5mm Tantal Electrolytic Capacitor
+0
+2
+2
+Evan's parts
 CUI_MD-90SM
 
 
@@ -53456,8 +53463,8 @@ Chuck_E_Cheese_large_card_edge
 
 
 0
-0
-0
+122
+122
 Evan's parts
 DIP 28 1.78mm
 117-83-640-41-005101 DIPS1524W50P178L3580H420Q40N
