@@ -57,8 +57,8 @@
 1C44 : 8D 03 03         "   "           sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
 
 1C47 : A9 3C            " <"            lda     #$3C
-1C49 : 8D 81 03         "   "           sta     audio_control_reg_a                     ; CA2 high
-1C4C : 8D 83 03         "   "           sta     audio_control_reg_b                     ; CB2 high
+1C49 : 8D 81 03         "   "           sta     audio_control_reg_a                     ; CA2 High - Disable BG Audio
+1C4C : 8D 83 03         "   "           sta     audio_control_reg_b                     ; CB2 high - Disable Tape Audio
 
 1C4F : A9 64            " d"            lda     #$64
 1C51 : 85 53            " S"            sta     RAM_53                                  ; 100 - init 1 msec master counter
@@ -89,8 +89,8 @@
 1C78 : A9 00            "  "            lda     #$00
 1C7A : 85 58            " X"            sta     RAM_58                                  ; state 0?
 1C7C                            L1C7C:
-1C7C : 20 72 1E         " r "           jsr     L1E72
-1C7F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until transport CB1 goes high
+1C7C : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
+1C7F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until transport CB1 rising edge
 1C82 : 10 F8            "  "            bpl     L1C7C
 
 1C84 : A9 06            "  "            lda     #$06
@@ -99,14 +99,14 @@
 1C88 : A9 64            " d"            lda     #$64                                    ; 100
 1C8A : 85 53            " S"            sta     RAM_53
 1C8C                            L1C8C:
-1C8C : 20 72 1E         " r "           jsr     L1E72
-1C8F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until transport CB1 goes high or 0.6 secs
+1C8C : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
+1C8F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until 100 transport CB1 rising edges or 0.6 secs expired
 1C92 : 10 0B            "  "            bpl     L1C9F
 1C94 : E6 58            " X"            inc     RAM_58                                  ; state1
 1C96 : AD 02 03         "   "           lda     transport_periph/ddr_reg_b
 1C99 : A5 58            " X"            lda     RAM_58
 1C9B : C9 64            " d"            cmp     #$64
-1C9D : B0 0B            "  "            bcs     L1CAA                                   ; happened 100 times?
+1C9D : B0 0B            "  "            bcs     L1CAA                                   ; happened 100 times, jump ahead
 1C9F                            L1C9F:
 1C9F : A5 54            " T"            lda     RAM_54
 1CA1 : D0 E9            "  "            bne     L1C8C
@@ -121,94 +121,94 @@
                                 ;
 1CAA                            L1CAA:
 1CAA : A9 20            "  "            lda     #$20
-1CAC : 20 74 1D         " t "           jsr     L1D74                                   ; FFWD tape?
+1CAC : 20 74 1D         " t "           jsr     L1D74                                   ; FFWD tape
 1CAF : A9 19            "  "            lda     #$19
 1CB1 : 85 54            " T"            sta     RAM_54                                  ; for 2.5 secs
 1CB3 : A9 64            " d"            lda     #$64
 1CB5 : 85 53            " S"            sta     RAM_53
 1CB7                            L1CB7:
-1CB7 : 20 72 1E         " r "           jsr     L1E72
+1CB7 : 20 72 1E         " r "           jsr     L1E72                                   ; do housekeeping stuff
 1CBA : A5 54            " T"            lda     RAM_54
 1CBC : D0 F9            "  "            bne     L1CB7
 
 1CBE : A9 00            "  "            lda     #$00
 1CC0 : 85 59            " Y"            sta     RAM_59
-1CC2 : 20 83 1D         "   "           jsr     L1D83
+1CC2 : 20 83 1D         "   "           jsr     L1D83                                   ; look for start of data?
 1CC5 : E6 59            " Y"            inc     RAM_59
 1CC7 : A9 10            "  "            lda     #$10
 1CC9 : 20 60 1D         " ` "           jsr     L1D60                                   ; STOP tape
 1CCC : A9 80            "  "            lda     #$80
 1CCE : 20 60 1D         " ` "           jsr     L1D60                                   ; PLAY tape
-1CD1 : 20 A6 1D         "   "           jsr     L1DA6
+1CD1 : 20 A6 1D         "   "           jsr     L1DA6                                   ; go up to carrier?
 1CD4 : A9 10            "  "            lda     #$10
 1CD6 : 20 60 1D         " ` "           jsr     L1D60                                   ; STOP Tape
-1CD9 : 20 33 1D         " 3 "           jsr     L1D33
+1CD9 : 20 33 1D         " 3 "           jsr     L1D33                                   ; init the boards and audio to stopped
 1CDC : A9 00            "  "            lda     #$00
-1CDE : 85 5A            " Z"            sta     RAM_5A
+1CDE : 85 5A            " Z"            sta     RAM_5A                                  ; set state to not playing
 1CE0                            L1CE0:
-1CE0 : 20 72 1E         " r "           jsr     L1E72
-1CE3 : A5 5A            " Z"            lda     RAM_5A
-1CE5 : D0 0D            "  "            bne     L1CF4
-1CE7 : A9 02            "  "            lda     #$02
+1CE0 : 20 72 1E         " r "           jsr     L1E72                           
+1CE3 : A5 5A            " Z"            lda     RAM_5A                                  ; wait until we are triggered
+1CE5 : D0 0D            "  "            bne     L1CF4                                   ; then jump
+1CE7 : A9 02            "  "            lda     #$02                                    ; else
 1CE9 : 8D 80 02         "   "           sta     U19_PORTA                               ; turn on RESET button light
 1CEC : A9 00            "  "            lda     #$00
 1CEE : 8D 02 02         "   "           sta     U18_PORTB                               ; turn on all other button lights
 1CF1 : 4C E0 1C         "L  "           jmp     L1CE0
-                                ;
+                                ;   we have been started!
 1CF4                            L1CF4:
-1CF4 : 20 33 1D         " 3 "           jsr     L1D33
+1CF4 : 20 33 1D         " 3 "           jsr     L1D33                                   ; init the boards and audio to stopped
 1CF7 : A9 00            "  "            lda     #$00
 1CF9 : 8D 80 02         "   "           sta     U19_PORTA                               ; turn off RESET button light
 1CFC : A9 80            "  "            lda     #$80
 1CFE : 8D 02 02         "   "           sta     U18_PORTB                               ; turn off all but PROG light
 1D01 : A9 80            "  "            lda     #$80
 1D03 : 20 60 1D         " ` "           jsr     L1D60                                   ; PLAY tape
-1D06 : 20 A6 1D         "   "           jsr     L1DA6
-1D09 : C6 5A            " Z"            dec     RAM_5A
-1D0B : 20 CC 1D         "   "           jsr     L1DCC
-1D0E : 20 33 1D         " 3 "           jsr     L1D33
+1D06 : 20 A6 1D         "   "           jsr     L1DA6                                   ; go up to carrier?
+1D09 : C6 5A            " Z"            dec     RAM_5A                                  ; no longer triggered
+1D0B : 20 CC 1D         "   "           jsr     L1DCC                                   ; play a track!
+1D0E : 20 33 1D         " 3 "           jsr     L1D33                                   ; init the boards and audio to stopped
 1D11 : A9 30            " 0"            lda     #$30
 1D13 : 85 56            " V"            sta     RAM_56                                  ; 8 minute timer?
 1D15 : A9 64            " d"            lda     #$64
 1D17 : 85 55            " U"            sta     RAM_55
-1D19 : E6 59            " Y"            inc     RAM_59
+1D19 : E6 59            " Y"            inc     RAM_59                                  ; track counter
 1D1B : A5 59            " Y"            lda     RAM_59
 1D1D : C9 1A            "  "            cmp     #$1A                                    ; 26?
 1D1F : 90 03            "  "            bcc     L1D24
-1D21 : 4C 73 1C         "Ls "           jmp     L1C73
+1D21 : 4C 73 1C         "Ls "           jmp     L1C73                                   ; rewind the tape after the total number of tracks are done
                                 ;
 1D24                            L1D24:
-1D24 : 20 A6 1D         "   "           jsr     L1DA6
+1D24 : 20 A6 1D         "   "           jsr     L1DA6                                   ; go up to carrier?
 1D27 : A9 10            "  "            lda     #$10
 1D29 : 20 60 1D         " ` "           jsr     L1D60                                   ; STOP tape
 1D2C : A9 00            "  "            lda     #$00
-1D2E : 85 5A            " Z"            sta     RAM_5A
+1D2E : 85 5A            " Z"            sta     RAM_5A                                  ; no longer triggered
 1D30 : 4C E0 1C         "L  "           jmp     L1CE0
                                 ;
 1D33                            L1D33:
 1D33 : A9 3C            " <"            lda     #$3C
-1D35 : 8D 83 03         "   "           sta     audio_control_reg_b
+1D35 : 8D 83 03         "   "           sta     audio_control_reg_b                     ; CB2 High (Disable Tape Audio)
 1D38 : A9 34            " 4"            lda     #$34
-1D3A : 8D 81 03         "   "           sta     audio_control_reg_a
+1D3A : 8D 81 03         "   "           sta     audio_control_reg_a                     ; CA2 Low (Enable BG Audio)
 1D3D : A2 00            "  "            ldx     #$00
 1D3F                            L1D3F:
 1D3F : A9 30            " 0"            lda     #$30
-1D41 : 95 81            "  "            sta     board_1_control_reg_a,x
-1D43 : 95 83            "  "            sta     board_1_control_reg_b,x
+1D41 : 95 81            "  "            sta     board_1_control_reg_a,x                 ; boardX CA2 low, DDR select
+1D43 : 95 83            "  "            sta     board_1_control_reg_b,x                 ; boardX CB2 low, DDR select
 1D45 : A9 FF            "  "            lda     #$FF
-1D47 : 95 80            "  "            sta     board_1_periph/ddr_reg_a,x
-1D49 : 95 82            "  "            sta     board_1_periph/ddr_reg_b,x
+1D47 : 95 80            "  "            sta     board_1_periph/ddr_reg_a,x              ; all A pins to outputs
+1D49 : 95 82            "  "            sta     board_1_periph/ddr_reg_b,x              ; all B pins to outputs
 1D4B : A9 34            " 4"            lda     #$34
-1D4D : 95 81            "  "            sta     board_1_control_reg_a,x
-1D4F : 95 83            "  "            sta     board_1_control_reg_b,x
+1D4D : 95 81            "  "            sta     board_1_control_reg_a,x                 ; A peripheral selected
+1D4F : 95 83            "  "            sta     board_1_control_reg_b,x                 ; B peripheral selected
 1D51 : A9 00            "  "            lda     #$00
-1D53 : 95 80            "  "            sta     board_1_periph/ddr_reg_a,x
-1D55 : 95 82            "  "            sta     board_1_periph/ddr_reg_b,x
+1D53 : 95 80            "  "            sta     board_1_periph/ddr_reg_a,x              ; A solenoids off
+1D55 : 95 82            "  "            sta     board_1_periph/ddr_reg_b,x              ; B solenoids off
 1D57 : E8               " "             inx
 1D58 : E8               " "             inx
 1D59 : E8               " "             inx
 1D5A : E8               " "             inx
-1D5B : E0 20            "  "            cpx     #$20
+1D5B : E0 20            "  "            cpx     #$20                                    ; do for boards 1-8
 1D5D : 90 E0            "  "            bcc     L1D3F
 1D5F : 60               "`"             rts
                                 ;
@@ -242,24 +242,26 @@
 1D80 : D0 F9            "  "            bne     L1D7B
 1D82 : 60               "`"             rts
                                 ;
+                                ;       Look for header / start of data?
+                                ;
 1D83                            L1D83:
 1D83 : A9 00            "  "            lda     #$00
 1D85 : 85 58            " X"            sta     RAM_58
 1D87                            L1D87:
 1D87 : AD 02 03         "   "           lda     transport_periph/ddr_reg_b
 1D8A : A9 0A            "  "            lda     #$0A
-1D8C : 85 50            " P"            sta     RAM_50
+1D8C : 85 50            " P"            sta     RAM_50                                  ; 10 msec
 1D8E : E6 58            " X"            inc     RAM_58
 1D90 : A5 58            " X"            lda     RAM_58
-1D92 : C9 21            " !"            cmp     #$21
-1D94 : B0 0F            "  "            bcs     L1DA5
+1D92 : C9 21            " !"            cmp     #$21                                    ; wait for 330 msec?
+1D94 : B0 0F            "  "            bcs     L1DA5                                   ; timeout - exit
 1D96                            L1D96:
-1D96 : 20 72 1E         " r "           jsr     L1E72
+1D96 : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
 1D99 : A5 50            " P"            lda     RAM_50
-1D9B : F0 E6            "  "            beq     L1D83
-1D9D : AD 03 03         "   "           lda     transport_control_reg_b
-1DA0 : 10 F4            "  "            bpl     L1D96
-1DA2 : 4C 87 1D         "L  "           jmp     L1D87
+1D9B : F0 E6            "  "            beq     L1D83                                   ; 10 msec done yet? then loop
+1D9D : AD 03 03         "   "           lda     transport_control_reg_b                 ; transport CB1 rising edge?
+1DA0 : 10 F4            "  "            bpl     L1D96                                   ; if so, extend the looping
+1DA2 : 4C 87 1D         "L  "           jmp     L1D87                                   ; else loop but keep timeout going
 1DA5                            L1DA5:
 1DA5 : 60               "`"             rts
                                 ;
@@ -267,7 +269,7 @@
 1DA6 : A9 FA            "  "            lda     #$FA
 1DA8 : 85 50            " P"            sta     RAM_50                                  ; 250 msec
 1DAA                            L1DAA:
-1DAA : 20 72 1E         " r "           jsr     L1E72
+1DAA : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
 1DAD : A5 50            " P"            lda     RAM_50
 1DAF : D0 F9            "  "            bne     L1DAA
 1DB1                            L1DB1:
@@ -289,22 +291,22 @@
 1DCC                            L1DCC:
 1DCC : AD 00 03         "   "           lda     transport_periph/ddr_reg_a
 1DCF : A9 40            " @"            lda     #$40
-1DD1 : 85 82            "  "            sta     board_1_periph/ddr_reg_b
-1DD3 : 85 86            "  "            sta     board_2_periph/ddr_reg_b
-1DD5 : 85 8A            "  "            sta     board_3_periph/ddr_reg_b
-1DD7 : 85 8E            "  "            sta     board_4_periph/ddr_reg_b
+1DD1 : 85 82            "  "            sta     board_1_periph/ddr_reg_b                ; only Board 1 PB6 on
+1DD3 : 85 86            "  "            sta     board_2_periph/ddr_reg_b                ; only Board 2 PB6 on
+1DD5 : 85 8A            "  "            sta     board_3_periph/ddr_reg_b                ; only Board 3 PB6 on
+1DD7 : 85 8E            "  "            sta     board_4_periph/ddr_reg_b                ; only Board 4 PB6 on
 1DD9 : A9 3C            " <"            lda     #$3C
-1DDB : 8D 81 03         "   "           sta     audio_control_reg_a
+1DDB : 8D 81 03         "   "           sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
 1DDE : A9 34            " 4"            lda     #$34
-1DE0 : 8D 83 03         "   "           sta     audio_control_reg_b
+1DE0 : 8D 83 03         "   "           sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
 1DE3                            L1DE3:
 1DE3 : AD 02 03         "   "           lda     transport_periph/ddr_reg_b
 1DE6 : 4A               "J"             lsr     a
-1DE7 : 90 0E            "  "            bcc     L1DF7
-1DE9 : 20 72 1E         " r "           jsr     L1E72
-1DEC : AD 01 03         "   "           lda     transport_control_reg_a
-1DEF : 10 F2            "  "            bpl     L1DE3
-1DF1 : 20 09 1E         "   "           jsr     L1E09
+1DE7 : 90 0E            "  "            bcc     L1DF7                                   ; b0=0, no carrier, exit
+1DE9 : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
+1DEC : AD 01 03         "   "           lda     transport_control_reg_a                 ; Did we get a byte?
+1DEF : 10 F2            "  "            bpl     L1DE3                                   ; No, loop
+1DF1 : 20 09 1E         "   "           jsr     L1E09                                   ; Yes, Process Incoming Byte 
 1DF4 : 4C E3 1D         "L  "           jmp     L1DE3
                                 ;
 1DF7                            L1DF7:
@@ -314,7 +316,7 @@
 1DFB : 20 72 1E         " r "           jsr     L1E72
 1DFE : AD 02 03         "   "           lda     transport_periph/ddr_reg_b
 1E01 : 4A               "J"             lsr     a
-1E02 : B0 C8            "  "            bcs     L1DCC
+1E02 : B0 C8            "  "            bcs     L1DCC                                   ; carrier 
 1E04 : A5 50            " P"            lda     RAM_50
 1E06 : D0 F3            "  "            bne     L1DFB
 1E08 : 60               "`"             rts
