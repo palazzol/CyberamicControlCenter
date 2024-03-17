@@ -1,4 +1,4 @@
-21767502100048180
+21774344789667118
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -53473,6 +53473,13 @@ Chuck_E_Cheese_large_card_edge
 122
 122
 Evan's parts
+Chuck_E_Cheese_small_card_edge
+
+
+0
+50
+50
+Evan's parts
 DIP 28 1.78mm
 117-83-640-41-005101 DIPS1524W50P178L3580H420Q40N
 Connector
@@ -53627,6 +53634,13 @@ LED
 2
 2
 Evan's parts
+LED_D5.0mm_Horizontal_O3.81mm_Z15.0mm reversed
+LED, diameter 5.0mm z-position of LED center 3.0mm, 2 pins, diameter 5.0mm z-position of LED center 3.0mm, 2 pins, diameter 5.0mm z-position of LED center 3.0mm, 2 pins, diameter 5.0mm z-position of LED center 9.0mm, 2 pins, diameter 5.0mm z-position of LED center 9.0mm, 2 pins, diameter 5.0mm z-position of LED center 9.0mm, 2 pins, diameter 5.0mm z-position of LED center 15.0mm, 2 pins, diameter 5.0mm z-position of LED center 15.0mm, 2 pins
+LED diameter 5.0mm z-position of LED center 3.0mm 2 pins diameter 5.0mm z-position of LED center 3.0mm 2 pins diameter 5.0mm z-position of LED center 3.0mm 2 pins diameter 5.0mm z-position of LED center 9.0mm 2 pins diameter 5.0mm z-position of LED center 9.0mm 2 pins diameter 5.0mm z-position of LED center 9.0mm 2 pins diameter 5.0mm z-position of LED center 15.0mm 2 pins diameter 5.0mm z-position of LED center 15.0mm 2 pins
+0
+2
+2
+Evan's parts
 LED_XZM2CRKM2DGFBB45SCCB
 
 
@@ -53738,6 +53752,20 @@ Integrated Circuit
 0
 44
 44
+Evan's parts
+PTT black
+
+
+0
+0
+0
+Evan's parts
+PTT white
+
+
+0
+1
+1
 Evan's parts
 PinHeader_1x01_P2.54mm_Vertical_nosilk
 Through hole straight pin header, 1x01, 2.54mm pitch, single row
