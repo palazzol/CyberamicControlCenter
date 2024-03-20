@@ -1,0 +1,82 @@
+PTT timeline
+
+0004 rev a
+0004 rev b makes the card slightly shorter
+0021 rev a changes the ref des
+
+PTT cards changelog
+
+audio
+
+	audio board 0003 rev c
+		baseline based on what we have now
+		
+	audio board 0033 rev a
+		added mux controloled by CA2/CB2
+		added mux-ed audio out
+		removed two of the individual AGC'd but nit mux-ed channels
+		the logo got rotated and moved
+		
+character
+
+	Character board 0004 rev.a
+		baseline based on what we have now
+		
+	Character board 0004 rev.b
+		shrank the length to the standard dimension
+			in doing so the logo got rotated
+		
+	Character board 0034 rev.a
+		removed analog mux section from the 0004 rev.b board
+		resistor network became separate resistors
+		12v and -12v capacitor locations still exist, as well as test points
+		newer smaller square logo
+	
+	Character board 0034 rev.d
+		modern style board (~1993)
+		removed all unused chip positions
+		switched jumper block to dip switch with warning
+		changed to fuse holder instead of solder fuse
+		added 24v/5v jumpers for outputs (a/v switcher function)
+		went to SIP resistor pack to consolidate things
+		removed all 12v and -12v parts and test points
+		new silk screen logo
+		
+	Character board 0034 rev.e
+		24v/5v jumpers now have a default link setting for 24v
+		new multi-footprint capacitors
+		slight unexplained layout changes
+		
+light
+
+	Light board 0021 rev.a
+		based off of Character board 0004 rev.b
+		removes analog components, but reserves two of the footprints for spare spots, one with power
+		removes all 12v and -12v components including test points
+		two extra bits for a total of 16
+		extra bits use two unused gates of the 7406, not another uln2003a
+		removed spare sockets and relocated components
+		
+		
+	Light board 0021 rev.f
+		based off of Character board 0034 rev.e
+		no jumpers for output voltage, only 24v
+		two extra bits for a total of 16
+		extra bits use two unused gates of the 7406, not another uln2003a
+		has the 50 pin connector for lights, not the character connector
+		
+transport
+	
+	Transpoart board 0020 rev.a (speculation)
+		the baseline for this series of boards is rev.b but the 1982 paper schematic has some clues
+		U8 was probably a nand gate dor sending serial data out
+			this was potentially going to be 9600 baud, but it seems to always have been 4800 in production
+		
+	Transpoart board 0020 rev.b
+		removed data out nand gate
+		otherwise baseline for this series
+		
+	Transpoart board 0020 rev.d
+		added AH5012 to mute incoming data during fast forward and rewind
+		this was backported to at least one older transport audio card rev.b
+		
