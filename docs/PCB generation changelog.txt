@@ -1,9 +1,3 @@
-PTT timeline
-
-0004 rev a
-0004 rev b makes the card slightly shorter
-0021 rev a changes the ref des
-
 PTT cards changelog
 
 audio
@@ -41,11 +35,13 @@ character
 		went to SIP resistor pack to consolidate things
 		removed all 12v and -12v parts and test points
 		new silk screen logo
+		may have changed the ref des, not on the silk
 		
 	Character board 0034 rev.e
 		24v/5v jumpers now have a default link setting for 24v
 		new multi-footprint capacitors
 		slight unexplained layout changes
+		change of ref des confirmed on the silk 
 		
 light
 
