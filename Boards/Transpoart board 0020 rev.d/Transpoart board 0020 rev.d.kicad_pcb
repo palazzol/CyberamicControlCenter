@@ -1019,7 +1019,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp ddc6d17b-32cc-416c-8b87-28ad195baa30)
     )
-    (fp_text value "pulses" (at 5.08 0) (layer "F.SilkS") hide
+    (fp_text value "zero crossings" (at 5.08 0) (layer "F.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 61630cf8-801e-46ec-a46a-b6853727874b)
     )
@@ -1731,7 +1731,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp e0a36ced-0f9b-4bc2-ac5e-8a14fb7d83b6)
     )
-    (fp_text value "zeroes?" (at 5.08 0) (layer "F.SilkS") hide
+    (fp_text value "carrier detect" (at 5.08 0) (layer "F.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 24d4156e-f1b4-4d45-8e08-11e196e71424)
     )
@@ -8618,7 +8618,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp d7ad1b8b-9ed4-4a48-ba7a-e5e330738a5b)
     )
-    (fp_text value "ones?" (at 5.08 0) (layer "F.SilkS") hide
+    (fp_text value "bits" (at 5.08 0) (layer "F.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 208d1b42-7d44-4288-b88d-4f28db22dd55)
     )
