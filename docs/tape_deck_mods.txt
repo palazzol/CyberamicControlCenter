@@ -1,0 +1,17 @@
+
+Tape Deck Modifications for use with the Cyberamic Control Center:
+
+Tape Decks need to be modified to pass audio to the Transport card while Rewinding/FastForwarding.
+
+Generally speaking, this modification only involves shorting across a single resistor.  For various decks, the resistor has different reference numbers:
+
+Tape Deck        Resistor to short
+----------------------------------
+TEAC X-7         R94  (47k)
+TEAC X-7 MKII    R94  (47k)
+TEAC X-7R      - R136 (47k)
+TEAC X-7R MKII - R136 (47k)
+
+In some places on the tapes, and especially at the beginning, there are low amplitude, low frequency signals (about 21 Hertz.)  When the tape it at high speed, that signal appears as a audio frequency tone at a higher amplitude, which is then decoded/detected by the transport board.
+
+These tones are used to detect the beginning of the tape, as well as used as marks to find various programs on the tape.
