@@ -87,26 +87,26 @@
 1C75 : 20 74 1D         " t "           jsr     L1D74                                   ; REWIND tape
 1C78                            L1C78:
 1C78 : A9 00            "  "            lda     #$00
-1C7A : 85 58            " X"            sta     RAM_58                                  ; state 0?
+1C7A : 85 58            " X"            sta     RAM_58                                  ; counter to zero
 1C7C                            L1C7C:
 1C7C : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
-1C7F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until transport CB1 rising edge
+1C7F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until we see tone marking beginning of tape
 1C82 : 10 F8            "  "            bpl     L1C7C
 
 1C84 : A9 06            "  "            lda     #$06
 1C86 : 85 54            " T"            sta     RAM_54                                  ; set 0.6 second timer
 
-1C88 : A9 64            " d"            lda     #$64                                    ; 100
+1C88 : A9 64            " d"            lda     #$64                                    ; 100 rising edge transitions
 1C8A : 85 53            " S"            sta     RAM_53
 1C8C                            L1C8C:
 1C8C : 20 72 1E         " r "           jsr     L1E72                                   ; housekeeping
 1C8F : AD 03 03         "   "           lda     transport_control_reg_b                 ; loop until 100 transport CB1 rising edges or 0.6 secs expired
 1C92 : 10 0B            "  "            bpl     L1C9F
-1C94 : E6 58            " X"            inc     RAM_58                                  ; state1
+1C94 : E6 58            " X"            inc     RAM_58                                  ; count transistions
 1C96 : AD 02 03         "   "           lda     transport_periph/ddr_reg_b
 1C99 : A5 58            " X"            lda     RAM_58
 1C9B : C9 64            " d"            cmp     #$64
-1C9D : B0 0B            "  "            bcs     L1CAA                                   ; happened 100 times, jump ahead
+1C9D : B0 0B            "  "            bcs     L1CAA                                   ; happened 100 times, tape is at the beginning, jump ahead
 1C9F                            L1C9F:
 1C9F : A5 54            " T"            lda     RAM_54
 1CA1 : D0 E9            "  "            bne     L1C8C
@@ -133,7 +133,7 @@
 
 1CBE : A9 00            "  "            lda     #$00
 1CC0 : 85 59            " Y"            sta     RAM_59
-1CC2 : 20 83 1D         "   "           jsr     L1D83                                   ; look for start of data?
+1CC2 : 20 83 1D         "   "           jsr     L1D83                                   ; look for start of data??
 1CC5 : E6 59            " Y"            inc     RAM_59
 1CC7 : A9 10            "  "            lda     #$10
 1CC9 : 20 60 1D         " ` "           jsr     L1D60                                   ; STOP tape
