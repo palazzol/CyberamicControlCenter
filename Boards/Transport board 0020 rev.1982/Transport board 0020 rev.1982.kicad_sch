@@ -5,6 +5,400 @@
   (paper "B")
 
   (lib_symbols
+    (symbol "74xx:74LS00" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+      (property "Reference" "U" (at 0 1.27 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "74LS00" (at 0 -1.27 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_locked" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "ki_keywords" "TTL nand 2-input" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "quad 2-input NAND gate" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_fp_filters" "DIP*W7.62mm* SO14*" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "74LS00_1_1"
+        (arc (start 0 -3.81) (mid 3.7934 0) (end 0 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy 0 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 -3.81)
+            (xy 0 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input line (at -7.62 2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -7.62 -2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin output inverted (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_1_2"
+        (arc (start -3.81 -3.81) (mid -2.589 0) (end -3.81 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type none))
+        )
+        (arc (start -0.6096 -3.81) (mid 2.1842 -2.5851) (end 3.81 0)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 3.81)
+            (xy -0.635 3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -0.635 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 3.81)
+            (xy -3.556 3.4036)
+            (xy -3.0226 2.2606)
+            (xy -2.6924 1.0414)
+            (xy -2.6162 -0.254)
+            (xy -2.7686 -1.4986)
+            (xy -3.175 -2.7178)
+            (xy -3.81 -3.81)
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width -25.4) (type default))
+          (fill (type background))
+        )
+        (arc (start 3.81 0) (mid 2.1915 2.5936) (end -0.6096 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input inverted (at -7.62 2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin input inverted (at -7.62 -2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin output line (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_2_1"
+        (arc (start 0 -3.81) (mid 3.7934 0) (end 0 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy 0 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 -3.81)
+            (xy 0 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input line (at -7.62 2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -7.62 -2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "5" (effects (font (size 1.27 1.27))))
+        )
+        (pin output inverted (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "6" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_2_2"
+        (arc (start -3.81 -3.81) (mid -2.589 0) (end -3.81 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type none))
+        )
+        (arc (start -0.6096 -3.81) (mid 2.1842 -2.5851) (end 3.81 0)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 3.81)
+            (xy -0.635 3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -0.635 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 3.81)
+            (xy -3.556 3.4036)
+            (xy -3.0226 2.2606)
+            (xy -2.6924 1.0414)
+            (xy -2.6162 -0.254)
+            (xy -2.7686 -1.4986)
+            (xy -3.175 -2.7178)
+            (xy -3.81 -3.81)
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width -25.4) (type default))
+          (fill (type background))
+        )
+        (arc (start 3.81 0) (mid 2.1915 2.5936) (end -0.6096 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input inverted (at -7.62 2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+        (pin input inverted (at -7.62 -2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "5" (effects (font (size 1.27 1.27))))
+        )
+        (pin output line (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "6" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_3_1"
+        (arc (start 0 -3.81) (mid 3.7934 0) (end 0 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy 0 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 -3.81)
+            (xy 0 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input line (at -7.62 -2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "10" (effects (font (size 1.27 1.27))))
+        )
+        (pin output inverted (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "8" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -7.62 2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "9" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_3_2"
+        (arc (start -3.81 -3.81) (mid -2.589 0) (end -3.81 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type none))
+        )
+        (arc (start -0.6096 -3.81) (mid 2.1842 -2.5851) (end 3.81 0)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 3.81)
+            (xy -0.635 3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -0.635 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 3.81)
+            (xy -3.556 3.4036)
+            (xy -3.0226 2.2606)
+            (xy -2.6924 1.0414)
+            (xy -2.6162 -0.254)
+            (xy -2.7686 -1.4986)
+            (xy -3.175 -2.7178)
+            (xy -3.81 -3.81)
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width -25.4) (type default))
+          (fill (type background))
+        )
+        (arc (start 3.81 0) (mid 2.1915 2.5936) (end -0.6096 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin input inverted (at -7.62 -2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "10" (effects (font (size 1.27 1.27))))
+        )
+        (pin output line (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "8" (effects (font (size 1.27 1.27))))
+        )
+        (pin input inverted (at -7.62 2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "9" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_4_1"
+        (arc (start 0 -3.81) (mid 3.7934 0) (end 0 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy 0 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 -3.81)
+            (xy 0 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin output inverted (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "11" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -7.62 2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "12" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at -7.62 -2.54 0) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "13" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_4_2"
+        (arc (start -3.81 -3.81) (mid -2.589 0) (end -3.81 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type none))
+        )
+        (arc (start -0.6096 -3.81) (mid 2.1842 -2.5851) (end 3.81 0)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -3.81 3.81)
+            (xy -0.635 3.81)
+          )
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (polyline
+          (pts
+            (xy -0.635 3.81)
+            (xy -3.81 3.81)
+            (xy -3.81 3.81)
+            (xy -3.556 3.4036)
+            (xy -3.0226 2.2606)
+            (xy -2.6924 1.0414)
+            (xy -2.6162 -0.254)
+            (xy -2.7686 -1.4986)
+            (xy -3.175 -2.7178)
+            (xy -3.81 -3.81)
+            (xy -3.81 -3.81)
+            (xy -0.635 -3.81)
+          )
+          (stroke (width -25.4) (type default))
+          (fill (type background))
+        )
+        (arc (start 3.81 0) (mid 2.1915 2.5936) (end -0.6096 3.81)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (pin output line (at 7.62 0 180) (length 3.81)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "11" (effects (font (size 1.27 1.27))))
+        )
+        (pin input inverted (at -7.62 2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "12" (effects (font (size 1.27 1.27))))
+        )
+        (pin input inverted (at -7.62 -2.54 0) (length 4.318)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "13" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_5_0"
+        (pin power_in line (at 0 12.7 270) (length 5.08)
+          (name "VCC" (effects (font (size 1.27 1.27))))
+          (number "14" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 0 -12.7 90) (length 5.08)
+          (name "GND" (effects (font (size 1.27 1.27))))
+          (number "7" (effects (font (size 1.27 1.27))))
+        )
+      )
+      (symbol "74LS00_5_1"
+        (rectangle (start -5.08 7.62) (end 5.08 -7.62)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+      )
+    )
     (symbol "74xx:74LS10" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
       (property "Reference" "U" (at 0 1.27 0)
         (effects (font (size 1.27 1.27)))
@@ -330,104 +724,6 @@
       )
       (symbol "74LS10_4_1"
         (rectangle (start -5.08 7.62) (end 5.08 -7.62)
-          (stroke (width 0.254) (type default))
-          (fill (type background))
-        )
-      )
-    )
-    (symbol "74xx:74LS161" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
-      (property "Reference" "U" (at -7.62 16.51 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Value" "74LS161" (at -7.62 -16.51 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS161" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_locked" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "ki_keywords" "TTL CNT CNT4" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_description" "Synchronous 4-bit programmable binary Counter" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_fp_filters" "DIP?16*" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "74LS161_1_0"
-        (pin input line (at -12.7 -12.7 0) (length 5.08)
-          (name "~{MR}" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 -5.08 0) (length 5.08)
-          (name "CET" (effects (font (size 1.27 1.27))))
-          (number "10" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 12.7 5.08 180) (length 5.08)
-          (name "Q3" (effects (font (size 1.27 1.27))))
-          (number "11" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 12.7 7.62 180) (length 5.08)
-          (name "Q2" (effects (font (size 1.27 1.27))))
-          (number "12" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 12.7 10.16 180) (length 5.08)
-          (name "Q1" (effects (font (size 1.27 1.27))))
-          (number "13" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 12.7 12.7 180) (length 5.08)
-          (name "Q0" (effects (font (size 1.27 1.27))))
-          (number "14" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 12.7 0 180) (length 5.08)
-          (name "TC" (effects (font (size 1.27 1.27))))
-          (number "15" (effects (font (size 1.27 1.27))))
-        )
-        (pin power_in line (at 0 20.32 270) (length 5.08)
-          (name "VCC" (effects (font (size 1.27 1.27))))
-          (number "16" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 -7.62 0) (length 5.08)
-          (name "CP" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 12.7 0) (length 5.08)
-          (name "D0" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 10.16 0) (length 5.08)
-          (name "D1" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 7.62 0) (length 5.08)
-          (name "D2" (effects (font (size 1.27 1.27))))
-          (number "5" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 5.08 0) (length 5.08)
-          (name "D3" (effects (font (size 1.27 1.27))))
-          (number "6" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 -2.54 0) (length 5.08)
-          (name "CEP" (effects (font (size 1.27 1.27))))
-          (number "7" (effects (font (size 1.27 1.27))))
-        )
-        (pin power_in line (at 0 -20.32 90) (length 5.08)
-          (name "GND" (effects (font (size 1.27 1.27))))
-          (number "8" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -12.7 0 0) (length 5.08)
-          (name "~{PE}" (effects (font (size 1.27 1.27))))
-          (number "9" (effects (font (size 1.27 1.27))))
-        )
-      )
-      (symbol "74LS161_1_1"
-        (rectangle (start -7.62 15.24) (end 7.62 -15.24)
           (stroke (width 0.254) (type default))
           (fill (type background))
         )
@@ -957,233 +1253,6 @@
         )
       )
     )
-    (symbol "Device:R_Pack07" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
-      (property "Reference" "RN" (at -10.16 0 90)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Value" "R_Pack07" (at 10.16 0 90)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 12.065 0 90)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "~" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_keywords" "R network parallel topology isolated" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_description" "7 resistor network, parallel topology" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_fp_filters" "DIP* SOIC* R*Array*Concave* R*Array*Convex*" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "R_Pack07_0_1"
-        (rectangle (start -8.89 -2.413) (end 8.89 2.413)
-          (stroke (width 0.254) (type default))
-          (fill (type background))
-        )
-        (rectangle (start -8.255 1.905) (end -6.985 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (rectangle (start -5.715 1.905) (end -4.445 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (rectangle (start -3.175 1.905) (end -1.905 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (rectangle (start -0.635 1.905) (end 0.635 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -7.62 -2.54)
-            (xy -7.62 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -7.62 1.905)
-            (xy -7.62 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -5.08 -2.54)
-            (xy -5.08 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -5.08 1.905)
-            (xy -5.08 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -2.54 -2.54)
-            (xy -2.54 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy -2.54 1.905)
-            (xy -2.54 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 0 -2.54)
-            (xy 0 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 0 1.905)
-            (xy 0 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 2.54 -2.54)
-            (xy 2.54 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 2.54 1.905)
-            (xy 2.54 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 5.08 -2.54)
-            (xy 5.08 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 5.08 1.905)
-            (xy 5.08 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 7.62 -2.54)
-            (xy 7.62 -1.905)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 7.62 1.905)
-            (xy 7.62 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (rectangle (start 1.905 1.905) (end 3.175 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (rectangle (start 4.445 1.905) (end 5.715 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-        (rectangle (start 6.985 1.905) (end 8.255 -1.905)
-          (stroke (width 0.254) (type default))
-          (fill (type none))
-        )
-      )
-      (symbol "R_Pack07_1_1"
-        (pin passive line (at -7.62 -5.08 90) (length 2.54)
-          (name "R1.1" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 2.54 5.08 270) (length 2.54)
-          (name "R5.2" (effects (font (size 1.27 1.27))))
-          (number "10" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 0 5.08 270) (length 2.54)
-          (name "R4.2" (effects (font (size 1.27 1.27))))
-          (number "11" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -2.54 5.08 270) (length 2.54)
-          (name "R3.2" (effects (font (size 1.27 1.27))))
-          (number "12" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 5.08 270) (length 2.54)
-          (name "R2.2" (effects (font (size 1.27 1.27))))
-          (number "13" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -7.62 5.08 270) (length 2.54)
-          (name "R1.2" (effects (font (size 1.27 1.27))))
-          (number "14" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -5.08 90) (length 2.54)
-          (name "R2.1" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -2.54 -5.08 90) (length 2.54)
-          (name "R3.1" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 0 -5.08 90) (length 2.54)
-          (name "R4.1" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 2.54 -5.08 90) (length 2.54)
-          (name "R5.1" (effects (font (size 1.27 1.27))))
-          (number "5" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 -5.08 90) (length 2.54)
-          (name "R6.1" (effects (font (size 1.27 1.27))))
-          (number "6" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 7.62 -5.08 90) (length 2.54)
-          (name "R7.1" (effects (font (size 1.27 1.27))))
-          (number "7" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 7.62 5.08 270) (length 2.54)
-          (name "R7.2" (effects (font (size 1.27 1.27))))
-          (number "8" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 5.08 270) (length 2.54)
-          (name "R6.2" (effects (font (size 1.27 1.27))))
-          (number "9" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
     (symbol "Device:R_Pack08" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "RN" (at -12.7 0 90)
         (effects (font (size 1.27 1.27)))
@@ -1497,6 +1566,456 @@
         (pin passive line (at 0 -3.81 90) (length 1.27)
           (name "3" (effects (font (size 1.27 1.27))))
           (number "3" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
+    (symbol "Evan's parts:AH5012" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+      (property "Reference" "U" (at 3.175 3.81 0)
+        (effects (font (size 1.27 1.27)) (justify left))
+      )
+      (property "Value" "AH5012" (at 12.065 3.81 0)
+        (effects (font (size 1.27 1.27)) (justify left))
+      )
+      (property "Footprint" "" (at 11.43 -12.7 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "" (at 12.065 -20.32 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "Monolithic Analog Current Switch" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "AH5012_0_1"
+        (polyline
+          (pts
+            (xy 3.81 -10.16)
+            (xy 19.05 -10.16)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 3.81 -7.62)
+            (xy 19.05 -7.62)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 7.747 -6.731)
+            (xy 8.763 -6.731)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -12.7)
+            (xy 3.81 -12.7)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -12.7)
+            (xy 8.255 -13.716)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -10.16)
+            (xy 8.255 -12.7)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -7.62)
+            (xy 8.255 -5.08)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -5.08)
+            (xy 3.81 -5.08)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -5.08)
+            (xy 8.255 -4.064)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.382 -14.224)
+            (xy 9.652 -16.764)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.382 -3.556)
+            (xy 9.652 -1.016)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.763 -11.049)
+            (xy 7.747 -11.049)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.097 -6.731)
+            (xy 15.113 -6.731)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.478 -14.224)
+            (xy 13.208 -16.764)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.478 -3.556)
+            (xy 13.208 -1.016)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -12.7)
+            (xy 14.605 -13.716)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -7.62)
+            (xy 14.605 -10.16)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -7.62)
+            (xy 14.605 -5.08)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -5.08)
+            (xy 14.605 -4.064)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -5.08)
+            (xy 19.05 -5.08)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 15.113 -11.049)
+            (xy 14.097 -11.049)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 19.05 -12.7)
+            (xy 14.605 -12.7)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 3.81 -17.78)
+            (xy 8.255 -17.78)
+            (xy 8.255 -16.51)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 3.81 0)
+            (xy 8.255 0)
+            (xy 8.255 -1.27)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -16.51)
+            (xy 8.636 -16.764)
+            (xy 8.255 -17.018)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.255 -0.762)
+            (xy 8.636 -1.016)
+            (xy 8.255 -1.27)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -17.018)
+            (xy 14.224 -16.764)
+            (xy 14.605 -16.51)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -12.7)
+            (xy 14.605 -10.795)
+            (xy 14.605 -7.62)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.605 -1.27)
+            (xy 14.224 -1.016)
+            (xy 14.605 -0.762)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 19.05 -17.78)
+            (xy 14.605 -17.78)
+            (xy 14.605 -16.51)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 19.05 0)
+            (xy 14.605 0)
+            (xy 14.605 -1.27)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 7.747 -5.969)
+            (xy 8.763 -5.969)
+            (xy 8.255 -6.731)
+            (xy 7.747 -5.969)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 8.763 -11.811)
+            (xy 7.747 -11.811)
+            (xy 8.255 -11.049)
+            (xy 8.763 -11.811)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 14.097 -5.969)
+            (xy 15.113 -5.969)
+            (xy 14.605 -6.731)
+            (xy 14.097 -5.969)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 15.113 -11.811)
+            (xy 14.097 -11.811)
+            (xy 14.605 -11.049)
+            (xy 15.113 -11.811)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (rectangle (start 3.81 2.54) (end 19.05 -20.32)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+        (circle (center 8.255 -13.97) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (circle (center 8.255 -10.16) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (circle (center 8.255 -7.62) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (circle (center 8.255 -3.81) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (circle (center 14.605 -13.97) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (circle (center 14.605 -10.16) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (circle (center 14.605 -7.62) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type outline))
+        )
+        (circle (center 14.605 -3.81) (radius 0.254)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "AH5012_1_1"
+        (polyline
+          (pts
+            (xy 3.81 -15.24)
+            (xy 8.89 -15.24)
+          )
+          (stroke (width 0) (type dash))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 3.81 -2.54)
+            (xy 8.89 -2.54)
+          )
+          (stroke (width 0) (type dash))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 13.97 -15.24)
+            (xy 19.05 -15.24)
+          )
+          (stroke (width 0) (type dash))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 13.97 -2.54)
+            (xy 19.05 -2.54)
+          )
+          (stroke (width 0) (type dash))
+          (fill (type none))
+        )
+        (pin bidirectional line (at 0 0 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at 22.86 -15.24 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "10" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 22.86 -12.7 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "11" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 22.86 -10.16 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "12" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 22.86 -7.62 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "13" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 22.86 -5.08 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "14" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at 22.86 -2.54 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "15" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 22.86 0 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "16" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at 0 -2.54 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 0 -5.08 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 0 -7.62 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+        (pin power_in line (at 0 -10.16 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "5" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 0 -12.7 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "6" (effects (font (size 1.27 1.27))))
+        )
+        (pin input line (at 0 -15.24 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "7" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 0 -17.78 0) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "8" (effects (font (size 1.27 1.27))))
+        )
+        (pin bidirectional line (at 22.86 -17.78 180) (length 3.81)
+          (name "" (effects (font (size 1.27 1.27))))
+          (number "9" (effects (font (size 1.27 1.27))))
         )
       )
     )
@@ -3370,14 +3889,8 @@
   (junction (at 273.05 175.26) (diameter 0) (color 0 0 0 0)
     (uuid 04cabce0-d84d-4039-b7fb-f8b705cdebb0)
   )
-  (junction (at 128.905 180.975) (diameter 0) (color 0 0 0 0)
-    (uuid 071f9da2-e447-42f7-8830-3801849d56aa)
-  )
   (junction (at 244.475 201.93) (diameter 0) (color 0 0 0 0)
     (uuid 084caea8-d648-45ae-8c42-0b32b1dfefb3)
-  )
-  (junction (at 262.89 182.88) (diameter 0) (color 0 0 0 0)
-    (uuid 09b2fdf9-e0fc-463c-8260-b5f9303c0e2d)
   )
   (junction (at 309.245 79.375) (diameter 0) (color 0 0 0 0)
     (uuid 0a432b57-d045-4971-ab74-5ef9a54e8c22)
@@ -3387,9 +3900,6 @@
   )
   (junction (at 384.81 76.835) (diameter 0) (color 0 0 0 0)
     (uuid 0d2cc690-1c77-4ca4-be9a-c8f581f508ae)
-  )
-  (junction (at 128.905 183.515) (diameter 0) (color 0 0 0 0)
-    (uuid 1503f216-1c9a-4608-8898-3d670f32e191)
   )
   (junction (at 222.25 182.88) (diameter 0) (color 0 0 0 0)
     (uuid 1567691e-112a-4584-8388-b6b12286863e)
@@ -3412,11 +3922,11 @@
   (junction (at 125.73 76.835) (diameter 0) (color 0 0 0 0)
     (uuid 20057cbd-986c-4cc3-bcd0-0173b5401ea0)
   )
+  (junction (at 215.9 28.575) (diameter 0) (color 0 0 0 0)
+    (uuid 20a8a2a6-4309-4c74-963d-96ef654fb469)
+  )
   (junction (at 286.385 86.995) (diameter 0) (color 0 0 0 0)
     (uuid 2264e92d-8318-4651-91df-a95892bcdc96)
-  )
-  (junction (at 124.46 191.135) (diameter 0) (color 0 0 0 0)
-    (uuid 25ef0f4c-034c-4d23-9d88-781b2a6347d3)
   )
   (junction (at 118.11 48.895) (diameter 0) (color 0 0 0 0)
     (uuid 2711adcf-62d1-4527-a371-044adfb7e4a7)
@@ -3439,11 +3949,11 @@
   (junction (at 173.355 41.275) (diameter 0) (color 0 0 0 0)
     (uuid 354b4ebc-0ed7-4155-8239-4ea4e24c26f0)
   )
+  (junction (at 215.265 88.9) (diameter 0) (color 0 0 0 0)
+    (uuid 35717050-3c1d-4c2f-98ab-7bb2824761c5)
+  )
   (junction (at 127.635 33.655) (diameter 0) (color 0 0 0 0)
     (uuid 36900d2f-c997-4c02-9bbb-9e903e34d1de)
-  )
-  (junction (at 303.53 90.17) (diameter 0) (color 0 0 0 0)
-    (uuid 38d8bf0c-5c8d-475b-af0b-126bfcba5b98)
   )
   (junction (at 109.855 43.815) (diameter 0) (color 0 0 0 0)
     (uuid 3b1bb4d1-5653-42b9-8b9e-1c72176c3c77)
@@ -3460,14 +3970,14 @@
   (junction (at 109.855 31.115) (diameter 0) (color 0 0 0 0)
     (uuid 445e5ef6-3ac0-498b-9a9f-a85c3fa366d9)
   )
+  (junction (at 303.53 89.535) (diameter 0) (color 0 0 0 0)
+    (uuid 471d8d74-58e2-47ab-923d-549b92b1fa63)
+  )
   (junction (at 316.865 56.515) (diameter 0) (color 0 0 0 0)
     (uuid 47637fc3-961b-42e8-8190-8b74b748df84)
   )
   (junction (at 232.41 182.88) (diameter 0) (color 0 0 0 0)
     (uuid 4a3dc3f4-46f1-45b8-a90c-0f9a34833c33)
-  )
-  (junction (at 216.535 77.47) (diameter 0) (color 0 0 0 0)
-    (uuid 523bbe5d-6c28-45cf-bcda-bdbd49993fd3)
   )
   (junction (at 330.835 120.015) (diameter 0) (color 0 0 0 0)
     (uuid 56ba9425-3afb-4d6a-802b-8a21ecbf9bc2)
@@ -3477,6 +3987,12 @@
   )
   (junction (at 244.475 217.805) (diameter 0) (color 0 0 0 0)
     (uuid 5c2c7e5c-6618-4435-974b-9b04fa4986a3)
+  )
+  (junction (at 215.9 26.035) (diameter 0) (color 0 0 0 0)
+    (uuid 5ccc3433-0448-4495-94d0-80ba29ff79ee)
+  )
+  (junction (at 379.73 112.395) (diameter 0) (color 0 0 0 0)
+    (uuid 5d5bea6d-8d02-45d7-ba9b-affa378d4149)
   )
   (junction (at 255.27 201.93) (diameter 0) (color 0 0 0 0)
     (uuid 6b4da507-1ab7-47bd-b0be-47c28577f5f3)
@@ -3523,6 +4039,15 @@
   (junction (at 222.25 175.26) (diameter 0) (color 0 0 0 0)
     (uuid 8c695cae-48a0-403b-b0fc-119728c03af7)
   )
+  (junction (at 222.885 194.31) (diameter 0) (color 0 0 0 0)
+    (uuid 8d3d651c-6c50-47d4-9708-34c952009e4e)
+  )
+  (junction (at 372.11 115.57) (diameter 0) (color 0 0 0 0)
+    (uuid 8db9ec97-e47d-4bda-bb9f-ce1a33b0b8b6)
+  )
+  (junction (at 262.89 175.26) (diameter 0) (color 0 0 0 0)
+    (uuid 905f1514-bad3-4ad0-af8f-2e6df23fc9c4)
+  )
   (junction (at 401.32 76.835) (diameter 0) (color 0 0 0 0)
     (uuid 912b9dad-0c8b-4054-a8f7-b45d195ae0f7)
   )
@@ -3535,17 +4060,14 @@
   (junction (at 316.865 64.135) (diameter 0) (color 0 0 0 0)
     (uuid 95804f93-37e0-4cfc-b871-be9bbfa97fff)
   )
-  (junction (at 262.89 175.26) (diameter 0) (color 0 0 0 0)
-    (uuid 974140d4-91ab-491f-b3c7-2ad3b21a0418)
-  )
   (junction (at 240.03 73.66) (diameter 0) (color 0 0 0 0)
     (uuid 98b5f6b5-2d15-4ff8-85dc-65ae5523c1a3)
   )
   (junction (at 73.66 108.585) (diameter 0) (color 0 0 0 0)
     (uuid 99dedea7-7910-4762-9d12-6fc2472b8381)
   )
-  (junction (at 216.535 86.36) (diameter 0) (color 0 0 0 0)
-    (uuid 99e947ab-26fa-4f08-a87e-edb4091e4d8e)
+  (junction (at 379.73 76.835) (diameter 0) (color 0 0 0 0)
+    (uuid 9e795b24-f22c-4a9e-ab2e-4d4d1b716db8)
   )
   (junction (at 249.555 81.28) (diameter 0) (color 0 0 0 0)
     (uuid 9e7c20fa-588d-465a-8291-4151a1ad1cf4)
@@ -3555,6 +4077,9 @@
   )
   (junction (at 249.555 86.995) (diameter 0) (color 0 0 0 0)
     (uuid a1ea972d-ef7b-4898-82c1-386597f4cd36)
+  )
+  (junction (at 215.265 86.36) (diameter 0) (color 0 0 0 0)
+    (uuid a3a621ef-78e8-4aff-b29a-4b9c3a8ceae2)
   )
   (junction (at 122.555 43.815) (diameter 0) (color 0 0 0 0)
     (uuid a4f7120c-e34b-449c-ad7e-a35c55b58537)
@@ -3571,6 +4096,12 @@
   (junction (at 73.66 116.205) (diameter 0) (color 0 0 0 0)
     (uuid af2879b1-775e-4bc6-8c48-eb08406c37c5)
   )
+  (junction (at 375.285 147.955) (diameter 0) (color 0 0 0 0)
+    (uuid b1090a6e-f0f2-4f09-acf4-0d5ead34ba14)
+  )
+  (junction (at 215.265 91.44) (diameter 0) (color 0 0 0 0)
+    (uuid b677ecb8-3d2c-4b15-8cb0-5a4544803bf1)
+  )
   (junction (at 323.215 145.415) (diameter 0) (color 0 0 0 0)
     (uuid b77191fd-a51e-433c-8fa8-a74c4e96fd9c)
   )
@@ -3586,6 +4117,9 @@
   (junction (at 109.855 38.735) (diameter 0) (color 0 0 0 0)
     (uuid bd4bc77d-11be-4176-9e80-959bee46cd73)
   )
+  (junction (at 262.89 182.88) (diameter 0) (color 0 0 0 0)
+    (uuid bef3ee1f-3663-47b5-80ff-2f0a98d9a1e2)
+  )
   (junction (at 242.57 175.26) (diameter 0) (color 0 0 0 0)
     (uuid bfebd627-cc39-4f7b-b02f-2acd78b99daa)
   )
@@ -3598,8 +4132,8 @@
   (junction (at 73.66 118.745) (diameter 0) (color 0 0 0 0)
     (uuid c4f0365f-6392-457e-b116-7a6e902bf98e)
   )
-  (junction (at 216.535 88.9) (diameter 0) (color 0 0 0 0)
-    (uuid c643e360-34af-45ff-8c9a-dd3fda90df4d)
+  (junction (at 303.53 46.355) (diameter 0) (color 0 0 0 0)
+    (uuid c5d6ca01-362f-40d9-8e35-fd18c9d0ac3e)
   )
   (junction (at 283.21 175.26) (diameter 0) (color 0 0 0 0)
     (uuid c6443b7d-b0e4-4dd7-b0ce-25f1a97e2558)
@@ -3634,6 +4168,9 @@
   (junction (at 363.855 93.345) (diameter 0) (color 0 0 0 0)
     (uuid cfd41eca-e008-4efd-b62d-d72055314999)
   )
+  (junction (at 222.885 201.93) (diameter 0) (color 0 0 0 0)
+    (uuid d1a6beb7-09f5-45cb-9ac9-ca48bec8ba4c)
+  )
   (junction (at 220.345 105.41) (diameter 0) (color 0 0 0 0)
     (uuid d2bc9142-201a-422d-b2a3-5e41e1841133)
   )
@@ -3643,17 +4180,14 @@
   (junction (at 220.345 74.93) (diameter 0) (color 0 0 0 0)
     (uuid d4307956-63bb-4bb4-bfc5-337c54a76930)
   )
-  (junction (at 144.145 208.915) (diameter 0) (color 0 0 0 0)
-    (uuid d485d74e-5e03-4ee0-8eb3-1e7f85d208de)
-  )
   (junction (at 337.82 79.375) (diameter 0) (color 0 0 0 0)
     (uuid d5817eaf-3d92-422b-a112-d4396705829c)
   )
   (junction (at 233.68 210.185) (diameter 0) (color 0 0 0 0)
     (uuid d639dda6-9bb5-425f-b674-801e1d79641e)
   )
-  (junction (at 303.53 46.99) (diameter 0) (color 0 0 0 0)
-    (uuid d6d9cb5f-49e9-4ea0-a617-b0be52e79913)
+  (junction (at 215.265 77.47) (diameter 0) (color 0 0 0 0)
+    (uuid d7f4e11d-49a3-4fa8-8145-102713f5a790)
   )
   (junction (at 73.66 106.045) (diameter 0) (color 0 0 0 0)
     (uuid dc81789b-dd04-4ccd-b47c-e83aa7519cc5)
@@ -3664,14 +4198,11 @@
   (junction (at 73.66 113.665) (diameter 0) (color 0 0 0 0)
     (uuid de7b6872-9add-400d-9ba9-4cd10c604653)
   )
+  (junction (at 347.345 150.495) (diameter 0) (color 0 0 0 0)
+    (uuid e0b2fbcc-2ad3-494b-a731-bfc8195ac4eb)
+  )
   (junction (at 323.215 79.375) (diameter 0) (color 0 0 0 0)
     (uuid e4035620-53e9-4484-a986-e02b5847d807)
-  )
-  (junction (at 167.005 183.515) (diameter 0) (color 0 0 0 0)
-    (uuid e4a615c5-dbf8-42a4-8eea-976226968394)
-  )
-  (junction (at 124.46 193.675) (diameter 0) (color 0 0 0 0)
-    (uuid e660a092-8a5f-437b-a6fe-7e1552a8e208)
   )
   (junction (at 252.73 175.26) (diameter 0) (color 0 0 0 0)
     (uuid e77f4f69-e8d6-4aef-a238-5aa8bc146003)
@@ -3711,131 +4242,104 @@
   )
 
   (no_connect (at 48.895 111.125) (uuid 02edcfa4-eae3-4e6b-a982-4bc513f773f6))
-  (no_connect (at 89.535 248.92) (uuid 033f0007-8cfa-46f1-910b-6b0f7829c861))
   (no_connect (at 48.895 164.465) (uuid 05c66d02-0b35-4774-8cb7-18472cf591cf))
-  (no_connect (at 103.505 219.075) (uuid 05d6b080-62df-4095-9eaf-c6926c69ee50))
-  (no_connect (at 95.885 229.235) (uuid 082695a4-1e55-4979-a010-c43cea0e577c))
   (no_connect (at 48.895 182.245) (uuid 0b9b3111-4579-4295-90a6-3cdf91bee006))
   (no_connect (at 61.595 161.925) (uuid 0c264791-b3c5-48f8-8690-4f23948c2455))
   (no_connect (at 61.595 248.285) (uuid 0db779cd-bfa2-4adc-b759-bac9248cdc4c))
   (no_connect (at 48.895 174.625) (uuid 14533b70-b4fb-414f-9b84-44314c5d3f06))
   (no_connect (at 61.595 207.645) (uuid 14ce0d0c-5e3d-47f9-9346-3849d2676dbc))
   (no_connect (at 48.895 169.545) (uuid 15107c45-fdbb-4ba0-afc9-77b276d9a758))
-  (no_connect (at 95.885 215.9) (uuid 1749e0e1-7c87-47c9-bcd2-e0c6cf8cd686))
   (no_connect (at 48.895 194.945) (uuid 17513750-f7b2-48b6-971f-62aa9c71f076))
   (no_connect (at 155.575 53.975) (uuid 184b63c0-e7f2-4c0d-926d-d4a806e4d70c))
   (no_connect (at 61.595 149.225) (uuid 19226d61-5e3b-49b6-90e0-769353896f1d))
   (no_connect (at 48.895 248.285) (uuid 1b6ab9d0-4cb5-4b1a-9de6-f748bad9c5ba))
   (no_connect (at 61.595 159.385) (uuid 1b93b100-c238-4d5f-ad6c-ae729fd3f9b4))
-  (no_connect (at 104.775 238.76) (uuid 1c04278e-1b0f-42bc-ad2f-c8c98aa8b9d9))
   (no_connect (at 48.895 123.825) (uuid 1d0a611a-d85d-472d-86aa-99430b70bfef))
+  (no_connect (at 349.25 133.35) (uuid 201b8f10-360c-4823-a30d-2d6ec1f8fe4d))
   (no_connect (at 340.995 130.175) (uuid 22066607-2527-4dbd-bade-2071404be488))
+  (no_connect (at 349.25 138.43) (uuid 2216c990-188b-4296-9c94-1027dfe15472))
   (no_connect (at 61.595 154.305) (uuid 251ab87f-c258-40ab-a207-365466e844a4))
   (no_connect (at 48.895 141.605) (uuid 25ef8fc7-16dd-4723-b5b3-302c0b47f4b5))
-  (no_connect (at 94.615 248.92) (uuid 2920cb7b-0481-4f36-8789-cc2bc8a78a6f))
-  (no_connect (at 88.265 205.74) (uuid 2c00ffbf-bd03-4d51-a663-94bbd63271b7))
+  (no_connect (at 372.11 135.89) (uuid 2a00401a-ea8a-4b0e-ad10-35c66eaec881))
   (no_connect (at 48.895 146.685) (uuid 2c299c9f-4001-4afa-a211-2c1004da745f))
-  (no_connect (at 98.425 229.235) (uuid 2f33723c-8c6a-4ae7-98d6-f60f51b74c55))
   (no_connect (at 340.995 120.015) (uuid 3160654f-1c26-4f14-bb89-2ab0fe96afcd))
   (no_connect (at 48.895 184.785) (uuid 33a5e410-d434-43df-a1c3-ed648dd0b63c))
   (no_connect (at 165.735 86.36) (uuid 3513c6dd-72f3-461d-a574-9ddc5ec71f39))
-  (no_connect (at 90.805 219.075) (uuid 354dba61-95cc-416f-81b0-e3d47f469a51))
-  (no_connect (at 88.265 219.075) (uuid 36cc2c5c-7039-4763-bffc-0a7c1a2c4acf))
-  (no_connect (at 99.695 248.92) (uuid 37fc837e-d20b-4275-bacd-97efa23099c0))
   (no_connect (at 256.54 91.44) (uuid 381f8d78-eca7-49c6-b870-104fd82c84b3))
-  (no_connect (at 158.75 175.895) (uuid 382219d1-1486-4104-abd1-0bcd2eb2890b))
   (no_connect (at 48.895 179.705) (uuid 39a8631c-cc53-4be3-88ce-73baaa26dd41))
-  (no_connect (at 94.615 238.76) (uuid 3a7959db-6022-4a9f-affa-4bd631989a80))
   (no_connect (at 61.595 210.185) (uuid 3f17a689-5f63-4dc7-af8b-187c868e78c6))
   (no_connect (at 48.895 192.405) (uuid 405a9066-7509-465a-80f2-89ec56b11815))
   (no_connect (at 61.595 156.845) (uuid 41e52238-51a9-4cc3-8e37-681c38e0b795))
-  (no_connect (at 93.345 229.235) (uuid 422887c7-9c74-4a16-88a1-9f527c1b46b5))
   (no_connect (at 48.895 212.725) (uuid 4285096a-4372-4f14-aba3-c53a56163523))
   (no_connect (at 155.575 61.595) (uuid 471f5182-9a93-4b2e-a56a-48c13767d904))
-  (no_connect (at 90.805 205.74) (uuid 4bacb1c8-859a-4846-8f5b-ef48d422dbc6))
   (no_connect (at 48.895 156.845) (uuid 4e20e4c4-72a6-4a22-a0a5-5e993e081c99))
-  (no_connect (at 102.235 238.76) (uuid 4e768cbb-bf4b-4d6c-bea9-c7af958a65ff))
+  (no_connect (at 395.605 106.045) (uuid 4fcd9853-615a-4396-809b-152292b0b888))
   (no_connect (at 338.455 130.175) (uuid 52e165c9-9410-44b4-8515-2f2f54b95021))
   (no_connect (at 221.615 137.795) (uuid 533e20b9-c8a9-46bb-ae34-e2c7bd9c31de))
-  (no_connect (at 106.045 215.9) (uuid 54dc82a5-f8ba-4e26-9be2-7a1374191856))
   (no_connect (at 61.595 136.525) (uuid 576c5ecf-1ef1-4419-b1d7-b9e123039a7a))
-  (no_connect (at 98.425 215.9) (uuid 577c63df-416b-457a-88a8-20f50ce6be43))
-  (no_connect (at 102.235 248.92) (uuid 583ff0cd-c45f-436e-9c71-d82aaae8f64f))
-  (no_connect (at 97.155 238.76) (uuid 6004a8f7-7152-4148-ad33-c0e190c28d58))
   (no_connect (at 48.895 121.285) (uuid 6143b62d-4808-4250-8847-e3726e57c805))
   (no_connect (at 61.595 141.605) (uuid 627ce11a-f214-479c-8401-e19f9baec52c))
-  (no_connect (at 103.505 215.9) (uuid 64af4b99-3cbb-4edf-9f45-d282e5e3f909))
   (no_connect (at 61.595 184.785) (uuid 65934045-6d76-4cde-8f54-15fb0401089c))
-  (no_connect (at 103.505 229.235) (uuid 67238b52-cd08-44d2-b75e-0b301b29511a))
   (no_connect (at 48.895 161.925) (uuid 67252863-74fb-43d8-951c-ad94cfa6ac20))
   (no_connect (at 48.895 108.585) (uuid 67763270-873b-49ac-91ba-af212c938ce0))
-  (no_connect (at 93.345 205.74) (uuid 69a78daf-0f48-40aa-82d5-ed4ccecb6edc))
   (no_connect (at 402.59 139.7) (uuid 6a8fde31-24e7-4822-87c5-e20b18dc3f8a))
-  (no_connect (at 100.965 215.9) (uuid 74eac92f-de47-4561-82f8-2b9ee1e76229))
+  (no_connect (at 395.605 108.585) (uuid 70da3ddb-6943-4756-9341-a970ae549a90))
   (no_connect (at 299.72 93.98) (uuid 78bcb4d3-a62b-4605-a20f-8a0adac37891))
-  (no_connect (at 90.805 215.9) (uuid 7a806e5d-b5fd-46aa-b5ea-28966ffc1329))
   (no_connect (at 61.595 194.945) (uuid 7b623a4c-f5d4-40d2-8bc3-b54e32f2a886))
-  (no_connect (at 88.265 229.235) (uuid 7eff9737-907b-4f26-b393-8c969d9b0d49))
-  (no_connect (at 100.965 205.74) (uuid 80553c25-f50c-4b6a-b47a-5c80903df670))
+  (no_connect (at 372.11 138.43) (uuid 7cbb0dfe-1fac-461f-b4d5-35a9fcb1c6da))
   (no_connect (at 155.575 56.515) (uuid 8081d7d5-95ba-44d1-a4d4-cc335e049819))
+  (no_connect (at 395.605 103.505) (uuid 81610e94-fb14-4103-92ca-a603f7d139a7))
   (no_connect (at 183.515 91.44) (uuid 821f3fa9-2eeb-4ddc-9b56-05dd147a6640))
+  (no_connect (at 349.25 135.89) (uuid 850d5a4c-2862-471c-9783-760e7a22771b))
   (no_connect (at 48.895 187.325) (uuid 876e83b2-2ea0-4ca0-94bf-7ccd92131a94))
   (no_connect (at 61.595 205.105) (uuid 8876c288-d6e7-4837-82b4-2d2aa04f3a9c))
   (no_connect (at 415.29 130.175) (uuid 8c8b4461-fbea-4e99-98dd-36736cb6d958))
-  (no_connect (at 90.805 229.235) (uuid 8dbcc0cb-6fe3-490e-a04f-e116febdeae3))
-  (no_connect (at 99.695 238.76) (uuid 9192ad7c-bc04-4fc8-b591-cbc1f9c8aab7))
-  (no_connect (at 95.885 205.74) (uuid 95fc0ed0-d609-446b-ac61-89a6e7cf81c6))
   (no_connect (at 358.775 86.995) (uuid 98ac916b-46ab-4d8d-95b1-b43d042750f9))
   (no_connect (at 48.895 197.485) (uuid 9bead9b4-eb91-4170-b97b-6f616d4b27e3))
-  (no_connect (at 106.045 219.075) (uuid 9ccb66d5-a704-4ecc-84cd-87c3536c84e6))
   (no_connect (at 155.575 59.055) (uuid a0498502-2cda-4795-9d14-5772663940fb))
-  (no_connect (at 92.075 248.92) (uuid a0e424c9-0418-43cd-93c0-5262ee938d05))
   (no_connect (at 407.67 114.3) (uuid a53b7beb-250e-43ab-b07d-b1d48e5bd745))
   (no_connect (at 61.595 123.825) (uuid a589596d-4d1b-481e-9746-c7ea5d53e743))
   (no_connect (at 61.595 177.165) (uuid a69b8301-ae43-4271-927a-eb0964f413ba))
+  (no_connect (at 372.11 140.97) (uuid a7dc03bf-1f51-4866-b2f9-938f3a14746d))
   (no_connect (at 61.595 164.465) (uuid a81dc525-e3a9-476e-965b-f210f85147cc))
   (no_connect (at 48.895 139.065) (uuid acda0974-164a-4d77-8214-e2d3d12b5e73))
-  (no_connect (at 95.885 219.075) (uuid ad296124-553b-489f-b84d-e5dfca61b4e7))
   (no_connect (at 61.595 187.325) (uuid b08ee840-8f9e-454a-9edc-678333bacf37))
+  (no_connect (at 155.575 69.215) (uuid b12334b9-e9f6-4ea9-ac14-97f54026b88b))
   (no_connect (at 48.895 210.185) (uuid b152047e-d309-4faa-994c-36940cbd94e3))
   (no_connect (at 61.595 146.685) (uuid b221c63d-a547-4d9b-8afd-5f3027a87efb))
+  (no_connect (at 349.25 130.81) (uuid b400a2d7-52cd-4e8c-b5ae-0ac08d03c960))
   (no_connect (at 400.05 114.3) (uuid b519a1bf-84b1-4cd1-b2d0-1957f92a040e))
+  (no_connect (at 410.845 106.045) (uuid b7e1ed44-1964-4cda-a5a1-06bf5abed0a9))
   (no_connect (at 48.895 177.165) (uuid b978a40a-ac33-4bfe-abfc-9232cbb5d90b))
   (no_connect (at 48.895 106.045) (uuid be864eeb-eade-4ff4-b8f0-e792bc391847))
   (no_connect (at 389.89 121.92) (uuid bf6b7d12-e1ec-43da-a1c4-8ff26cea6f77))
   (no_connect (at 299.72 51.435) (uuid c23b1d69-a291-4dd0-8bbe-520ce1f0d9f0))
-  (no_connect (at 93.345 219.075) (uuid c2644bce-ece4-4e58-ba5b-442455bef1fa))
+  (no_connect (at 372.11 130.81) (uuid c39cf324-47c4-439d-ab7f-52dbae3cf432))
   (no_connect (at 48.895 149.225) (uuid c39d6a8b-1989-41c0-a4b4-b77b345aa307))
-  (no_connect (at 103.505 205.74) (uuid c46bceaf-09b3-496b-95eb-50c55cfbf3df))
-  (no_connect (at 98.425 205.74) (uuid c52ac40a-8fa0-4816-9df1-54e6e29a5ce8))
   (no_connect (at 338.455 120.015) (uuid c6825ac0-5dc5-44a4-be32-6dec6081b26a))
+  (no_connect (at 372.11 133.35) (uuid cc0884eb-b7d0-47d5-a3e7-21bf0e7033f1))
   (no_connect (at 61.595 174.625) (uuid cd8b8c28-d395-4d1a-8c6d-608a2bd4f0ea))
   (no_connect (at 48.895 205.105) (uuid d11c84bc-bbfd-4e1f-b54d-749239615d68))
   (no_connect (at 48.895 151.765) (uuid d636f0ea-067d-4b07-8ccc-b0cb095f00ed))
   (no_connect (at 61.595 169.545) (uuid d8572b35-aacd-4b1f-b358-1054206818ee))
   (no_connect (at 361.315 86.995) (uuid d8d10379-fde6-4136-a941-c5e0f0c92b1f))
   (no_connect (at 389.89 132.08) (uuid dbefa05c-97ab-46b0-851b-999c6c1b2739))
-  (no_connect (at 106.045 229.235) (uuid dc9537b4-f7c8-4a66-a82e-e4512b36241b))
-  (no_connect (at 100.965 229.235) (uuid de1f30c5-8685-469d-adf5-a590a3bd9d21))
   (no_connect (at 61.595 172.085) (uuid e1325a2a-a099-4aa4-912a-7b02dcfb8305))
-  (no_connect (at 97.155 248.92) (uuid e1693b52-b68f-44bf-a404-279c608aace7))
   (no_connect (at 48.895 159.385) (uuid e16d96da-716d-4a81-8197-27bc79d67993))
   (no_connect (at 61.595 151.765) (uuid e381d2a3-af12-49a5-a1fc-5176e6a74cd4))
-  (no_connect (at 158.75 188.595) (uuid e6627976-5a96-4578-9180-3a5a9a6b6353))
-  (no_connect (at 92.075 238.76) (uuid e7aba94f-acec-4006-b803-ea4313824723))
-  (no_connect (at 93.345 215.9) (uuid e8c1429f-b56b-42c0-bc5a-877d5ba9bf02))
+  (no_connect (at 349.25 140.97) (uuid ea30a21b-a829-4290-a1ec-cebaa0cddea7))
   (no_connect (at 61.595 182.245) (uuid ed761088-0590-4974-a004-c5d248aa9c1e))
   (no_connect (at 415.29 127.635) (uuid ee9166aa-1ffd-42d4-ba77-7303d01b6ec7))
   (no_connect (at 48.895 154.305) (uuid eefb4e00-e00a-4157-b587-6a86f8d07356))
-  (no_connect (at 106.045 205.74) (uuid f3df7578-7d57-40bf-a3fe-1f1ba2180586))
-  (no_connect (at 100.965 219.075) (uuid f451c2e0-37dc-4554-aa0f-a5bbc92b3111))
   (no_connect (at 61.595 197.485) (uuid f5c4ed7e-149d-450f-bd32-cf85e8e146af))
-  (no_connect (at 88.265 215.9) (uuid fa6805a0-0b18-4cab-ab67-efccd600bc40))
-  (no_connect (at 98.425 219.075) (uuid fafb0aa4-d3b1-44af-b66d-afca9f18757f))
   (no_connect (at 48.895 172.085) (uuid fb25c183-83ec-40a2-8b64-bdc118f12e07))
   (no_connect (at 48.895 207.645) (uuid fc2b51c3-4148-46cd-b54c-bec5adf7bda4))
   (no_connect (at 61.595 179.705) (uuid fd7a193b-2870-4e84-8246-16cd83859198))
 
+  (wire (pts (xy 379.73 102.235) (xy 379.73 112.395))
+    (stroke (width 0) (type default))
+    (uuid 002bcee8-d32e-4f46-8dc5-deca1e5d2cc2)
+  )
   (wire (pts (xy 274.32 68.58) (xy 274.32 73.66))
     (stroke (width 0) (type default))
     (uuid 005646f9-b260-4e1e-afb3-5e3c8e83607c)
@@ -3844,17 +4348,9 @@
     (stroke (width 0) (type default))
     (uuid 00836b7c-0251-4597-b17e-0e3042d8d637)
   )
-  (wire (pts (xy 118.11 193.675) (xy 124.46 193.675))
-    (stroke (width 0) (type default))
-    (uuid 00ed7dd6-0159-47f7-b396-f5642d76f1bb)
-  )
   (wire (pts (xy 184.15 20.955) (xy 232.41 20.955))
     (stroke (width 0) (type default))
     (uuid 028ad124-e67a-477b-92f9-c0fed7fa9838)
-  )
-  (wire (pts (xy 117.475 196.215) (xy 131.445 196.215))
-    (stroke (width 0) (type default))
-    (uuid 02af6e44-4162-45b8-8924-55b5d1509f9a)
   )
   (wire (pts (xy 330.835 139.065) (xy 330.835 153.035))
     (stroke (width 0) (type default))
@@ -3884,13 +4380,13 @@
     (stroke (width 0) (type default))
     (uuid 068b9b01-3459-4835-8219-7ad98ec2a29b)
   )
-  (wire (pts (xy 303.53 86.36) (xy 303.53 90.17))
-    (stroke (width 0) (type default))
-    (uuid 06e41f8b-5e20-4e71-9841-07151acc00d8)
-  )
   (wire (pts (xy 337.82 81.915) (xy 337.82 79.375))
     (stroke (width 0) (type default))
     (uuid 0751edf1-27e8-483e-af68-ba075979619e)
+  )
+  (wire (pts (xy 215.9 28.575) (xy 215.9 33.655))
+    (stroke (width 0) (type default))
+    (uuid 082e6605-be70-4c87-ac41-abf0988bf5b8)
   )
   (wire (pts (xy 159.385 53.34) (xy 189.23 53.34))
     (stroke (width 0) (type default))
@@ -3900,9 +4396,9 @@
     (stroke (width 0) (type default))
     (uuid 0978748a-64a3-43ff-8c96-d3c36143e034)
   )
-  (wire (pts (xy 124.46 178.435) (xy 131.445 178.435))
+  (wire (pts (xy 349.25 115.57) (xy 349.25 123.19))
     (stroke (width 0) (type default))
-    (uuid 0a091b6d-2b67-4eb7-896e-e0d52b23f5fd)
+    (uuid 0b188be5-d323-4f7f-a620-aedff11060f7)
   )
   (wire (pts (xy 222.885 210.185) (xy 233.68 210.185))
     (stroke (width 0) (type default))
@@ -3924,7 +4420,7 @@
     (stroke (width 0) (type default))
     (uuid 0d1fbbb7-a9b9-43a5-be9a-c203d4a239cd)
   )
-  (wire (pts (xy 210.82 201.93) (xy 233.68 201.93))
+  (wire (pts (xy 222.885 201.93) (xy 233.68 201.93))
     (stroke (width 0) (type default))
     (uuid 0de3c2d4-e843-4f93-a441-1652e53302e8)
   )
@@ -3948,7 +4444,7 @@
     (stroke (width 0) (type default))
     (uuid 0f1c7f77-2c96-48ca-be2f-0ffb1952e43e)
   )
-  (wire (pts (xy 249.555 106.68) (xy 216.535 106.68))
+  (wire (pts (xy 249.555 106.68) (xy 215.265 106.68))
     (stroke (width 0) (type default))
     (uuid 0faf8772-2401-47e4-80cd-c8eddcfaf9e2)
   )
@@ -3964,13 +4460,13 @@
     (stroke (width 0) (type default))
     (uuid 11169762-5b16-4659-a3c3-765acbc65713)
   )
+  (wire (pts (xy 375.285 125.73) (xy 375.285 147.955))
+    (stroke (width 0) (type default))
+    (uuid 1172d5ec-af18-40d9-99de-66ac19b21d44)
+  )
   (wire (pts (xy 130.175 53.975) (xy 128.905 53.975))
     (stroke (width 0) (type default))
     (uuid 11da7ade-4128-4d47-b7b0-d56f6beda7db)
-  )
-  (wire (pts (xy 124.46 191.135) (xy 131.445 191.135))
-    (stroke (width 0) (type default))
-    (uuid 137917ef-54fd-4848-a380-c96e15df0dbe)
   )
   (wire (pts (xy 121.285 69.215) (xy 121.285 46.355))
     (stroke (width 0) (type default))
@@ -3979,6 +4475,10 @@
   (wire (pts (xy 281.94 86.995) (xy 286.385 86.995))
     (stroke (width 0) (type default))
     (uuid 15af313e-67f4-4434-b9d7-43edb4aec460)
+  )
+  (wire (pts (xy 217.17 33.655) (xy 215.9 33.655))
+    (stroke (width 0) (type default))
+    (uuid 16054aff-d8c2-4a06-b8dd-7baa7240c907)
   )
   (wire (pts (xy 296.545 109.22) (xy 299.72 109.22))
     (stroke (width 0) (type default))
@@ -4008,9 +4508,17 @@
     (stroke (width 0) (type default))
     (uuid 1dc1b9e8-6c21-4590-9dec-62c4a455bb9c)
   )
+  (wire (pts (xy 349.25 128.27) (xy 346.075 128.27))
+    (stroke (width 0) (type default))
+    (uuid 1e4554d3-9b05-496c-b4e4-b3d116640e48)
+  )
   (wire (pts (xy 78.105 64.135) (xy 78.105 65.405))
     (stroke (width 0) (type default))
     (uuid 1ee851bf-953a-4f23-ab83-d948a15f3479)
+  )
+  (wire (pts (xy 379.73 112.395) (xy 379.73 128.27))
+    (stroke (width 0) (type default))
+    (uuid 1fb24416-c96a-4446-9df3-9f2b508e1e04)
   )
   (wire (pts (xy 180.975 106.68) (xy 180.975 88.9))
     (stroke (width 0) (type default))
@@ -4020,7 +4528,7 @@
     (stroke (width 0) (type default))
     (uuid 20e5c91f-28dd-4e83-9a5b-3331bc4c6295)
   )
-  (wire (pts (xy 216.535 86.36) (xy 216.535 88.9))
+  (wire (pts (xy 215.265 86.36) (xy 215.265 88.9))
     (stroke (width 0) (type default))
     (uuid 22e453dd-df8d-4fe0-b7ad-5c7de2181dcf)
   )
@@ -4031,6 +4539,14 @@
   (wire (pts (xy 283.21 182.88) (xy 293.37 182.88))
     (stroke (width 0) (type default))
     (uuid 231dd265-db14-4ed4-9431-6fb81e156843)
+  )
+  (wire (pts (xy 194.31 58.42) (xy 194.31 38.1))
+    (stroke (width 0) (type default))
+    (uuid 23edff90-fa26-4c0a-8aca-a863f8b74d14)
+  )
+  (wire (pts (xy 347.345 125.73) (xy 347.345 150.495))
+    (stroke (width 0) (type default))
+    (uuid 23ff8dd7-56c1-4425-9699-77a2ebe90fd9)
   )
   (wire (pts (xy 161.29 158.115) (xy 294.64 158.115))
     (stroke (width 0) (type default))
@@ -4044,9 +4560,17 @@
     (stroke (width 0) (type default))
     (uuid 25f596de-6217-4bfe-88c2-377a355b2868)
   )
+  (wire (pts (xy 379.73 128.27) (xy 372.11 128.27))
+    (stroke (width 0) (type default))
+    (uuid 2638094f-2e83-4f15-9d8c-0a90c5b0301d)
+  )
   (wire (pts (xy 61.595 200.025) (xy 66.675 200.025))
     (stroke (width 0) (type default))
     (uuid 26734c84-1c8b-45b4-9b67-15f57d6c1b9b)
+  )
+  (wire (pts (xy 372.11 123.19) (xy 372.11 115.57))
+    (stroke (width 0) (type default))
+    (uuid 26e697db-4daf-47f5-92ed-9b10f7ed2555)
   )
   (wire (pts (xy 233.68 201.93) (xy 244.475 201.93))
     (stroke (width 0) (type default))
@@ -4072,6 +4596,10 @@
     (stroke (width 0) (type default))
     (uuid 29f98b40-5ac3-4b43-ae89-4d6f8779c634)
   )
+  (wire (pts (xy 303.53 43.18) (xy 303.53 46.355))
+    (stroke (width 0) (type default))
+    (uuid 2a21d75a-2e28-45c9-b58b-a281c394b3ed)
+  )
   (wire (pts (xy 118.11 71.755) (xy 118.11 48.895))
     (stroke (width 0) (type default))
     (uuid 2b6d2ccc-d201-4d20-83e5-3a3c7567182e)
@@ -4080,13 +4608,9 @@
     (stroke (width 0) (type default))
     (uuid 2cda24bb-7b62-4742-a26c-6635f9b26036)
   )
-  (wire (pts (xy 376.555 76.835) (xy 384.81 76.835))
+  (wire (pts (xy 376.555 76.835) (xy 379.73 76.835))
     (stroke (width 0) (type default))
     (uuid 2d46127c-fea4-4388-8c64-66aafa412c20)
-  )
-  (wire (pts (xy 128.905 183.515) (xy 131.445 183.515))
-    (stroke (width 0) (type default))
-    (uuid 2d7cb568-889a-485b-9827-50714855a3bc)
   )
   (wire (pts (xy 155.575 23.495) (xy 155.575 26.035))
     (stroke (width 0) (type default))
@@ -4124,6 +4648,10 @@
     (stroke (width 0) (type default))
     (uuid 34365aac-719e-4dba-b81c-1d6570815e1c)
   )
+  (wire (pts (xy 252.73 175.26) (xy 262.89 175.26))
+    (stroke (width 0) (type default))
+    (uuid 3649c1ae-3f46-4447-a5b7-a44b27b8b466)
+  )
   (wire (pts (xy 158.75 23.495) (xy 155.575 23.495))
     (stroke (width 0) (type default))
     (uuid 366442e7-071f-4e7c-b3af-cc3011a9bb46)
@@ -4140,17 +4668,9 @@
     (stroke (width 0) (type default))
     (uuid 3878cdc3-e33a-451b-a328-a7ee481703bc)
   )
-  (wire (pts (xy 128.905 208.915) (xy 144.145 208.915))
-    (stroke (width 0) (type default))
-    (uuid 38c588ae-8c84-42f6-9afc-7fdd1768106d)
-  )
   (wire (pts (xy 249.555 60.96) (xy 249.555 81.28))
     (stroke (width 0) (type default))
     (uuid 38c9ccc6-9af4-4517-81e5-226d00ddf570)
-  )
-  (wire (pts (xy 316.865 91.44) (xy 312.42 91.44))
-    (stroke (width 0) (type default))
-    (uuid 3c43b489-73d6-4155-bf0e-13a58934fff0)
   )
   (wire (pts (xy 121.285 46.355) (xy 130.175 46.355))
     (stroke (width 0) (type default))
@@ -4160,14 +4680,6 @@
     (stroke (width 0) (type default))
     (uuid 3e0c26e9-63b5-454f-89e6-bef8df114bdf)
   )
-  (wire (pts (xy 170.18 180.975) (xy 156.845 180.975))
-    (stroke (width 0) (type default))
-    (uuid 3e4369ee-3566-4223-a570-96388b0cb332)
-  )
-  (wire (pts (xy 303.53 43.18) (xy 303.53 46.99))
-    (stroke (width 0) (type default))
-    (uuid 3e7a2f38-1623-4926-80cf-24b5657493fc)
-  )
   (wire (pts (xy 322.58 64.135) (xy 316.865 64.135))
     (stroke (width 0) (type default))
     (uuid 3f958b34-c674-42a6-8d3f-007b45353c20)
@@ -4176,13 +4688,17 @@
     (stroke (width 0) (type default))
     (uuid 40f94f66-bc78-4707-948d-027a88294111)
   )
+  (wire (pts (xy 210.82 194.31) (xy 222.885 194.31))
+    (stroke (width 0) (type default))
+    (uuid 41dc2e23-0e68-4c49-8cbb-ab013bda2803)
+  )
+  (wire (pts (xy 349.25 115.57) (xy 372.11 115.57))
+    (stroke (width 0) (type default))
+    (uuid 4232ae1a-2b42-4485-a445-a7623da096e1)
+  )
   (wire (pts (xy 335.915 131.445) (xy 335.915 130.175))
     (stroke (width 0) (type default))
     (uuid 426a2f7d-945b-4886-b099-de8349d54f4d)
-  )
-  (wire (pts (xy 127 163.195) (xy 127 188.595))
-    (stroke (width 0) (type default))
-    (uuid 43177c54-1bfb-43dd-841a-04f0d413fc2d)
   )
   (wire (pts (xy 292.1 59.055) (xy 286.385 59.055))
     (stroke (width 0) (type default))
@@ -4192,7 +4708,7 @@
     (stroke (width 0) (type default))
     (uuid 43a6764c-e8ac-4895-92c2-347749af4a76)
   )
-  (wire (pts (xy 216.535 88.9) (xy 216.535 106.68))
+  (wire (pts (xy 215.265 91.44) (xy 215.265 88.9))
     (stroke (width 0) (type default))
     (uuid 448d6413-8abd-44e5-96cc-95c47d52eb0f)
   )
@@ -4200,17 +4716,21 @@
     (stroke (width 0) (type default))
     (uuid 44abc4fe-c54d-4001-9ff5-436edf311431)
   )
+  (wire (pts (xy 303.53 93.98) (xy 303.53 89.535))
+    (stroke (width 0) (type default))
+    (uuid 4772ef25-9a98-4725-b246-7a7ee5a5b14d)
+  )
   (wire (pts (xy 103.505 48.895) (xy 109.855 48.895))
     (stroke (width 0) (type default))
     (uuid 477fff02-8fe5-4f86-887b-a7e1485f58b7)
   )
+  (wire (pts (xy 215.9 26.035) (xy 232.41 26.035))
+    (stroke (width 0) (type default))
+    (uuid 4876068f-8507-4fe5-a501-9c21739fc7a1)
+  )
   (wire (pts (xy 312.42 113.03) (xy 317.5 113.03))
     (stroke (width 0) (type default))
     (uuid 49bcf518-e28f-4450-9001-a75a89cfe0ac)
-  )
-  (wire (pts (xy 128.905 180.975) (xy 131.445 180.975))
-    (stroke (width 0) (type default))
-    (uuid 4a0fdd7f-d62c-4360-bf1c-999443f73710)
   )
   (wire (pts (xy 73.025 255.905) (xy 61.595 255.905))
     (stroke (width 0) (type default))
@@ -4224,10 +4744,6 @@
     (stroke (width 0) (type default))
     (uuid 4bbbdc64-320d-40a6-9f98-42edadc34f56)
   )
-  (wire (pts (xy 124.46 193.675) (xy 124.46 191.135))
-    (stroke (width 0) (type default))
-    (uuid 4c8a3bfa-a116-40d6-8659-2789a29c86bf)
-  )
   (wire (pts (xy 44.45 202.565) (xy 48.895 202.565))
     (stroke (width 0) (type default))
     (uuid 4cf39ef1-93dc-44bb-bdc6-c4ccb7525a78)
@@ -4240,13 +4756,9 @@
     (stroke (width 0) (type default))
     (uuid 4da1a2a3-d544-49a6-8ce8-af506f8a4e23)
   )
-  (wire (pts (xy 131.445 175.895) (xy 128.905 175.895))
+  (wire (pts (xy 161.29 58.42) (xy 194.31 58.42))
     (stroke (width 0) (type default))
-    (uuid 4f706671-6112-4154-af31-e8f0bd3e25cf)
-  )
-  (wire (pts (xy 124.46 201.295) (xy 124.46 193.675))
-    (stroke (width 0) (type default))
-    (uuid 4fff1482-c93d-4d86-a9d1-6304932862e3)
+    (uuid 4ead60e3-a25d-47b9-bccf-c87481ae5036)
   )
   (wire (pts (xy 249.555 133.35) (xy 247.015 133.35))
     (stroke (width 0) (type default))
@@ -4260,13 +4772,13 @@
     (stroke (width 0) (type default))
     (uuid 51eb1073-64bd-4460-80a8-c7d01c818435)
   )
+  (wire (pts (xy 346.075 128.27) (xy 346.075 112.395))
+    (stroke (width 0) (type default))
+    (uuid 520e7609-d210-485b-bc6e-3ca25ffb1a96)
+  )
   (wire (pts (xy 130.175 64.135) (xy 123.825 64.135))
     (stroke (width 0) (type default))
     (uuid 5237cd9a-3d00-4cad-b841-170dcf180d33)
-  )
-  (wire (pts (xy 171.45 191.77) (xy 167.005 191.77))
-    (stroke (width 0) (type default))
-    (uuid 542bb5a5-6605-418e-93f6-959a054de829)
   )
   (wire (pts (xy 333.375 139.065) (xy 333.375 155.575))
     (stroke (width 0) (type default))
@@ -4276,17 +4788,13 @@
     (stroke (width 0) (type default))
     (uuid 54c70120-4c99-4f21-a0ee-2f5976115578)
   )
-  (wire (pts (xy 161.29 69.215) (xy 161.29 91.44))
-    (stroke (width 0) (type default))
-    (uuid 5609df7e-7a19-44db-8b79-c0ce2452f09c)
-  )
-  (wire (pts (xy 170.18 183.515) (xy 167.005 183.515))
-    (stroke (width 0) (type default))
-    (uuid 580e31ef-c111-4eb7-ab8a-dcb02474afc7)
-  )
   (wire (pts (xy 69.215 65.405) (xy 78.105 65.405))
     (stroke (width 0) (type default))
     (uuid 58db76f8-5013-40ec-828e-19abc9c62d7e)
+  )
+  (wire (pts (xy 250.825 23.495) (xy 247.65 23.495))
+    (stroke (width 0) (type default))
+    (uuid 5afbd35a-f59d-40ca-a857-db56d52a2ea9)
   )
   (wire (pts (xy 61.595 230.505) (xy 73.66 230.505))
     (stroke (width 0) (type default))
@@ -4308,10 +4816,6 @@
     (stroke (width 0) (type default))
     (uuid 5c137a0b-c2c1-4ca1-97d9-a3bc6d836ca3)
   )
-  (wire (pts (xy 295.91 46.99) (xy 295.91 51.435))
-    (stroke (width 0) (type default))
-    (uuid 5dae8f37-4c99-4215-a795-a8bcc6e93bbc)
-  )
   (wire (pts (xy 126.365 36.195) (xy 130.175 36.195))
     (stroke (width 0) (type default))
     (uuid 5e256421-d0ae-494a-b473-f8bfa5c4be85)
@@ -4331,10 +4835,6 @@
   (wire (pts (xy 73.66 121.285) (xy 73.66 118.745))
     (stroke (width 0) (type default))
     (uuid 6461635f-8d51-4c0a-9713-64630f47152d)
-  )
-  (wire (pts (xy 144.145 209.55) (xy 144.145 208.915))
-    (stroke (width 0) (type default))
-    (uuid 64bd5c4d-6d32-4ca8-b613-66df29809585)
   )
   (wire (pts (xy 127.635 33.655) (xy 130.175 33.655))
     (stroke (width 0) (type default))
@@ -4356,17 +4856,13 @@
     (stroke (width 0) (type default))
     (uuid 65b31fb2-b7ee-4b34-b962-e4ec0ff76e0c)
   )
-  (wire (pts (xy 303.53 90.17) (xy 303.53 93.98))
-    (stroke (width 0) (type default))
-    (uuid 66376980-c22f-4d9d-86f3-4680c2a01ff4)
-  )
   (wire (pts (xy 314.96 150.495) (xy 328.295 150.495))
     (stroke (width 0) (type default))
     (uuid 67015903-e8d2-4ba9-b08a-4094f91eccfc)
   )
-  (wire (pts (xy 128.905 180.975) (xy 128.905 183.515))
+  (wire (pts (xy 247.65 28.575) (xy 250.825 28.575))
     (stroke (width 0) (type default))
-    (uuid 67cd1b83-07a9-491c-bfd1-2d13f98a0485)
+    (uuid 683fef15-420c-46da-9dff-aa2f8e0bf6fb)
   )
   (wire (pts (xy 61.595 118.745) (xy 73.66 118.745))
     (stroke (width 0) (type default))
@@ -4388,6 +4884,10 @@
     (stroke (width 0) (type default))
     (uuid 6a9c63c1-b0b4-4a85-9998-a3b3ce5dd58e)
   )
+  (wire (pts (xy 232.41 31.115) (xy 232.41 33.02))
+    (stroke (width 0) (type default))
+    (uuid 6ad7421e-2cd6-4225-9099-48a31d93d6d2)
+  )
   (wire (pts (xy 173.355 36.195) (xy 173.355 38.735))
     (stroke (width 0) (type default))
     (uuid 6e2d98a9-a9fa-46b2-9a24-74cdacd41a2c)
@@ -4400,6 +4900,10 @@
     (stroke (width 0) (type default))
     (uuid 6f1eeedb-fe1b-4da1-a3b0-77a5b76f5b43)
   )
+  (wire (pts (xy 372.11 125.73) (xy 375.285 125.73))
+    (stroke (width 0) (type default))
+    (uuid 701ec5b5-0efd-4553-a79b-41c83743a64c)
+  )
   (wire (pts (xy 125.095 38.735) (xy 130.175 38.735))
     (stroke (width 0) (type default))
     (uuid 70428dcc-4398-461d-9899-4201fb7390f5)
@@ -4408,13 +4912,13 @@
     (stroke (width 0) (type default))
     (uuid 707c9a09-1a0d-4b97-9630-f6fc95e69ba2)
   )
-  (wire (pts (xy 312.42 91.44) (xy 312.42 95.885))
-    (stroke (width 0) (type default))
-    (uuid 710d4e38-3402-4b6d-93a9-d080e13da0b3)
-  )
   (wire (pts (xy 103.505 41.275) (xy 109.855 41.275))
     (stroke (width 0) (type default))
     (uuid 719432ca-0510-4feb-b918-f6afa45cd806)
+  )
+  (wire (pts (xy 215.265 77.47) (xy 216.535 77.47))
+    (stroke (width 0) (type default))
+    (uuid 71d47622-2a29-4b79-8bf4-9bc521d6dd57)
   )
   (wire (pts (xy 61.595 253.365) (xy 73.66 253.365))
     (stroke (width 0) (type default))
@@ -4432,15 +4936,11 @@
     (stroke (width 0) (type default))
     (uuid 741bdcb9-b3ef-4163-91c5-125309d1198e)
   )
-  (wire (pts (xy 216.535 88.9) (xy 215.265 88.9))
-    (stroke (width 0) (type default))
-    (uuid 746024ca-5561-40fc-9f01-280d1dd39a6f)
-  )
   (wire (pts (xy 330.835 153.035) (xy 379.73 153.035))
     (stroke (width 0) (type default))
     (uuid 74c187e7-a14c-4a69-8219-a450fcf4d762)
   )
-  (wire (pts (xy 216.535 77.47) (xy 216.535 86.36))
+  (wire (pts (xy 215.265 77.47) (xy 215.265 86.36))
     (stroke (width 0) (type default))
     (uuid 74ed1933-5643-427e-8d88-440396ef1cee)
   )
@@ -4452,21 +4952,13 @@
     (stroke (width 0) (type default))
     (uuid 76762f58-7b33-4279-86d4-173b8e26dce2)
   )
-  (wire (pts (xy 127 163.195) (xy 185.42 163.195))
-    (stroke (width 0) (type default))
-    (uuid 767c1fd8-679a-4ed4-8a20-b23d4f6f468c)
-  )
-  (wire (pts (xy 210.82 194.31) (xy 233.68 194.31))
+  (wire (pts (xy 222.885 194.31) (xy 233.68 194.31))
     (stroke (width 0) (type default))
     (uuid 7898d523-0b6c-4cb5-9a46-b655175035c8)
   )
   (wire (pts (xy 199.39 88.9) (xy 200.025 88.9))
     (stroke (width 0) (type default))
     (uuid 7a0fae0f-a065-42a7-81eb-b77ef738c22b)
-  )
-  (wire (pts (xy 170.18 178.435) (xy 156.845 178.435))
-    (stroke (width 0) (type default))
-    (uuid 7a372e93-0de8-4657-9496-9a387c52add3)
   )
   (wire (pts (xy 247.65 86.995) (xy 249.555 86.995))
     (stroke (width 0) (type default))
@@ -4475,6 +4967,10 @@
   (wire (pts (xy 314.96 158.115) (xy 335.915 158.115))
     (stroke (width 0) (type default))
     (uuid 7c666f98-5e10-4b36-adb1-29a7c983db3d)
+  )
+  (wire (pts (xy 161.29 58.42) (xy 161.29 91.44))
+    (stroke (width 0) (type default))
+    (uuid 7dad5017-194b-47a2-a0e0-e37b60f18ffc)
   )
   (wire (pts (xy 200.025 74.93) (xy 191.135 74.93))
     (stroke (width 0) (type default))
@@ -4496,21 +4992,17 @@
     (stroke (width 0) (type default))
     (uuid 81991740-ed5a-4329-a1db-d509afc91dd7)
   )
+  (wire (pts (xy 295.91 51.435) (xy 295.91 46.355))
+    (stroke (width 0) (type default))
+    (uuid 8208a6c6-d042-47d0-9563-ae37f47c815a)
+  )
   (wire (pts (xy 75.565 259.715) (xy 73.025 259.715))
     (stroke (width 0) (type default))
     (uuid 845f5916-2388-4e7d-85dd-85c3de97c271)
   )
-  (wire (pts (xy 131.445 201.295) (xy 124.46 201.295))
-    (stroke (width 0) (type default))
-    (uuid 8673f683-8366-4d94-8cca-d1876f4dd586)
-  )
   (wire (pts (xy 73.66 240.665) (xy 73.66 253.365))
     (stroke (width 0) (type default))
     (uuid 86dd359a-49bf-4dfc-9dcb-a982acdaac16)
-  )
-  (wire (pts (xy 303.53 46.99) (xy 303.53 51.435))
-    (stroke (width 0) (type default))
-    (uuid 878ba185-63ec-40fc-bbb4-443986b23b9b)
   )
   (wire (pts (xy 73.66 116.205) (xy 73.66 113.665))
     (stroke (width 0) (type default))
@@ -4524,9 +5016,21 @@
     (stroke (width 0) (type default))
     (uuid 8b3107f2-f730-419f-a6be-88c727468e0b)
   )
-  (wire (pts (xy 252.73 175.26) (xy 262.89 175.26))
+  (wire (pts (xy 262.89 175.26) (xy 273.05 175.26))
     (stroke (width 0) (type default))
     (uuid 8b985536-7a24-40b4-9e18-3c2e567a531c)
+  )
+  (wire (pts (xy 247.65 35.56) (xy 247.65 28.575))
+    (stroke (width 0) (type default))
+    (uuid 8b99917e-0123-4c76-b9cd-e7c41e9a6101)
+  )
+  (wire (pts (xy 215.9 28.575) (xy 215.9 26.035))
+    (stroke (width 0) (type default))
+    (uuid 8d453413-14d6-4e19-8ebd-6693e50a3a1d)
+  )
+  (wire (pts (xy 379.73 94.615) (xy 379.73 76.835))
+    (stroke (width 0) (type default))
+    (uuid 8dcec612-6c17-41ab-9afb-68bfbd89574b)
   )
   (wire (pts (xy 163.195 28.575) (xy 155.575 28.575))
     (stroke (width 0) (type default))
@@ -4539,10 +5043,6 @@
   (wire (pts (xy 328.295 139.065) (xy 328.295 150.495))
     (stroke (width 0) (type default))
     (uuid 8e69c09d-73a0-4fe3-a94f-8d0a64dbe80b)
-  )
-  (wire (pts (xy 128.905 175.895) (xy 128.905 180.975))
-    (stroke (width 0) (type default))
-    (uuid 8e8337ea-195b-4a55-9e98-f072657ca7fe)
   )
   (wire (pts (xy 286.385 101.6) (xy 292.1 101.6))
     (stroke (width 0) (type default))
@@ -4568,17 +5068,13 @@
     (stroke (width 0) (type default))
     (uuid 923bb5af-1491-44f1-b5f0-2b2c43349be5)
   )
+  (wire (pts (xy 252.73 182.88) (xy 262.89 182.88))
+    (stroke (width 0) (type default))
+    (uuid 925701c4-3a5f-49d0-91af-c8ad9d78df8d)
+  )
   (wire (pts (xy 120.015 81.915) (xy 130.175 81.915))
     (stroke (width 0) (type default))
     (uuid 93944a7b-786a-4545-936c-90cac7de2d49)
-  )
-  (wire (pts (xy 127 188.595) (xy 131.445 188.595))
-    (stroke (width 0) (type default))
-    (uuid 9415f06a-d415-4627-92d5-a4e569ca3b6d)
-  )
-  (wire (pts (xy 215.265 91.44) (xy 222.25 91.44))
-    (stroke (width 0) (type default))
-    (uuid 9452b49d-fdbc-405d-bd81-d40884e10cf8)
   )
   (wire (pts (xy 120.015 26.035) (xy 130.175 26.035))
     (stroke (width 0) (type default))
@@ -4591,10 +5087,6 @@
   (wire (pts (xy 109.855 38.735) (xy 125.095 38.735))
     (stroke (width 0) (type default))
     (uuid 9511cd12-b47d-4437-8eed-d3e943113fa7)
-  )
-  (wire (pts (xy 295.91 90.17) (xy 295.91 93.98))
-    (stroke (width 0) (type default))
-    (uuid 9541a005-48cb-4d22-98b3-0a2d9be4099f)
   )
   (wire (pts (xy 173.355 41.275) (xy 173.355 43.815))
     (stroke (width 0) (type default))
@@ -4624,9 +5116,9 @@
     (stroke (width 0) (type default))
     (uuid 9a455e0a-ec6d-4c5b-839d-aa7190e2f399)
   )
-  (wire (pts (xy 216.535 86.36) (xy 215.265 86.36))
+  (wire (pts (xy 215.265 91.44) (xy 222.25 91.44))
     (stroke (width 0) (type default))
-    (uuid 9aea250a-efff-44ce-9a8e-8c5d23dbb378)
+    (uuid 9a4fd2d6-66c6-4820-a7a4-fea53e4c98c5)
   )
   (wire (pts (xy 247.65 89.535) (xy 247.65 105.41))
     (stroke (width 0) (type default))
@@ -4644,6 +5136,10 @@
     (stroke (width 0) (type default))
     (uuid 9cd86bf5-02fa-42b6-ae33-acdf0b82c193)
   )
+  (wire (pts (xy 295.91 93.98) (xy 295.91 89.535))
+    (stroke (width 0) (type default))
+    (uuid 9ce9fe7a-324a-47b7-a611-cf4e3dcf8ce3)
+  )
   (wire (pts (xy 173.355 38.735) (xy 173.355 41.275))
     (stroke (width 0) (type default))
     (uuid 9d47c2e8-6991-451e-83f5-aad19c29210a)
@@ -4655,6 +5151,10 @@
   (wire (pts (xy 233.68 217.805) (xy 244.475 217.805))
     (stroke (width 0) (type default))
     (uuid 9da2433a-0ada-44d5-bc5f-4e983b20f4eb)
+  )
+  (wire (pts (xy 210.82 201.93) (xy 222.885 201.93))
+    (stroke (width 0) (type default))
+    (uuid 9f79e9f7-31d1-4fe4-b3cc-77a870c265e9)
   )
   (wire (pts (xy 368.935 95.25) (xy 368.935 93.345))
     (stroke (width 0) (type default))
@@ -4691,6 +5191,10 @@
   (wire (pts (xy 198.755 86.36) (xy 198.755 85.09))
     (stroke (width 0) (type default))
     (uuid a7d01e51-0d48-4603-860b-d3f28e38780b)
+  )
+  (wire (pts (xy 215.9 28.575) (xy 217.17 28.575))
+    (stroke (width 0) (type default))
+    (uuid a9634935-8da8-4765-97f5-79855fc4b225)
   )
   (wire (pts (xy 368.935 93.345) (xy 363.855 93.345))
     (stroke (width 0) (type default))
@@ -4756,6 +5260,10 @@
     (stroke (width 0) (type default))
     (uuid b1f38343-3519-4db1-b97b-d9d619986f1a)
   )
+  (wire (pts (xy 194.31 38.1) (xy 232.41 38.1))
+    (stroke (width 0) (type default))
+    (uuid b468e182-33e3-4b32-9f17-37cab0b470ed)
+  )
   (wire (pts (xy 323.215 145.415) (xy 379.73 145.415))
     (stroke (width 0) (type default))
     (uuid b5843831-fe10-4dc8-966c-987fbdd1ac45)
@@ -4796,9 +5304,9 @@
     (stroke (width 0) (type default))
     (uuid bc319d5a-2e37-4f32-81a2-d63de55a9c3f)
   )
-  (wire (pts (xy 216.535 77.47) (xy 215.265 77.47))
+  (wire (pts (xy 379.73 76.835) (xy 384.81 76.835))
     (stroke (width 0) (type default))
-    (uuid bc597302-6f13-4dc2-be49-916536f4c7ce)
+    (uuid bd712a3f-94d8-4f29-8943-8add0f26bec4)
   )
   (wire (pts (xy 36.195 255.905) (xy 48.895 255.905))
     (stroke (width 0) (type default))
@@ -4836,10 +5344,6 @@
     (stroke (width 0) (type default))
     (uuid c25dd254-1b44-48aa-8575-ecc3263bb637)
   )
-  (wire (pts (xy 155.575 69.215) (xy 161.29 69.215))
-    (stroke (width 0) (type default))
-    (uuid c3fa0db0-aa4c-4166-b690-5a10066aae7f)
-  )
   (wire (pts (xy 36.195 259.715) (xy 36.195 255.905))
     (stroke (width 0) (type default))
     (uuid c4106ac7-43e6-4531-af70-32b4bff8d696)
@@ -4852,7 +5356,7 @@
     (stroke (width 0) (type default))
     (uuid c4a395e2-2abb-4f4b-8eb0-5be6052b6ef3)
   )
-  (wire (pts (xy 325.755 147.955) (xy 379.73 147.955))
+  (wire (pts (xy 325.755 147.955) (xy 375.285 147.955))
     (stroke (width 0) (type default))
     (uuid c50d1c68-f5a8-4ade-9c09-7ebbef44b23d)
   )
@@ -4863,10 +5367,6 @@
   (wire (pts (xy 309.245 61.595) (xy 307.34 61.595))
     (stroke (width 0) (type default))
     (uuid c6562eb6-3ec9-43ce-a870-24565abc61d5)
-  )
-  (wire (pts (xy 128.905 183.515) (xy 128.905 208.915))
-    (stroke (width 0) (type default))
-    (uuid c6634ae8-ca44-4bd9-8e7e-819a7bcd8d15)
   )
   (wire (pts (xy 122.555 66.675) (xy 130.175 66.675))
     (stroke (width 0) (type default))
@@ -4880,6 +5380,10 @@
     (stroke (width 0) (type default))
     (uuid c7367399-0634-4ebe-8d36-abeebb348c99)
   )
+  (wire (pts (xy 372.11 115.57) (xy 375.285 115.57))
+    (stroke (width 0) (type default))
+    (uuid c8570d1c-2b24-49db-85d7-0d91272cb9f1)
+  )
   (wire (pts (xy 314.96 130.175) (xy 314.96 137.795))
     (stroke (width 0) (type default))
     (uuid c888f0f8-61bf-443d-ba19-bbea031a0944)
@@ -4887,6 +5391,10 @@
   (wire (pts (xy 342.9 89.535) (xy 342.9 90.805))
     (stroke (width 0) (type default))
     (uuid c89c5c32-a682-49d3-90ec-3360ba48edbf)
+  )
+  (wire (pts (xy 375.285 115.57) (xy 375.285 116.205))
+    (stroke (width 0) (type default))
+    (uuid c8b1a003-d7af-45ec-859b-2defb29cf1d8)
   )
   (wire (pts (xy 330.835 131.445) (xy 330.835 130.175))
     (stroke (width 0) (type default))
@@ -4912,17 +5420,9 @@
     (stroke (width 0) (type default))
     (uuid cdaaccf2-8bb5-4a24-af98-b9f512f3bf85)
   )
-  (wire (pts (xy 262.89 175.26) (xy 273.05 175.26))
-    (stroke (width 0) (type default))
-    (uuid ce00c588-41f3-4349-82e3-c784dcfd6956)
-  )
   (wire (pts (xy 200.025 201.93) (xy 210.82 201.93))
     (stroke (width 0) (type default))
     (uuid ce8181f7-51eb-47bd-b791-967bc7b16608)
-  )
-  (wire (pts (xy 262.89 182.88) (xy 273.05 182.88))
-    (stroke (width 0) (type default))
-    (uuid cee0ab87-0438-4021-931c-831d529335ea)
   )
   (wire (pts (xy 103.505 43.815) (xy 109.855 43.815))
     (stroke (width 0) (type default))
@@ -4932,7 +5432,7 @@
     (stroke (width 0) (type default))
     (uuid cfbde455-7d96-4611-a59c-47a9e9177612)
   )
-  (wire (pts (xy 328.295 150.495) (xy 379.73 150.495))
+  (wire (pts (xy 328.295 150.495) (xy 347.345 150.495))
     (stroke (width 0) (type default))
     (uuid d04db8d4-ef4f-4aeb-b218-893bf6ac01c4)
   )
@@ -4944,7 +5444,7 @@
     (stroke (width 0) (type default))
     (uuid d11055d0-30cd-43ea-b2c7-46d0a7f1aba9)
   )
-  (wire (pts (xy 252.73 182.88) (xy 262.89 182.88))
+  (wire (pts (xy 262.89 182.88) (xy 273.05 182.88))
     (stroke (width 0) (type default))
     (uuid d1a7ff89-662d-4b1a-a576-66ef781a9974)
   )
@@ -4963,6 +5463,10 @@
   (wire (pts (xy 200.025 194.31) (xy 210.82 194.31))
     (stroke (width 0) (type default))
     (uuid d3506e8e-de7a-4fc2-b100-5ee6459deb98)
+  )
+  (wire (pts (xy 346.075 112.395) (xy 379.73 112.395))
+    (stroke (width 0) (type default))
+    (uuid d478973c-0f08-4ebc-8cd5-2ef353dae25a)
   )
   (wire (pts (xy 220.345 74.93) (xy 220.345 81.28))
     (stroke (width 0) (type default))
@@ -4996,10 +5500,6 @@
     (stroke (width 0) (type default))
     (uuid da9c2f67-25ed-4678-910d-babc5e30079a)
   )
-  (wire (pts (xy 124.46 191.135) (xy 124.46 178.435))
-    (stroke (width 0) (type default))
-    (uuid db41d35d-a4d7-4764-96ed-e926200345c0)
-  )
   (wire (pts (xy 216.535 72.39) (xy 215.265 72.39))
     (stroke (width 0) (type default))
     (uuid dd595ca6-898d-4c61-b6ae-6f25721ff72d)
@@ -5008,9 +5508,21 @@
     (stroke (width 0) (type default))
     (uuid dd70104c-3483-4adc-8f25-4359ab3b44cd)
   )
+  (wire (pts (xy 266.065 26.035) (xy 400.05 26.035))
+    (stroke (width 0) (type default))
+    (uuid de0745e4-8355-42e9-a6f6-4a4e8b08f3b0)
+  )
   (wire (pts (xy 73.66 111.125) (xy 61.595 111.125))
     (stroke (width 0) (type default))
     (uuid df00bcc6-10e3-4fdd-a08a-41f45c65e51a)
+  )
+  (wire (pts (xy 303.53 86.36) (xy 303.53 89.535))
+    (stroke (width 0) (type default))
+    (uuid df400a7f-4489-4f64-a69d-028a51d8f53c)
+  )
+  (wire (pts (xy 349.25 125.73) (xy 347.345 125.73))
+    (stroke (width 0) (type default))
+    (uuid e16e7b05-6a3b-4095-a4fe-1478b08318f0)
   )
   (wire (pts (xy 73.66 121.285) (xy 73.66 230.505))
     (stroke (width 0) (type default))
@@ -5028,9 +5540,17 @@
     (stroke (width 0) (type default))
     (uuid e21025d6-cc74-437c-80ee-419ca48dbd05)
   )
+  (wire (pts (xy 303.53 51.435) (xy 303.53 46.355))
+    (stroke (width 0) (type default))
+    (uuid e22de040-4761-423f-8556-dc628773e360)
+  )
   (wire (pts (xy 286.385 59.055) (xy 286.385 86.995))
     (stroke (width 0) (type default))
     (uuid e29a2046-f169-498d-a415-3c1d9b75cafe)
+  )
+  (wire (pts (xy 347.345 150.495) (xy 379.73 150.495))
+    (stroke (width 0) (type default))
+    (uuid e30a21bd-1c7b-4b0a-a813-f07246b00e4b)
   )
   (wire (pts (xy 120.015 28.575) (xy 130.175 28.575))
     (stroke (width 0) (type default))
@@ -5076,10 +5596,6 @@
     (stroke (width 0) (type default))
     (uuid ea26cb5f-8427-4a68-985f-b9a1f38fe20e)
   )
-  (wire (pts (xy 167.005 191.77) (xy 167.005 183.515))
-    (stroke (width 0) (type default))
-    (uuid ea54db85-060e-4620-8893-0d28740cd8cc)
-  )
   (wire (pts (xy 286.385 86.995) (xy 286.385 101.6))
     (stroke (width 0) (type default))
     (uuid eaa9fae9-d5b7-4f75-b2fd-10c6748829d2)
@@ -5092,6 +5608,10 @@
     (stroke (width 0) (type default))
     (uuid eb4b0c1e-29a5-4498-8c04-2a176e3d5b82)
   )
+  (wire (pts (xy 215.265 106.68) (xy 215.265 91.44))
+    (stroke (width 0) (type default))
+    (uuid ebd7559c-f283-40cd-9a54-87595ecad2c8)
+  )
   (wire (pts (xy 232.41 175.26) (xy 242.57 175.26))
     (stroke (width 0) (type default))
     (uuid ec41fb9b-b189-4483-b0f0-429587119d7d)
@@ -5099,6 +5619,10 @@
   (wire (pts (xy 36.195 259.715) (xy 33.02 259.715))
     (stroke (width 0) (type default))
     (uuid ed3f8cfd-3d82-4b03-b71e-786397bd85a6)
+  )
+  (wire (pts (xy 375.285 147.955) (xy 379.73 147.955))
+    (stroke (width 0) (type default))
+    (uuid efd3f476-6da9-4fcf-ad6c-bc2f6820252b)
   )
   (wire (pts (xy 312.42 113.03) (xy 312.42 112.395))
     (stroke (width 0) (type default))
@@ -5128,10 +5652,6 @@
     (stroke (width 0) (type default))
     (uuid f6cd9631-30bc-42f1-bc97-b0619f96a5f8)
   )
-  (wire (pts (xy 124.46 193.675) (xy 131.445 193.675))
-    (stroke (width 0) (type default))
-    (uuid f7422f18-29cf-43d1-867f-d8d9edf3e37c)
-  )
   (wire (pts (xy 73.025 259.715) (xy 73.025 255.905))
     (stroke (width 0) (type default))
     (uuid f7fbbbd6-2b44-45b7-b7ed-abcb5aebb962)
@@ -5144,10 +5664,6 @@
     (stroke (width 0) (type default))
     (uuid fac78bcb-ddd2-4c8d-82ce-0e7d3d27c5f7)
   )
-  (wire (pts (xy 167.005 183.515) (xy 156.845 183.515))
-    (stroke (width 0) (type default))
-    (uuid fb181b92-1025-4177-a77d-8fbbb04b8395)
-  )
   (wire (pts (xy 173.355 33.655) (xy 173.355 36.195))
     (stroke (width 0) (type default))
     (uuid fb3b58af-4dac-4460-a770-0bb8254e402b)
@@ -5159,10 +5675,6 @@
   (wire (pts (xy 210.82 175.26) (xy 222.25 175.26))
     (stroke (width 0) (type default))
     (uuid fdd7b827-df06-48e8-a19e-7891fd424413)
-  )
-  (wire (pts (xy 185.42 180.975) (xy 185.42 163.195))
-    (stroke (width 0) (type default))
-    (uuid fe4d63eb-8fb8-4540-852d-3172eb6d1d81)
   )
   (wire (pts (xy 130.175 86.995) (xy 130.175 89.535))
     (stroke (width 0) (type default))
@@ -5181,16 +5693,25 @@
     (uuid ffb0db99-c9e4-44f7-b923-93664f8e9437)
   )
 
-  (text "there seems to be a duplicate of C10 here on the paper schematic"
-    (at 371.475 99.06 0)
+  (text "9600 Baud" (at 389.255 25.4 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 0ac16952-d391-49ef-9549-332a25fe1d13)
-  )
-  (text "guess" (at 104.775 196.85 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 5a3f55f3-dd31-46ba-8511-f66d048be778)
+    (uuid 141a4351-2b50-4c11-94b8-ff9aaf3aac1c)
   )
 
+  (global_label "DATA OUT" (shape input) (at 400.05 26.035 0) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 006d1c09-c6c5-4a4b-bfe4-433c0eec4fcb)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 411.9668 26.035 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
+    )
+  )
+  (global_label "BCLK" (shape input) (at 48.895 103.505 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid 02df270b-9c66-4357-948e-8b35b15f96e7)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 41.1511 103.505 0)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
   (global_label "{slash}RESET" (shape input) (at 78.105 89.535 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 077d7cfb-f83c-40a1-851c-deefae0ba148)
@@ -5251,13 +5772,6 @@
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 20975791-5fdb-411f-bfb1-3963a1df16ce)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 110.1603 74.295 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
-  (global_label "BCLK" (shape input) (at 171.45 191.77 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 2131d38d-1215-4ace-b08e-e05da40f45ec)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 179.1939 191.77 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -5443,13 +5957,6 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "pup" (shape input) (at 118.11 193.675 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 77643e03-5449-4c56-9c3e-5ebf01d0bbf3)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 111.7572 193.675 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
-    )
-  )
   (global_label "AUDIO IN" (shape input) (at 61.595 250.825 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 7c212aa6-0a25-4aa8-9ae5-26fa0871586e)
@@ -5497,13 +6004,6 @@
     (uuid 88f07713-c791-4087-a703-a3c9ab8973ce)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 110.1603 79.375 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
-  (global_label "PHI2" (shape input) (at 117.475 196.215 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 8997a088-302f-4955-a41b-4d9f61c7db84)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 110.1544 196.215 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
   (global_label "U9in" (shape input) (at 195.58 106.68 180) (fields_autoplaced)
@@ -5765,13 +6265,6 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "DATA OUT" (shape input) (at 232.41 20.955 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid de16cf47-691f-4624-8f0e-1337819a3b05)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 244.3268 20.955 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
   (global_label "A0" (shape input) (at 48.895 136.525 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid e14148a5-378d-4de1-9bc1-4b8a34bb7b9d)
@@ -5845,7 +6338,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R12") (unit 1)
         )
@@ -5862,7 +6355,7 @@
     (property "Value" "10nF" (at 252.349 215.2723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 254.3048 217.805 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 254.3048 217.805 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 255.27 213.995 0)
@@ -5876,7 +6369,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C30") (unit 1)
         )
@@ -5926,7 +6419,7 @@
           (reference "U4") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U9") (unit 1)
         )
@@ -5948,7 +6441,7 @@
     (property "Value" "DM8602N" (at 236.2709 143.9785 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 234.315 133.35 0)
+    (property "Footprint" "" (at 234.315 133.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 234.315 133.35 0)
@@ -5971,45 +6464,9 @@
     (pin "16" (uuid 5e230fea-951f-47f7-88e9-fa542b082413))
     (pin "8" (uuid 9f647001-c129-4162-bc2d-9b8701f1d316))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U3") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:C") (at 262.89 179.07 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 00fc6737-231a-4b29-aa85-77997653d28a)
-    (property "Reference" "C34" (at 259.969 178.4263 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "10nF" (at 259.969 180.3473 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 261.9248 182.88 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 262.89 179.07 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid d58d80a0-36b8-45e0-aa08-3427438280fd))
-    (pin "2" (uuid f9596270-c878-41c5-9b31-00c9b30853c7))
-    (instances
-      (project "Audio board rev.a"
-        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "C34") (unit 1)
-        )
-      )
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "C20") (unit 1)
-        )
-      )
-      (project "Audio board 0003 rev.c"
-        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
-          (reference "C34") (unit 1)
         )
       )
     )
@@ -6038,7 +6495,7 @@
           (reference "DS2") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS6") (unit 1)
         )
@@ -6046,6 +6503,42 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "DS2") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 262.89 179.07 0) (mirror y) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 01ce0400-5084-42a5-84b8-72317dc932ed)
+    (property "Reference" "C34" (at 259.969 178.4263 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "10nF" (at 259.969 180.3473 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 261.9248 182.88 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 262.89 179.07 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 47729998-c66a-46f3-acea-2684502e252f))
+    (pin "2" (uuid cd9c8b72-9018-480a-a5fd-aad6b4a3caeb))
+    (instances
+      (project "Audio board rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "C34") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "C20") (unit 1)
+        )
+      )
+      (project "Audio board 0003 rev.c"
+        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
+          (reference "C34") (unit 1)
         )
       )
     )
@@ -6060,7 +6553,7 @@
     (property "Value" "10nF" (at 263.779 199.3973 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 265.7348 201.93 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 265.7348 201.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 266.7 198.12 0)
@@ -6074,7 +6567,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C27") (unit 1)
         )
@@ -6096,7 +6589,7 @@
     (property "Value" "LM311" (at 293.37 98.425 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-8_W7.62mm" (at 299.72 101.6 0)
+    (property "Footprint" "" (at 299.72 101.6 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://www.st.com/resource/en/datasheet/lm311.pdf" (at 299.72 101.6 0)
@@ -6111,7 +6604,7 @@
     (pin "7" (uuid 1ad22963-da5c-429f-8074-4292926ac863))
     (pin "8" (uuid d293b929-d891-4ed1-82ab-dde434f5f349))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U10") (unit 1)
         )
@@ -6128,7 +6621,7 @@
     (property "Value" "100nF" (at 320.675 107.95 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 318.4652 111.76 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 318.4652 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 317.5 107.95 0)
@@ -6142,7 +6635,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C6") (unit 1)
         )
@@ -6177,7 +6670,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR056") (unit 1)
         )
@@ -6212,7 +6705,7 @@
           (reference "#PWR039") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR033") (unit 1)
         )
@@ -6231,7 +6724,7 @@
     (property "Reference" "TP7" (at 221.742 58.2843 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "bits" (at 221.742 60.2053 0)
+    (property "Value" "ones?" (at 221.742 60.2053 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "TestPoint:TestPoint_Plated_Hole_D3.0mm" (at 225.425 62.23 0)
@@ -6247,7 +6740,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP7") (unit 1)
         )
@@ -6283,7 +6776,7 @@
           (reference "C7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C11") (unit 1)
         )
@@ -6313,7 +6806,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR050") (unit 1)
         )
@@ -6349,7 +6842,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R6") (unit 1)
         )
@@ -6357,51 +6850,39 @@
     )
   )
 
-  (symbol (lib_id "Device:R_Pack08") (at 98.425 210.82 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 161a1e5f-d030-413a-8c66-689747e3989c)
-    (property "Reference" "RP1" (at 86.2331 210.1763 0)
-      (effects (font (size 1.27 1.27)) (justify right))
+  (symbol (lib_id "74xx:74LS00") (at 224.79 31.115 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 15f40aed-562d-4fbf-afdd-5aff9ba82649)
+    (property "Reference" "U8" (at 224.79 30.48 0)
+      (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "Spare" (at 86.2331 212.0973 0)
-      (effects (font (size 1.27 1.27)) (justify right))
+    (property "Value" "74LS00" (at 224.79 36.83 0)
+      (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 110.49 210.82 90)
+    (property "Footprint" "" (at 224.79 31.115 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 98.425 210.82 0)
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 224.79 31.115 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid cd8dce1f-1bba-4a27-a16b-f43d1836312d))
-    (pin "10" (uuid 7a07071d-1915-4962-9378-a83610339056))
-    (pin "11" (uuid 15b58dd2-8426-4730-ac17-47161d2960a2))
-    (pin "12" (uuid adc3aa2f-0cba-4f10-a00e-723ac5cfb214))
-    (pin "13" (uuid fcb6d5e1-b2b4-4e06-a86d-c7106c505256))
-    (pin "14" (uuid 20631f7e-4a58-4fac-b30a-bafa874bd065))
-    (pin "15" (uuid 55966c8d-9b30-408e-b68f-d1a4fc9a779b))
-    (pin "16" (uuid 8982597a-f82a-4bac-8ba3-e48993bf047c))
-    (pin "2" (uuid 934bd66a-b6ed-4824-bb11-57dea1e18c33))
-    (pin "3" (uuid ce37b54b-0037-43c7-9b94-364f2bc6ef59))
-    (pin "4" (uuid 56ca26e9-8096-4786-b726-8314120cfeb4))
-    (pin "5" (uuid 4a426e2e-1443-4107-bd2f-2c46fc4dcb25))
-    (pin "6" (uuid cb1f5f43-5f59-488b-b7be-7d2093138ae7))
-    (pin "7" (uuid 3a7fa6f7-3030-4386-9b2d-2138ef68f460))
-    (pin "8" (uuid 4a35802a-693e-4fe6-837f-8411de897df0))
-    (pin "9" (uuid 79408e8c-8a64-42a9-8047-034e8145562d))
+    (pin "1" (uuid 7e69c0dc-9171-4f5f-9e40-9409aeddfed5))
+    (pin "2" (uuid dee53ed4-9687-4e0b-aa3f-568162b7a6a2))
+    (pin "3" (uuid 97d04aab-8ade-4a1d-818b-2cb56671345f))
+    (pin "4" (uuid 50b13d98-485f-472e-b740-8ba4ba3c656b))
+    (pin "5" (uuid d3400b70-e7ad-4e8a-a251-2f97c756aa5d))
+    (pin "6" (uuid 40debc5d-45b2-4371-9a8d-610432c4f9e0))
+    (pin "10" (uuid 29658e5c-72e9-41da-93f5-c25342fa0f31))
+    (pin "8" (uuid a0e7427b-90b4-4ae5-968e-ac30997449d6))
+    (pin "9" (uuid 08de427f-20dd-4ec4-bca4-6d3be966428b))
+    (pin "11" (uuid 90ed2155-5946-4eb8-8baa-8f900ff089cb))
+    (pin "12" (uuid 944382d8-26c0-435f-8254-19a901070122))
+    (pin "13" (uuid deec760c-5d36-4432-add1-e2fa492d8b4b))
+    (pin "14" (uuid c87f312e-612c-4d0c-986a-226da87ad15c))
+    (pin "7" (uuid c38af366-d354-4bfa-bcda-36a94ed5e6e5))
     (instances
-      (project "Audio board rev.a"
-        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "RP1") (unit 1)
-        )
-      )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "U14") (unit 1)
-        )
-      )
-      (project "Character board 0004 rev.b"
-        (path "/cb28dba3-810b-45e4-988f-432ba6e2d266"
-          (reference "U3") (unit 1)
+          (reference "U8") (unit 1)
         )
       )
     )
@@ -6429,7 +6910,7 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR024") (unit 1)
         )
@@ -6446,7 +6927,7 @@
     (property "Value" "10nF" (at 219.329 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 221.2848 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 221.2848 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 222.25 179.07 0)
@@ -6460,7 +6941,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C16") (unit 1)
         )
@@ -6482,7 +6963,7 @@
     (property "Value" "10nF" (at 239.649 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 241.6048 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 241.6048 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 242.57 179.07 0)
@@ -6496,7 +6977,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C18") (unit 1)
         )
@@ -6531,7 +7012,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR047") (unit 1)
         )
@@ -6539,6 +7020,37 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR071") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 379.73 98.425 0) (mirror y) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 20425e7c-331c-4b1f-a3db-562fb49b4c75)
+    (property "Reference" "R37" (at 381.508 97.7813 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Value" "2.2K" (at 381.508 99.7023 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal" (at 381.508 98.425 90)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 379.73 98.425 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 57dac624-d5bd-42e6-8b01-b3f4cfe155ed))
+    (pin "2" (uuid 186de456-9cf3-48f1-b66d-088a878528c0))
+    (instances
+      (project "Audio board 0033 rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "R37") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "R17") (unit 1)
         )
       )
     )
@@ -6553,7 +7065,7 @@
     (property "Value" "100nF" (at 357.505 68.58 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 357.8098 69.85 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 357.8098 69.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 358.775 66.04 0)
@@ -6567,7 +7079,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C8") (unit 1)
         )
@@ -6602,7 +7114,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR053") (unit 1)
         )
@@ -6621,7 +7133,7 @@
     (property "Reference" "TP7" (at 250.952 57.0143 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "zero crossings" (at 250.952 58.9353 0)
+    (property "Value" "pulses" (at 250.952 58.9353 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "TestPoint:TestPoint_Plated_Hole_D3.0mm" (at 254.635 60.96 0)
@@ -6637,7 +7149,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP6") (unit 1)
         )
@@ -6673,7 +7185,7 @@
           (reference "DS3") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS5") (unit 1)
         )
@@ -6709,7 +7221,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R7") (unit 1)
         )
@@ -6754,7 +7266,7 @@
           (reference "RP1") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "RP1") (unit 1)
         )
@@ -6767,19 +7279,19 @@
     )
   )
 
-  (symbol (lib_id "Device:C") (at 299.72 90.17 90) (unit 1)
+  (symbol (lib_id "Device:C") (at 299.72 46.355 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 259a265e-fee1-456d-9f85-3334dd1104c8)
-    (property "Reference" "C4" (at 299.085 84.455 90)
+    (property "Reference" "C4" (at 299.085 40.64 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "100nF" (at 299.085 86.995 90)
+    (property "Value" "100nF" (at 299.085 43.18 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 303.53 89.2048 0)
+    (property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm" (at 303.53 45.3898 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 299.72 90.17 0)
+    (property "Datasheet" "~" (at 299.72 46.355 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 3e52def5-505f-444b-82f8-13fc0541fc6a))
@@ -6790,7 +7302,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C32") (unit 1)
         )
@@ -6803,19 +7315,19 @@
     )
   )
 
-  (symbol (lib_id "Device:C_Polarized") (at 342.9 102.235 0) (unit 1)
+  (symbol (lib_id "Device:C_Polarized") (at 342.9 102.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 25d3f85e-102c-4743-9325-8404658be313)
-    (property "Reference" "C21" (at 345.821 100.7023 0)
+    (property "Reference" "C21" (at 345.821 101.3373 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "4.7uF" (at 345.821 102.6233 0)
+    (property "Value" "4.7uF" (at 345.821 103.2583 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:CP_Radial_Tantal_D4.5mm_P2.50mm" (at 343.8652 106.045 0)
+    (property "Footprint" "Evan's parts:CP_Radial_Tantal_D4mm_P3.81mm" (at 343.8652 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 342.9 102.235 0)
+    (property "Datasheet" "~" (at 342.9 102.87 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid a3d8549e-a952-4480-9d1a-0a552ce02eeb))
@@ -6826,7 +7338,7 @@
           (reference "C21") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C9") (unit 1)
         )
@@ -6848,7 +7360,7 @@
     (property "Value" "7410" (at 208.28 76.2 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 207.645 74.93 0)
+    (property "Footprint" "" (at 207.645 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS10" (at 207.645 74.93 0)
@@ -6869,9 +7381,47 @@
     (pin "14" (uuid 20a25557-68d6-49bd-bc78-e2c4f5237036))
     (pin "7" (uuid afc9eb44-b2d0-4f99-9c69-90610d7ee2b3))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U4") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "74xx:74LS00") (at 240.03 23.495 0) (unit 3)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 26f46323-0293-4ec8-9e0d-6136bd3406c9)
+    (property "Reference" "U8" (at 240.03 23.495 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "74LS00" (at 240.0217 18.5961 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 240.03 23.495 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 240.03 23.495 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 6c93bfaf-1fd5-4bfa-a2ff-dea54eb77eb4))
+    (pin "2" (uuid 93783f2d-faa3-43ee-9eff-993fbe922f02))
+    (pin "3" (uuid 2ad44fa1-5eeb-46ef-a79c-52385111e21b))
+    (pin "4" (uuid 08a02a73-572d-48c8-b45a-34c1525602c3))
+    (pin "5" (uuid c4065f82-aba6-41b9-ab48-290f6791512e))
+    (pin "6" (uuid 6232175d-08fe-456d-a6f2-eda7541d8fa1))
+    (pin "10" (uuid 2f2d7b1e-19a9-4902-a5d3-99f14fa748e7))
+    (pin "8" (uuid 719793ce-6ab5-4616-992a-3762467a7975))
+    (pin "9" (uuid 8ba3352d-9a7c-4095-8557-eaf5f8787883))
+    (pin "11" (uuid dc17ff25-b364-44fb-abbb-542102ee045b))
+    (pin "12" (uuid b58cc0ca-7451-4fec-ac33-f9cdc03ec10d))
+    (pin "13" (uuid 5f4300b8-3e80-4348-b554-c2456d15b4f7))
+    (pin "14" (uuid 69f0e9b0-b129-4790-863a-6e5451e92e9e))
+    (pin "7" (uuid 9cd6b661-94ee-4ab2-9247-1e66fbbbec77))
+    (instances
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "U8") (unit 3)
         )
       )
     )
@@ -6886,7 +7436,7 @@
     (property "Value" "10nF" (at 241.554 215.2723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 243.5098 217.805 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 243.5098 217.805 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 244.475 213.995 0)
@@ -6900,7 +7450,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C29") (unit 1)
         )
@@ -6937,7 +7487,7 @@
           (reference "R38") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R3") (unit 1)
         )
@@ -6967,7 +7517,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR057") (unit 1)
         )
@@ -6989,7 +7539,7 @@
     (property "Value" "LM741" (at 352.3475 81.3531 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-8_W7.62mm" (at 360.045 78.105 0)
+    (property "Footprint" "" (at 360.045 78.105 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm741.pdf" (at 357.505 75.565 0)
@@ -7004,7 +7554,7 @@
     (pin "7" (uuid 23a79111-28fc-4dca-b301-ad2e0a2fb02b))
     (pin "8" (uuid 26b21149-27ec-4406-bbb9-7001e6fa222e))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U11") (unit 1)
         )
@@ -7068,7 +7618,7 @@
     (pin "8" (uuid 066100d1-a87b-458f-bf07-2063d12fc5f4))
     (pin "9" (uuid bf011b95-37d7-4417-ae43-e16b27592d37))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U1") (unit 1)
         )
@@ -7098,7 +7648,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR01") (unit 1)
         )
@@ -7117,7 +7667,7 @@
     (property "Reference" "TP7" (at 215.392 123.6893 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "carrier detect" (at 215.392 125.6103 0)
+    (property "Value" "zeroes?" (at 215.392 125.6103 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "TestPoint:TestPoint_Plated_Hole_D3.0mm" (at 219.075 127.635 0)
@@ -7133,7 +7683,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP8") (unit 1)
         )
@@ -7146,19 +7696,19 @@
     )
   )
 
-  (symbol (lib_id "power:GND") (at 342.9 106.045 0) (mirror y) (unit 1)
+  (symbol (lib_id "power:GND") (at 342.9 106.68 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2ef15478-b24f-47b8-a5ee-f22609e8c0ce)
-    (property "Reference" "#PWR063" (at 342.9 112.395 0)
+    (property "Reference" "#PWR063" (at 342.9 113.03 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND" (at 342.9 110.1805 0)
+    (property "Value" "GND" (at 342.9 110.8155 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 342.9 106.045 0)
+    (property "Footprint" "" (at 342.9 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 342.9 106.045 0)
+    (property "Datasheet" "" (at 342.9 106.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 2715d2ac-33f2-4631-b4ed-4936d07d59af))
@@ -7168,7 +7718,7 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR028") (unit 1)
         )
@@ -7198,7 +7748,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR034") (unit 1)
         )
@@ -7220,7 +7770,7 @@
     (property "Value" "74LS74" (at 171.3991 82.7311 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 173.355 88.9 0)
+    (property "Footprint" "" (at 173.355 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "74xx/74hc_hct74.pdf" (at 173.355 88.9 0)
@@ -7241,9 +7791,45 @@
     (pin "14" (uuid 937bee10-48c7-426b-9cc2-3eed8401074f))
     (pin "7" (uuid 3e1d4e18-e7e4-4af2-8119-d33163e27d11))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U5") (unit 2)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 368.935 99.06 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 313a9a31-305b-4a5d-963f-2d7e53beb61d)
+    (property "Reference" "C34" (at 371.475 96.52 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "100nF" (at 370.205 101.6 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 369.9002 102.87 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 368.935 99.06 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 420b6cd8-a43e-4b76-ac63-c41e6bb1045b))
+    (pin "2" (uuid 9c13778d-a768-4288-947f-4b067330056e))
+    (instances
+      (project "Audio board rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "C34") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "C20") (unit 1)
+        )
+      )
+      (project "Audio board 0003 rev.c"
+        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
+          (reference "C34") (unit 1)
         )
       )
     )
@@ -7271,7 +7857,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR015") (unit 1)
         )
@@ -7307,7 +7893,7 @@
           (reference "DS4") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS4") (unit 1)
         )
@@ -7315,6 +7901,44 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "DS4") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "74xx:74LS00") (at 31.75 151.765 0) (unit 5)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 3bf78274-d0d0-4007-992d-5202fb29858b)
+    (property "Reference" "U8" (at 30.48 150.495 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "74LS00" (at 29.21 153.035 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "" (at 31.75 151.765 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 31.75 151.765 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ad6b82d2-7d0b-486c-9f95-ea4be790e394))
+    (pin "2" (uuid 746ab444-5280-4b64-aabf-41ea7f90cc20))
+    (pin "3" (uuid f0710759-2201-4797-8f91-1cd9379ab6ba))
+    (pin "4" (uuid 21d4d4ae-afc2-486c-b57c-18df90dc495f))
+    (pin "5" (uuid 1f58f298-31de-47d6-a2f9-084581508209))
+    (pin "6" (uuid 52a22bf2-b7de-4dec-8254-8dac48011f04))
+    (pin "10" (uuid 0bb56a36-146a-43d2-bb48-c081e95915f8))
+    (pin "8" (uuid 86fa0b57-e612-481f-b438-4e0b4666dcf6))
+    (pin "9" (uuid 920083ca-a57b-4ebd-a016-c872e6718910))
+    (pin "11" (uuid 7aae58d8-a40c-4ad1-9d07-84e6f612e445))
+    (pin "12" (uuid aeb6f69e-392f-4e59-9e7e-19c30975bc73))
+    (pin "13" (uuid 996e8341-7dfd-4c45-8e8d-d470a661e483))
+    (pin "14" (uuid 4fbc6610-b177-47f9-8e9c-cba571c66ceb))
+    (pin "7" (uuid 44b1d251-cc31-45a7-be72-e45a6ac8faa6))
+    (instances
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "U8") (unit 5)
         )
       )
     )
@@ -7342,7 +7966,7 @@
           (reference "TP5") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP4") (unit 1)
         )
@@ -7377,7 +8001,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR039") (unit 1)
         )
@@ -7412,7 +8036,7 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR010") (unit 1)
         )
@@ -7429,7 +8053,7 @@
     (property "Value" "DM8602N" (at 27.305 188.595 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 31.75 187.96 0)
+    (property "Footprint" "" (at 31.75 187.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 31.75 187.96 0)
@@ -7452,7 +8076,7 @@
     (pin "16" (uuid a962a7be-16eb-45b9-acc4-c52dd5f55a27))
     (pin "8" (uuid b3523faf-ebc6-4e1f-8348-a48a8e6e95c8))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U3") (unit 3)
         )
@@ -7469,7 +8093,7 @@
     (property "Value" "10nF" (at 270.129 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 272.0848 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 272.0848 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 273.05 179.07 0)
@@ -7483,7 +8107,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C21") (unit 1)
         )
@@ -7505,7 +8129,7 @@
     (property "Value" "10nF" (at 263.779 215.2723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 265.7348 217.805 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 265.7348 217.805 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 266.7 213.995 0)
@@ -7519,7 +8143,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C31") (unit 1)
         )
@@ -7554,7 +8178,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP3") (unit 1)
         )
@@ -7576,7 +8200,7 @@
     (property "Value" "7410" (at 208.28 90.805 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 207.645 88.9 0)
+    (property "Footprint" "" (at 207.645 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS10" (at 207.645 88.9 0)
@@ -7597,7 +8221,7 @@
     (pin "14" (uuid 28f070c3-aae6-4da7-96a0-b79a718dbc56))
     (pin "7" (uuid 62206271-7fc8-4703-9e6d-9dc933324ff2))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U4") (unit 2)
         )
@@ -7605,19 +8229,19 @@
     )
   )
 
-  (symbol (lib_id "power:GND") (at 144.145 209.55 0) (unit 1)
+  (symbol (lib_id "power:GND") (at 31.75 164.465 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4b554ef3-b5f2-4523-856e-df5c1b120d14)
-    (property "Reference" "#PWR028" (at 144.145 215.9 0)
+    (property "Reference" "#PWR028" (at 31.75 170.815 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND" (at 144.145 213.6855 0)
+    (property "Value" "GND" (at 31.75 168.6005 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 144.145 209.55 0)
+    (property "Footprint" "" (at 31.75 164.465 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 144.145 209.55 0)
+    (property "Datasheet" "" (at 31.75 164.465 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid cbbd204e-45cf-4073-9c14-c3dd2d85e267))
@@ -7627,7 +8251,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR041") (unit 1)
         )
@@ -7662,7 +8286,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR045") (unit 1)
         )
@@ -7670,44 +8294,6 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR041") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:R_Pack07") (at 97.155 243.84 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 4db199f5-db13-4893-8e36-2d0ab4eb812a)
-    (property "Reference" "U8" (at 87.503 243.1963 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Value" "Unused DIP" (at 87.503 245.1173 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 109.22 243.84 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 97.155 243.84 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 13d7ae2e-8062-4908-995a-df28591c78ff))
-    (pin "10" (uuid bd5ea4a1-f9e8-4f63-a337-a0ed7f9a0a6e))
-    (pin "11" (uuid d19f26b4-2a29-42ae-bbee-7f9507642257))
-    (pin "12" (uuid 9d91e6c0-62d5-463c-bff5-6ea2bff29108))
-    (pin "13" (uuid c671c058-5bf9-4808-a274-3a5199d1e360))
-    (pin "14" (uuid 6243348c-11c2-45e6-ad72-8423ae1a56e0))
-    (pin "2" (uuid 6596d3ac-3635-4f68-9304-fc7f7fd45e11))
-    (pin "3" (uuid b6832386-4d20-44bc-a6b4-4f1cd4df8702))
-    (pin "4" (uuid af53f43d-e4c9-406d-a286-cae0440de089))
-    (pin "5" (uuid 3d179a96-88b5-4538-aec9-75a41cb97fc3))
-    (pin "6" (uuid 28a1bc96-ac59-4ad7-87c1-b7667638d373))
-    (pin "7" (uuid 1c7d432e-0c21-410e-b7d2-8dc98a3365c1))
-    (pin "8" (uuid f31a050c-29b7-4b53-a357-eb7e4b77e3c5))
-    (pin "9" (uuid ce95b0b6-ed0b-4bd7-985a-d0c94a68186d))
-    (instances
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "U8") (unit 1)
         )
       )
     )
@@ -7735,7 +8321,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR051") (unit 1)
         )
@@ -7770,7 +8356,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR014") (unit 1)
         )
@@ -7792,7 +8378,7 @@
     (property "Value" "74LS74" (at 189.1791 82.7311 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 191.135 88.9 0)
+    (property "Footprint" "" (at 191.135 88.9 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "74xx/74hc_hct74.pdf" (at 191.135 88.9 0)
@@ -7813,7 +8399,7 @@
     (pin "14" (uuid 88bac734-b8d1-4dcb-b87f-828da4125488))
     (pin "7" (uuid 91cbf04c-7290-48a3-ac2e-54a55f5ae4c4))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U5") (unit 1)
         )
@@ -7844,7 +8430,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R10") (unit 1)
         )
@@ -7874,7 +8460,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR059") (unit 1)
         )
@@ -7882,6 +8468,41 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR072") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+12V") (at 312.42 95.885 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 5616db85-a2fd-486a-a9db-807e2a7626e6)
+    (property "Reference" "#PWR038" (at 312.42 99.695 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+12V" (at 312.42 92.3831 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 312.42 95.885 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 312.42 95.885 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 4512515c-2f31-4f2c-901c-2ad053999326))
+    (instances
+      (project "Audio board rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "#PWR038") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "#PWR038") (unit 1)
+        )
+      )
+      (project "Audio board 0003 rev.c"
+        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
+          (reference "#PWR050") (unit 1)
         )
       )
     )
@@ -7909,7 +8530,7 @@
           (reference "#PWR034") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR03") (unit 1)
         )
@@ -7922,36 +8543,46 @@
     )
   )
 
-  (symbol (lib_id "power:+5V") (at 89.535 238.76 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 5e43a652-9a96-4f6c-b414-c9eb7eb5d1f2)
-    (property "Reference" "#PWR01" (at 89.535 242.57 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+5V" (at 89.535 234.6231 0)
+  (symbol (lib_id "Evan's parts:AH5012") (at 349.25 123.19 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 5cec5ce4-0957-4eab-bd79-4713ebfce9f4)
+    (property "Reference" "U7" (at 360.68 117.6401 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 89.535 238.76 0)
+    (property "Value" "AH5012" (at 360.68 119.5611 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 360.68 135.89 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 89.535 238.76 0)
+    (property "Datasheet" "" (at 361.315 143.51 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid 541982bf-4afb-498c-896f-4779fad28787))
+    (pin "1" (uuid e0ffd998-0b47-454a-bad8-65479b3e9c85))
+    (pin "10" (uuid 1b46aa54-3cbc-45d4-8a29-1789c8f0c8ef))
+    (pin "11" (uuid 1197101f-0f6c-4915-88f2-f76bc7acf1b4))
+    (pin "12" (uuid fa0b68a3-8a79-4b0e-acd5-5694fb3787d9))
+    (pin "13" (uuid 477305d7-b13f-4af2-92f4-f2d6ebdcace6))
+    (pin "14" (uuid bb22f862-3686-499e-aee9-375aec006528))
+    (pin "15" (uuid 11acc9e6-1ce9-42c1-8070-da15f5240252))
+    (pin "16" (uuid 677ed92a-8ead-4b19-9e70-c3317a4610d2))
+    (pin "2" (uuid f7c74c91-2e93-4e3d-92ca-f1b8cd81a28f))
+    (pin "3" (uuid a7c33a62-4422-4b19-97c0-d8fd62a1a2ce))
+    (pin "4" (uuid 08c6887d-2e98-465a-9d2b-b97327d85da8))
+    (pin "5" (uuid c8084cf5-402b-4d4b-b4bd-8138221880ee))
+    (pin "6" (uuid 3e8ef329-8249-423b-816e-fbfc2c31d718))
+    (pin "7" (uuid 44a9ec68-6ae1-4ed2-8c15-af4430235d0f))
+    (pin "8" (uuid 852ab973-dcf8-45a7-977b-fc1245ad8a2d))
+    (pin "9" (uuid 9b578600-0ab7-4325-add6-8e46f29b51bc))
     (instances
-      (project "Audio board rev.a"
+      (project "Audio board 0033 rev.a"
         (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "#PWR01") (unit 1)
+          (reference "U7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "#PWR022") (unit 1)
-        )
-      )
-      (project "Audio board 0003 rev.c"
-        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
-          (reference "#PWR041") (unit 1)
+          (reference "U13") (unit 1)
         )
       )
     )
@@ -7966,7 +8597,7 @@
     (property "Value" "10nF" (at 249.809 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 251.7648 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 251.7648 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 252.73 179.07 0)
@@ -7980,7 +8611,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C19") (unit 1)
         )
@@ -8015,7 +8646,7 @@
           (reference "#PWR036") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR06") (unit 1)
         )
@@ -8050,7 +8681,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR018") (unit 1)
         )
@@ -8085,7 +8716,7 @@
           (reference "#PWR038") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR020") (unit 1)
         )
@@ -8107,7 +8738,7 @@
     (property "Value" "10nF" (at 280.289 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 282.2448 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 282.2448 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 283.21 179.07 0)
@@ -8121,7 +8752,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C22") (unit 1)
         )
@@ -8143,7 +8774,7 @@
     (property "Value" "50nF" (at 232.41 116.205 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 231.775 119.0498 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 231.775 119.0498 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 235.585 120.015 0)
@@ -8157,7 +8788,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C1") (unit 1)
         )
@@ -8179,7 +8810,7 @@
     (property "Value" "100nF" (at 394.335 73.66 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 392.43 75.8698 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 392.43 75.8698 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 396.24 76.835 0)
@@ -8193,7 +8824,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C12") (unit 1)
         )
@@ -8228,7 +8859,7 @@
           (reference "#PWR038") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR025") (unit 1)
         )
@@ -8264,7 +8895,7 @@
           (reference "C21") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C13") (unit 1)
         )
@@ -8299,7 +8930,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP10") (unit 1)
         )
@@ -8334,7 +8965,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR052") (unit 1)
         )
@@ -8356,7 +8987,7 @@
     (property "Value" "100nF" (at 325.755 60.325 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 323.5452 64.135 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 323.5452 64.135 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 322.58 60.325 0)
@@ -8370,7 +9001,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C4") (unit 1)
         )
@@ -8405,7 +9036,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR02") (unit 1)
         )
@@ -8441,7 +9072,7 @@
           (reference "DS7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS1") (unit 1)
         )
@@ -8476,7 +9107,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR055") (unit 1)
         )
@@ -8511,7 +9142,7 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR029") (unit 1)
         )
@@ -8541,7 +9172,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR017") (unit 1)
         )
@@ -8576,7 +9207,7 @@
           (reference "#PWR039") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR032") (unit 1)
         )
@@ -8584,6 +9215,44 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR054") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "74xx:74LS00") (at 240.03 35.56 0) (unit 2)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 798263ca-cfff-40ff-81e2-ad273678eb2d)
+    (property "Reference" "U8" (at 240.03 35.56 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "74LS00" (at 240.0217 30.6611 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 240.03 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 240.03 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 2d7a9f26-a44b-41aa-84be-8a3d82709da5))
+    (pin "2" (uuid ad9c4d25-afbe-4ec3-8f97-e070e8235351))
+    (pin "3" (uuid 4cfb6206-07d1-496d-b03e-a246b4933f38))
+    (pin "4" (uuid 77aa05de-f0a8-4527-9421-f3ff974014da))
+    (pin "5" (uuid 9eb7bf22-c8b8-4099-991e-aefeb274bf41))
+    (pin "6" (uuid 1a433260-dcb4-4b95-bfd0-d85c227a3539))
+    (pin "10" (uuid 3e8880f0-7bc6-4ea2-986b-7cae829f7e23))
+    (pin "8" (uuid 3729e479-3bf3-4a58-959d-67d5b8641359))
+    (pin "9" (uuid 5fe1eb9c-8ae7-420d-a233-3cc7fa885084))
+    (pin "11" (uuid 84340e06-9629-473d-9789-577e6ac7fe1b))
+    (pin "12" (uuid 94094eae-a7e3-4177-bc41-fe25f7589788))
+    (pin "13" (uuid db79af07-7023-49d6-b3ab-12a016eb5623))
+    (pin "14" (uuid 4c0ad40c-7558-497e-93ec-f8b94ea61238))
+    (pin "7" (uuid d8183b14-4e88-4ee5-bfe2-455e758eb172))
+    (instances
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "U8") (unit 2)
         )
       )
     )
@@ -8611,7 +9280,7 @@
           (reference "#PWR029") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR08") (unit 1)
         )
@@ -8647,7 +9316,7 @@
           (reference "C21") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C15") (unit 1)
         )
@@ -8682,7 +9351,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR040") (unit 1)
         )
@@ -8704,7 +9373,7 @@
     (property "Value" "DM8602N" (at 236.9059 97.6235 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 234.95 86.995 0)
+    (property "Footprint" "" (at 234.95 86.995 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 234.95 86.995 0)
@@ -8727,7 +9396,7 @@
     (pin "16" (uuid 5e230fea-951f-47f7-88e9-fa542b082414))
     (pin "8" (uuid 9f647001-c129-4162-bc2d-9b8701f1d317))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U7") (unit 1)
         )
@@ -8744,7 +9413,7 @@
     (property "Value" "3300pF" (at 334.899 87.0023 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "Capacitor_THT:C_Axial_L3.8mm_D2.6mm_P12.50mm_Horizontal" (at 338.7852 81.915 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" (at 338.7852 81.915 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 337.82 85.725 0)
@@ -8758,7 +9427,7 @@
           (reference "C7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C7") (unit 1)
         )
@@ -8788,7 +9457,7 @@
           (reference "#PWR044") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR061") (unit 1)
         )
@@ -8824,7 +9493,7 @@
           (reference "C7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C5") (unit 1)
         )
@@ -8854,7 +9523,7 @@
           (reference "#PWR038") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR031") (unit 1)
         )
@@ -8889,7 +9558,7 @@
           (reference "#PWR035") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR04") (unit 1)
         )
@@ -8925,7 +9594,7 @@
           (reference "DS6") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS2") (unit 1)
         )
@@ -8961,7 +9630,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R16") (unit 1)
         )
@@ -8991,7 +9660,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR043") (unit 1)
         )
@@ -9027,7 +9696,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R2") (unit 1)
         )
@@ -9178,9 +9847,9 @@
           (reference "J1") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "P1") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
       (project "Audio board 0003 rev.c"
@@ -9213,7 +9882,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR044") (unit 1)
         )
@@ -9235,7 +9904,7 @@
     (property "Value" "10nF" (at 230.759 199.3973 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 232.7148 201.93 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 232.7148 201.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 233.68 198.12 0)
@@ -9249,7 +9918,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C24") (unit 1)
         )
@@ -9268,10 +9937,10 @@
     (property "Reference" "C34" (at 234.315 67.945 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "39nF" (at 233.045 69.85 90)
+    (property "Value" "20nF" (at 233.045 69.85 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:CP_Axial_L11.0mm_D6.0mm_P18.00mm_Horizontal" (at 232.41 72.6948 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 232.41 72.6948 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 236.22 73.66 0)
@@ -9285,7 +9954,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C2") (unit 1)
         )
@@ -9321,7 +9990,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R13") (unit 1)
         )
@@ -9338,7 +10007,7 @@
     (property "Value" "10nF" (at 290.449 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 292.4048 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 292.4048 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 293.37 179.07 0)
@@ -9352,7 +10021,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C23") (unit 1)
         )
@@ -9388,7 +10057,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R1") (unit 1)
         )
@@ -9405,7 +10074,7 @@
     (property "Value" "10nF" (at 241.554 199.3973 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 243.5098 201.93 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 243.5098 201.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 244.475 198.12 0)
@@ -9419,7 +10088,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C25") (unit 1)
         )
@@ -9441,7 +10110,7 @@
     (property "Value" "100nF" (at 219.964 215.2723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 221.9198 217.805 0)
+    (property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm" (at 221.9198 217.805 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 222.885 213.995 0)
@@ -9455,7 +10124,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C10") (unit 1)
         )
@@ -9490,7 +10159,7 @@
           (reference "#PWR041") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR07") (unit 1)
         )
@@ -9526,7 +10195,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R4") (unit 1)
         )
@@ -9556,7 +10225,7 @@
           (reference "#PWR038") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR037") (unit 1)
         )
@@ -9564,6 +10233,42 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR050") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 222.885 198.12 0) (mirror y) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid aaa9310e-5d2e-41c4-82a8-1d14b54749f6)
+    (property "Reference" "C4" (at 219.964 197.4763 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "100nF" (at 219.964 199.3973 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm" (at 221.9198 201.93 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 222.885 198.12 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 0ba96ef8-b711-4b02-a2c7-e426187fe181))
+    (pin "2" (uuid dc994222-4c80-4473-a560-e048980c995d))
+    (instances
+      (project "Audio board rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "C4") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "C8") (unit 1)
+        )
+      )
+      (project "Audio board 0003 rev.c"
+        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
+          (reference "C4") (unit 1)
         )
       )
     )
@@ -9591,7 +10296,7 @@
           (reference "#PWR02") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR013") (unit 1)
         )
@@ -9626,49 +10331,9 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR023") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "74xx:74LS161") (at 144.145 188.595 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid af13e848-9839-423f-9eff-8caa89da9427)
-    (property "Reference" "U6" (at 146.1009 170.3451 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "74161" (at 146.1009 172.2661 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 144.145 188.595 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS161" (at 144.145 188.595 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid c12f1591-2357-4fa3-b59f-dda3c98f2ed7))
-    (pin "10" (uuid 673aec6a-6e3c-4731-b7c2-b64e47dd35c5))
-    (pin "11" (uuid 8cc99499-0459-4672-8bf3-c048d5730856))
-    (pin "12" (uuid e8cbd804-757c-4fa6-a41a-a8624a6e0a3c))
-    (pin "13" (uuid d66804fb-d5ba-4180-b8cc-2793ff8e909e))
-    (pin "14" (uuid 5ea8410f-3148-472a-bdf0-3e37aaea43a2))
-    (pin "15" (uuid 2f29ca65-5573-4ece-aaf9-122804af772c))
-    (pin "16" (uuid 57abc3d4-cd95-4dff-bcab-e2468f17d6d1))
-    (pin "2" (uuid b42fed11-9dc1-4ff6-bfbd-d4cbbaaf1348))
-    (pin "3" (uuid cf71d1d9-7299-4a3e-b3b3-62d4cc48cafc))
-    (pin "4" (uuid 2a13b9a8-fcbe-470f-8dbb-38976a50b88a))
-    (pin "5" (uuid 99e47bf5-7477-408b-96f2-7b267b0daa19))
-    (pin "6" (uuid 06f39c73-24a0-4d0b-9f8a-3f22556e37aa))
-    (pin "7" (uuid c7f3ffe7-e6cf-4814-964f-53eed5621262))
-    (pin "8" (uuid 8d5c80ce-a0be-42f0-8c3e-d6cac6269349))
-    (pin "9" (uuid 063444cc-9206-48da-b3bf-6dee74d3fff9))
-    (instances
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "U6") (unit 1)
         )
       )
     )
@@ -9696,7 +10361,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP1") (unit 1)
         )
@@ -9718,7 +10383,7 @@
     (property "Value" "7410" (at 29.21 81.915 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 31.75 80.645 0)
+    (property "Footprint" "" (at 31.75 80.645 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS10" (at 31.75 80.645 0)
@@ -9739,7 +10404,7 @@
     (pin "14" (uuid 3b421f90-5622-454f-af25-07a22e22e35c))
     (pin "7" (uuid d6861df5-d161-4db4-8dcc-845e107f3aa7))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U4") (unit 4)
         )
@@ -9770,7 +10435,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R15") (unit 1)
         )
@@ -9800,7 +10465,7 @@
           (reference "#PWR039") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR021") (unit 1)
         )
@@ -9822,7 +10487,7 @@
     (property "Value" "10nF" (at 230.759 215.2723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 232.7148 217.805 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 232.7148 217.805 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 233.68 213.995 0)
@@ -9836,7 +10501,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C28") (unit 1)
         )
@@ -9910,7 +10575,7 @@
           (reference "U1") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U2") (unit 1)
         )
@@ -9932,7 +10597,7 @@
     (property "Value" "74LS74" (at 28.575 117.475 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 31.75 116.205 0)
+    (property "Footprint" "" (at 31.75 116.205 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "74xx/74hc_hct74.pdf" (at 31.75 116.205 0)
@@ -9953,59 +10618,9 @@
     (pin "14" (uuid 113f808f-bccc-4e69-bac1-92bd67286062))
     (pin "7" (uuid 29b000bc-8f4d-474c-840f-90bd5507f1b2))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U5") (unit 3)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:R_Pack08") (at 98.425 224.155 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid b5a3dc36-3c28-4a27-bd9f-3f116254034a)
-    (property "Reference" "RP1" (at 86.2331 223.5113 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Value" "Spare" (at 86.2331 225.4323 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 110.49 224.155 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 98.425 224.155 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 1675bb88-3284-4f1d-b863-305b292930b8))
-    (pin "10" (uuid 076ca4ec-fef7-443b-8da5-1af6e65f8bac))
-    (pin "11" (uuid 02e3b804-7688-4f01-83ac-d212a60ec782))
-    (pin "12" (uuid 87515879-0918-4b53-88af-925ad8b7e243))
-    (pin "13" (uuid 46baa0a8-0dbf-4c07-9740-81a17b005044))
-    (pin "14" (uuid d22c43fa-07d0-4164-992d-bedd956f97b3))
-    (pin "15" (uuid 26eb46d1-9d27-4704-8ee3-76e82382a67a))
-    (pin "16" (uuid 1f530851-c4dc-481d-b78f-09a26a244c1b))
-    (pin "2" (uuid d3e2893a-80ca-40b9-8187-b09549ad6e0c))
-    (pin "3" (uuid 3eff8f85-9be5-463e-9964-26a87dbac186))
-    (pin "4" (uuid 5c4c51f7-f226-4161-b6c2-3db0efbf2035))
-    (pin "5" (uuid d225fd03-ed26-4320-a4e0-4268762d2774))
-    (pin "6" (uuid d6e48b47-dedb-4a91-91a7-aa7151caaae9))
-    (pin "7" (uuid feaa0773-0327-48e7-946b-410a688713a0))
-    (pin "8" (uuid 294ae2c4-611a-4b96-b82d-de9818664102))
-    (pin "9" (uuid a55ddcb3-e6e8-47ac-a47b-81d08b3f8247))
-    (instances
-      (project "Audio board rev.a"
-        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "RP1") (unit 1)
-        )
-      )
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "U15") (unit 1)
-        )
-      )
-      (project "Character board 0004 rev.b"
-        (path "/cb28dba3-810b-45e4-988f-432ba6e2d266"
-          (reference "U3") (unit 1)
         )
       )
     )
@@ -10034,7 +10649,7 @@
           (reference "C7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C3") (unit 1)
         )
@@ -10064,7 +10679,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR048") (unit 1)
         )
@@ -10099,7 +10714,7 @@
           (reference "TP6") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP5") (unit 1)
         )
@@ -10134,7 +10749,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR046") (unit 1)
         )
@@ -10169,7 +10784,7 @@
           (reference "#PWR039") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR060") (unit 1)
         )
@@ -10204,7 +10819,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR035") (unit 1)
         )
@@ -10217,19 +10832,19 @@
     )
   )
 
-  (symbol (lib_id "power:+5V") (at 144.145 168.275 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+  (symbol (lib_id "power:+5V") (at 31.75 139.065 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c1e6133e-3e66-4b60-acf6-4908c9dbcbff)
-    (property "Reference" "#PWR042" (at 144.145 172.085 0)
+    (property "Reference" "#PWR042" (at 31.75 142.875 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "+5V" (at 144.145 164.7731 0)
+    (property "Value" "+5V" (at 31.75 135.5631 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 144.145 168.275 0)
+    (property "Footprint" "" (at 31.75 139.065 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 144.145 168.275 0)
+    (property "Datasheet" "" (at 31.75 139.065 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 16116e82-9698-4ec9-91b4-a28fe6c56cd2))
@@ -10239,7 +10854,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR042") (unit 1)
         )
@@ -10274,7 +10889,7 @@
           (reference "#PWR03") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR09") (unit 1)
         )
@@ -10282,41 +10897,6 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "#PWR044") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:-12V") (at 316.865 91.44 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid c5860be9-c7d5-429f-9268-aebdbcbef4e5)
-    (property "Reference" "#PWR039" (at 316.865 93.98 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "-12V" (at 316.865 95.5755 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 316.865 91.44 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 316.865 91.44 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 1e6673ed-9be1-4c0d-b5ee-3bdebf51b8a5))
-    (instances
-      (project "Audio board rev.a"
-        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "#PWR039") (unit 1)
-        )
-      )
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "#PWR038") (unit 1)
-        )
-      )
-      (project "Audio board 0003 rev.c"
-        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
-          (reference "#PWR054") (unit 1)
         )
       )
     )
@@ -10344,7 +10924,7 @@
           (reference "#PWR038") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR030") (unit 1)
         )
@@ -10379,7 +10959,7 @@
           (reference "TP7") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP2") (unit 1)
         )
@@ -10414,7 +10994,7 @@
           (reference "TP2") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "TP9") (unit 1)
         )
@@ -10449,7 +11029,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR016") (unit 1)
         )
@@ -10484,7 +11064,7 @@
           (reference "#PWR044") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR012") (unit 1)
         )
@@ -10520,7 +11100,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R11") (unit 1)
         )
@@ -10528,19 +11108,49 @@
     )
   )
 
-  (symbol (lib_id "Device:C") (at 299.72 46.99 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid d3740a52-5710-410e-919e-e506f898d0f6)
-    (property "Reference" "C4" (at 299.085 41.275 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "100nF" (at 299.085 43.815 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 303.53 46.0248 0)
+  (symbol (lib_id "power:GND") (at 375.285 116.205 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid d2cc07b5-ddf4-43dd-bdb8-dbf273d85a75)
+    (property "Reference" "#PWR063" (at 375.285 122.555 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 299.72 46.99 0)
+    (property "Value" "GND" (at 375.285 120.3405 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 375.285 116.205 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 375.285 116.205 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 2bdaa32f-dc65-423e-8cda-6ea55b9eaf3e))
+    (instances
+      (project "Audio board 0033 rev.a"
+        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
+          (reference "#PWR063") (unit 1)
+        )
+      )
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "#PWR022") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 299.72 89.535 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid d3740a52-5710-410e-919e-e506f898d0f6)
+    (property "Reference" "C4" (at 299.085 83.82 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "100nF" (at 299.085 86.36 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm" (at 303.53 88.5698 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 299.72 89.535 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 0c790c83-696a-4e1f-b1f7-5b867b74d1cd))
@@ -10551,7 +11161,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C33") (unit 1)
         )
@@ -10573,7 +11183,7 @@
     (property "Value" "LM311" (at 292.735 60.96 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-8_W7.62mm" (at 299.72 59.055 0)
+    (property "Footprint" "" (at 299.72 59.055 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://www.st.com/resource/en/datasheet/lm311.pdf" (at 299.72 59.055 0)
@@ -10588,7 +11198,7 @@
     (pin "7" (uuid 71edacbe-17ef-4e74-8fd9-04d4984698e3))
     (pin "8" (uuid ea59a1ff-027e-4e07-8c8a-bc0d11669773))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U12") (unit 1)
         )
@@ -10605,7 +11215,7 @@
     (property "Value" "DM8602N" (at 404.5459 138.2635 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 402.59 127.635 0)
+    (property "Footprint" "" (at 402.59 127.635 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 402.59 127.635 0)
@@ -10628,7 +11238,7 @@
     (pin "16" (uuid 301aab68-2070-4ec9-b8a5-3257d302184e))
     (pin "8" (uuid 53bf1f76-2ecc-4987-9443-07ef420bb5c5))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U3") (unit 2)
         )
@@ -10659,7 +11269,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R5") (unit 1)
         )
@@ -10689,7 +11299,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR036") (unit 1)
         )
@@ -10702,19 +11312,19 @@
     )
   )
 
-  (symbol (lib_id "74xx:74LS10") (at 177.8 180.975 0) (mirror x) (unit 3)
-    (in_bom yes) (on_board yes) (dnp no)
+  (symbol (lib_id "74xx:74LS10") (at 403.225 106.045 0) (unit 3)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid dae957be-72db-4316-b4aa-1b0ce0bfaceb)
-    (property "Reference" "U4" (at 177.7917 187.7949 0)
+    (property "Reference" "U4" (at 403.2167 99.2251 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "7410" (at 177.7917 185.8739 0)
+    (property "Value" "7410" (at 403.2167 101.1461 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 177.8 180.975 0)
+    (property "Footprint" "" (at 403.225 106.045 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS10" (at 177.8 180.975 0)
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS10" (at 403.225 106.045 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 4a94c6eb-d1da-489a-b595-3ef35b08eb4c))
@@ -10732,7 +11342,7 @@
     (pin "14" (uuid 6fa5e959-9948-4441-834e-14c888b58d2d))
     (pin "7" (uuid 91c74338-613b-4b6d-899b-2c87db65b7cc))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U4") (unit 3)
         )
@@ -10762,7 +11372,7 @@
           (reference "#PWR037") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR05") (unit 1)
         )
@@ -10797,7 +11407,7 @@
           (reference "#PWR063") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR027") (unit 1)
         )
@@ -10814,7 +11424,7 @@
     (property "Value" "10nF" (at 252.349 199.3973 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 254.3048 201.93 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 254.3048 201.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 255.27 198.12 0)
@@ -10828,7 +11438,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C26") (unit 1)
         )
@@ -10850,7 +11460,7 @@
     (property "Value" "DM8602N" (at 271.1959 97.6235 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 269.24 86.995 0)
+    (property "Footprint" "" (at 269.24 86.995 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 269.24 86.995 0)
@@ -10873,7 +11483,7 @@
     (pin "16" (uuid 301aab68-2070-4ec9-b8a5-3257d302184f))
     (pin "8" (uuid 53bf1f76-2ecc-4987-9443-07ef420bb5c6))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U7") (unit 2)
         )
@@ -10903,7 +11513,7 @@
           (reference "#PWR039") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR026") (unit 1)
         )
@@ -10939,7 +11549,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R8") (unit 1)
         )
@@ -10956,7 +11566,7 @@
     (property "Value" "DM8602N" (at 27.305 224.79 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Package_DIP:DIP-16_W7.62mm" (at 31.75 224.155 0)
+    (property "Footprint" "" (at 31.75 224.155 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (at 31.75 224.155 0)
@@ -10979,7 +11589,7 @@
     (pin "16" (uuid e84ffb4a-6de9-47b7-899c-acaf8097b015))
     (pin "8" (uuid 9f370e3e-34b2-457c-80c3-edd470929aef))
     (instances
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "U7") (unit 3)
         )
@@ -10996,7 +11606,7 @@
     (property "Value" "10nF" (at 229.489 180.3473 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (at 231.4448 182.88 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L9.0mm_W2.5mm_P7.50mm_MKT" (at 231.4448 182.88 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 232.41 179.07 0)
@@ -11010,7 +11620,7 @@
           (reference "C34") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C17") (unit 1)
         )
@@ -11045,7 +11655,7 @@
           (reference "#PWR075") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR011") (unit 1)
         )
@@ -11080,7 +11690,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR058") (unit 1)
         )
@@ -11116,9 +11726,47 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R14") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "74xx:74LS00") (at 258.445 26.035 0) (unit 4)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid f3b59ffc-cdec-49a0-9535-f4f466b93e03)
+    (property "Reference" "U8" (at 258.445 26.035 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "74LS00" (at 258.4367 21.1361 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 258.445 26.035 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74ls00" (at 258.445 26.035 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ce063160-b761-482e-9ace-c4891d9f66ac))
+    (pin "2" (uuid 76543bd7-30cf-42e5-922e-eabdd993e0b7))
+    (pin "3" (uuid 56e210ea-5e80-43d0-bcf1-a5da1c70f07e))
+    (pin "4" (uuid a9374482-9f53-4b46-b4a2-18ac82b4ed5c))
+    (pin "5" (uuid 629d79a8-6659-4286-aae5-ae5acac565e3))
+    (pin "6" (uuid 2136bb44-8e43-4b01-b999-67eaadbdb3e1))
+    (pin "10" (uuid 68df33c0-3926-4c4f-80de-97e515858cbf))
+    (pin "8" (uuid 65cd631d-d6b9-4d60-9edd-35ed9f6faf1d))
+    (pin "9" (uuid 54933d79-ad8a-490d-b87f-81b552655890))
+    (pin "11" (uuid 9447384a-8473-4ae6-859e-90096b398e1c))
+    (pin "12" (uuid ad7a8776-f329-43d4-af00-837f9139e3f7))
+    (pin "13" (uuid a3d3c07d-da31-4064-b8e9-c9edaa5fb104))
+    (pin "14" (uuid 297523fe-f9c3-4131-8302-e24be4bc1bf0))
+    (pin "7" (uuid a4fd4315-2373-41b6-a1ef-b1fc89e7d72e))
+    (instances
+      (project "Transport board 0020 rev.1982"
+        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
+          (reference "U8") (unit 4)
         )
       )
     )
@@ -11146,7 +11794,7 @@
           (reference "#PWR028") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR049") (unit 1)
         )
@@ -11181,7 +11829,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR054") (unit 1)
         )
@@ -11217,7 +11865,7 @@
           (reference "DS5") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "DS3") (unit 1)
         )
@@ -11225,41 +11873,6 @@
       (project "Audio board 0003 rev.c"
         (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
           (reference "DS5") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 104.775 248.92 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid fafcfcfd-e495-41bd-b31e-c08f2e2a79cc)
-    (property "Reference" "#PWR03" (at 104.775 255.27 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 104.775 253.0555 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 104.775 248.92 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 104.775 248.92 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 3a042c08-69c5-4216-9620-8f38d48bbb14))
-    (instances
-      (project "Audio board rev.a"
-        (path "/439a8b7c-4c76-4152-9c42-79901501747e"
-          (reference "#PWR03") (unit 1)
-        )
-      )
-      (project "Transpoart board 0020 rev.b"
-        (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
-          (reference "#PWR062") (unit 1)
-        )
-      )
-      (project "Audio board 0003 rev.c"
-        (path "/e7379eb2-1111-467a-a3bc-644d9ceb4d91"
-          (reference "#PWR044") (unit 1)
         )
       )
     )
@@ -11288,7 +11901,7 @@
           (reference "C21") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "C14") (unit 1)
         )
@@ -11323,7 +11936,7 @@
           (reference "#PWR042") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "#PWR019") (unit 1)
         )
@@ -11359,7 +11972,7 @@
           (reference "R37") (unit 1)
         )
       )
-      (project "Transpoart board 0020 rev.b"
+      (project "Transport board 0020 rev.1982"
         (path "/5c5af99d-07da-478e-8396-c309775c9fe5"
           (reference "R9") (unit 1)
         )

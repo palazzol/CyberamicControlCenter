@@ -45,7 +45,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.5
+          "min_clearance": 0.0
         }
       },
       "diff_pair_dimensions": [
@@ -421,7 +421,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Transpoart board 0020 rev.b.kicad_pro",
+    "filename": "Transport board 0020 rev.d.kicad_pro",
     "version": 1
   },
   "net_settings": {
