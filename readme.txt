@@ -4,7 +4,7 @@ We're working on collecting as much information on how the original Pizza Time T
 Where did the original voice mic plug in?
 
 Did the original R2R system use 4-track audio?
-  If so where was the data track?
+	If so where was the data track?
 Did the SVHS system use 4-track audio?
 
 Backplane - did any versions have J19 added?  Otherwise how to they do audio out in all the stores?
@@ -21,12 +21,12 @@ Are there more board revisions beyond what we have? looking for:
 		Did the original transport card take a external uart clock? per the schematic
 	Transport board 0020 rev.c
 	CPU board 0001 rev.d and beyond 
-  Random movements board?
+	Random movements board?
 
 where are any other rom variants? how many are there and can we get copies?
-  How do the other ROMs handle the buttons on the front panel?
-  Are there really different tones encoded between tracks and the code looks for a specific one or does it just count to keep track of where it is?
-  Did subsequent ROMs drop support for the original 0003 and 0004 audio/character card combo?
+	How do the other ROMs handle the buttons on the front panel?
+	Are there really different tones encoded between tracks and the code looks for a specific one or does it just count to keep track of where it is?
+	Did subsequent ROMs drop support for the original 0003 and 0004 audio/character card combo?
 
 Any more un-scanned documentation?
 	Are there any more schematics? 
@@ -35,7 +35,7 @@ Any more un-scanned documentation?
 more show tapes on original media?
 	more shows decoded?
 		what are the formats for the decoding?
-    Is there any metadata they missed like potnetially more tracks?
+	Is there any metadata they missed like potnetially more tracks?
 
 who else to talk to on this subject?
 
