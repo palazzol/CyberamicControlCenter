@@ -22,6 +22,7 @@ Are there more board revisions beyond what we have? looking for:
 	Transport board 0020 rev.c
 	CPU board 0001 rev.d and beyond 
 	Random movements board?
+	Board 0002?
 
 where are any other rom variants? how many are there and can we get copies?
 	How do the other ROMs handle the buttons on the front panel?
