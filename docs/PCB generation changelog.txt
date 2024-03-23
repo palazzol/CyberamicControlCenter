@@ -6,9 +6,10 @@ audio
 		baseline based on what we have now
 		
 	audio board 0033 rev a
-		added mux controloled by CA2/CB2
+		added mux controlled by CA2/CB2
 		added mux-ed audio out
-		removed two of the individual AGC'd but nit mux-ed channels
+		removed two of the individual AGC'd but not muxed channels
+		amps from previous revision used for muxed output channel
 		the logo got rotated and moved
 		
 character
@@ -51,6 +52,7 @@ light
 		removes all 12v and -12v components including test points
 		two extra bits for a total of 16
 		extra bits use two unused gates of the 7406, not another uln2003a
+		has the 50 pin connector for lights, not the character connector
 		removed spare sockets and relocated components
 		
 		
@@ -63,16 +65,16 @@ light
 		
 transport
 	
-	Transpoart board 0020 rev.a (speculation)
+	Transport board 0020 rev.a (speculation)
 		the baseline for this series of boards is rev.b but the 1982 paper schematic has some clues
 		U8 was probably a nand gate for sending serial data out
 			this was potentially going to be 9600 baud, but it seems to always have been 4800 in production
 		
-	Transpoart board 0020 rev.b
+	Transport board 0020 rev.b
 		removed data out nand gate
 		otherwise baseline for this series
 		
-	Transpoart board 0020 rev.d
-		added AH5012 to mute incoming data during fast forward and rewind
+	Transport board 0020 rev.d
+		added AH5012 to attenuate incoming data during fast forward and rewind
 		this was backported to at least one older transport audio card rev.b
 		
