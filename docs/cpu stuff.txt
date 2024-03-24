@@ -1,0 +1,5 @@
+They use this thing like it's an atari 2600
+
+	no address lines above A12 used
+	external interrupt hooked up on the cpu and transport board, but the backplane doesn't even connect them
+	6532s for expansion including all the ram
