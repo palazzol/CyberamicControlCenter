@@ -78,3 +78,15 @@ transport
 		added AH5012 to attenuate incoming data during fast forward and rewind
 		this was backported to at least one older transport audio card rev.b
 		
+cpu
+
+	CPU board 0001 rev.a
+		the baseline for this series of boards
+		The schematic has inconsistencies with the copper layer on the board
+		Two connections have to be made with jumpers (my version adds them in the copper and notes it in silkscreen)
+		One connection looks like it was pulled up (mine keeps the via but not the trace)
+		The ground net is not fully connected (I didn't change this, it should still work on the backplane that joins it)
+	
+	CPU board 0001 rev.b
+		This fixes the two jumpers and one cut track from rev.a
+		other things I haven't checked yet
