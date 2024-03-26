@@ -4374,12 +4374,11 @@
   (no_connect (at 196.215 203.835) (uuid 69d73fe5-6da2-4883-a406-cfbc2dfd400f))
   (no_connect (at 170.815 203.835) (uuid 6bbfd326-64e8-4a28-a3c8-25e003ce159e))
   (no_connect (at 419.1 185.42) (uuid 6d2ab5e4-b351-47e1-9417-dab054ad9a5d))
-  (no_connect (at 314.96 31.75) (uuid 6fcc7937-612f-4c38-adee-bb00909896f5))
   (no_connect (at 257.175 204.47) (uuid 7178e54c-7ddd-4578-8836-0a85aed73266))
   (no_connect (at 269.875 194.31) (uuid 726177d4-764c-4ec8-a8fe-d4e0965ad5d3))
   (no_connect (at 31.75 152.4) (uuid 741447c6-89b5-450f-a49b-8639c00bedb5))
-  (no_connect (at 330.2 31.75) (uuid 74cb4c0b-f046-4174-815c-794897774aef))
   (no_connect (at 44.45 142.24) (uuid 758bf9a5-d5bd-4091-aef5-2c275c128655))
+  (no_connect (at 326.39 23.495) (uuid 7735616d-5330-406e-8c69-b32a3db9e50a))
   (no_connect (at 168.275 203.835) (uuid 784a0178-b5e0-4d1b-97d5-f7f457e5c40a))
   (no_connect (at 231.775 204.47) (uuid 78d05b30-1a6a-4de7-b4d4-c99e0b477a87))
   (no_connect (at 262.255 204.47) (uuid 7b536383-529e-43e3-96ab-896c98b3c3f3))
@@ -4436,6 +4435,7 @@
   (no_connect (at 419.1 181.61) (uuid e1a42304-e858-4cb8-921a-55d15b37dd46))
   (no_connect (at 44.45 175.26) (uuid e2bbb837-3a76-41e3-8f4d-bb564fd00977))
   (no_connect (at 175.895 193.675) (uuid e35171bd-0413-4fee-bcf0-eafa3b123413))
+  (no_connect (at 311.15 23.495) (uuid e3ca8d53-7059-4fe1-ba5b-16d803590ad4))
   (no_connect (at 178.435 193.675) (uuid e7ec9e24-ff05-4394-b804-5e540fa4b856))
   (no_connect (at 44.45 106.68) (uuid ea1ff6f8-8f5b-4d81-9306-b7dbfb3c0b2d))
   (no_connect (at 189.23 34.29) (uuid edfe542d-8370-4b22-95dc-88875c0474db))
@@ -5865,7 +5865,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 9019fbc0-6ba1-4ebc-8e77-cef2ea178440)
   )
-  (text "10v" (at 80.01 161.925 0)
+  (text "16v" (at 80.01 161.925 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid c4e3ee28-02b5-41a0-9663-fd0a475da465)
   )
@@ -7880,19 +7880,19 @@
     )
   )
 
-  (symbol (lib_id "74xx:74LS14") (at 322.58 31.75 0) (unit 6)
+  (symbol (lib_id "74xx:74LS14") (at 318.77 23.495 0) (unit 6)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0016a2e2-1526-43ed-8e45-f30279d5e307)
-    (property "Reference" "U6" (at 322.58 24.9301 0)
+    (property "Reference" "U6" (at 318.77 16.6751 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "7414" (at 322.58 26.8511 0)
+    (property "Value" "7414" (at 318.77 18.5961 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 322.58 31.75 0)
+    (property "Footprint" "Package_DIP:DIP-14_W7.62mm" (at 318.77 23.495 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS14" (at 322.58 31.75 0)
+    (property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS14" (at 318.77 23.495 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 3c5189c6-d502-4f41-936e-cce7ca6a6bc3))
@@ -7910,7 +7910,7 @@
     (pin "14" (uuid 85b4d26a-f2e0-4da0-85e8-eb91e70b7243))
     (pin "7" (uuid af15490e-f638-4dfe-8a67-bb19dcece978))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 6)
         )
@@ -7945,7 +7945,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR053") (unit 1)
         )
@@ -7985,7 +7985,7 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR02") (unit 1)
         )
@@ -8030,7 +8030,7 @@
     (pin "8" (uuid b518a308-b88d-4001-a6b2-eb99929b6557))
     (pin "9" (uuid 43c03e7c-737a-47e0-b625-2cffac52f74c))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "RP1") (unit 1)
         )
@@ -8065,7 +8065,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR024") (unit 1)
         )
@@ -8105,7 +8105,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR078") (unit 1)
         )
@@ -8146,7 +8146,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C10") (unit 1)
         )
@@ -8187,7 +8187,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C12") (unit 1)
         )
@@ -8227,7 +8227,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR076") (unit 1)
         )
@@ -8267,7 +8267,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR077") (unit 1)
         )
@@ -8307,7 +8307,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR068") (unit 1)
         )
@@ -8347,7 +8347,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR046") (unit 1)
         )
@@ -8388,7 +8388,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R7") (unit 1)
         )
@@ -8423,7 +8423,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP6") (unit 1)
         )
@@ -8463,7 +8463,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR054") (unit 1)
         )
@@ -8518,7 +8518,7 @@
           (reference "U15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U1") (unit 1)
         )
@@ -8558,7 +8558,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP2") (unit 1)
         )
@@ -8599,7 +8599,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C11") (unit 1)
         )
@@ -8642,7 +8642,7 @@
     (pin "14" (uuid 6ee56f4e-aec8-46d3-a327-f962b75abad0))
     (pin "7" (uuid 7149af2a-eea0-4fc4-bbe1-9b34b2a78f86))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 5)
         )
@@ -8682,7 +8682,7 @@
     (pin "8" (uuid 1e60392d-e198-4db7-9436-483acc6749a3))
     (pin "9" (uuid b6036e73-01a1-4436-ad39-6fd1f72b5fe1))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U17") (unit 1)
         )
@@ -8718,7 +8718,7 @@
           (reference "DS4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS4") (unit 1)
         )
@@ -8758,7 +8758,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR048") (unit 1)
         )
@@ -8798,7 +8798,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR023") (unit 1)
         )
@@ -8839,7 +8839,7 @@
           (reference "C15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C7") (unit 1)
         )
@@ -8884,7 +8884,7 @@
     (pin "8" (uuid a4828097-0884-437d-82b2-a080cf016c68))
     (pin "9" (uuid 962d1653-11c9-47cb-b41a-e00784ca5693))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U11") (unit 1)
         )
@@ -8919,7 +8919,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR087") (unit 1)
         )
@@ -8959,7 +8959,7 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR041") (unit 1)
         )
@@ -9000,7 +9000,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C15") (unit 1)
         )
@@ -9041,7 +9041,7 @@
           (reference "DS3") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS3") (unit 1)
         )
@@ -9082,7 +9082,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R3") (unit 1)
         )
@@ -9117,7 +9117,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR013") (unit 1)
         )
@@ -9157,7 +9157,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR020") (unit 1)
         )
@@ -9200,7 +9200,7 @@
     (pin "14" (uuid 7ec87ce7-58f4-4876-96b0-603481a65592))
     (pin "7" (uuid 9682f2eb-054b-49e0-8fc7-0711d8771d98))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U9") (unit 5)
         )
@@ -9225,7 +9225,7 @@
     )
     (pin "1" (uuid a50a793d-5a78-4cbd-a5bb-4f0bb29de82c))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR039") (unit 1)
         )
@@ -9260,7 +9260,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR036") (unit 1)
         )
@@ -9303,7 +9303,7 @@
     (pin "14" (uuid 6f3d9dca-1711-41c3-a023-8fa6cc018949))
     (pin "7" (uuid a6c59670-316f-4099-bf66-7b65b5b25075))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U10") (unit 2)
         )
@@ -9329,7 +9329,7 @@
     (pin "1" (uuid 49cc354d-4595-440e-af0e-a94712cec8af))
     (pin "2" (uuid fdae496f-9e68-4698-b8dd-a15ca8bc7b0e))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "Y1") (unit 1)
         )
@@ -9367,7 +9367,7 @@
     (pin "14" (uuid a12a3460-36bb-4138-b4ce-9cef3af36972))
     (pin "7" (uuid 471f87f9-753a-425b-bcd9-a781810b4397))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U9") (unit 1)
         )
@@ -9402,7 +9402,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR066") (unit 1)
         )
@@ -9447,7 +9447,7 @@
     (pin "8" (uuid cd100a2c-bbe2-45fc-9412-b5cd1f11fb4b))
     (pin "9" (uuid 7156939f-d1ee-4121-81d0-afbc4dae2a55))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U15") (unit 1)
         )
@@ -9485,7 +9485,7 @@
     (pin "14" (uuid 918c8c89-6171-4807-9b60-76592be3c884))
     (pin "7" (uuid 7f93a61a-6a2b-4955-a311-a1d6b5d4e20a))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 3)
         )
@@ -9523,7 +9523,7 @@
     (pin "14" (uuid 4fcf00fa-7a58-4a02-861f-19e1ccb7cb3b))
     (pin "7" (uuid ef55def5-d745-48e8-9eb7-d9531f6955c3))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 7)
         )
@@ -9558,7 +9558,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR033") (unit 1)
         )
@@ -9603,7 +9603,7 @@
     (pin "8" (uuid a25e52c6-2c82-4722-afb7-5a68c46e9396))
     (pin "9" (uuid de63fef7-e253-422e-8d1a-937ff324ce66))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U16") (unit 1)
         )
@@ -9638,7 +9638,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR075") (unit 1)
         )
@@ -9669,7 +9669,7 @@
     (pin "1" (uuid 4efa97d1-cad3-4e90-a5cd-7e49bfe42b8f))
     (pin "2" (uuid feaee257-c85e-461e-b9f4-ede0909bf280))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C2") (unit 1)
         )
@@ -9704,7 +9704,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP1") (unit 1)
         )
@@ -9744,7 +9744,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR071") (unit 1)
         )
@@ -9787,7 +9787,7 @@
     (pin "14" (uuid 918c8c89-6171-4807-9b60-76592be3c885))
     (pin "7" (uuid 7f93a61a-6a2b-4955-a311-a1d6b5d4e20b))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 3)
         )
@@ -9822,7 +9822,7 @@
           (reference "#PWR02") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR08") (unit 1)
         )
@@ -9862,7 +9862,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP5") (unit 1)
         )
@@ -9905,7 +9905,7 @@
     (pin "14" (uuid 203714a3-4258-4b01-bece-222e2f72e9a7))
     (pin "7" (uuid a54cb905-76bc-44b3-b80b-6c85b54711d8))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U9") (unit 3)
         )
@@ -9940,7 +9940,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR088") (unit 1)
         )
@@ -9980,7 +9980,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR034") (unit 1)
         )
@@ -10020,7 +10020,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR080") (unit 1)
         )
@@ -10063,7 +10063,7 @@
     (pin "14" (uuid f8c5be66-f6e8-4357-b8be-37e9a7f74148))
     (pin "7" (uuid a82c3566-b05e-4942-af6f-7d3693f1b4d9))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 5)
         )
@@ -10098,7 +10098,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP9") (unit 1)
         )
@@ -10138,7 +10138,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR051") (unit 1)
         )
@@ -10169,7 +10169,7 @@
     (pin "1" (uuid 44301eb2-f7cc-47a8-9dbc-ea4ca6dea948))
     (pin "2" (uuid afe98984-c60d-417c-a047-50f0dd392bd0))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "W1") (unit 1)
         )
@@ -10204,7 +10204,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR050") (unit 1)
         )
@@ -10244,7 +10244,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR043") (unit 1)
         )
@@ -10299,7 +10299,7 @@
           (reference "U15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U2") (unit 1)
         )
@@ -10339,7 +10339,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR061") (unit 1)
         )
@@ -10384,7 +10384,7 @@
     (pin "8" (uuid bd363524-92fd-4190-808c-366ad3d6ab75))
     (pin "9" (uuid ab29b6a4-71df-4003-ad42-f31ac6d7d2fe))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U14") (unit 1)
         )
@@ -10424,7 +10424,7 @@
     (pin "8" (uuid c6ca29f6-dabb-4eff-b6ff-d9534235b626))
     (pin "9" (uuid 2fb7c8c7-7aba-45f9-a2d1-dd9b81b5ee29))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "RP2") (unit 1)
         )
@@ -10462,7 +10462,7 @@
     (pin "14" (uuid 865037c2-6c9a-4b73-8435-0366dc7c729b))
     (pin "7" (uuid 64f0f762-78f5-4b33-af85-1e193f8c5387))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 6)
         )
@@ -10497,7 +10497,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR056") (unit 1)
         )
@@ -10542,7 +10542,7 @@
     (pin "8" (uuid ba1ead5b-9f0b-4f4c-ac26-c59ce146f5b6))
     (pin "9" (uuid 1ed09e99-04c1-4714-83ef-396373a708a7))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U5") (unit 1)
         )
@@ -10578,7 +10578,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R8") (unit 1)
         )
@@ -10616,7 +10616,7 @@
     (pin "14" (uuid e9922cc9-3404-42b9-abaf-db0e1ab59781))
     (pin "7" (uuid d1ea9d1f-5c17-40cc-84be-9c101d33e9bc))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 2)
         )
@@ -10651,7 +10651,7 @@
           (reference "#PWR03") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR09") (unit 1)
         )
@@ -10691,7 +10691,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR084") (unit 1)
         )
@@ -10728,7 +10728,7 @@
     (pin "1" (uuid 606eb4e5-331a-461d-b51d-f0384150aa7f))
     (pin "2" (uuid a9d46908-e26a-43a2-ba60-0f2a47e633cc))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR4") (unit 1)
         )
@@ -10763,7 +10763,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR017") (unit 1)
         )
@@ -10803,7 +10803,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR064") (unit 1)
         )
@@ -10856,7 +10856,7 @@
     (pin "8" (uuid 753620e5-f35d-4e6d-905e-6a247650da8a))
     (pin "9" (uuid d4fd4815-9059-4b9c-a1c1-84a247ef0a5f))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U21") (unit 1)
         )
@@ -10892,7 +10892,7 @@
           (reference "DS1") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS1") (unit 1)
         )
@@ -10935,7 +10935,7 @@
     (pin "14" (uuid 1c6b3424-41cc-4637-ac70-d5137edd7fcb))
     (pin "7" (uuid 73f5bbce-cf96-447a-9abf-ed41a741e74a))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U10") (unit 4)
         )
@@ -10970,7 +10970,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR067") (unit 1)
         )
@@ -11013,7 +11013,7 @@
     (pin "14" (uuid f0f9193b-6dd1-45f3-b772-432b6d9e1eee))
     (pin "7" (uuid f3a436f4-70aa-42a4-99cb-2dd3e6df8c20))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U10") (unit 3)
         )
@@ -11049,7 +11049,7 @@
           (reference "DS6") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS8") (unit 1)
         )
@@ -11079,7 +11079,7 @@
     )
     (pin "1" (uuid 1fc46ae9-593f-45e1-9f7a-6d6bb0dbd388))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR037") (unit 1)
         )
@@ -11117,7 +11117,7 @@
     (pin "14" (uuid 6ee56f4e-aec8-46d3-a327-f962b75abad1))
     (pin "7" (uuid 7149af2a-eea0-4fc4-bbe1-9b34b2a78f87))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 5)
         )
@@ -11152,7 +11152,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR059") (unit 1)
         )
@@ -11207,7 +11207,7 @@
           (reference "U15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U4") (unit 1)
         )
@@ -11248,7 +11248,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R9") (unit 1)
         )
@@ -11286,7 +11286,7 @@
     (pin "14" (uuid 918c8c89-6171-4807-9b60-76592be3c886))
     (pin "7" (uuid 7f93a61a-6a2b-4955-a311-a1d6b5d4e20c))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 3)
         )
@@ -11321,7 +11321,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR05") (unit 1)
         )
@@ -11362,7 +11362,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C9") (unit 1)
         )
@@ -11402,7 +11402,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR089") (unit 1)
         )
@@ -11445,7 +11445,7 @@
     (pin "14" (uuid 3234e05a-8292-4921-9d03-bb4fd7277fe6))
     (pin "7" (uuid 76bca861-cf64-4408-b87c-8499f64115ff))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U9") (unit 4)
         )
@@ -11480,7 +11480,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR045") (unit 1)
         )
@@ -11523,7 +11523,7 @@
     (pin "14" (uuid 086ffcce-0396-46cc-8693-0e96449e2b59))
     (pin "7" (uuid 55838274-1fbf-4b09-aaaf-357d15ae74c3))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 4)
         )
@@ -11558,7 +11558,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP4") (unit 1)
         )
@@ -11598,7 +11598,7 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR011") (unit 1)
         )
@@ -11639,7 +11639,7 @@
           (reference "C15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C3") (unit 1)
         )
@@ -11679,7 +11679,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR049") (unit 1)
         )
@@ -11720,7 +11720,7 @@
           (reference "DS5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS7") (unit 1)
         )
@@ -11765,7 +11765,7 @@
     (pin "8" (uuid 2d34247f-50ea-4f66-ba4f-f566aa53474d))
     (pin "9" (uuid c7da7369-c45a-4a38-80bb-01529fe800a2))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U23") (unit 1)
         )
@@ -11800,7 +11800,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR018") (unit 1)
         )
@@ -11840,7 +11840,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR035") (unit 1)
         )
@@ -11883,7 +11883,7 @@
     (pin "14" (uuid 865037c2-6c9a-4b73-8435-0366dc7c729c))
     (pin "7" (uuid 64f0f762-78f5-4b33-af85-1e193f8c5388))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 6)
         )
@@ -11947,7 +11947,7 @@
     (pin "7" (uuid cb3569d2-2df6-4af5-8db7-a22315b526b6))
     (pin "9" (uuid fa71224a-63f4-4ea2-a149-97767caa7393))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U25") (unit 1)
         )
@@ -11985,7 +11985,7 @@
     (pin "14" (uuid 58ea7047-3837-4678-929b-f0ee6845cd44))
     (pin "7" (uuid ecbbfd65-7dd1-48e0-a89e-c08b8e961584))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 7)
         )
@@ -12021,7 +12021,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C14") (unit 1)
         )
@@ -12061,7 +12061,7 @@
           (reference "#PWR06") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR012") (unit 1)
         )
@@ -12104,7 +12104,7 @@
     (pin "14" (uuid 086ffcce-0396-46cc-8693-0e96449e2b5a))
     (pin "7" (uuid 55838274-1fbf-4b09-aaaf-357d15ae74c4))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 4)
         )
@@ -12139,7 +12139,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR028") (unit 1)
         )
@@ -12182,7 +12182,7 @@
     (pin "14" (uuid 24a42048-22ce-42b0-8966-82562b7c4fe7))
     (pin "7" (uuid 0157727c-50b1-4ec3-b417-22dc9f3c85d3))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U10") (unit 5)
         )
@@ -12209,7 +12209,7 @@
     (pin "2" (uuid cd7e2ea2-8153-45a0-93aa-b481bcee0934))
     (pin "3" (uuid 715b97f4-9fd8-4849-a13e-1ae318ec588b))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U7") (unit 1)
         )
@@ -12247,7 +12247,7 @@
     (pin "14" (uuid 709c19f5-9f6b-4fae-91f1-3e939f227401))
     (pin "7" (uuid ee79123f-f96a-4476-bfa5-1d0e1ccfffc4))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 2)
         )
@@ -12285,7 +12285,7 @@
     (pin "14" (uuid 66152a13-a3af-47ff-aab1-38530c9088b2))
     (pin "7" (uuid 0a27f91e-392f-4872-bfda-f855c3cfa410))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 3)
         )
@@ -12320,7 +12320,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR026") (unit 1)
         )
@@ -12360,7 +12360,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR019") (unit 1)
         )
@@ -12400,7 +12400,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR03") (unit 1)
         )
@@ -12437,7 +12437,7 @@
     (pin "1" (uuid d6d02c43-de50-4392-93d8-295301623a63))
     (pin "2" (uuid 9c96364b-a2f2-4f7c-b9b5-510d8d02fa03))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR3") (unit 1)
         )
@@ -12475,7 +12475,7 @@
     (pin "14" (uuid b53601fd-6e87-4436-8bdc-b48f130538e4))
     (pin "7" (uuid c8569218-9173-4929-9524-af8ba591b653))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 1)
         )
@@ -12510,7 +12510,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP7") (unit 1)
         )
@@ -12553,7 +12553,7 @@
     (pin "14" (uuid 74831a4a-b4fd-496d-8a41-e3041884109d))
     (pin "7" (uuid 70e3c65e-4865-4ec9-a523-7d83c702d8c6))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 1)
         )
@@ -12588,7 +12588,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR057") (unit 1)
         )
@@ -12628,7 +12628,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR074") (unit 1)
         )
@@ -12671,7 +12671,7 @@
     (pin "14" (uuid b53601fd-6e87-4436-8bdc-b48f130538e5))
     (pin "7" (uuid c8569218-9173-4929-9524-af8ba591b654))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 1)
         )
@@ -12696,7 +12696,7 @@
     )
     (pin "1" (uuid 588ade0e-ee68-4606-9db4-1e7db8285d14))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR038") (unit 1)
         )
@@ -12732,7 +12732,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C8") (unit 1)
         )
@@ -12777,7 +12777,7 @@
     (pin "8" (uuid f119597b-9576-48ae-9aff-564a0e76d53d))
     (pin "9" (uuid 2d91507d-ab0d-4dfa-a663-0097a6e6b762))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U24") (unit 1)
         )
@@ -12815,7 +12815,7 @@
     (pin "14" (uuid 0df66366-c66d-4e6d-a565-4fb41bcadc7a))
     (pin "7" (uuid 8c376bbc-b765-4512-a265-945bb049dae5))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 7)
         )
@@ -12851,7 +12851,7 @@
           (reference "DS5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS5") (unit 1)
         )
@@ -12891,7 +12891,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR058") (unit 1)
         )
@@ -12932,7 +12932,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C1") (unit 1)
         )
@@ -12972,7 +12972,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR027") (unit 1)
         )
@@ -13012,7 +13012,7 @@
           (reference "#PWR01") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR01") (unit 1)
         )
@@ -13055,7 +13055,7 @@
     (pin "14" (uuid c2470477-0808-4ac3-90e4-8fcffe9f9f65))
     (pin "7" (uuid ca33ec6a-a391-4b1f-bc26-8c0f5d8f7b76))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U6") (unit 4)
         )
@@ -13090,7 +13090,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR070") (unit 1)
         )
@@ -13130,7 +13130,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR025") (unit 1)
         )
@@ -13170,7 +13170,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR069") (unit 1)
         )
@@ -13211,7 +13211,7 @@
           (reference "C15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C4") (unit 1)
         )
@@ -13251,7 +13251,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR030") (unit 1)
         )
@@ -13292,7 +13292,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R5") (unit 1)
         )
@@ -13330,7 +13330,7 @@
     (pin "14" (uuid 086ffcce-0396-46cc-8693-0e96449e2b5b))
     (pin "7" (uuid 55838274-1fbf-4b09-aaaf-357d15ae74c5))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 4)
         )
@@ -13365,7 +13365,7 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR040") (unit 1)
         )
@@ -13406,7 +13406,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R6") (unit 1)
         )
@@ -13441,7 +13441,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR06") (unit 1)
         )
@@ -13471,7 +13471,7 @@
     )
     (pin "1" (uuid c3703275-1823-4512-bf51-f13113a101e0))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR015") (unit 1)
         )
@@ -13509,7 +13509,7 @@
     (pin "14" (uuid ff7cdd67-250c-423e-8379-cfac153319d9))
     (pin "7" (uuid 1aa227af-c16f-488e-8b8b-5d9b0604dc2a))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U9") (unit 2)
         )
@@ -13544,7 +13544,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR016") (unit 1)
         )
@@ -13584,7 +13584,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR022") (unit 1)
         )
@@ -13625,7 +13625,7 @@
           (reference "DS2") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS2") (unit 1)
         )
@@ -13662,7 +13662,7 @@
     (pin "1" (uuid 68fdc90c-31e7-4c20-b1c9-fe4840e80fbe))
     (pin "2" (uuid 69e66cef-71c8-4975-8aa7-05e3eac07c0f))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR5") (unit 1)
         )
@@ -13698,7 +13698,7 @@
           (reference "C4") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C13") (unit 1)
         )
@@ -13738,7 +13738,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR014") (unit 1)
         )
@@ -13778,7 +13778,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR079") (unit 1)
         )
@@ -13818,7 +13818,7 @@
           (reference "#PWR04") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR010") (unit 1)
         )
@@ -13891,7 +13891,7 @@
     (pin "8" (uuid 33c7a568-9789-4319-b563-b384fbce4987))
     (pin "9" (uuid 8017e95a-71cc-43fd-a076-12fabf87f36b))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U18") (unit 1)
         )
@@ -13926,7 +13926,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR081") (unit 1)
         )
@@ -13966,7 +13966,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP3") (unit 1)
         )
@@ -14006,7 +14006,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR065") (unit 1)
         )
@@ -14046,7 +14046,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR073") (unit 1)
         )
@@ -14086,7 +14086,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR063") (unit 1)
         )
@@ -14127,7 +14127,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R2") (unit 1)
         )
@@ -14167,7 +14167,7 @@
     (pin "8" (uuid d838adc7-6286-4041-9559-274b9306e98a))
     (pin "9" (uuid 66c763a0-6e5d-4dd2-8bc7-dd3cdcd1bd11))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "XU1") (unit 1)
         )
@@ -14202,7 +14202,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR055") (unit 1)
         )
@@ -14245,7 +14245,7 @@
     (pin "14" (uuid b53601fd-6e87-4436-8bdc-b48f130538e6))
     (pin "7" (uuid c8569218-9173-4929-9524-af8ba591b655))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 1)
         )
@@ -14401,7 +14401,7 @@
           (reference "P1") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "J1") (unit 1)
         )
@@ -14442,7 +14442,7 @@
           (reference "C15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C6") (unit 1)
         )
@@ -14482,7 +14482,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR029") (unit 1)
         )
@@ -14522,7 +14522,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR052") (unit 1)
         )
@@ -14562,7 +14562,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR086") (unit 1)
         )
@@ -14602,7 +14602,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR047") (unit 1)
         )
@@ -14642,7 +14642,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR082") (unit 1)
         )
@@ -14685,7 +14685,7 @@
     (pin "14" (uuid 709c19f5-9f6b-4fae-91f1-3e939f227402))
     (pin "7" (uuid ee79123f-f96a-4476-bfa5-1d0e1ccfffc5))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U12") (unit 2)
         )
@@ -14720,7 +14720,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR04") (unit 1)
         )
@@ -14760,7 +14760,7 @@
           (reference "TP9") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "TP8") (unit 1)
         )
@@ -14803,7 +14803,7 @@
     (pin "14" (uuid 6ee56f4e-aec8-46d3-a327-f962b75abad2))
     (pin "7" (uuid 7149af2a-eea0-4fc4-bbe1-9b34b2a78f88))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 5)
         )
@@ -14839,7 +14839,7 @@
           (reference "C15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "C5") (unit 1)
         )
@@ -14892,7 +14892,7 @@
     (pin "8" (uuid cd495701-62fc-4171-9905-b2f3a860ead1))
     (pin "9" (uuid 0d737058-ab92-41bf-982b-2b6206744814))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U22") (unit 1)
         )
@@ -14924,7 +14924,7 @@
     (pin "1" (uuid 3e2c6ef9-24d6-4045-808f-371c110f7b53))
     (pin "2" (uuid b5da4cc0-4d2a-41a3-bd09-ca8ef180542d))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR1") (unit 1)
         )
@@ -14959,7 +14959,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR021") (unit 1)
         )
@@ -15002,7 +15002,7 @@
     (pin "14" (uuid 3698d9b6-7dcd-43d2-8e30-f7c23db664fd))
     (pin "7" (uuid d53d9e62-78fd-4d13-ac59-b4ec5ee1e0a4))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U10") (unit 1)
         )
@@ -15037,7 +15037,7 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR042") (unit 1)
         )
@@ -15077,7 +15077,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR062") (unit 1)
         )
@@ -15117,7 +15117,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR060") (unit 1)
         )
@@ -15154,7 +15154,7 @@
     (pin "1" (uuid cc8d9b44-31da-405d-9e0c-52d7a4a74ad6))
     (pin "2" (uuid a3e68f17-0c8b-49ed-903e-7616ec74adb8))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR6") (unit 1)
         )
@@ -15190,7 +15190,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R1") (unit 1)
         )
@@ -15225,7 +15225,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR032") (unit 1)
         )
@@ -15265,7 +15265,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR085") (unit 1)
         )
@@ -15306,7 +15306,7 @@
           (reference "R5") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "R4") (unit 1)
         )
@@ -15341,7 +15341,7 @@
           (reference "#PWR07") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR044") (unit 1)
         )
@@ -15384,7 +15384,7 @@
     (pin "14" (uuid 709c19f5-9f6b-4fae-91f1-3e939f227403))
     (pin "7" (uuid ee79123f-f96a-4476-bfa5-1d0e1ccfffc6))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 2)
         )
@@ -15419,7 +15419,7 @@
           (reference "#PWR08") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR031") (unit 1)
         )
@@ -15459,7 +15459,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR072") (unit 1)
         )
@@ -15532,7 +15532,7 @@
     (pin "8" (uuid caf072ee-9f6b-43e6-a795-b2fdf486d07c))
     (pin "9" (uuid 3984376b-939d-40b3-b87a-486aeac067a7))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U19") (unit 1)
         )
@@ -15568,7 +15568,7 @@
           (reference "DS6") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "DS6") (unit 1)
         )
@@ -15608,7 +15608,7 @@
           (reference "#PWR09") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR083") (unit 1)
         )
@@ -15648,7 +15648,7 @@
           (reference "#PWR06") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "#PWR07") (unit 1)
         )
@@ -15691,7 +15691,7 @@
     (pin "14" (uuid 20a0e077-9eb0-4445-ac45-f8031cf57acd))
     (pin "7" (uuid e89fbef5-52c7-49ab-ad14-a8f266568fc6))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U13") (unit 7)
         )
@@ -15741,7 +15741,7 @@
           (reference "U15") (unit 1)
         )
       )
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U3") (unit 1)
         )
@@ -15794,7 +15794,7 @@
     (pin "8" (uuid d69e478b-aa20-4e8a-ba5b-4aaf45b3296f))
     (pin "9" (uuid 8a93d6cc-fd2f-4017-877c-e597861d54b1))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U20") (unit 1)
         )
@@ -15826,7 +15826,7 @@
     (pin "1" (uuid a185a15a-2532-430e-a8e6-40698cdd0899))
     (pin "2" (uuid fbb44158-17cb-4e73-a59b-03411a4ce32a))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "CR2") (unit 1)
         )
@@ -15864,7 +15864,7 @@
     (pin "14" (uuid 865037c2-6c9a-4b73-8435-0366dc7c729d))
     (pin "7" (uuid 64f0f762-78f5-4b33-af85-1e193f8c5389))
     (instances
-      (project "CPU board 0001 rev.a"
+      (project "CPU board 0001 rev.b"
         (path "/972f3ffb-6bde-4480-8d3a-f1aadeb0cbf8"
           (reference "U8") (unit 6)
         )

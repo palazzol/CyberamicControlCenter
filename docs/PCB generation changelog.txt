@@ -83,10 +83,22 @@ cpu
 	CPU board 0001 rev.a
 		the baseline for this series of boards
 		The schematic has inconsistencies with the copper layer on the board
-		Two connections have to be made with jumpers (my version adds them in the copper and notes it in silkscreen)
-		One connection looks like it was pulled up (mine keeps the via but not the trace)
-		The ground net is not fully connected (I didn't change this, it should still work on the backplane that joins it)
+			Two connections have to be made with jumpers (my version adds them in the copper and notes it in silkscreen)
+			One connection looks like it was pulled up (mine keeps the via but not the trace)
+			The ground net is not fully connected (I didn't change this, it should still work on the backplane that joins it)
+			Some pins the schematic claims are grounded are not, no effect on performance
 	
 	CPU board 0001 rev.b
 		This fixes the two jumpers and one cut track from rev.a
-		other things I haven't checked yet
+		ground problems not fixed
+		C3 changed from 10v to 16v, maybe because the 16v ones are cheaper at this point
+		everything else seems to be the same
+		
+	CPU board 0001 rev.c
+		only the label calling it rev.calling
+		I did not see any trace changes
+		
+	CPU board 0001 rev.d
+		cut connections to alternate power supplies
+		made U20/U22 inoperable
+		Made U21 remap to a 2732
