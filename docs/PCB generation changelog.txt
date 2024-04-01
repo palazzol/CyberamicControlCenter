@@ -95,7 +95,7 @@ cpu
 		everything else seems to be the same
 		
 	CPU board 0001 rev.c
-		only the label calling it rev.calling
+		only the label calling it rev.c changed
 		I did not see any trace changes
 		
 	CPU board 0001 rev.d
