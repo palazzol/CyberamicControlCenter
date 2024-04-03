@@ -4,7 +4,6 @@ We're working on collecting as much information on how the original Pizza Time T
 Where did the original voice mic plug in?
 
 Did the original R2R system use 4-track audio?
-	If so where was the data track?
 Did the SVHS system use 4-track audio?
 
 Backplane - did any versions have J19 added?  Otherwise how to they do audio out in all the stores?
