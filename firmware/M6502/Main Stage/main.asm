@@ -70,11 +70,11 @@ X0060   = 0x0060
 X0061   = 0x0061
 X0062   = 0x0062
 X0063   = 0x0063
-X0064   = 0x0064    ; command byte
-X0065   = 0x0065    ; channel byte
-X0066   = 0x0066    ;
-X0067   = 0x0067    ;
-X0068   = 0x0068    ;
+X0064   = 0x0064    ; Command byte
+X0065   = 0x0065    ; Channel byte
+X0066   = 0x0066    ; Two byte address of current memory
+X0067   = 0x0067    ;   address to write to cards
+X0068   = 0x0068    ; Current Bitmask
 X0069   = 0x0069
 X006A   = 0x006A
 X006B   = 0x006B
@@ -110,9 +110,9 @@ U18_DDRA    = 0x0201
 U18_PORTB   = 0x0202
 U18_DDRB    = 0x0203
 U18_edge_detect_control_DI_pos  = 0x0205
-U18_06      = 0x0206
-U18_1C      = 0x021C
-U18_1D      = 0x021D
+U18_06      = 0x0206    
+U18_1C      = 0x021C    ; timer div by 1, enable interrupt
+U18_1D      = 0x021D    ; timer div by 1, disable interrupt
 
 U19_PORTA   = 0x0280
 U19_DDRA    = 0x0281
@@ -137,10 +137,10 @@ audio_control_reg_b     = 0x0383
 ;
 IRQ:
         pha
-        lda     U18_edge_detect_control_DI_pos
-        lda     U19_edge_detect_control_DI_pos
+        lda     U18_edge_detect_control_DI_pos  ; clear PA7 flag
+        lda     U19_edge_detect_control_DI_pos  ; clear PA7 flag
         lda     #0x7D
-        sta     U18_1D
+        sta     U18_1D                  ; div by 8, enable interrupt
         lda     X004B                   ; timer
         beq     L1012
         dec     X004B

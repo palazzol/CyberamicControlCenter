@@ -70,11 +70,11 @@
                      0061    70 X0061   = 0x0061
                      0062    71 X0062   = 0x0062
                      0063    72 X0063   = 0x0063
-                     0064    73 X0064   = 0x0064    ; command byte
-                     0065    74 X0065   = 0x0065    ; channel byte
-                     0066    75 X0066   = 0x0066    ;
-                     0067    76 X0067   = 0x0067    ;
-                     0068    77 X0068   = 0x0068    ;
+                     0064    73 X0064   = 0x0064    ; Command byte
+                     0065    74 X0065   = 0x0065    ; Channel byte
+                     0066    75 X0066   = 0x0066    ; Two byte address of current memory
+                     0067    76 X0067   = 0x0067    ;   address to write to cards
+                     0068    77 X0068   = 0x0068    ; Current Bitmask
                      0069    78 X0069   = 0x0069
                      006A    79 X006A   = 0x006A
                      006B    80 X006B   = 0x006B
@@ -110,9 +110,9 @@
                      0202   110 U18_PORTB   = 0x0202
                      0203   111 U18_DDRB    = 0x0203
                      0205   112 U18_edge_detect_control_DI_pos  = 0x0205
-                     0206   113 U18_06      = 0x0206
-                     021C   114 U18_1C      = 0x021C
-                     021D   115 U18_1D      = 0x021D
+                     0206   113 U18_06      = 0x0206    
+                     021C   114 U18_1C      = 0x021C    ; timer div by 1, enable interrupt
+                     021D   115 U18_1D      = 0x021D    ; timer div by 1, disable interrupt
                             116 
                      0280   117 U19_PORTA   = 0x0280
                      0281   118 U19_DDRA    = 0x0281
@@ -137,10 +137,10 @@
                             137 ;
    1000                     138 IRQ:
    1000 48            [ 3]  139         pha
-   1001 AD 05 02      [ 4]  140         lda     U18_edge_detect_control_DI_pos
-   1004 AD 85 02      [ 4]  141         lda     U19_edge_detect_control_DI_pos
+   1001 AD 05 02      [ 4]  140         lda     U18_edge_detect_control_DI_pos  ; clear PA7 flag
+   1004 AD 85 02      [ 4]  141         lda     U19_edge_detect_control_DI_pos  ; clear PA7 flag
    1007 A9 7D         [ 2]  142         lda     #0x7D
-   1009 8D 1D 02      [ 4]  143         sta     U18_1D
+   1009 8D 1D 02      [ 4]  143         sta     U18_1D                  ; div by 8, enable interrupt
    100C A5 4B         [ 3]  144         lda     X004B                   ; timer
    100E F0 02         [ 4]  145         beq     L1012
    1010 C6 4B         [ 5]  146         dec     X004B
