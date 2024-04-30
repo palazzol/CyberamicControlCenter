@@ -4940,7 +4940,7 @@
     (property "Reference" "Q1" (at 178.435 29.845 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "TIP130A" (at 177.8 31.75 90)
+    (property "Value" "TIP30A" (at 177.8 31.75 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown" (at 172.085 25.4 0)
