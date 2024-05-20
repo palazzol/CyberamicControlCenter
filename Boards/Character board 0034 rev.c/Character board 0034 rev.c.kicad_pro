@@ -34,9 +34,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 2.25,
-          "height": 6.38,
-          "width": 6.38
+          "drill": 1.0,
+          "height": 2.0,
+          "width": 2.0
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -55,14 +55,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "lib_footprint_mismatch|33201369|131743750|2a038530-ed5f-4f20-9cd1-ec9d58cf6591|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|33415655|142538750|c2349a89-0055-4cbe-85bd-e6f5f71e4ca1|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|33849940|95548750|1cbfaf8b-4c91-4598-b6c4-a121aa3778dd|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|79833750|148590000|9cec0d71-f4f2-4c3a-87f4-fdff340b1a5a|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|81280000|122278750|68aa90a5-de33-46e1-859b-52cabc49a575|00000000-0000-0000-0000-000000000000",
-        "lib_footprint_mismatch|81500174|41275000|842df949-4484-4851-bdb0-a28fcb57a51a|00000000-0000-0000-0000-000000000000"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -98,7 +91,7 @@
         "padstack": "warning",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_edge_clearance": "ignore",
+        "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
@@ -181,7 +174,6 @@
       "track_widths": [
         0.0,
         0.4,
-        0.8,
         1.27,
         2.0,
         2.54
@@ -417,7 +409,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Light board 0021 rev.a.kicad_pro",
+    "filename": "Character board 0034 rev.a.kicad_pro",
     "version": 1
   },
   "net_settings": {

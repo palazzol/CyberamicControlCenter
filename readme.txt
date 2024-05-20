@@ -14,7 +14,7 @@ Are there more board revisions beyond what we have? looking for:
 	Audio board 0003 rev.a, rev.b, and beyond rev.c
 	Audio board 0033 rev.b and beyond
 	Character board 0004 rev.c and beyond
-	Character board 0034 rev.c, rev.f and beyond
+	Character board 0034 rev.b, rev.f and beyond
 	Light board 0021 rev.b to rev.e
 	Transport board 0020 rev.a
 		Did the original transport card take a external uart clock? per the schematic
