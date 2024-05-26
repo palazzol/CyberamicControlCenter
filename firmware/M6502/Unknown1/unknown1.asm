@@ -31,31 +31,7 @@ X0062 = 0x0062
 X0063 = 0x0063
 X0064 = 0x0064
 
-X0080 = 0x0080
-X0081 = 0x0081
-X0082 = 0x0082
-X0083 = 0x0083
-X0086 = 0x0086
-X008A = 0x008A
-X008E = 0x008E
-X0201 = 0x0201
-X0202 = 0x0202
-X0203 = 0x0203
-X0204 = 0x0204
-X0205 = 0x0205
-X0215 = 0x0215
-X0280 = 0x0280
-X0281 = 0x0281
-X0282 = 0x0282
-X0283 = 0x0283
-X0300 = 0x0300
-X0301 = 0x0301
-X0302 = 0x0302
-X0303 = 0x0303
-X0380 = 0x0380
-X0381 = 0x0381
-X0382 = 0x0382
-X0383 = 0x0383
+        .include "../include/ptt6502.def"
 
         .org    0x1C00
 ;
@@ -72,28 +48,28 @@ L1C09:
         cpx     #0x80
         bne     L1C09
         lda     #0x00
-        sta     X0301
-        sta     X0300
-        sta     X0381
-        sta     X0380
-        sta     X0383
-        sta     X0205
-        sta     X0303
-        sta     X0201
+        sta     transport_control_reg_a
+        sta     transport_periph$ddr_reg_a
+        sta     audio_control_reg_a
+        sta     audio_periph$ddr_reg_a
+        sta     audio_control_reg_b
+        sta     U18_edge_detect_control_DI_pos
+        sta     transport_control_reg_b
+        sta     U18_DDRA
         lda     #0x02
-        sta     X0281
+        sta     U19_DDRA
         lda     #0xFF
-        sta     X0382
-        sta     X0203
-        sta     X0283
+        sta     audio_periph$ddr_reg_b
+        sta     U18_DDRB
+        sta     U19_DDRB
         lda     #0xFC
-        sta     X0302
+        sta     transport_periph$ddr_reg_b
         lda     #0x2E
-        sta     X0301
-        sta     X0303
+        sta     transport_control_reg_a
+        sta     transport_control_reg_b
         lda     #0x3C
-        sta     X0381
-        sta     X0383
+        sta     audio_control_reg_a
+        sta     audio_control_reg_b
         lda     #0x64
         sta     X0053
         lda     #0x1E
@@ -119,7 +95,7 @@ L1C78:
         lda     #0x00
         sta     X0058
 L1C7C:
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         lda     #0x0A
         sta     X0050
         inc     X0058
@@ -130,7 +106,7 @@ L1C8B:
         jsr     L1E83
         lda     X0050
         beq     L1C78
-        lda     X0303
+        lda     transport_control_reg_b
         bpl     L1C8B
         jmp     L1C7C
 ;
@@ -177,9 +153,9 @@ L1CEA:
         lda     X005A
         bne     L1D01
         lda     #0x02
-        sta     X0280
+        sta     U19_PORTA
         lda     #0x00
-        sta     X0202
+        sta     U18_PORTB
         jmp     L1CE7
 ;
         nop
@@ -188,9 +164,9 @@ L1CEA:
 L1D01:
         jsr     L1D3F
         lda     #0x00
-        sta     X0280
+        sta     U19_PORTA
         lda     #0x80
-        sta     X0202
+        sta     U18_PORTB
         lda     #0x80
         jsr     L1D72
         jsr     L1DB0
@@ -216,23 +192,23 @@ L1D31:
 ;
 L1D3F:
         lda     #0x3C
-        sta     X0383
+        sta     audio_control_reg_b
         lda     #0x34
-        sta     X0381
+        sta     audio_control_reg_a
         ldx     #0x00
 L1D4B:
         lda     #0x30
-        sta     X0081,x
-        sta     X0083,x
+        sta     board_1_control_reg_a,x
+        sta     board_1_control_reg_b,x
         lda     #0xFF
-        sta     X0080,x
-        sta     X0082,x
+        sta     board_1_periph$ddr_reg_a,x
+        sta     board_1_periph$ddr_reg_b,x
         lda     #0x34
-        sta     X0081,x
-        sta     X0083,x
+        sta     board_1_control_reg_a,x
+        sta     board_1_control_reg_b,x
         lda     #0x00
-        sta     X0080,x
-        sta     X0082,x
+        sta     board_1_periph$ddr_reg_a,x
+        sta     board_1_periph$ddr_reg_b,x
         inx
         inx
         inx
@@ -245,18 +221,18 @@ L1D4B:
         rts
 ;
 L1D72:
-        sta     X0302
+        sta     transport_periph$ddr_reg_b
         lda     #0xFA
         sta     X0050
 L1D79:
         jsr     L1E83
         lda     X0050
         bne     L1D79
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         and     #0x60
         bne     L1D8C
         lda     #0x00
-        sta     X0302
+        sta     transport_periph$ddr_reg_b
 L1D8C:
         rts
 ;
@@ -264,7 +240,7 @@ L1D8D:
         lda     #0x00
         sta     X0058
 L1D91:
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         lda     #0x0A
         sta     X0050
         inc     X0058
@@ -275,7 +251,7 @@ L1DA0:
         jsr     L1E83
         lda     X0050
         beq     L1D8D
-        lda     X0303
+        lda     transport_control_reg_b
         bpl     L1DA0
         jmp     L1D91
 L1DAF:
@@ -290,14 +266,14 @@ L1DB4:
         bne     L1DB4
 L1DBB:
         jsr     L1E83
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         ror     a
         bcc     L1DBB
         lda     #0xA0
         sta     X0050
 L1DC8:
         jsr     L1E83
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         ror     a
         bcc     L1DBB
         lda     X0050
@@ -305,25 +281,25 @@ L1DC8:
         rts
 ;
 L1DD6:
-        lda     X0300
+        lda     transport_periph$ddr_reg_a
         lda     #0x40
-        sta     X0082
-        sta     X0086
-        sta     X008A
-        sta     X008E
+        sta     board_1_periph$ddr_reg_b
+        sta     board_2_periph$ddr_reg_b
+        sta     board_3_periph$ddr_reg_b
+        sta     board_4_periph$ddr_reg_b
         lda     #0x3C
-        sta     X0381
+        sta     audio_control_reg_a
         lda     #0x34
-        sta     X0383
+        sta     audio_control_reg_b
         lda     #0x60
-        sta     X0082
+        sta     board_1_periph$ddr_reg_b
 L1DF1:
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         lsr     a
         bcc     L1E08
         jsr     L1F24
         jsr     L1E83
-        lda     X0301
+        lda     transport_control_reg_a
         bpl     L1DF1
         jsr     L1E1A
         jmp     L1DF1
@@ -333,7 +309,7 @@ L1E08:
         sta     X0050
 L1E0C:
         jsr     L1E83
-        lda     X0302
+        lda     transport_periph$ddr_reg_b
         lsr     a
         bcs     L1DD6
         lda     X0050
@@ -341,7 +317,7 @@ L1E0C:
         rts
 ;
 L1E1A:
-        lda     X0300
+        lda     transport_periph$ddr_reg_a
         and     #0x7F
         sta     X005C
         and     #0x7E
@@ -409,7 +385,7 @@ X1E7B:
         .db     0x10,0x20,0x40,0x80
 ;
 L1E83:
-        lda     X0205
+        lda     U18_edge_detect_control_DI_pos
         sta     X005F
         beq     L1EDA
         lda     X005B
@@ -431,7 +407,7 @@ L1EA6:
         lda     X005F
         bpl     L1EDA
 L1EAA:
-        lda     X0204
+        lda     U18_timer
         eor     #0xFF
         lsr     a
         lsr     a
@@ -443,7 +419,7 @@ L1EB8:
         lda     #0x7A
         sec
         sbc     X0057
-        sta     X0215
+        sta     U18_timer_8T_DI
         dec     X0050
         dec     X0051
         dec     X0052
@@ -482,7 +458,7 @@ L1EE9:
         inc     X0062
         ldx     #0x09
         sec
-        lda     X0380
+        lda     audio_periph$ddr_reg_a
 L1F06:
         rol     a
         dex
@@ -505,7 +481,7 @@ L1F13:
         rts
 ;
 L1F24:
-        lda     X0280
+        lda     U19_PORTA
         eor     #0xFF
         lsr     a
         lsr     a
@@ -521,17 +497,17 @@ L1F24:
         lda     #0x0A
         sta     X0052
         lda     X0063
-        cmp     X0382
+        cmp     audio_periph$ddr_reg_b
         bcc     L1F4D
         beq     L1F50
-        inc     X0382
+        inc     audio_periph$ddr_reg_b
         jmp     L1F50
 ;
 L1F4D:
-        dec     X0382
+        dec     audio_periph$ddr_reg_b
 L1F50:
-        lda     X0382
-        sta     X0282
+        lda     audio_periph$ddr_reg_b
+        sta     U19_PORTB
         rts
 ;
 X1F57:

@@ -83,53 +83,7 @@ X006D   = 0x006D
 
 X0070   = 0x0070
 
-board_1_periph$ddr_reg_a    = 0x0080
-board_1_control_reg_a       = 0x0081
-board_1_periph$ddr_reg_b    = 0x0082
-board_1_control_reg_b       = 0x0083
-
-board_2_periph$ddr_reg_a    = 0x0084
-board_3_periph$ddr_reg_a    = 0x0088
-board_4_periph$ddr_reg_a    = 0x008C
-
-board_5_periph$ddr_reg_a    = 0x0090
-board_5_periph$ddr_reg_b    = 0x0092
-
-board_6_periph$ddr_reg_a    = 0x0094
-
-board_7_periph$ddr_reg_a    = 0x0098
-board_7_periph$ddr_reg_b    = 0x009A
-board_8_periph$ddr_reg_a    = 0x009C
-board_8_periph$ddr_reg_b    = 0x009E
-
-X0101   = 0x0101
-X0102   = 0x0102
-
-U18_PORTA   = 0x0200
-U18_DDRA    = 0x0201
-U18_PORTB   = 0x0202
-U18_DDRB    = 0x0203
-U18_edge_detect_control_DI_pos  = 0x0205
-U18_06      = 0x0206    
-U18_1C      = 0x021C    ; timer div by 1, enable interrupt
-U18_1D      = 0x021D    ; timer div by 1, disable interrupt
-
-U19_PORTA   = 0x0280
-U19_DDRA    = 0x0281
-U19_PORTB   = 0x0282
-U19_DDRB    = 0x0283
-U19_edge_detect_control_DI_pos  = 0x0285
-U19_86      = 0x0286
-
-transport_periph$ddr_reg_a  = 0x0300
-transport_control_reg_a     = 0x0301
-transport_periph$ddr_reg_b  = 0x0302
-transport_control_reg_b     = 0x0303
-
-audio_periph$ddr_reg_a  = 0x0380
-audio_control_reg_a     = 0x0381
-audio_periph$ddr_reg_b  = 0x0382
-audio_control_reg_b     = 0x0383
+        .include "../include/ptt6502.def"
 
         .org    0x1000
 ;

@@ -31,32 +31,7 @@ RAM_5F    = 0x005F
 
 RAM_64    = 0x0064
 
-board_1_periph$ddr_reg_a    = 0x0080
-board_1_control_reg_a       = 0x0081
-board_1_periph$ddr_reg_b    = 0x0082
-board_1_control_reg_b       = 0x0083
-board_2_periph$ddr_reg_b    = 0x0086
-board_3_periph$ddr_reg_b    = 0x008A
-board_4_periph$ddr_reg_b    = 0x008E
-U18_PORTA                   = 0x0200
-U18_DDRA                    = 0x0201
-U18_PORTB                   = 0x0202
-U18_DDRB                    = 0x0203
-U18_timer                   = 0x0204
-U18_edge_detect_control_DI_pos = 0x0205
-U18_timer_8T_DI             = 0x0215
-U19_PORTA                   = 0x0280
-U19_DDRA                    = 0x0281
-U19_PORTB                   = 0x0282
-U19_DDRB                    = 0x0283
-transport_periph$ddr_reg_a  = 0x0300
-transport_control_reg_a     = 0x0301
-transport_periph$ddr_reg_b  = 0x0302
-transport_control_reg_b     = 0x0303
-audio_periph$ddr_reg_a      = 0x0380
-audio_control_reg_a         = 0x0381
-audio_periph$ddr_reg_b      = 0x0382
-audio_control_reg_b         = 0x0383
+        .include "../include/ptt6502.def"
 
         .org     0x1C00
 ;
