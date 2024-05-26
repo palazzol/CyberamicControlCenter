@@ -8,7 +8,7 @@ U11 - AC coupled data from tape in (or 0 if REW or FF)
     - non inverting amp with gain of 1, + filter
     - range is about +12 to -12
 TP2/TP10 - audio after U11 stage
-U10/U12 - clipper with threshold set and ~+-0.12 volts
+U10/U12 - clipper with threshold set at ~+-0.12 volts
     - if voltage is > +0.12 threshold, top pulls down
     - if voltage is < -0.12 threshold, bottom pulls down
     - near 0, it's 5V
