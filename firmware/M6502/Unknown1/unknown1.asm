@@ -8,28 +8,27 @@
 ;
 ;       This image was recovered from the last quarter of a 2732 with a black label
 ;
-RAM_start = 0x0000
-X0050 = 0x0050
-X0051 = 0x0051
-X0052 = 0x0052
-X0053 = 0x0053
-X0054 = 0x0054
-X0055 = 0x0055
-X0056 = 0x0056
-X0057 = 0x0057
-X0058 = 0x0058
-X0059 = 0x0059
-X005A = 0x005A
-X005B = 0x005B
-X005C = 0x005C
-X005D = 0x005D
-X005E = 0x005E
-X005F = 0x005F
-X0060 = 0x0060
-X0061 = 0x0061
-X0062 = 0x0062
-X0063 = 0x0063
-X0064 = 0x0064
+RAM_50 = 0x0050
+RAM_51 = 0x0051
+RAM_52 = 0x0052
+RAM_53 = 0x0053
+RAM_54 = 0x0054
+RAM_55 = 0x0055
+RAM_56 = 0x0056
+RAM_57 = 0x0057
+RAM_58 = 0x0058
+RAM_59 = 0x0059
+RAM_5A = 0x005A
+RAM_5B = 0x005B
+RAM_5C = 0x005C
+RAM_5D = 0x005D
+RAM_5E = 0x005E
+RAM_5F = 0x005F
+RAM_60 = 0x0060
+RAM_61 = 0x0061
+RAM_62 = 0x0062
+RAM_63 = 0x0063
+RAM_64 = 0x0064
 
         .include "../include/ptt6502.def"
 
@@ -71,40 +70,40 @@ L1C09:
         sta     audio_control_reg_a
         sta     audio_control_reg_b
         lda     #0x64
-        sta     X0053
+        sta     RAM_53
         lda     #0x1E
-        sta     X0056
+        sta     RAM_56
         lda     #0x64
-        sta     X0055
+        sta     RAM_55
         lda     #0x10
-        sta     X0063
+        sta     RAM_63
         lda     #0x10
         jsr     L1D72
         lda     #0x28
-        sta     X0054
+        sta     RAM_54
         lda     #0x64
-        sta     X0053
+        sta     RAM_53
 L1C6C:
         jsr     L1E83
-        lda     X0054
+        lda     RAM_54
         bne     L1C6C
 L1C73:
         lda     #0x40
         jsr     L1D72
 L1C78:
         lda     #0x00
-        sta     X0058
+        sta     RAM_58
 L1C7C:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     X0050
-        inc     X0058
-        lda     X0058
+        sta     RAM_50
+        inc     RAM_58
+        lda     RAM_58
         cmp     #0x64
         bcs     L1C9A
 L1C8B:
         jsr     L1E83
-        lda     X0050
+        lda     RAM_50
         beq     L1C78
         lda     transport_control_reg_b
         bpl     L1C8B
@@ -114,29 +113,29 @@ L1C9A:
         lda     #0x20
         jsr     L1D72
         lda     #0x19
-        sta     X0054
+        sta     RAM_54
         lda     #0x64
-        sta     X0053
+        sta     RAM_53
 L1CA7:
         jsr     L1E83
-        lda     X0054
+        lda     RAM_54
         bne     L1CA7
         lda     #0x00
-        sta     X0059
+        sta     RAM_59
         jsr     L1D8D
         lda     #0x40
         jsr     L1D72
         jsr     L1D8D
         lda     #0xFA
-        sta     X0050
+        sta     RAM_50
 L1CC1:
         jsr     L1E83
-        lda     X0050
+        lda     RAM_50
         bne     L1CC1
         lda     #0x20
         jsr     L1D72
         jsr     L1D8D
-        inc     X0059
+        inc     RAM_59
         lda     #0x10
         jsr     L1D72
         lda     #0x80
@@ -150,7 +149,7 @@ L1CE7:
 ;
 L1CEA:
         jsr     L1F24
-        lda     X005A
+        lda     RAM_5A
         bne     L1D01
         lda     #0x02
         sta     U19_PORTA
@@ -170,15 +169,15 @@ L1D01:
         lda     #0x80
         jsr     L1D72
         jsr     L1DB0
-        dec     X005A
+        dec     RAM_5A
         jsr     L1DD6
         jsr     L1D3F
         lda     #0x1E
-        sta     X0056
+        sta     RAM_56
         lda     #0x64
-        sta     X0055
-        inc     X0059
-        lda     X0059
+        sta     RAM_55
+        inc     RAM_59
+        lda     RAM_59
         cmp     #0x1A
         bcc     L1D31
         jmp     L1C73
@@ -216,17 +215,17 @@ L1D4B:
         cpx     #0x20
         bcc     L1D4B
         lda     #0x00
-        sta     X005E
-        sta     X0064
+        sta     RAM_5E
+        sta     RAM_64
         rts
 ;
 L1D72:
         sta     transport_periph$ddr_reg_b
         lda     #0xFA
-        sta     X0050
+        sta     RAM_50
 L1D79:
         jsr     L1E83
-        lda     X0050
+        lda     RAM_50
         bne     L1D79
         lda     transport_periph$ddr_reg_b
         and     #0x60
@@ -238,18 +237,18 @@ L1D8C:
 ;
 L1D8D:
         lda     #0x00
-        sta     X0058
+        sta     RAM_58
 L1D91:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     X0050
-        inc     X0058
-        lda     X0058
+        sta     RAM_50
+        inc     RAM_58
+        lda     RAM_58
         cmp     #0x21
         bcs     L1DAF
 L1DA0:
         jsr     L1E83
-        lda     X0050
+        lda     RAM_50
         beq     L1D8D
         lda     transport_control_reg_b
         bpl     L1DA0
@@ -259,10 +258,10 @@ L1DAF:
 ;
 L1DB0:
         lda     #0xFA
-        sta     X0050
+        sta     RAM_50
 L1DB4:
         jsr     L1E83
-        lda     X0050
+        lda     RAM_50
         bne     L1DB4
 L1DBB:
         jsr     L1E83
@@ -270,13 +269,13 @@ L1DBB:
         ror     a
         bcc     L1DBB
         lda     #0xA0
-        sta     X0050
+        sta     RAM_50
 L1DC8:
         jsr     L1E83
         lda     transport_periph$ddr_reg_b
         ror     a
         bcc     L1DBB
-        lda     X0050
+        lda     RAM_50
         bne     L1DC8
         rts
 ;
@@ -306,20 +305,20 @@ L1DF1:
 ;
 L1E08:
         lda     #0x64
-        sta     X0050
+        sta     RAM_50
 L1E0C:
         jsr     L1E83
         lda     transport_periph$ddr_reg_b
         lsr     a
         bcs     L1DD6
-        lda     X0050
+        lda     RAM_50
         bne     L1E0C
         rts
 ;
 L1E1A:
         lda     transport_periph$ddr_reg_a
         and     #0x7F
-        sta     X005C
+        sta     RAM_5C
         and     #0x7E
         cmp     #0x22
         beq     L1E61
@@ -327,12 +326,12 @@ L1E1A:
         bcc     L1E7A
         cmp     #0x3A
         bcc     L1E61
-        lda     X005C
+        lda     RAM_5C
         cmp     #0x41
         bcc     L1E7A
         cmp     #0x4F
         bcs     L1E7A
-        ldx     X0064
+        ldx     RAM_64
         sec
         sbc     #0x41
         cmp     #0x08
@@ -343,30 +342,30 @@ L1E44:
         and     #0x07
         tay
         lda     X1E7B,y
-        sta     X005D
-        lda     X005E
+        sta     RAM_5D
+        lda     RAM_5E
         lsr     a
         bcs     L1E5A
-        lda     X005D
+        lda     RAM_5D
         eor     #0xFF
         and     RAM_start,x
         sta     RAM_start,x
         rts
 ;
 L1E5A:
-        lda     X005D
+        lda     RAM_5D
         ora     RAM_start,x
         sta     RAM_start,x
         rts
 ;
 L1E61:
-        lda     X005C
-        sta     X005E
+        lda     RAM_5C
+        sta     RAM_5E
         and     #0x7E
         cmp     #0x22
         bne     L1E70
         lda     #0x98
-        sta     X0064
+        sta     RAM_64
         rts
 ;
 L1E70:
@@ -375,7 +374,7 @@ L1E70:
         asl     a
         clc
         adc     #0x80
-        sta     X0064
+        sta     RAM_64
         rts
 L1E7A:
         rts
@@ -386,25 +385,25 @@ X1E7B:
 ;
 L1E83:
         lda     U18_edge_detect_control_DI_pos
-        sta     X005F
+        sta     RAM_5F
         beq     L1EDA
-        lda     X005B
+        lda     RAM_5B
         bmi     L1E9C
-        lda     X005F
+        lda     RAM_5F
         and     #0x40
         beq     L1EAA
         lda     #0x80
-        sta     X005B
+        sta     RAM_5B
         lda     #0xFA
-        sta     X0051
+        sta     RAM_51
 L1E9C:
-        lda     X0051
+        lda     RAM_51
         bne     L1EA6
         lda     #0x00
-        sta     X005B
-        inc     X005A
+        sta     RAM_5B
+        inc     RAM_5A
 L1EA6:
-        lda     X005F
+        lda     RAM_5F
         bpl     L1EDA
 L1EAA:
         lda     U18_timer
@@ -412,50 +411,50 @@ L1EAA:
         lsr     a
         lsr     a
         lsr     a
-        sta     X0057
+        sta     RAM_57
         bcc     L1EB8
-        inc     X0057
+        inc     RAM_57
 L1EB8:
         lda     #0x7A
         sec
-        sbc     X0057
+        sbc     RAM_57
         sta     U18_timer_8T_DI
-        dec     X0050
-        dec     X0051
-        dec     X0052
-        dec     X0053
+        dec     RAM_50
+        dec     RAM_51
+        dec     RAM_52
+        dec     RAM_53
         bne     L1EDA
         lda     #0x64
-        sta     X0053
-        dec     X0054
-        dec     X0055
+        sta     RAM_53
+        dec     RAM_54
+        dec     RAM_55
         bne     L1EDA
         lda     #0x64
-        sta     X0055
-        dec     X0056
+        sta     RAM_55
+        dec     RAM_56
 L1EDA:
         rts
 ;
 L1EDB:
         lda     #0x00
-        sta     X0061
-        sta     X0062
+        sta     RAM_61
+        sta     RAM_62
         lda     #0x0A
-        sta     X0054
+        sta     RAM_54
         lda     #0x64
-        sta     X0053
+        sta     RAM_53
 L1EE9:
         jsr     L1E83
-        lda     X0054
+        lda     RAM_54
         bne     L1EE9
         lda     #0x0A
-        sta     X0054
+        sta     RAM_54
         lda     #0x64
-        sta     X0053
-        lda     X0062
+        sta     RAM_53
+        lda     RAM_62
         cmp     #0x08
         beq     L1F13
-        inc     X0062
+        inc     RAM_62
         ldx     #0x09
         sec
         lda     audio_periph$ddr_reg_a
@@ -465,19 +464,19 @@ L1F06:
         bcc     L1F06
         clc
         txa
-        adc     X0061
-        sta     X0061
+        adc     RAM_61
+        sta     RAM_61
         jmp     L1EE9
 ;
 L1F13:
-        lsr     X0061
-        lsr     X0061
-        lsr     X0061
-        lda     X0061
-        sta     X0060
+        lsr     RAM_61
+        lsr     RAM_61
+        lsr     RAM_61
+        lda     RAM_61
+        sta     RAM_60
         lda     #0x00
-        sta     X0061
-        sta     X0062
+        sta     RAM_61
+        sta     RAM_62
         rts
 ;
 L1F24:
@@ -488,15 +487,15 @@ L1F24:
         lsr     a
         lsr     a
         clc
-        adc     X0060
+        adc     RAM_60
         tax
         lda     X1F57,x
-        sta     X0063
-        lda     X0052
+        sta     RAM_63
+        lda     RAM_52
         bne     L1F50
         lda     #0x0A
-        sta     X0052
-        lda     X0063
+        sta     RAM_52
+        lda     RAM_63
         cmp     audio_periph$ddr_reg_b
         bcc     L1F4D
         beq     L1F50
@@ -519,7 +518,7 @@ X1F57:
 ;
 L1F68:
         lda     #0x00
-        sta     X005A
+        sta     RAM_5A
         jsr     L1E83
         jmp     L1CEA
 ;

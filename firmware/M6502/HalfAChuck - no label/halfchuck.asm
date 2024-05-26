@@ -9,9 +9,6 @@
 ;       This image was recovered from an unmarked 2708
 ;
 
-; start of RAM
-RAM_start = 0x0000
-
 RAM_50    = 0x0050
 RAM_51    = 0x0051
 RAM_52    = 0x0052

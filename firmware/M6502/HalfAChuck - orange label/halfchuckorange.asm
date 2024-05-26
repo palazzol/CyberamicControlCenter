@@ -8,8 +8,6 @@
 ;
 ;       This image was recovered from a 2708 with an orange label
 ;
-; start of RAM
-RAM_start = 0x0000
 
 RAM_02 = 0x0002
 RAM_08 = 0x0008
