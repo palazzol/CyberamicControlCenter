@@ -3,72 +3,77 @@
 ; Peripheral Addresses for PTT 6502 system
 ;
 
-RAM_start                   = 0x0000
+RAM_start                       = 0x0000
 
-board_1_periph$ddr_reg_a    = 0x0080
-board_1_control_reg_a       = 0x0081
-board_1_periph$ddr_reg_b    = 0x0082
-board_1_control_reg_b       = 0x0083
+; Board Select 1
+board_1_periph$ddr_reg_a        = 0x0080
+board_1_control_reg_a           = 0x0081
+board_1_periph$ddr_reg_b        = 0x0082
+board_1_control_reg_b           = 0x0083
 
-board_2_periph$ddr_reg_a    = 0x0084
-board_2_control_reg_a       = 0x0085
-board_2_periph$ddr_reg_b    = 0x0086
-board_2_control_reg_b       = 0x0087
+; Board Select 2
+board_2_periph$ddr_reg_a        = 0x0084
+board_2_periph$ddr_reg_b        = 0x0086
 
-board_3_periph$ddr_reg_a    = 0x0088
-board_3_control_reg_a       = 0x0089
-board_3_periph$ddr_reg_b    = 0x008A
-board_3_control_reg_b       = 0x008B
+; Board Select 3
+board_3_periph$ddr_reg_a        = 0x0088
+board_3_periph$ddr_reg_b        = 0x008A
 
-board_4_periph$ddr_reg_a    = 0x008C
-board_4_control_reg_a       = 0x008D
-board_4_periph$ddr_reg_b    = 0x008E
-board_4_control_reg_b       = 0x008F
+; Board Select 4
+board_4_periph$ddr_reg_a        = 0x008C
+board_4_periph$ddr_reg_b        = 0x008E
 
-board_5_periph$ddr_reg_a    = 0x0090
-board_5_periph$ddr_reg_b    = 0x0092
+; Board Select 5
+board_5_periph$ddr_reg_a        = 0x0090
+board_5_periph$ddr_reg_b        = 0x0092
 
-board_6_periph$ddr_reg_a    = 0x0094
+; Board Select 6
+board_6_periph$ddr_reg_a        = 0x0094
 
-board_7_periph$ddr_reg_a    = 0x0098
-board_7_periph$ddr_reg_b    = 0x009A
+; Board Select 7
+board_7_periph$ddr_reg_a        = 0x0098
+board_7_periph$ddr_reg_b        = 0x009A
 
-board_8_periph$ddr_reg_a    = 0x009C
-board_8_periph$ddr_reg_b    = 0x009E
+; Board Select 8
+board_8_periph$ddr_reg_a        = 0x009C
+board_8_periph$ddr_reg_b        = 0x009E
 
-UART_01                     = 0x0101
-UART_02                     = 0x0102
+; UART / Board Select 11
+UART_01                         = 0x0101
+UART_02                         = 0x0102
 
-U18_PORTA                   = 0x0200
-U18_DDRA                    = 0x0201
-U18_PORTB                   = 0x0202
-U18_DDRB                    = 0x0203
+; 1st 6532 on CPU board
+U18_PORTA                       = 0x0200
+U18_DDRA                        = 0x0201
+U18_PORTB                       = 0x0202
+U18_DDRB                        = 0x0203
+U18_timer                       = 0x0204
+U18_edge_detect_control_DI_pos  = 0x0205
+U18_06                          = 0x0206    
+U18_timer_8T_DI                 = 0x0215
+U18_17                          = 0x0217
+U18_1C                          = 0x021C    ; timer div by 1, enable interrupt
+U18_1D                          = 0x021D    ; timer div by 1, disable interrupt
 
-U18_timer                   = 0x0204
-U18_edge_detect_control_DI_neg = 0x0204
-U18_edge_detect_control_DI_pos = 0x0205
-U18_06                      = 0x0206    
-U18_timer_8T_DI             = 0x0215
-X0217 = 0x0217
-U18_1C                      = 0x021C    ; timer div by 1, enable interrupt
-U18_1D                      = 0x021D    ; timer div by 1, disable interrupt
-
-U19_PORTA                   = 0x0280
-U19_DDRA                    = 0x0281
-U19_PORTB                   = 0x0282
-U19_DDRB                    = 0x0283
+; 2nd 6532 on CPU board
+U19_PORTA                       = 0x0280
+U19_DDRA                        = 0x0281
+U19_PORTB                       = 0x0282
+U19_DDRB                        = 0x0283
 U19_edge_detect_control_DI_pos  = 0x0285
-U19_86                      = 0x0286
+U19_06                          = 0x0286
 
-transport_periph$ddr_reg_a  = 0x0300
-transport_control_reg_a     = 0x0301
-transport_periph$ddr_reg_b  = 0x0302
-transport_control_reg_b     = 0x0303
+; XPRT / Board Select 12
+transport_periph$ddr_reg_a      = 0x0300
+transport_control_reg_a         = 0x0301
+transport_periph$ddr_reg_b      = 0x0302
+transport_control_reg_b         = 0x0303
 
-audio_periph$ddr_reg_a      = 0x0380
-audio_control_reg_a         = 0x0381
-audio_periph$ddr_reg_b      = 0x0382
-audio_control_reg_b         = 0x0383
+; AUDIO / Board Select 13
+audio_periph$ddr_reg_a          = 0x0380
+audio_control_reg_a             = 0x0381
+audio_periph$ddr_reg_b          = 0x0382
+audio_control_reg_b             = 0x0383
 
 
 

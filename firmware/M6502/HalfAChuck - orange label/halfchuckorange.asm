@@ -9,8 +9,6 @@
 ;       This image was recovered from a 2708 with an orange label
 ;
 
-RAM_02 = 0x0002
-RAM_08 = 0x0008
 RAM_50 = 0x0050
 RAM_51 = 0x0051
 RAM_52 = 0x0052
@@ -116,10 +114,11 @@ L1C9D:
         lda     RAM_54
         bne     L1C8A
         jmp     L1C76
-;
-        ; this code is skipped
+; unused instructions start
         cmp     #0x60
         bcc     L1CA8
+; unused instructions end
+;
 L1CA8:
         lda     #0x20
         jsr     L1D69
@@ -400,7 +399,7 @@ L1E8E:
         lda     RAM_5F
         bpl     L1EC2
 L1E92:
-        lda     U18_edge_detect_control_DI_neg
+        lda     U18_timer
         eor     #0xFF
         lsr     a
         lsr     a

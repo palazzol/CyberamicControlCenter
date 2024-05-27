@@ -173,7 +173,7 @@ L106F:
         sta     U18_edge_detect_control_DI_pos
         sta     U19_edge_detect_control_DI_pos
         sta     U18_06
-        sta     U19_86
+        sta     U19_06
         sta     transport_control_reg_b
         sta     U18_DDRA
         lda     #0x02

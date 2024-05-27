@@ -8,8 +8,6 @@
 ;
 ;       This image was recovered from the last quarter of a 2732
 ;
-RAM_02 = 0x0002
-RAM_08 = 0x0008
 RAM_50 = 0x0050
 RAM_51 = 0x0051
 RAM_52 = 0x0052

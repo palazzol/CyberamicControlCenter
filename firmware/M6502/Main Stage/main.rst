@@ -86,78 +86,83 @@
                               3 ; Peripheral Addresses for PTT 6502 system
                               4 ;
                               5 
-                     0000     6 RAM_start                   = 0x0000
+                     0000     6 RAM_start                       = 0x0000
                               7 
-                     0080     8 board_1_periph$ddr_reg_a    = 0x0080
-                     0081     9 board_1_control_reg_a       = 0x0081
-                     0082    10 board_1_periph$ddr_reg_b    = 0x0082
-                     0083    11 board_1_control_reg_b       = 0x0083
-                             12 
-                     0084    13 board_2_periph$ddr_reg_a    = 0x0084
-                     0085    14 board_2_control_reg_a       = 0x0085
-                     0086    15 board_2_periph$ddr_reg_b    = 0x0086
-                     0087    16 board_2_control_reg_b       = 0x0087
+                              8 ; Board Select 1
+                     0080     9 board_1_periph$ddr_reg_a        = 0x0080
+                     0081    10 board_1_control_reg_a           = 0x0081
+                     0082    11 board_1_periph$ddr_reg_b        = 0x0082
+                     0083    12 board_1_control_reg_b           = 0x0083
+                             13 
+                             14 ; Board Select 2
+                     0084    15 board_2_periph$ddr_reg_a        = 0x0084
+                     0086    16 board_2_periph$ddr_reg_b        = 0x0086
                              17 
-                     0088    18 board_3_periph$ddr_reg_a    = 0x0088
-                     0089    19 board_3_control_reg_a       = 0x0089
-                     008A    20 board_3_periph$ddr_reg_b    = 0x008A
-                     008B    21 board_3_control_reg_b       = 0x008B
-                             22 
-                     008C    23 board_4_periph$ddr_reg_a    = 0x008C
-                     008D    24 board_4_control_reg_a       = 0x008D
-                     008E    25 board_4_periph$ddr_reg_b    = 0x008E
-                     008F    26 board_4_control_reg_b       = 0x008F
-                             27 
-                     0090    28 board_5_periph$ddr_reg_a    = 0x0090
-                     0092    29 board_5_periph$ddr_reg_b    = 0x0092
-                             30 
-                     0094    31 board_6_periph$ddr_reg_a    = 0x0094
+                             18 ; Board Select 3
+                     0088    19 board_3_periph$ddr_reg_a        = 0x0088
+                     008A    20 board_3_periph$ddr_reg_b        = 0x008A
+                             21 
+                             22 ; Board Select 4
+                     008C    23 board_4_periph$ddr_reg_a        = 0x008C
+                     008E    24 board_4_periph$ddr_reg_b        = 0x008E
+                             25 
+                             26 ; Board Select 5
+                     0090    27 board_5_periph$ddr_reg_a        = 0x0090
+                     0092    28 board_5_periph$ddr_reg_b        = 0x0092
+                             29 
+                             30 ; Board Select 6
+                     0094    31 board_6_periph$ddr_reg_a        = 0x0094
                              32 
-                     0098    33 board_7_periph$ddr_reg_a    = 0x0098
-                     009A    34 board_7_periph$ddr_reg_b    = 0x009A
-                             35 
-                     009C    36 board_8_periph$ddr_reg_a    = 0x009C
-                     009E    37 board_8_periph$ddr_reg_b    = 0x009E
-                             38 
-                     0101    39 UART_01                     = 0x0101
-                     0102    40 UART_02                     = 0x0102
-                             41 
-                     0200    42 U18_PORTA                   = 0x0200
-                     0201    43 U18_DDRA                    = 0x0201
-                     0202    44 U18_PORTB                   = 0x0202
-                     0203    45 U18_DDRB                    = 0x0203
-                             46 
-                     0204    47 U18_timer                   = 0x0204
-                     0204    48 U18_edge_detect_control_DI_neg = 0x0204
-                     0205    49 U18_edge_detect_control_DI_pos = 0x0205
-                     0206    50 U18_06                      = 0x0206    
-                     0215    51 U18_timer_8T_DI             = 0x0215
-                     0217    52 X0217 = 0x0217
-                     021C    53 U18_1C                      = 0x021C    ; timer div by 1, enable interrupt
-                     021D    54 U18_1D                      = 0x021D    ; timer div by 1, disable interrupt
-                             55 
-                     0280    56 U19_PORTA                   = 0x0280
-                     0281    57 U19_DDRA                    = 0x0281
-                     0282    58 U19_PORTB                   = 0x0282
-                     0283    59 U19_DDRB                    = 0x0283
-                     0285    60 U19_edge_detect_control_DI_pos  = 0x0285
-                     0286    61 U19_86                      = 0x0286
-                             62 
-                     0300    63 transport_periph$ddr_reg_a  = 0x0300
-                     0301    64 transport_control_reg_a     = 0x0301
-                     0302    65 transport_periph$ddr_reg_b  = 0x0302
-                     0303    66 transport_control_reg_b     = 0x0303
-                             67 
-                     0380    68 audio_periph$ddr_reg_a      = 0x0380
-                     0381    69 audio_control_reg_a         = 0x0381
-                     0382    70 audio_periph$ddr_reg_b      = 0x0382
-                     0383    71 audio_control_reg_b         = 0x0383
-                             72 
-                             73 
-                             74 
-                             75 
-                             76 
+                             33 ; Board Select 7
+                     0098    34 board_7_periph$ddr_reg_a        = 0x0098
+                     009A    35 board_7_periph$ddr_reg_b        = 0x009A
+                             36 
+                             37 ; Board Select 8
+                     009C    38 board_8_periph$ddr_reg_a        = 0x009C
+                     009E    39 board_8_periph$ddr_reg_b        = 0x009E
+                             40 
+                             41 ; UART / Board Select 11
+                     0101    42 UART_01                         = 0x0101
+                     0102    43 UART_02                         = 0x0102
+                             44 
+                             45 ; 1st 6532 on CPU board
+                     0200    46 U18_PORTA                       = 0x0200
+                     0201    47 U18_DDRA                        = 0x0201
+                     0202    48 U18_PORTB                       = 0x0202
+                     0203    49 U18_DDRB                        = 0x0203
+                     0204    50 U18_timer                       = 0x0204
+                     0205    51 U18_edge_detect_control_DI_pos  = 0x0205
+                     0206    52 U18_06                          = 0x0206    
+                     0215    53 U18_timer_8T_DI                 = 0x0215
+                     0217    54 U18_17                          = 0x0217
+                     021C    55 U18_1C                          = 0x021C    ; timer div by 1, enable interrupt
+                     021D    56 U18_1D                          = 0x021D    ; timer div by 1, disable interrupt
+                             57 
+                             58 ; 2nd 6532 on CPU board
+                     0280    59 U19_PORTA                       = 0x0280
+                     0281    60 U19_DDRA                        = 0x0281
+                     0282    61 U19_PORTB                       = 0x0282
+                     0283    62 U19_DDRB                        = 0x0283
+                     0285    63 U19_edge_detect_control_DI_pos  = 0x0285
+                     0286    64 U19_06                          = 0x0286
+                             65 
+                             66 ; XPRT / Board Select 12
+                     0300    67 transport_periph$ddr_reg_a      = 0x0300
+                     0301    68 transport_control_reg_a         = 0x0301
+                     0302    69 transport_periph$ddr_reg_b      = 0x0302
+                     0303    70 transport_control_reg_b         = 0x0303
+                             71 
+                             72 ; AUDIO / Board Select 13
+                     0380    73 audio_periph$ddr_reg_a          = 0x0380
+                     0381    74 audio_control_reg_a             = 0x0381
+                     0382    75 audio_periph$ddr_reg_b          = 0x0382
+                     0383    76 audio_control_reg_b             = 0x0383
                              77 
+                             78 
+                             79 
+                             80 
+                             81 
+                             82 
                              84 
    1000                      85         .org    0x1000
                              86 ;
@@ -250,7 +255,7 @@
    1084 8D 05 02      [ 4]  173         sta     U18_edge_detect_control_DI_pos
    1087 8D 85 02      [ 4]  174         sta     U19_edge_detect_control_DI_pos
    108A 8D 06 02      [ 4]  175         sta     U18_06
-   108D 8D 86 02      [ 4]  176         sta     U19_86
+   108D 8D 86 02      [ 4]  176         sta     U19_06
    1090 8D 03 03      [ 4]  177         sta     transport_control_reg_b
    1093 8D 01 02      [ 4]  178         sta     U18_DDRA
    1096 A9 02         [ 2]  179         lda     #0x02

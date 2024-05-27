@@ -7,8 +7,6 @@
 ;
 ;       This image was recovered from a 2708 with a label "Dolli C 1C00"
 ;
-RAM_02 = 0x0002
-RAM_08 = 0x0008
 RAM_50 = 0x0050
 RAM_51 = 0x0051
 RAM_52 = 0x0052
@@ -339,7 +337,7 @@ L1E36:
 L1E3A:
         lda     U18_timer
         lda     #0x01
-        sta     X0217
+        sta     U18_17
         dec     RAM_50
         dec     RAM_51
         dec     RAM_52
