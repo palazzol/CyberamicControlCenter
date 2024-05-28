@@ -1,0 +1,57 @@
+
+Memory Map:
+
+0000-03FF Internal RAM
+0400-0DFF NVRAM
+0E00-0FFF EEPROM
+1000-105f Internal Registers
+
+1060-107F ????
+
+1080-1083 Board 1
+1084-1087 Board 2
+1088-108B Board 3
+108C-108F Board 4
+1090-1093 Board 5
+1094-1097 Board 6
+1098-109B Board 7
+109C-109F Board 8
+10A0-10A3 Board 9
+10A4-10A7 Board 10
+10A8-10AB Board 11
+10AC-10AF Board 12
+10B0-10B3 Board 13
+
+10B4-1800 ????
+
+1804-1807 PIASEL
+180C-180F SCCSEL
+
+1810-1FFF ????
+
+2000-7FFF NVRAM
+8000-FFFF Program ROM
+
+Main PIA pins:
+
+PA0 - ENTER button, input, active low
+PA1 - DOWN button, input, active low
+PA2 - UP button, input, active low
+PA3 - MSGLED backlight, output, active high
+PA4 - Button lights clock, output, rising edge active
+PA5 - Diagnostic indicator, output, active low
+PA6 - RESET button light, output, active high?
+PA7 - Tape deck connector input, active low
+
+PB0-PB7 - local DATA bus, output (DA0-DA7)
+
+CA2 - A/V Connector clock, output, rising edge active
+CB2 - Tape Deck Connector clock, output, rising edge active
+
+---
+
+Serial port:
+
+Read routines:
+    80EF - Looking for a 'D'
+    829C - After Printing credits

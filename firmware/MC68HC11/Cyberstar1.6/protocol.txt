@@ -1,0 +1,63 @@
+
+0012 - temp storage for current byte
+
+0048 - counter for number of bytes received
+0049 - storage for character after 2 or more % or $
+004B - possible byte from 0x40-0x5f
+004C - possible byte from 0x30-0x3f
+004D - counter for $ and %
+004E - any movement enabled if non-zero?
+
+0050 - bit mask
+
+if $ or %, inc (004D) and exit
+if ' ', skip and exit
+if < 0x30, skip and exit
+if (004D) > 1, clear 004D, store in 0049, exit
+if (004E) == 0, exit
+start 12 sec countdown timer
+if char from 0x30 to 0x3f, store in 004C, clear 004D, exit
+if char from 0x40 to 0x5f, store in 004B, clear 004D
+(We have a full command now)
+    CNR mode processes 0x3C-0x3F differently
+    ...via jsr L8993
+R12 or CNR (not 0x3C-0x3F)
+    0x3048 or 0x344D or 0x364D - always tied together
+    -> turn off special 3 bits on b1/b3/b4
+    0x3148 or 0x354D or 0x374D - always tied together
+    -> turn on  special 3 bits on b1/b3/b4
+    0x3X....0b0011xxxy
+    xxx - select board (000)=1, (001)=2, to (111)=8
+    y - bit on or off
+    0x40-0x5f...
+    0x50-0x5f -> skip
+    0x40..0x46 (PIA chan A), 0x47-0x4F (PIA chan B)
+    bottom 4 bits:
+       xxxx - bit index:
+       0000 - bit 0, PIA A
+       0001 - bit 1, PIA A
+       0010 - bit 2, PIA A
+       0011 - bit 3, PIA A
+       0100 - bit 4, PIA A
+       0101 - bit 5, PIA A
+       0110 - bit 6, PIA A
+       0111 - bit 7, PIA A
+       1000 - bit 0, PIA B
+       1001 - bit 1, PIA B
+       1010 - bit 2, PIA B
+       1011 - bit 3, PIA B
+       1100 - bit 4, PIA B
+       1101 - bit 5, PIA B
+       1110 - bit 6, PIA B
+       1111 - bit 7, PIA B
+
+CNR - 0x3C-0x3F
+    0x3X...0c001111xy
+        x = 0, use first table
+        x = 1, use second table
+        y = 0, turn off
+        y = 1, turn on
+    0x40-0x5F - bottom 5 bits:
+        xxxxx -> index into table
+        table value is bit mask
+
