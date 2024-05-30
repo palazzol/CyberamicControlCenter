@@ -33,6 +33,17 @@ CSCTL       .equ    0x105d
 CSGADR      .equ    0x105e
 CSGSIZ      .equ    0x105f
 
+;
+; An important note about Labels:
+;
+; Labels of the form LXXXX originally came from disassembly of Cyberstar1.6
+; Hence, the XXXX portion may not match the memory location in Cyberstar1.7
+; Preserving these label names allows easy comparisons between Cyberstar1.6 and 1.7
+;
+; Labels of the form LXXXXN come from new references in Cyberstar1.7
+; and the XXXX should match the routine location
+;
+
 ; Constants
 CHKSUM      .equ    0x197B
 
@@ -61,7 +72,7 @@ TSCNT       .equ    0x00B0
 
 ; NVRAM locations
 
-;           .equ    0x0400          ; 0x07 - CPU test at boot, others?
+;           .equ    0x0400          ; 0x08 - CPU test at boot, others?
 ;           .equ    0x0401          ; Rnd bits? (clears to 0x00)
 ;           .equ    0x0402-0x0404   ; Reg digits (BCD)
 ;           .equ    0x0405-0x0407   ; Liv digits (BCD)
@@ -213,7 +224,7 @@ L80FF:
 L8105:
         ldaa    #0x39
         staa    0x0408          ; set rts here for later CPU test
-        jsr     LA1D5           ; set 0400 to 7, reprogram EE sig if needed
+        jsr     LA1D5           ; set 0400 to 8, reprogram EE sig if needed
         ldaa    LF7C0           ; a 00
         staa    0x045C          ; set to R12 mode?
         jmp     RESET           ; reset!
@@ -359,6 +370,7 @@ L8267:
         clr     (0x005A)
         clr     (0x005E)
         clr     (0x0060)
+L8276:
         jsr     L9B19           ; do the random motions if enabled
         ldaa    (0x0060)
         beq     L8283
@@ -373,19 +385,19 @@ L8283:
         ldab    #0x32
         jsr     DLYSECSBY100    ; delay 0.5 sec
 
-        jsr     0x9D28          ; NEW
+        jsr     L9D28N          ; NEW
         ldd     #0x012C         ; NEW
         std     0x0023          ; NEW
-L8290:
-        jsr     0x9B29          ; NEW
+L8290N:
+        jsr     L9B19           ; NEW
         ldd     0x0023          ; NEW
         cpd     #0x0000         ; NEW
-        beq     0x82A5          ; NEW
+        beq     L829C           ; NEW
 
 L8292:
         jsr     L8E95           ; Was ENTER pressed?
         cmpa    #0x0D
-        bne     L8290
+        bne     L8290N
         jmp     L9292           ; If so, go to diagnostics menu
 L829C:
         jsr     SERIALR
@@ -434,7 +446,7 @@ L8333:
 L8349:
         jsr     L86A4
         bcc     L8351
-        jmp     (0x8273)        ; NEW (CHECK)
+        jmp     L8276
 L8351:
         ldab    SCCR2  
         orab    #0x20
@@ -816,10 +828,10 @@ L8675:
         jsr     DLYSECSBY100    ; delay 0.3 sec
         clr     (0x0031)
 L8680:
-        bra     0x86AF          ; NEW
+        bra     L86A1           ; NEW
         jsr     L86A4
-        bcs     0x86AF          ; NEW
-        jmp     0x86AF          ; NEW
+        bcs     L86A1
+        jmp     L86A1           ; NEW
         clr     (0x004E)
         jsr     L99A6
         jsr     L86C4           ; Reset boards 1-10
@@ -839,9 +851,8 @@ L86A4:
         clr     CDTIMR5
         ldaa    #0x19
         staa    CDTIMR5+1
-        clc
-        rts
-L86BE:                          ; NEW
+        clc                     ; NEW
+        rts                     ; NEW
         ldaa    PORTE
         anda    #0x80
         beq     L86B7
@@ -3465,12 +3476,11 @@ L9CF0:
 L9CF1:
         jsr     LCDMSG1 
         .ascis  '   Program by   '
-
         jsr     LCDMSG2 
         .ascis  'David  Philipsen'
-
         rts
 
+L9D28N:
         jsr     LCDMSG1                 ; NEW
         .ascis  'Press Enter for '      ; NEW
         jsr     LCDMSG2                 ; NEW
@@ -5931,7 +5941,7 @@ LF879:
         staa    SCCR1
         ldaa    #0x0C
         staa    SCCR2
-        ldaa    #0x30
+        ldaa    #0x30           ; NEW value
         staa    BAUD
 
 ; Initialize all RAM vectors to RTI: 
@@ -6013,9 +6023,9 @@ LF8E6:
         beq     LF91D           ; if so, jump to echo hex char routine?
         bra     LF8E6           ; else loop
 LF8F6:
-        ldaa    (0x4000)        ; NEW
+        ldaa    0x4000          ; NEW
         cmpa    #0x7E        
-        bne     0xF908
+        bne     LF908N
 
         ldab    #0x0A
         jsr     DIAGDGT         ; else write digit A to diag display
@@ -6023,8 +6033,8 @@ LF8F6:
         jsr     0x4000          ; NEW - jump to ????
         sei                     ; if we ever come return, just loop and do it all again
         bra     LF91D
-
-        ldaa    (0x8000)        ; check if this is a regular rom?
+LF908N:
+        ldaa    L8000           ; check if this is a regular rom?
         cmpa    #0x7E        
         bne     MINIMON
 
@@ -6034,7 +6044,7 @@ LF8F6:
         jsr     DIAGDGT         ; NEW - A to display?
         jsr     0x8000          ; NEW
         sei                     ; NEW
-        bra     0xF92F          ; NEW
+        bra     LF91D           ; NEW
 
 MINIMON:
         ldab    #0x10           ; not a regular rom
@@ -6058,77 +6068,93 @@ LF91D:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; NEW - All new code here
-        jsr     0xFABB
+LF941N:
+        jsr     LF987
         staa    (0x0001)
         cmpa    #0x30
-        bcs     0xF985
+        bcs     LF985N
         cmpa    #0x39
-        bhi     0xF95B
+        bhi     LF95BN
+LF94EN:
         asla
         asla
         asla
         asla
         ldab    #0x04
         tst     (0x0002)
-        bpl     0xF967
-        bmi     0xF973
+        bpl     LF967N
+        bmi     LF973N
+LF95BN:
         cmpa    #0x41
-        bcs     0xF985
+        bcs     LF985N
         cmpa    #0x47
-        bcc     0xF985
+        bcc     LF985N
         suba    #0x37
-        bra     0xF94E
+        bra     LF94EN
+LF967N:
         rola
         rol     (0x0005)
         rol     (0x0004)
         decb
-        bne     0xF967
-        beq     0xF97E
+        bne     LF967N
+        beq     LF97EN
+LF973N:
         rola
         rol     0x0006
         decb
-        bne     0xF973
+        bne     LF973N
         ldaa    #0xC0
         staa    0x0002
+LF97EN:
         ldaa    0x0001
-        jsr     0xFAA3
-        bra     0xF941
+LF980N:
+        jsr     SERIALW
+        bra     LF941N
+LF985N:
         cmpa    #0x3A
-        bne     0xF98F
+        bne     LF98FN
         ldab    #0x80
         stab    0x0002
-        bra     0xF980
+        bra     LF980N
+LF98FN:
         cmpa    #0x47
-        bne     0xF99B
-        jsr     0xFAA3
+        bne     LF99BN
+        jsr     SERIALW
         jsr     0x0003
-        jmp     0xF92F
+        jmp     LF91D
+LF99BN:
         cmpa    #0x2F
-        bne     0xF9AC
-        bra     0xF9BD
-        jsr     0xFAA3
-        jsr     0xF9D9
+        bne     LF9ACN
+        bra     LF9BDN
+LF9A1N:
+        jsr     SERIALW
+        jsr     LF9D9N
         clr     0x0002
-        bra     0xF941
+        bra     LF941N
+LF9ACN:
         cmpa    #0x2E
-        bne     0xF9C4
+        bne     LF9C4N
         ldaa    #0x5E
-        jsr     0xFAA3
+        jsr     SERIALW
         inc     0x0005
-        bne     0xF9BD
+        bne     LF9BDN
         inc     0x0004
-        jsr     0xFA6C
+LF9BDN:
+        jsr     LFA6CN
         ldaa    #0x2F
-        bra     0xF9A1
+        bra     LF9A1N
+LF9C4N:
         cmpa    #0x2C
-        bne     0xF9F5
+        bne     LF9F5N
         ldaa    #0x21
-        jsr     0xFAA3
+        jsr     SERIALW
         ldaa    0x0005
-        bne     0xF9D4
+        bne     LF9D4N
         dec     0x0004
+LF9D4N:
         dec     0x0005
-        bra     0xF9BD
+        bra     LF9BDN
+LF9D9N:
         ldy     0x0004
         ldaa    0,Y
 
@@ -6155,65 +6181,75 @@ LF942:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; NEW - - All new code here
+LF9F5N:
         cmpa    #0x0D
-        bne     0xFA19
+        bne     LFA19N
         clra
+LF9FAN:
         ldab    0x0002
         andb    #0x40
         staa    0x0002
         tstb
-        beq     0xFA13
+        beq     LFA13N
         ldaa    0x0006
         ldy     0x0004
         staa    0,Y
         inc     0x0005
-        bne     0xFA13
+        bne     LFA13N
         inc     0x0004
+LFA13N:
         clr     0x0006
-        jmp     0xF97E
+        jmp     LF97EN
+LFA19N:
         cmpa    #0x20
-        bne     0xFA21
+        bne     LFA21N
         ldaa    #0x80
-        bra     0xF9FA
+        bra     LF9FAN
+LFA21N:
         cmpa    #0x0A
-        bne     0xFA28
-        jmp     0xF92F
+        bne     LFA28N
+        jmp     LF91D
+LFA28N:
         cmpa    #0x57
-        bne     0xFA34
-        jsr     0xFB0C
-        asrb
-        clra
-        clra
-        rora
-        cmpa    0x81,X
-        inca
-        bne     0xFA67
-        jsr     0xFAA9
+        bne     LFA34N
+        jsr     SERMSGW
+        .ascis  'WOOF!'
+LFA34N:
+        cmpa    #0x4C
+        bne     LFA67N
+        jsr     LF975
+LFA3BN:
         ldx     #0x0000
-        jsr     0xFA6F
+        jsr     LFA6FN
         ldaa    #0x3A
-        jsr     0xFAA3
-        jsr     0xF9D9
+        jsr     SERIALW
+LFA46N:
+        jsr     LF9D9N
         ldaa    #0x20
         inx
         cpx     #0x0010
-        bcs     0xFA53
+        bcs     LFA53N
         ldaa    #0x0D
+LFA53N:
         inc     0x0005
-        bne     0xFA5B
+        bne     LFA5BN
         inc     0x0004
-        jsr     0xFAA3
+LFA5BN:
+        jsr     SERIALW
         cmpa    #0x20
-        beq     0xFA46
-        jsr     0xFA79
-        bcc     0xFA3B
+        beq     LFA46N
+        jsr     SERIALR
+        bcc     LFA3BN
+LFA67N:
         ldaa    #0x07
-        jmp     0xF980
-        jsr     0xFAA9
+        jmp     LF980N
+LFA6CN:
+        jsr     LF975
+LFA6FN:
         ldaa    0x0004
-        jsr     0xF9DF
+        jsr     SERHEXW
         ldaa    0x0005
-        jmp     0xF9DF
+        jmp     SERHEXW
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -6270,7 +6306,6 @@ SERRAWW:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Unused?
 LF987:
         jsr     SERBLKR         ; get a serial char
         cmpa    #0x7A           ;'z'

@@ -360,6 +360,7 @@ L8267:
         clr     (0x005A)
         clr     (0x005E)
         clr     (0x0060)
+L8276:
         jsr     L9B19           ; do the random motions if enabled
         ldaa    (0x0060)
         beq     L8283
@@ -423,7 +424,7 @@ L8333:
 L8349:
         jsr     L86A4
         bcc     L8351
-        jmp     (0x8276)
+        jmp     L8276
 L8351:
         ldab    SCCR2  
         orab    #0x20
