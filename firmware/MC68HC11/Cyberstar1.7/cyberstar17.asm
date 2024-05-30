@@ -6085,9 +6085,9 @@ LF94EN:
         bpl     LF967N
         bmi     LF973N
 LF95BN:
-        cmpa    #0x41
+        cmpa    #0x41               ;'A'
         bcs     LF985N
-        cmpa    #0x47
+        cmpa    #0x47               ;'G'
         bcc     LF985N
         suba    #0x37
         bra     LF94EN
@@ -6111,19 +6111,19 @@ LF980N:
         jsr     SERIALW
         bra     LF941N
 LF985N:
-        cmpa    #0x3A
+        cmpa    #0x3A               ;':'
         bne     LF98FN
         ldab    #0x80
         stab    0x0002
         bra     LF980N
 LF98FN:
-        cmpa    #0x47
+        cmpa    #0x47               ;'G'
         bne     LF99BN
         jsr     SERIALW
         jsr     0x0003
         jmp     LF91D
 LF99BN:
-        cmpa    #0x2F
+        cmpa    #0x2F               ;'/'
         bne     LF9ACN
         bra     LF9BDN
 LF9A1N:
@@ -6132,21 +6132,21 @@ LF9A1N:
         clr     0x0002
         bra     LF941N
 LF9ACN:
-        cmpa    #0x2E
+        cmpa    #0x2E               ;'.'
         bne     LF9C4N
-        ldaa    #0x5E
+        ldaa    #0x5E               ;'^'
         jsr     SERIALW
         inc     0x0005
         bne     LF9BDN
         inc     0x0004
 LF9BDN:
         jsr     LFA6CN
-        ldaa    #0x2F
+        ldaa    #0x2F               ;'/'
         bra     LF9A1N
 LF9C4N:
-        cmpa    #0x2C
+        cmpa    #0x2C               ;','
         bne     LF9F5N
-        ldaa    #0x21
+        ldaa    #0x21               ;'!'
         jsr     SERIALW
         ldaa    0x0005
         bne     LF9D4N
@@ -6182,7 +6182,7 @@ LF942:
 
 ; NEW - - All new code here
 LF9F5N:
-        cmpa    #0x0D
+        cmpa    #0x0D               ;CR
         bne     LFA19N
         clra
 LF9FAN:
@@ -6201,47 +6201,47 @@ LFA13N:
         clr     0x0006
         jmp     LF97EN
 LFA19N:
-        cmpa    #0x20
+        cmpa    #0x20               ;' '
         bne     LFA21N
         ldaa    #0x80
         bra     LF9FAN
 LFA21N:
-        cmpa    #0x0A
+        cmpa    #0x0A               ;LF
         bne     LFA28N
         jmp     LF91D
 LFA28N:
-        cmpa    #0x57
+        cmpa    #0x57               ;'W'
         bne     LFA34N
         jsr     SERMSGW
         .ascis  'WOOF!'
 LFA34N:
-        cmpa    #0x4C
+        cmpa    #0x4C               ;'L'
         bne     LFA67N
         jsr     LF975
 LFA3BN:
         ldx     #0x0000
         jsr     LFA6FN
-        ldaa    #0x3A
+        ldaa    #0x3A               ;':'
         jsr     SERIALW
 LFA46N:
         jsr     LF9D9N
-        ldaa    #0x20
+        ldaa    #0x20               ;' '
         inx
         cpx     #0x0010
         bcs     LFA53N
-        ldaa    #0x0D
+        ldaa    #0x0D               ;CR
 LFA53N:
         inc     0x0005
         bne     LFA5BN
         inc     0x0004
 LFA5BN:
         jsr     SERIALW
-        cmpa    #0x20
+        cmpa    #0x20               ;' '
         beq     LFA46N
         jsr     SERIALR
         bcc     LFA3BN
 LFA67N:
-        ldaa    #0x07
+        ldaa    #0x07               ;BEL
         jmp     LF980N
 LFA6CN:
         jsr     LF975

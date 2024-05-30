@@ -6698,9 +6698,9 @@
    F957 2A 0E         [ 3] 6085         bpl     LF967N
    F959 2B 18         [ 3] 6086         bmi     LF973N
    F95B                    6087 LF95BN:
-   F95B 81 41         [ 2] 6088         cmpa    #0x41
+   F95B 81 41         [ 2] 6088         cmpa    #0x41               ;'A'
    F95D 25 26         [ 3] 6089         bcs     LF985N
-   F95F 81 47         [ 2] 6090         cmpa    #0x47
+   F95F 81 47         [ 2] 6090         cmpa    #0x47               ;'G'
    F961 24 22         [ 3] 6091         bcc     LF985N
    F963 80 37         [ 2] 6092         suba    #0x37
    F965 20 E7         [ 3] 6093         bra     LF94EN
@@ -6724,19 +6724,19 @@
    F980 BD FA A3      [ 6] 6111         jsr     SERIALW
    F983 20 BC         [ 3] 6112         bra     LF941N
    F985                    6113 LF985N:
-   F985 81 3A         [ 2] 6114         cmpa    #0x3A
+   F985 81 3A         [ 2] 6114         cmpa    #0x3A               ;':'
    F987 26 06         [ 3] 6115         bne     LF98FN
    F989 C6 80         [ 2] 6116         ldab    #0x80
    F98B D7 02         [ 3] 6117         stab    0x0002
    F98D 20 F1         [ 3] 6118         bra     LF980N
    F98F                    6119 LF98FN:
-   F98F 81 47         [ 2] 6120         cmpa    #0x47
+   F98F 81 47         [ 2] 6120         cmpa    #0x47               ;'G'
    F991 26 08         [ 3] 6121         bne     LF99BN
    F993 BD FA A3      [ 6] 6122         jsr     SERIALW
    F996 9D 03         [ 5] 6123         jsr     0x0003
    F998 7E F9 2F      [ 3] 6124         jmp     LF91D
    F99B                    6125 LF99BN:
-   F99B 81 2F         [ 2] 6126         cmpa    #0x2F
+   F99B 81 2F         [ 2] 6126         cmpa    #0x2F               ;'/'
    F99D 26 0D         [ 3] 6127         bne     LF9ACN
    F99F 20 1C         [ 3] 6128         bra     LF9BDN
    F9A1                    6129 LF9A1N:
@@ -6745,21 +6745,21 @@
    F9A7 7F 00 02      [ 6] 6132         clr     0x0002
    F9AA 20 95         [ 3] 6133         bra     LF941N
    F9AC                    6134 LF9ACN:
-   F9AC 81 2E         [ 2] 6135         cmpa    #0x2E
+   F9AC 81 2E         [ 2] 6135         cmpa    #0x2E               ;'.'
    F9AE 26 14         [ 3] 6136         bne     LF9C4N
-   F9B0 86 5E         [ 2] 6137         ldaa    #0x5E
+   F9B0 86 5E         [ 2] 6137         ldaa    #0x5E               ;'^'
    F9B2 BD FA A3      [ 6] 6138         jsr     SERIALW
    F9B5 7C 00 05      [ 6] 6139         inc     0x0005
    F9B8 26 03         [ 3] 6140         bne     LF9BDN
    F9BA 7C 00 04      [ 6] 6141         inc     0x0004
    F9BD                    6142 LF9BDN:
    F9BD BD FA 6C      [ 6] 6143         jsr     LFA6CN
-   F9C0 86 2F         [ 2] 6144         ldaa    #0x2F
+   F9C0 86 2F         [ 2] 6144         ldaa    #0x2F               ;'/'
    F9C2 20 DD         [ 3] 6145         bra     LF9A1N
    F9C4                    6146 LF9C4N:
-   F9C4 81 2C         [ 2] 6147         cmpa    #0x2C
+   F9C4 81 2C         [ 2] 6147         cmpa    #0x2C               ;','
    F9C6 26 2D         [ 3] 6148         bne     LF9F5N
-   F9C8 86 21         [ 2] 6149         ldaa    #0x21
+   F9C8 86 21         [ 2] 6149         ldaa    #0x21               ;'!'
    F9CA BD FA A3      [ 6] 6150         jsr     SERIALW
    F9CD 96 05         [ 3] 6151         ldaa    0x0005
    F9CF 26 03         [ 3] 6152         bne     LF9D4N
@@ -6795,7 +6795,7 @@
                            6182 
                            6183 ; NEW - - All new code here
    F9F5                    6184 LF9F5N:
-   F9F5 81 0D         [ 2] 6185         cmpa    #0x0D
+   F9F5 81 0D         [ 2] 6185         cmpa    #0x0D               ;CR
    F9F7 26 20         [ 3] 6186         bne     LFA19N
    F9F9 4F            [ 2] 6187         clra
    F9FA                    6188 LF9FAN:
@@ -6814,47 +6814,47 @@
    FA13 7F 00 06      [ 6] 6201         clr     0x0006
    FA16 7E F9 7E      [ 3] 6202         jmp     LF97EN
    FA19                    6203 LFA19N:
-   FA19 81 20         [ 2] 6204         cmpa    #0x20
+   FA19 81 20         [ 2] 6204         cmpa    #0x20               ;' '
    FA1B 26 04         [ 3] 6205         bne     LFA21N
    FA1D 86 80         [ 2] 6206         ldaa    #0x80
    FA1F 20 D9         [ 3] 6207         bra     LF9FAN
    FA21                    6208 LFA21N:
-   FA21 81 0A         [ 2] 6209         cmpa    #0x0A
+   FA21 81 0A         [ 2] 6209         cmpa    #0x0A               ;LF
    FA23 26 03         [ 3] 6210         bne     LFA28N
    FA25 7E F9 2F      [ 3] 6211         jmp     LF91D
    FA28                    6212 LFA28N:
-   FA28 81 57         [ 2] 6213         cmpa    #0x57
+   FA28 81 57         [ 2] 6213         cmpa    #0x57               ;'W'
    FA2A 26 08         [ 3] 6214         bne     LFA34N
    FA2C BD FB 0C      [ 6] 6215         jsr     SERMSGW
    FA2F 57 4F 4F 46 A1     6216         .ascis  'WOOF!'
    FA34                    6217 LFA34N:
-   FA34 81 4C         [ 2] 6218         cmpa    #0x4C
+   FA34 81 4C         [ 2] 6218         cmpa    #0x4C               ;'L'
    FA36 26 2F         [ 3] 6219         bne     LFA67N
    FA38 BD FA A9      [ 6] 6220         jsr     LF975
    FA3B                    6221 LFA3BN:
    FA3B CE 00 00      [ 3] 6222         ldx     #0x0000
    FA3E BD FA 6F      [ 6] 6223         jsr     LFA6FN
-   FA41 86 3A         [ 2] 6224         ldaa    #0x3A
+   FA41 86 3A         [ 2] 6224         ldaa    #0x3A               ;':'
    FA43 BD FA A3      [ 6] 6225         jsr     SERIALW
    FA46                    6226 LFA46N:
    FA46 BD F9 D9      [ 6] 6227         jsr     LF9D9N
-   FA49 86 20         [ 2] 6228         ldaa    #0x20
+   FA49 86 20         [ 2] 6228         ldaa    #0x20               ;' '
    FA4B 08            [ 3] 6229         inx
    FA4C 8C 00 10      [ 4] 6230         cpx     #0x0010
    FA4F 25 02         [ 3] 6231         bcs     LFA53N
-   FA51 86 0D         [ 2] 6232         ldaa    #0x0D
+   FA51 86 0D         [ 2] 6232         ldaa    #0x0D               ;CR
    FA53                    6233 LFA53N:
    FA53 7C 00 05      [ 6] 6234         inc     0x0005
    FA56 26 03         [ 3] 6235         bne     LFA5BN
    FA58 7C 00 04      [ 6] 6236         inc     0x0004
    FA5B                    6237 LFA5BN:
    FA5B BD FA A3      [ 6] 6238         jsr     SERIALW
-   FA5E 81 20         [ 2] 6239         cmpa    #0x20
+   FA5E 81 20         [ 2] 6239         cmpa    #0x20               ;' '
    FA60 27 E4         [ 3] 6240         beq     LFA46N
    FA62 BD FA 79      [ 6] 6241         jsr     SERIALR
    FA65 24 D4         [ 3] 6242         bcc     LFA3BN
    FA67                    6243 LFA67N:
-   FA67 86 07         [ 2] 6244         ldaa    #0x07
+   FA67 86 07         [ 2] 6244         ldaa    #0x07               ;BEL
    FA69 7E F9 80      [ 3] 6245         jmp     LF980N
    FA6C                    6246 LFA6CN:
    FA6C BD FA A9      [ 6] 6247         jsr     LF975
