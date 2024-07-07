@@ -6,38 +6,41 @@
 ;       The Beagles/King Program
 ;       Version Unknown
 ;
+;       Triggered by PROG button press / coin mech
+;       No AGC Mic Logic
+;
 ;       This image was recovered from an unmarked 2708
 ;
 
-RAM_50    = 0x0050
-RAM_51    = 0x0051
-RAM_52    = 0x0052
-RAM_53    = 0x0053
-RAM_54    = 0x0054
-RAM_55    = 0x0055
-RAM_56    = 0x0056
-RAM_57    = 0x0057
-RAM_58    = 0x0058
-RAM_59    = 0x0059
-RAM_5A    = 0x005A
-RAM_5B    = 0x005B
-RAM_5C    = 0x005C
-RAM_5D    = 0x005D
-RAM_5E    = 0x005E
-RAM_5F    = 0x005F
+RAM_50  = 0x0050    ; decremented every 1ms
+RAM_51  = 0x0051    ; decremented every 1ms
+RAM_52  = 0x0052    ; decremented every 1ms
+RAM_53  = 0x0053    ; decremented every 1ms, resets to 100
+RAM_54  = 0x0054    ; decremented every 0.1s
+RAM_55  = 0x0055    ; decremented every 0.1s, resets to 100
+RAM_56  = 0x0056    ; decremented every 10s
+RAM_57  = 0x0057    ; temp timer storage
+RAM_58  = 0x0058    ; zero crossing counter
+RAM_59  = 0x0059    ; track counter
+RAM_5A  = 0x005A    ; number of PROG button presses
+RAM_5B  = 0x005B    ; 0x00=stopped, 0x80=playing
+RAM_5C  = 0x005C    ; storage for incoming serial byte (& 0x7F)
+RAM_5D  = 0x005D    ; bitmask for solenoids
+RAM_5E  = 0x005E    ; current channel serial byte
+RAM_5F  = 0x005F    ; temp timer storage
 
-RAM_64    = 0x0064
+RAM_64  = 0x0064    ; current channel port address
 
         .include "../include/ptt6502.def"
 
         .org     0x1C00
 ;
 RESET:
-        cld
-        sei                                             ; no decimal mode
-        ldx     #0xF0                                   ; interrupts are not used
-        txs                                             ; stack is at 0x01F0
-        lda     #0x00                                   ; Clear and Test RAM 
+        cld                                             ; No decimal mode
+        sei                                             ; Interrupts are not used
+        ldx     #0xF0                                   ; Stack is at 0x01F0
+        txs
+        lda     #0x00                                   ; Clear RAM
         ldx     #0x10                                   ; from 0x0010 to 0x007F
 L1C09:
         sta     RAM_start,x
@@ -50,7 +53,7 @@ L1C09:
         sta     audio_control_reg_a                     ; Clear audio control A, select DDRA
         sta     audio_periph$ddr_reg_a                  ; Comparator inputs
         sta     audio_control_reg_b                     ; Clear audio control B
-        sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release       
+        sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
         sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
         sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
@@ -60,7 +63,7 @@ L1C09:
         sta     U18_DDRB                                ; Button lights are outputs
         sta     U19_DDRB                                ; CPU card lights are outputs
         lda     #0xFC
-        sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs           
+        sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
         lda     #0x2E
         sta     transport_control_reg_a                 ; transport CA2 is Read strobe (~DDR), set IRQA bit on ~DR low to high 
         sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
@@ -70,7 +73,7 @@ L1C09:
         lda     #0x64
         sta     RAM_53                                  ; 100 - init 1 msec master counter
         lda     #0x64
-        sta     RAM_56                                  ; 100 - init a 1000 sec = 16 min counter?
+        sta     RAM_56                                  ; 100 - init a 1000 sec = 16 min counter? mistake?
         lda     #0xF0
         sta     audio_periph$ddr_reg_b                  ; DAC08 outputs - upper 4 bits only?
         sta     U19_PORTB                               ; turn on CPU LEDs 5-8
@@ -90,6 +93,7 @@ L1C73:
 L1C78:
         lda     #0x00
         sta     RAM_58                                  ; counter to zero
+; Look for the long tone at the beginning of tape
 L1C7C:
         jsr     L1E72                                   ; housekeeping
         lda     transport_control_reg_b                 ; loop until we see tone marking beginning of tape
@@ -101,8 +105,8 @@ L1C7C:
 L1C8C:
         jsr     L1E72                                   ; housekeeping
         lda     transport_control_reg_b                 ; loop until 100 transport CB1 rising edges or 0.6 secs expired
-        bpl     L1C9F
-        inc     RAM_58                                  ; count transistions
+        bpl     L1C9F                                   ; (> 83.333 Hz for 100 zero crossings)
+        inc     RAM_58                                  ; count transitions
         lda     transport_periph$ddr_reg_b
         lda     RAM_58
         cmp     #0x64
@@ -120,7 +124,7 @@ L1CAA:
         lda     #0x20
         jsr     L1D74                                   ; FFWD tape
         lda     #0x19
-        sta     RAM_54                                  ; for 2.5 secs
+        sta     RAM_54                                  ; 2.5 secs
         lda     #0x64
         sta     RAM_53
 L1CB7:
@@ -129,20 +133,20 @@ L1CB7:
         bne     L1CB7
         lda     #0x00
         sta     RAM_59
-        jsr     L1D83                                   ; look for start of data??
+        jsr     L1D83                                   ; wait for tone signaling beginning of track
         inc     RAM_59
         lda     #0x10
         jsr     L1D60                                   ; STOP tape
         lda     #0x80
         jsr     L1D60                                   ; PLAY tape
-        jsr     L1DA6                                   ; go up to carrier?
+        jsr     L1DA6                                   ; wait for carrier
         lda     #0x10
         jsr     L1D60                                   ; STOP Tape
-        jsr     L1D33                                   ; init the boards and audio to stopped
+        jsr     L1D33                                   ; init the boards
         lda     #0x00
         sta     RAM_5A                                  ; set state to not playing
 L1CE0:
-        jsr     L1E72                           
+        jsr     L1E72                                   ; do housekeeping stuff
         lda     RAM_5A                                  ; wait until we are triggered
         bne     L1CF4                                   ; then jump
         lda     #0x02                                   ; else
@@ -152,19 +156,19 @@ L1CE0:
         jmp     L1CE0
 ;   we have been started!
 L1CF4:
-        jsr     L1D33                                   ; init the boards and audio to stopped
+        jsr     L1D33                                   ; init the boards
         lda     #0x00
         sta     U19_PORTA                               ; turn off RESET button light
         lda     #0x80
         sta     U18_PORTB                               ; turn off all but PROG light
         lda     #0x80
         jsr     L1D60                                   ; PLAY tape
-        jsr     L1DA6                                   ; go up to carrier?
+        jsr     L1DA6                                   ; wait for carrier
         dec     RAM_5A                                  ; no longer triggered
         jsr     L1DCC                                   ; play a track!
-        jsr     L1D33                                   ; init the boards and audio to stopped
+        jsr     L1D33                                   ; init the boards
         lda     #0x30
-        sta     RAM_56                                  ; 8 minute timer?
+        sta     RAM_56                                  ; set an 8 minute timer?
         lda     #0x64
         sta     RAM_55
         inc     RAM_59                                  ; track counter
@@ -172,14 +176,16 @@ L1CF4:
         cmp     #0x1A                                   ; 26?
         bcc     L1D24
         jmp     L1C73                                   ; rewind the tape after the total number of tracks are done
-;
+; go to next track
 L1D24:
-        jsr     L1DA6                                   ; go up to carrier?
+        jsr     L1DA6                                   ; wait for carrier
         lda     #0x10
         jsr     L1D60                                   ; STOP tape
         lda     #0x00
         sta     RAM_5A                                  ; no longer triggered
         jmp     L1CE0
+;
+;       Init boards, bg audio stopped, tape audio enable
 ;
 L1D33:
         lda     #0x3C
@@ -238,7 +244,8 @@ L1D7B:
         bne     L1D7B
         rts
 ;
-;       Look for header / start of data?
+;       Wait for tone during Fast Forward, signaling beginning of track
+;       (50Hz or above, for 33 zero crossing) 
 ;
 L1D83:
         lda     #0x00
@@ -249,18 +256,22 @@ L1D87:
         sta     RAM_50                                  ; 10 msec
         inc     RAM_58
         lda     RAM_58
-        cmp     #0x21                                   ; wait for 330 msec?
+        cmp     #0x21                                   ; wait for 33 rising edges, each within 10ms window
         bcs     L1DA5                                   ; timeout - exit
 L1D96:
         jsr     L1E72                                   ; housekeeping
         lda     RAM_50
         beq     L1D83                                   ; 10 msec done yet? then loop
         lda     transport_control_reg_b                 ; transport CB1 rising edge?
-        bpl     L1D96                                   ; if so, extend the looping
+        bpl     L1D96                                   ; if not, extend the looping
         jmp     L1D87                                   ; else loop but keep timeout going
 L1DA5:
         rts
 ;
+;       Wait for carrier / start of data
+;
+
+; Wait for 250ms
 L1DA6:
         lda     #0xFA
         sta     RAM_50                                  ; 250 msec
@@ -268,21 +279,25 @@ L1DAA:
         jsr     L1E72                                   ; housekeeping
         lda     RAM_50
         bne     L1DAA
+
+; Wait for 160ms of consecutive zero crossings
 L1DB1:
-        jsr     L1E72
+        jsr     L1E72                                   ; housekeeping
         lda     transport_periph$ddr_reg_b
         ror     a
         bcc     L1DB1
         lda     #0xA0                                   ; 160 msec
         sta     RAM_50
 L1DBE:
-        jsr     L1E72
+        jsr     L1E72                                   ; housekeeping
         lda     transport_periph$ddr_reg_b
         ror     a
         bcc     L1DB1
         lda     RAM_50
         bne     L1DBE
         rts
+;
+;       Play a track
 ;
 L1DCC:
         lda     transport_periph$ddr_reg_a
@@ -302,9 +317,10 @@ L1DE3:
         jsr     L1E72                                   ; housekeeping
         lda     transport_control_reg_a                 ; Did we get a byte?
         bpl     L1DE3                                   ; No, loop
-        jsr     L1E09                                   ; Yes, Process Incoming Byte 
+        jsr     L1E09                                   ; Yes, Process Incoming Byte
         jmp     L1DE3
-;
+
+;       Lost carrier - wait 100 msec for more data before giving up
 L1DF7:
         lda     #0x64                                   ; 100 msec
         sta     RAM_50
@@ -312,7 +328,7 @@ L1DFB:
         jsr     L1E72
         lda     transport_periph$ddr_reg_b
         lsr     a
-        bcs     L1DCC                                   ; carrier 
+        bcs     L1DCC                                   ; carrier
         lda     RAM_50
         bne     L1DFB
         rts
@@ -389,7 +405,8 @@ X1E6A:
         .db      0x01, 0x02, 0x04, 0x08
         .db      0x10, 0x20, 0x40, 0x80
 ;
-; RAM_50 used on entry
+;       Housekeeping routine
+;       RAM_50 used on entry
 ;
 L1E72:
         lda     U18_edge_detect_control_DI_pos          ; Did the PROG button get pushed or timer expire?
@@ -397,13 +414,13 @@ L1E72:
         beq     L1EC9                                   ; No flags set, return
         lda     RAM_5B                                  ; Are we already running?
         bmi     L1E8B                                   ; yes, jump ahead
-        lda     RAM_5F                                  ; else check flags                                  
+        lda     RAM_5F                                  ; else check flags
         and     #0x40                                   ; PROG pushed?
-        beq     L1E99                                   ; if not, go to AGC
+        beq     L1E99                                   ; if not, go to adjust timer
         lda     #0x80
         sta     RAM_5B                                  ; now we are running!
         lda     #0xFA
-        sta     RAM_51                                  ; 
+        sta     RAM_51
 L1E8B:
         lda     RAM_51
         bne     L1E95
@@ -413,6 +430,7 @@ L1E8B:
 L1E95:
         lda     RAM_5F                                  ; check timer irq bit
         bpl     L1EC9                                   ; if timer not expired, return
+; Adjust Timer routine
 L1E99:
         lda     U18_timer                               ; read timer in U18
         eor     #0xFF                                   ; flip the bits
@@ -429,7 +447,7 @@ L1EA7:
         sec                                             ; with programming delays, this is 1 msec
         sbc     RAM_57
         sta     U18_timer_8T_DI                         ; set timer
-        dec     RAM_50                                  ; decrement these timers every timer reset
+        dec     RAM_50                                  ; decrement these timers every timer reset (1ms)
         dec     RAM_51
         dec     RAM_52
         dec     RAM_53
@@ -445,7 +463,7 @@ L1EA7:
 L1EC9:
         rts
 ;
-; AGC table, unused
+;       AGC table, unused
 ;
         .db      0x03, 0x04, 0x06, 0x08
         .db      0x10, 0x16, 0x20, 0x2D
