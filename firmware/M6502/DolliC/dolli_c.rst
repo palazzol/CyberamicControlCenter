@@ -7,28 +7,29 @@
                               7 ;
                               8 ;       This image was recovered from a 2708 with a label "Dolli C 1C00"
                               9 ;
-                     0050    10 RAM_50 = 0x0050
-                     0051    11 RAM_51 = 0x0051
-                     0052    12 RAM_52 = 0x0052
-                     0053    13 RAM_53 = 0x0053
-                     0054    14 RAM_54 = 0x0054
-                     0055    15 RAM_55 = 0x0055
-                     0056    16 RAM_56 = 0x0056
-                     0057    17 RAM_57 = 0x0057
-                     0058    18 RAM_58 = 0x0058
-                     0059    19 RAM_59 = 0x0059
-                     005A    20 RAM_5A = 0x005A
-                     005B    21 RAM_5B = 0x005B
-                     005C    22 RAM_5C = 0x005C
-                     005D    23 RAM_5D = 0x005D
-                     005E    24 RAM_5E = 0x005E
-                     005F    25 RAM_5F = 0x005F
-                     0060    26 RAM_60 = 0x0060
-                     0061    27 RAM_61 = 0x0061
-                     0062    28 RAM_62 = 0x0062
-                     0063    29 RAM_63 = 0x0063
-                             30 
-                             31         .include "../include/ptt6502.def"
+                             10 
+                     0050    11 RAM_50  = 0x0050    ; decremented every 1ms
+                     0051    12 RAM_51  = 0x0051    ; decremented every 1ms
+                     0052    13 RAM_52  = 0x0052    ; decremented every 1ms
+                     0053    14 RAM_53  = 0x0053    ; decremented every 1ms, resets to 100
+                     0054    15 RAM_54  = 0x0054    ; decremented every 0.1s
+                     0055    16 RAM_55  = 0x0055    ; decremented every 0.1s
+                     0056    17 RAM_56  = 0x0056    ; decremented every 0.1s, resets to 100
+                     0057    18 RAM_57  = 0x0057    ; decremented every 10s
+                     0058    19 RAM_58  = 0x0058    ; zero crossing counter
+                     0059    20 RAM_59  = 0x0059    ; track counter
+                     005A    21 RAM_5A  = 0x005A    ; number of PROG button presses
+                     005B    22 RAM_5B  = 0x005B    ; 0x00=PROG was not pushed, 0x80=Prog was pushed
+                     005C    23 RAM_5C  = 0x005C    ; storage for incoming serial byte (& 0x7F)
+                     005D    24 RAM_5D  = 0x005D    ; bitmask for solenoids
+                     005E    25 RAM_5E  = 0x005E    ; current channel serial byte
+                     005F    26 RAM_5F  = 0x005F    ; temp timer storage
+                     0060    27 RAM_60  = 0x0060    ; agc mic level
+                     0061    28 RAM_61  = 0x0061    ; agc mic level accumulator
+                     0062    29 RAM_62  = 0x0062    ; agc mic sample counter
+                     0063    30 RAM_63  = 0x0063    ; agc calculated gain value
+                             31 
+                             32         .include "../include/ptt6502.def"
                               1 
                               2 ;
                               3 ; Peripheral Addresses for PTT 6502 system
@@ -106,421 +107,457 @@
                      0382    75 audio_periph$ddr_reg_b          = 0x0382
                      0383    76 audio_control_reg_b             = 0x0383
                              77 
-                             78 
-                             79 
-                             80 
-                             81 
-                             82 
-                             32 
-   1C00                      33         .org    0x1C00
-                             34 ;
-   1C00                      35 RESET:
-   1C00 D8            [ 2]   36         cld
-   1C01 78            [ 2]   37         sei
-   1C02 A2 F0         [ 2]   38         ldx     #0xF0
-   1C04 9A            [ 2]   39         txs
-   1C05 A9 00         [ 2]   40         lda     #0x00
-   1C07 A2 10         [ 2]   41         ldx     #0x10
-   1C09                      42 L1C09:
-   1C09 95 00         [ 4]   43         sta     RAM_start,x
-   1C0B E8            [ 2]   44         inx
-   1C0C E0 80         [ 2]   45         cpx     #0x80
-   1C0E D0 F9         [ 4]   46         bne     L1C09
-   1C10 A9 00         [ 2]   47         lda     #0x00
-   1C12 8D 01 03      [ 4]   48         sta     transport_control_reg_a
-   1C15 8D 00 03      [ 4]   49         sta     transport_periph$ddr_reg_a
-   1C18 8D 81 03      [ 4]   50         sta     audio_control_reg_a
-   1C1B 8D 80 03      [ 4]   51         sta     audio_periph$ddr_reg_a
-   1C1E 8D 83 03      [ 4]   52         sta     audio_control_reg_b
-   1C21 8D 05 02      [ 4]   53         sta     U18_edge_detect_control_DI_pos
-   1C24 8D 03 03      [ 4]   54         sta     transport_control_reg_b
-   1C27 8D 01 02      [ 4]   55         sta     U18_DDRA
-   1C2A A9 02         [ 2]   56         lda     #0x02
-   1C2C 8D 81 02      [ 4]   57         sta     U19_DDRA
-   1C2F A9 FF         [ 2]   58         lda     #0xFF
-   1C31 8D 82 03      [ 4]   59         sta     audio_periph$ddr_reg_b
-   1C34 8D 03 02      [ 4]   60         sta     U18_DDRB
-   1C37 8D 83 02      [ 4]   61         sta     U19_DDRB
-   1C3A A9 FC         [ 2]   62         lda     #0xFC
-   1C3C 8D 02 03      [ 4]   63         sta     transport_periph$ddr_reg_b
-   1C3F A9 2E         [ 2]   64         lda     #0x2E
-   1C41 8D 01 03      [ 4]   65         sta     transport_control_reg_a
-   1C44 8D 03 03      [ 4]   66         sta     transport_control_reg_b
-   1C47 8D 83 03      [ 4]   67         sta     audio_control_reg_b
-   1C4A 8D 81 03      [ 4]   68         sta     audio_control_reg_a
-   1C4D A9 64         [ 2]   69         lda     #0x64
-   1C4F 85 53         [ 3]   70         sta     RAM_53
-   1C51 A9 2B         [ 2]   71         lda     #0x2B
-   1C53 85 57         [ 3]   72         sta     RAM_57
-   1C55 A9 10         [ 2]   73         lda     #0x10
-   1C57 85 63         [ 3]   74         sta     RAM_63
-   1C59 A9 10         [ 2]   75         lda     #0x10
-   1C5B 20 1F 1D      [ 6]   76         jsr     L1D1F
-   1C5E A9 28         [ 2]   77         lda     #0x28
-   1C60 85 54         [ 3]   78         sta     RAM_54
-   1C62                      79 L1C62:
-   1C62 20 13 1E      [ 6]   80         jsr     L1E13
-   1C65 A5 54         [ 3]   81         lda     RAM_54
-   1C67 D0 F9         [ 4]   82         bne     L1C62
-   1C69                      83 L1C69:
-   1C69 A9 40         [ 2]   84         lda     #0x40
-   1C6B 20 1F 1D      [ 6]   85         jsr     L1D1F
-   1C6E                      86 L1C6E:
-   1C6E 20 33 1D      [ 6]   87         jsr     L1D33
-   1C71 A5 58         [ 3]   88         lda     RAM_58
-   1C73 C9 60         [ 2]   89         cmp     #0x60
-   1C75 90 F7         [ 4]   90         bcc     L1C6E
-   1C77 A9 20         [ 2]   91         lda     #0x20
-   1C79 20 1F 1D      [ 6]   92         jsr     L1D1F
-   1C7C A9 19         [ 2]   93         lda     #0x19
-   1C7E 85 54         [ 3]   94         sta     RAM_54
-   1C80                      95 L1C80:
-   1C80 20 13 1E      [ 6]   96         jsr     L1E13
-   1C83 A5 54         [ 3]   97         lda     RAM_54
-   1C85 D0 F9         [ 4]   98         bne     L1C80
-   1C87 A9 00         [ 2]   99         lda     #0x00
-   1C89 85 59         [ 3]  100         sta     RAM_59
-   1C8B 20 33 1D      [ 6]  101         jsr     L1D33
-   1C8E E6 59         [ 5]  102         inc     RAM_59
-   1C90 A9 10         [ 2]  103         lda     #0x10
-   1C92 20 1F 1D      [ 6]  104         jsr     L1D1F
-   1C95 A9 80         [ 2]  105         lda     #0x80
-   1C97 20 1F 1D      [ 6]  106         jsr     L1D1F
-   1C9A 20 61 1D      [ 6]  107         jsr     L1D61
-   1C9D A9 10         [ 2]  108         lda     #0x10
-   1C9F 20 1F 1D      [ 6]  109         jsr     L1D1F
-   1CA2 20 F9 1C      [ 6]  110         jsr     L1CF9
-   1CA5                     111 L1CA5:
-   1CA5 20 13 1E      [ 6]  112         jsr     L1E13
-   1CA8 20 A0 1E      [ 6]  113         jsr     L1EA0
-   1CAB A5 5A         [ 3]  114         lda     RAM_5A
-   1CAD D0 10         [ 4]  115         bne     L1CBF
-   1CAF A9 02         [ 2]  116         lda     #0x02
-   1CB1 8D 80 02      [ 4]  117         sta     U19_PORTA
-   1CB4 A9 00         [ 2]  118         lda     #0x00
-   1CB6 8D 02 02      [ 4]  119         sta     U18_PORTB
-   1CB9 A5 57         [ 3]  120         lda     RAM_57
-   1CBB D0 E8         [ 4]  121         bne     L1CA5
-   1CBD E6 5A         [ 5]  122         inc     RAM_5A
-   1CBF                     123 L1CBF:
-   1CBF 20 F9 1C      [ 6]  124         jsr     L1CF9
-   1CC2 A9 00         [ 2]  125         lda     #0x00
-   1CC4 8D 80 02      [ 4]  126         sta     U19_PORTA
-   1CC7 A9 80         [ 2]  127         lda     #0x80
-   1CC9 8D 02 02      [ 4]  128         sta     U18_PORTB
-   1CCC A9 80         [ 2]  129         lda     #0x80
-   1CCE 20 1F 1D      [ 6]  130         jsr     L1D1F
-   1CD1 20 61 1D      [ 6]  131         jsr     L1D61
-   1CD4 C6 5A         [ 5]  132         dec     RAM_5A
-   1CD6 20 87 1D      [ 6]  133         jsr     L1D87
-   1CD9 20 F9 1C      [ 6]  134         jsr     L1CF9
-   1CDC A9 2B         [ 2]  135         lda     #0x2B
-   1CDE 85 57         [ 3]  136         sta     RAM_57
-   1CE0 E6 59         [ 5]  137         inc     RAM_59
-   1CE2 A5 59         [ 3]  138         lda     RAM_59
-   1CE4 C9 1A         [ 2]  139         cmp     #0x1A
-   1CE6 90 03         [ 4]  140         bcc     L1CEB
-   1CE8 4C 69 1C      [ 3]  141         jmp     L1C69
-                            142 ;
-   1CEB                     143 L1CEB:
-   1CEB 20 61 1D      [ 6]  144         jsr     L1D61
-   1CEE A9 10         [ 2]  145         lda     #0x10
-   1CF0 20 1F 1D      [ 6]  146         jsr     L1D1F
-   1CF3 20 5F 1E      [ 6]  147         jsr     L1E5F
-   1CF6 4C A5 1C      [ 3]  148         jmp     L1CA5
-                            149 ;
-   1CF9                     150 L1CF9:
-   1CF9 A9 00         [ 2]  151         lda     #0x00
-   1CFB A2 01         [ 2]  152         ldx     #0x01
-   1CFD 20 16 1D      [ 6]  153         jsr     L1D16
-   1D00 A9 FF         [ 2]  154         lda     #0xFF
-   1D02 A2 00         [ 2]  155         ldx     #0x00
-   1D04 20 16 1D      [ 6]  156         jsr     L1D16
-   1D07 A9 34         [ 2]  157         lda     #0x34
-   1D09 A2 01         [ 2]  158         ldx     #0x01
-   1D0B 20 16 1D      [ 6]  159         jsr     L1D16
-   1D0E A9 00         [ 2]  160         lda     #0x00
-   1D10 A2 00         [ 2]  161         ldx     #0x00
-   1D12 20 16 1D      [ 6]  162         jsr     L1D16
-   1D15 60            [ 6]  163         rts
-                            164 ;
-   1D16                     165 L1D16:
-   1D16 95 84         [ 4]  166         sta     board_2_periph$ddr_reg_a,x
-   1D18 95 86         [ 4]  167         sta     board_2_periph$ddr_reg_b,x
-   1D1A 95 88         [ 4]  168         sta     board_3_periph$ddr_reg_a,x
-   1D1C 95 8A         [ 4]  169         sta     board_3_periph$ddr_reg_b,x
-   1D1E 60            [ 6]  170         rts
-                            171 ;
-   1D1F                     172 L1D1F:
-   1D1F 8D 02 03      [ 4]  173         sta     transport_periph$ddr_reg_b
-   1D22 A9 FF         [ 2]  174         lda     #0xFF
-   1D24 85 50         [ 3]  175         sta     RAM_50
-   1D26                     176 L1D26:
-   1D26 20 13 1E      [ 6]  177         jsr     L1E13
-   1D29 A5 50         [ 3]  178         lda     RAM_50
-   1D2B D0 F9         [ 4]  179         bne     L1D26
-   1D2D A9 00         [ 2]  180         lda     #0x00
-   1D2F 8D 02 03      [ 4]  181         sta     transport_periph$ddr_reg_b
-   1D32 60            [ 6]  182         rts
-                            183 ;
-   1D33                     184 L1D33:
-   1D33 A9 00         [ 2]  185         lda     #0x00
-   1D35 85 58         [ 3]  186         sta     RAM_58
-   1D37                     187 L1D37:
-   1D37 20 13 1E      [ 6]  188         jsr     L1E13
-   1D3A AD 03 03      [ 4]  189         lda     transport_control_reg_b
-   1D3D 10 F8         [ 4]  190         bpl     L1D37
-   1D3F A9 04         [ 2]  191         lda     #0x04
-   1D41 85 54         [ 3]  192         sta     RAM_54
-   1D43                     193 L1D43:
-   1D43 20 13 1E      [ 6]  194         jsr     L1E13
-   1D46 AD 03 03      [ 4]  195         lda     transport_control_reg_b
-   1D49 10 0B         [ 4]  196         bpl     L1D56
-   1D4B E6 58         [ 5]  197         inc     RAM_58
-   1D4D AD 02 03      [ 4]  198         lda     transport_periph$ddr_reg_b
-   1D50 A5 58         [ 3]  199         lda     RAM_58
-   1D52 C9 60         [ 2]  200         cmp     #0x60
-   1D54 B0 0A         [ 4]  201         bcs     L1D60
-   1D56                     202 L1D56:
-   1D56 A5 54         [ 3]  203         lda     RAM_54
-   1D58 D0 E9         [ 4]  204         bne     L1D43
-   1D5A A5 58         [ 3]  205         lda     RAM_58
-   1D5C C9 20         [ 2]  206         cmp     #0x20
-   1D5E 90 D3         [ 4]  207         bcc     L1D33
-   1D60                     208 L1D60:
-   1D60 60            [ 6]  209         rts
-                            210 ;
-   1D61                     211 L1D61:
-   1D61 A9 FA         [ 2]  212         lda     #0xFA
-   1D63 85 50         [ 3]  213         sta     RAM_50
-   1D65                     214 L1D65:
-   1D65 20 13 1E      [ 6]  215         jsr     L1E13
-   1D68 A5 50         [ 3]  216         lda     RAM_50
-   1D6A D0 F9         [ 4]  217         bne     L1D65
-   1D6C                     218 L1D6C:
-   1D6C 20 13 1E      [ 6]  219         jsr     L1E13
-   1D6F AD 02 03      [ 4]  220         lda     transport_periph$ddr_reg_b
-   1D72 6A            [ 2]  221         ror     a
-   1D73 90 F7         [ 4]  222         bcc     L1D6C
-   1D75 A9 A0         [ 2]  223         lda     #0xA0
-   1D77 85 50         [ 3]  224         sta     RAM_50
-   1D79                     225 L1D79:
-   1D79 20 13 1E      [ 6]  226         jsr     L1E13
-   1D7C AD 02 03      [ 4]  227         lda     transport_periph$ddr_reg_b
-   1D7F 6A            [ 2]  228         ror     a
-   1D80 90 EA         [ 4]  229         bcc     L1D6C
-   1D82 A5 50         [ 3]  230         lda     RAM_50
-   1D84 D0 F3         [ 4]  231         bne     L1D79
-   1D86 60            [ 6]  232         rts
-                            233 ;
-   1D87                     234 L1D87:
-   1D87 AD 00 03      [ 4]  235         lda     transport_periph$ddr_reg_a
-   1D8A A9 40         [ 2]  236         lda     #0x40
-   1D8C 85 86         [ 3]  237         sta     board_2_periph$ddr_reg_b
-   1D8E 85 8A         [ 3]  238         sta     board_3_periph$ddr_reg_b
-   1D90                     239 L1D90:
-   1D90 AD 02 03      [ 4]  240         lda     transport_periph$ddr_reg_b
-   1D93 4A            [ 2]  241         lsr     a
-   1D94 90 11         [ 4]  242         bcc     L1DA7
-   1D96 20 A0 1E      [ 6]  243         jsr     L1EA0
-   1D99 20 13 1E      [ 6]  244         jsr     L1E13
-   1D9C AD 01 03      [ 4]  245         lda     transport_control_reg_a
-   1D9F 10 EF         [ 4]  246         bpl     L1D90
-   1DA1 20 B9 1D      [ 6]  247         jsr     L1DB9
-   1DA4 4C 90 1D      [ 3]  248         jmp     L1D90
-                            249 ;
-   1DA7                     250 L1DA7:
-   1DA7 A9 64         [ 2]  251         lda     #0x64
-   1DA9 85 50         [ 3]  252         sta     RAM_50
-   1DAB                     253 L1DAB:
-   1DAB 20 13 1E      [ 6]  254         jsr     L1E13
-   1DAE AD 02 03      [ 4]  255         lda     transport_periph$ddr_reg_b
-   1DB1 4A            [ 2]  256         lsr     a
-   1DB2 B0 D3         [ 4]  257         bcs     L1D87
-   1DB4 A5 50         [ 3]  258         lda     RAM_50
-   1DB6 D0 F3         [ 4]  259         bne     L1DAB
-   1DB8 60            [ 6]  260         rts
-                            261 ;
-   1DB9                     262 L1DB9:
-   1DB9 AD 00 03      [ 4]  263         lda     transport_periph$ddr_reg_a
-   1DBC 29 7F         [ 2]  264         and     #0x7F
-   1DBE 85 5C         [ 3]  265         sta     RAM_5C
-   1DC0 29 7E         [ 2]  266         and     #0x7E
-   1DC2 C9 22         [ 2]  267         cmp     #0x22
-   1DC4 F0 38         [ 4]  268         beq     L1DFE
-   1DC6 C9 36         [ 2]  269         cmp     #0x36
-   1DC8 F0 34         [ 4]  270         beq     L1DFE
-   1DCA A5 5C         [ 3]  271         lda     RAM_5C
-   1DCC 38            [ 2]  272         sec
-   1DCD E9 41         [ 2]  273         sbc     #0x41
-   1DCF A8            [ 2]  274         tay
-   1DD0 30 30         [ 4]  275         bmi     L1E02
-   1DD2 C9 10         [ 2]  276         cmp     #0x10
-   1DD4 B0 2C         [ 4]  277         bcs     L1E02
-   1DD6 A2 84         [ 2]  278         ldx     #0x84
-   1DD8 C9 08         [ 2]  279         cmp     #0x08
-   1DDA 90 08         [ 4]  280         bcc     L1DE4
-   1DDC A2 88         [ 2]  281         ldx     #0x88
-   1DDE C9 0E         [ 2]  282         cmp     #0x0E
-   1DE0 90 02         [ 4]  283         bcc     L1DE4
-   1DE2 A2 8A         [ 2]  284         ldx     #0x8A
-   1DE4                     285 L1DE4:
-   1DE4 B9 03 1E      [ 5]  286         lda     X1E03,y
-   1DE7 85 5D         [ 3]  287         sta     RAM_5D
-   1DE9 A5 5E         [ 3]  288         lda     RAM_5E
-   1DEB 4A            [ 2]  289         lsr     a
-   1DEC B0 09         [ 4]  290         bcs     L1DF7
-   1DEE A5 5D         [ 3]  291         lda     RAM_5D
-   1DF0 49 FF         [ 2]  292         eor     #0xFF
-   1DF2 35 00         [ 4]  293         and     RAM_start,x
-   1DF4 95 00         [ 4]  294         sta     RAM_start,x
-   1DF6 60            [ 6]  295         rts
-                            296 ;
-   1DF7                     297 L1DF7:
-   1DF7 A5 5D         [ 3]  298         lda     RAM_5D
-   1DF9 15 00         [ 4]  299         ora     RAM_start,x
-   1DFB 95 00         [ 4]  300         sta     RAM_start,x
-   1DFD 60            [ 6]  301         rts
-                            302 ;
-   1DFE                     303 L1DFE:
-   1DFE A5 5C         [ 3]  304         lda     RAM_5C
-   1E00 85 5E         [ 3]  305         sta     RAM_5E
-   1E02                     306 L1E02:
-   1E02 60            [ 6]  307         rts
-                            308 ;
-   1E03                     309 X1E03:
-   1E03 01 02 04 08         310         .db     0x01,0x02,0x04,0x08
-   1E07 10 20 40 80         311         .db     0x10,0x20,0x40,0x80
-   1E0B 01 02 04 08         312         .db     0x01,0x02,0x04,0x08
-   1E0F 10 20 01 02         313         .db     0x10,0x20,0x01,0x02
-                            314 ;
-   1E13                     315 L1E13:
-   1E13 AD 05 02      [ 4]  316         lda     U18_edge_detect_control_DI_pos
-   1E16 85 5F         [ 3]  317         sta     RAM_5F
-   1E18 F0 44         [ 4]  318         beq     L1E5E
-   1E1A A5 5B         [ 3]  319         lda     RAM_5B
-   1E1C 30 0E         [ 4]  320         bmi     L1E2C
-   1E1E A5 5F         [ 3]  321         lda     RAM_5F
-   1E20 29 40         [ 2]  322         and     #0x40
-   1E22 F0 16         [ 4]  323         beq     L1E3A
-   1E24 A9 80         [ 2]  324         lda     #0x80
-   1E26 85 5B         [ 3]  325         sta     RAM_5B
-   1E28 A9 FA         [ 2]  326         lda     #0xFA
-   1E2A 85 51         [ 3]  327         sta     RAM_51
-   1E2C                     328 L1E2C:
-   1E2C A5 51         [ 3]  329         lda     RAM_51
-   1E2E D0 06         [ 4]  330         bne     L1E36
-   1E30 A9 00         [ 2]  331         lda     #0x00
-   1E32 85 5B         [ 3]  332         sta     RAM_5B
-   1E34 E6 5A         [ 5]  333         inc     RAM_5A
-   1E36                     334 L1E36:
-   1E36 A5 5F         [ 3]  335         lda     RAM_5F
-   1E38 10 24         [ 4]  336         bpl     L1E5E
-   1E3A                     337 L1E3A:
-   1E3A AD 04 02      [ 4]  338         lda     U18_timer
-   1E3D A9 01         [ 2]  339         lda     #0x01
-   1E3F 8D 17 02      [ 4]  340         sta     U18_17
-   1E42 C6 50         [ 5]  341         dec     RAM_50
-   1E44 C6 51         [ 5]  342         dec     RAM_51
-   1E46 C6 52         [ 5]  343         dec     RAM_52
-   1E48 C6 53         [ 5]  344         dec     RAM_53
-   1E4A D0 12         [ 4]  345         bne     L1E5E
-   1E4C A9 64         [ 2]  346         lda     #0x64
-   1E4E 85 53         [ 3]  347         sta     RAM_53
-   1E50 C6 54         [ 5]  348         dec     RAM_54
-   1E52 C6 55         [ 5]  349         dec     RAM_55
-   1E54 C6 56         [ 5]  350         dec     RAM_56
-   1E56 D0 06         [ 4]  351         bne     L1E5E
-   1E58 A9 64         [ 2]  352         lda     #0x64
-   1E5A 85 56         [ 3]  353         sta     RAM_56
-   1E5C C6 57         [ 5]  354         dec     RAM_57
-   1E5E                     355 L1E5E:
-   1E5E 60            [ 6]  356         rts
-                            357 ;
-   1E5F                     358 L1E5F:
-   1E5F A9 00         [ 2]  359         lda     #0x00
-   1E61 85 61         [ 3]  360         sta     RAM_61
-   1E63 85 62         [ 3]  361         sta     RAM_62
-   1E65 A9 0A         [ 2]  362         lda     #0x0A
-   1E67 85 54         [ 3]  363         sta     RAM_54
-   1E69                     364 L1E69:
-   1E69 20 13 1E      [ 6]  365         jsr     L1E13
-   1E6C A5 54         [ 3]  366         lda     RAM_54
-   1E6E D0 F9         [ 4]  367         bne     L1E69
-   1E70 A9 0A         [ 2]  368         lda     #0x0A
-   1E72 85 54         [ 3]  369         sta     RAM_54
-   1E74 A5 62         [ 3]  370         lda     RAM_62
-   1E76 C9 08         [ 2]  371         cmp     #0x08
-   1E78 F0 15         [ 4]  372         beq     L1E8F
-   1E7A E6 62         [ 5]  373         inc     RAM_62
-   1E7C A2 09         [ 2]  374         ldx     #0x09
-   1E7E 38            [ 2]  375         sec
-   1E7F AD 80 03      [ 4]  376         lda     audio_periph$ddr_reg_a
-   1E82                     377 L1E82:
-   1E82 2A            [ 2]  378         rol     a
-   1E83 CA            [ 2]  379         dex
-   1E84 90 FC         [ 4]  380         bcc     L1E82
-   1E86 18            [ 2]  381         clc
-   1E87 8A            [ 2]  382         txa
-   1E88 65 61         [ 3]  383         adc     RAM_61
-   1E8A 85 61         [ 3]  384         sta     RAM_61
-   1E8C 4C 69 1E      [ 3]  385         jmp     L1E69
-                            386 ;
-   1E8F                     387 L1E8F:
-   1E8F 46 61         [ 5]  388         lsr     RAM_61
-   1E91 46 61         [ 5]  389         lsr     RAM_61
-   1E93 46 61         [ 5]  390         lsr     RAM_61
-   1E95 A5 61         [ 3]  391         lda     RAM_61
-   1E97 85 60         [ 3]  392         sta     RAM_60
-   1E99 A9 00         [ 2]  393         lda     #0x00
-   1E9B 85 61         [ 3]  394         sta     RAM_61
-   1E9D 85 62         [ 3]  395         sta     RAM_62
-   1E9F 60            [ 6]  396         rts
-                            397 ;
-   1EA0                     398 L1EA0:
-   1EA0 AD 80 02      [ 4]  399         lda     U19_PORTA
-   1EA3 49 FF         [ 2]  400         eor     #0xFF
-   1EA5 4A            [ 2]  401         lsr     a
-   1EA6 4A            [ 2]  402         lsr     a
-   1EA7 4A            [ 2]  403         lsr     a
-   1EA8 4A            [ 2]  404         lsr     a
-   1EA9 18            [ 2]  405         clc
-   1EAA 65 60         [ 3]  406         adc     RAM_60
-   1EAC AA            [ 2]  407         tax
-   1EAD BD D3 1E      [ 5]  408         lda     X1ED3,x
-   1EB0 85 63         [ 3]  409         sta     RAM_63
-   1EB2 A5 52         [ 3]  410         lda     RAM_52
-   1EB4 D0 16         [ 4]  411         bne     L1ECC
-   1EB6 A9 0A         [ 2]  412         lda     #0x0A
-   1EB8 85 52         [ 3]  413         sta     RAM_52
-   1EBA A5 63         [ 3]  414         lda     RAM_63
-   1EBC CD 82 03      [ 4]  415         cmp     audio_periph$ddr_reg_b
-   1EBF 90 08         [ 4]  416         bcc     L1EC9
-   1EC1 F0 09         [ 4]  417         beq     L1ECC
-   1EC3 EE 82 03      [ 6]  418         inc     audio_periph$ddr_reg_b
-   1EC6 4C CC 1E      [ 3]  419         jmp     L1ECC
-                            420 ;
-   1EC9                     421 L1EC9:
-   1EC9 CE 82 03      [ 6]  422         dec     audio_periph$ddr_reg_b
-   1ECC                     423 L1ECC:
-   1ECC AD 82 03      [ 4]  424         lda     audio_periph$ddr_reg_b
-   1ECF 8D 82 02      [ 4]  425         sta     U19_PORTB
-   1ED2 60            [ 6]  426         rts
-                            427 ;
-   1ED3                     428 X1ED3:
-   1ED3 03 04 06 08         429         .db     0x03, 0x04, 0x06, 0x08
-   1ED7 10 16 20 2D         430         .db     0x10, 0x16, 0x20, 0x2D
-   1EDB 40 5A 80 BF         431         .db     0x40, 0x5A, 0x80, 0xBF
-   1EDF FF FF FF FF         432         .db     0xFF, 0xFF, 0xFF, 0xFF 
-   1EE3 FF                  433         .db     0xFF
-                            434 ;
-                            435 ; all ff's in this gap
-                            436 ;
-   1FFC                     437         .org    0x1FFC
-                            438 ;
-                            439 ; vectors
-                            440 ;
-   1FFC                     441 RESETVEC:
-   1FFC 00 1C               442         .dw     RESET
-   1FFE                     443 IRQVEC:
-   1FFE FF FF               444         .dw     0xFFFF
+                             78 ; Tape Commands
+                     0010    79 TAPEMODE_STOP                   = 0x10
+                     0020    80 TAPEMODE_FFWD                   = 0x20
+                     0040    81 TAPEMODE_REWIND                 = 0x40
+                     0080    82 TAPEMODE_PLAY                   = 0x80
+                             83 
+                             84 
+                             85 
+                             86 
+                             87 
+                             88 
+                             33 
+   1C00                      34         .org    0x1C00
+                             35 ;
+   1C00                      36 RESET:
+   1C00 D8            [ 2]   37         cld                                             ; No decimal mode
+   1C01 78            [ 2]   38         sei                                             ; Interrupts are not used
+   1C02 A2 F0         [ 2]   39         ldx     #0xF0                                   ; Stack is at 0x01F0
+   1C04 9A            [ 2]   40         txs
+   1C05 A9 00         [ 2]   41         lda     #0x00                                   ; Clear RAM
+   1C07 A2 10         [ 2]   42         ldx     #0x10                                   ; from 0x0010 to 0x007F
+   1C09                      43 ZERORAM:
+   1C09 95 00         [ 4]   44         sta     RAM_start,x
+   1C0B E8            [ 2]   45         inx
+   1C0C E0 80         [ 2]   46         cpx     #0x80
+   1C0E D0 F9         [ 4]   47         bne     ZERORAM
+   1C10 A9 00         [ 2]   48         lda     #0x00                                   ; Initialize these registers to 0x00
+   1C12 8D 01 03      [ 4]   49         sta     transport_control_reg_a                 ; Clear transport control A, select DDRA
+   1C15 8D 00 03      [ 4]   50         sta     transport_periph$ddr_reg_a              ; UART data inputs
+   1C18 8D 81 03      [ 4]   51         sta     audio_control_reg_a                     ; Clear audio control A, select DDRA
+   1C1B 8D 80 03      [ 4]   52         sta     audio_periph$ddr_reg_a                  ; Comparator inputs
+   1C1E 8D 83 03      [ 4]   53         sta     audio_control_reg_b                     ; Clear audio control B
+   1C21 8D 05 02      [ 4]   54         sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
+   1C24 8D 03 03      [ 4]   55         sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
+   1C27 8D 01 02      [ 4]   56         sta     U18_DDRA                                ; Buttons are inputs
+   1C2A A9 02         [ 2]   57         lda     #0x02
+   1C2C 8D 81 02      [ 4]   58         sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
+   1C2F A9 FF         [ 2]   59         lda     #0xFF
+   1C31 8D 82 03      [ 4]   60         sta     audio_periph$ddr_reg_b                  ; DAC08 outputs
+   1C34 8D 03 02      [ 4]   61         sta     U18_DDRB                                ; Button lights are outputs
+   1C37 8D 83 02      [ 4]   62         sta     U19_DDRB                                ; CPU card lights are outputs
+   1C3A A9 FC         [ 2]   63         lda     #0xFC
+   1C3C 8D 02 03      [ 4]   64         sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
+   1C3F A9 2E         [ 2]   65         lda     #0x2E
+   1C41 8D 01 03      [ 4]   66         sta     transport_control_reg_a                 ; transport CA2 is Read strobe (~DDR), set IRQA bit on ~DR low to high 
+   1C44 8D 03 03      [ 4]   67         sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
+   1C47 8D 83 03      [ 4]   68         sta     audio_control_reg_b                     ; audio CB2 is Write strobe (Unused)
+   1C4A 8D 81 03      [ 4]   69         sta     audio_control_reg_a                     ; audio CA2 is Read strobe (Unused)
+   1C4D A9 64         [ 2]   70         lda     #0x64
+   1C4F 85 53         [ 3]   71         sta     RAM_53                                  ; 100 - init 1 msec master counter
+   1C51 A9 2B         [ 2]   72         lda     #0x2B
+   1C53 85 57         [ 3]   73         sta     RAM_57                                  ; ~5 minute timer?
+   1C55 A9 10         [ 2]   74         lda     #0x10                                   ; 16
+   1C57 85 63         [ 3]   75         sta     RAM_63                                  ; Set initial AGC gain value
+   1C59 A9 10         [ 2]   76         lda     #TAPEMODE_STOP
+   1C5B 20 1F 1D      [ 6]   77         jsr     TAPECMD                                 ; STOP tape
+   1C5E A9 28         [ 2]   78         lda     #0x28                                   ; this will count 4 seconds
+   1C60 85 54         [ 3]   79         sta     RAM_54
+   1C62                      80 $1:
+   1C62 20 13 1E      [ 6]   81         jsr     TUPDATE                                 ; do not much for 4 seconds
+   1C65 A5 54         [ 3]   82         lda     RAM_54
+   1C67 D0 F9         [ 4]   83         bne     $1
+   1C69                      84 REWIND:
+   1C69 A9 40         [ 2]   85         lda     #TAPEMODE_REWIND
+   1C6B 20 1F 1D      [ 6]   86         jsr     TAPECMD                                 ; REWIND tape
+   1C6E                      87 FINDSTART:
+   1C6E 20 33 1D      [ 6]   88         jsr     WAITTONE
+   1C71 A5 58         [ 3]   89         lda     RAM_58
+   1C73 C9 60         [ 2]   90         cmp     #0x60                                   ; 96 edges?
+   1C75 90 F7         [ 4]   91         bcc     FINDSTART                               ; no, loop
+   1C77 A9 20         [ 2]   92         lda     #TAPEMODE_FFWD
+   1C79 20 1F 1D      [ 6]   93         jsr     TAPECMD                                 ; FFWD tape
+   1C7C A9 19         [ 2]   94         lda     #0x19
+   1C7E 85 54         [ 3]   95         sta     RAM_54                                  ; ~2.5 secs?
+   1C80                      96 $5:
+   1C80 20 13 1E      [ 6]   97         jsr     TUPDATE                                 ; do housekeeping stuff
+   1C83 A5 54         [ 3]   98         lda     RAM_54
+   1C85 D0 F9         [ 4]   99         bne     $5
+   1C87 A9 00         [ 2]  100         lda     #0x00
+   1C89 85 59         [ 3]  101         sta     RAM_59
+   1C8B 20 33 1D      [ 6]  102         jsr     WAITTONE                                ; wait for tone signaling beginning of track
+   1C8E E6 59         [ 5]  103         inc     RAM_59
+   1C90 A9 10         [ 2]  104         lda     #TAPEMODE_STOP
+   1C92 20 1F 1D      [ 6]  105         jsr     TAPECMD                                 ; STOP tape
+   1C95 A9 80         [ 2]  106         lda     #TAPEMODE_PLAY
+   1C97 20 1F 1D      [ 6]  107         jsr     TAPECMD                                 ; PLAY tape
+   1C9A 20 61 1D      [ 6]  108         jsr     WAITCD                                  ; wait for carrier
+   1C9D A9 10         [ 2]  109         lda     #TAPEMODE_STOP
+   1C9F 20 1F 1D      [ 6]  110         jsr     TAPECMD                                 ; STOP tape
+   1CA2 20 F9 1C      [ 6]  111         jsr     INITBRDS                                ; init the boards
+   1CA5                     112 WAITPLAY:
+   1CA5 20 13 1E      [ 6]  113         jsr     TUPDATE                                 ; do housekeeping stuff
+   1CA8 20 A0 1E      [ 6]  114         jsr     AGCUPD                                  ; do AGC Mic Logic
+   1CAB A5 5A         [ 3]  115         lda     RAM_5A                                  ; wait until we are triggered
+   1CAD D0 10         [ 4]  116         bne     STARTPLAY                                   ; then jump
+   1CAF A9 02         [ 2]  117         lda     #0x02                                   ; else
+   1CB1 8D 80 02      [ 4]  118         sta     U19_PORTA                               ; turn on RESET button light
+   1CB4 A9 00         [ 2]  119         lda     #0x00
+   1CB6 8D 02 02      [ 4]  120         sta     U18_PORTB                               ; turn on all other button lights
+   1CB9 A5 57         [ 3]  121         lda     RAM_57                                  ; has the ~5 minute timer run out?
+   1CBB D0 E8         [ 4]  122         bne     WAITPLAY                                ; no, keep looping
+   1CBD E6 5A         [ 5]  123         inc     RAM_5A                                  ; yes, simulate a PROG button press
+                            124 ;   we have been started!
+   1CBF                     125 STARTPLAY:
+   1CBF 20 F9 1C      [ 6]  126         jsr     INITBRDS                                ; init the boards
+   1CC2 A9 00         [ 2]  127         lda     #0x00
+   1CC4 8D 80 02      [ 4]  128         sta     U19_PORTA                               ; turn off RESET button light
+   1CC7 A9 80         [ 2]  129         lda     #0x80
+   1CC9 8D 02 02      [ 4]  130         sta     U18_PORTB                               ; turn off all but PROG light
+   1CCC A9 80         [ 2]  131         lda     #TAPEMODE_PLAY
+   1CCE 20 1F 1D      [ 6]  132         jsr     TAPECMD                                 ; PLAY tape
+   1CD1 20 61 1D      [ 6]  133         jsr     WAITCD                                  ; wait for carrier
+   1CD4 C6 5A         [ 5]  134         dec     RAM_5A                                  ; no longer triggered
+   1CD6 20 87 1D      [ 6]  135         jsr     PLAYTRK                                 ; play a track!
+   1CD9 20 F9 1C      [ 6]  136         jsr     INITBRDS                                ; init the boards
+   1CDC A9 2B         [ 2]  137         lda     #0x2B
+   1CDE 85 57         [ 3]  138         sta     RAM_57                                  ; set a ~5 minute timer
+   1CE0 E6 59         [ 5]  139         inc     RAM_59                                  ; track counter
+   1CE2 A5 59         [ 3]  140         lda     RAM_59
+   1CE4 C9 1A         [ 2]  141         cmp     #0x1A                                   ; 26?
+   1CE6 90 03         [ 4]  142         bcc     NEXTTRK
+   1CE8 4C 69 1C      [ 3]  143         jmp     REWIND                                  ; rewind the tape after the total number of tracks are done
+                            144 ; go to next track
+   1CEB                     145 NEXTTRK:
+   1CEB 20 61 1D      [ 6]  146         jsr     WAITCD                                  ; wait for carrier
+   1CEE A9 10         [ 2]  147         lda     #TAPEMODE_STOP
+   1CF0 20 1F 1D      [ 6]  148         jsr     TAPECMD                                 ; STOP tape
+   1CF3 20 5F 1E      [ 6]  149         jsr     AGCMICRD                                ; Read the AGC mic level
+   1CF6 4C A5 1C      [ 3]  150         jmp     WAITPLAY
+                            151 ;
+                            152 ;       Init boards
+                            153 ;
+   1CF9                     154 INITBRDS:
+   1CF9 A9 00         [ 2]  155         lda     #0x00
+   1CFB A2 01         [ 2]  156         ldx     #0x01
+   1CFD 20 16 1D      [ 6]  157         jsr     DOBOARD                                 ; write 0x00 to port+1
+   1D00 A9 FF         [ 2]  158         lda     #0xFF
+   1D02 A2 00         [ 2]  159         ldx     #0x00
+   1D04 20 16 1D      [ 6]  160         jsr     DOBOARD                                 ; write 0xFF to port
+   1D07 A9 34         [ 2]  161         lda     #0x34
+   1D09 A2 01         [ 2]  162         ldx     #0x01
+   1D0B 20 16 1D      [ 6]  163         jsr     DOBOARD                                 ; write 0x34 to port+1
+   1D0E A9 00         [ 2]  164         lda     #0x00
+   1D10 A2 00         [ 2]  165         ldx     #0x00
+   1D12 20 16 1D      [ 6]  166         jsr     DOBOARD                                 ; write 0x00 to port
+   1D15 60            [ 6]  167         rts
+                            168 ;
+   1D16                     169 DOBOARD:
+   1D16 95 84         [ 4]  170         sta     board_2_periph$ddr_reg_a,x
+   1D18 95 86         [ 4]  171         sta     board_2_periph$ddr_reg_b,x
+   1D1A 95 88         [ 4]  172         sta     board_3_periph$ddr_reg_a,x
+   1D1C 95 8A         [ 4]  173         sta     board_3_periph$ddr_reg_b,x
+   1D1E 60            [ 6]  174         rts
+                            175 ;
+                            176 ;       Send Transport command for 0.255 sec
+                            177 ;       and then unassert it
+                            178 ;
+   1D1F                     179 TAPECMD:
+   1D1F 8D 02 03      [ 4]  180         sta     transport_periph$ddr_reg_b              ; enable output line
+   1D22 A9 FF         [ 2]  181         lda     #0xFF
+   1D24 85 50         [ 3]  182         sta     RAM_50
+   1D26                     183 $6:
+   1D26 20 13 1E      [ 6]  184         jsr     TUPDATE                                 ; check for PROG button push
+   1D29 A5 50         [ 3]  185         lda     RAM_50
+   1D2B D0 F9         [ 4]  186         bne     $6
+   1D2D A9 00         [ 2]  187         lda     #0x00
+   1D2F 8D 02 03      [ 4]  188         sta     transport_periph$ddr_reg_b
+   1D32 60            [ 6]  189         rts
+                            190 ;
+                            191 ;       Wait for tone during Fast Forward, signaling beginning of track
+                            192 ;       (64 Hz for ~.4s, or higher for proportionally less)
+                            193 ;
+   1D33                     194 WAITTONE:
+   1D33 A9 00         [ 2]  195         lda     #0x00
+   1D35 85 58         [ 3]  196         sta     RAM_58
+                            197 ; wait for tone start
+   1D37                     198 $8:
+   1D37 20 13 1E      [ 6]  199         jsr     TUPDATE                                 ; housekeeping
+   1D3A AD 03 03      [ 4]  200         lda     transport_control_reg_b
+   1D3D 10 F8         [ 4]  201         bpl     $8
+   1D3F A9 04         [ 2]  202         lda     #0x04
+   1D41 85 54         [ 3]  203         sta     RAM_54                                  ; ~.4 secs?
+   1D43                     204 $29:
+   1D43 20 13 1E      [ 6]  205         jsr     TUPDATE                                 ; housekeeping
+   1D46 AD 03 03      [ 4]  206         lda     transport_control_reg_b                 ; transport CB1 rising edge?
+   1D49 10 0B         [ 4]  207         bpl     $28                                     ; if not, jump ahead
+   1D4B E6 58         [ 5]  208         inc     RAM_58                                  ; count edges
+   1D4D AD 02 03      [ 4]  209         lda     transport_periph$ddr_reg_b
+   1D50 A5 58         [ 3]  210         lda     RAM_58
+   1D52 C9 60         [ 2]  211         cmp     #0x60                                   ; 96 edges?
+   1D54 B0 0A         [ 4]  212         bcs     $10                                     ; exit
+   1D56                     213 $28:
+   1D56 A5 54         [ 3]  214         lda     RAM_54                                  ; ~.4 secs?
+   1D58 D0 E9         [ 4]  215         bne     $29
+   1D5A A5 58         [ 3]  216         lda     RAM_58
+   1D5C C9 20         [ 2]  217         cmp     #0x20                                   ; 32 edges?
+   1D5E 90 D3         [ 4]  218         bcc     WAITTONE                                ; no, loop
+   1D60                     219 $10:
+   1D60 60            [ 6]  220         rts
+                            221 ;
+                            222 ;       Wait for carrier / start of data
+                            223 ;
+                            224 
+                            225 ; Wait for 250ms
+   1D61                     226 WAITCD:
+   1D61 A9 FA         [ 2]  227         lda     #0xFA
+   1D63 85 50         [ 3]  228         sta     RAM_50                                  ; 250 msec
+   1D65                     229 $11:
+   1D65 20 13 1E      [ 6]  230         jsr     TUPDATE                                 ; housekeeping
+   1D68 A5 50         [ 3]  231         lda     RAM_50
+   1D6A D0 F9         [ 4]  232         bne     $11
+                            233 
+                            234 ; Wait for 160ms of consecutive zero crossings
+   1D6C                     235 $12:
+   1D6C 20 13 1E      [ 6]  236         jsr     TUPDATE                                 ; housekeeping
+   1D6F AD 02 03      [ 4]  237         lda     transport_periph$ddr_reg_b
+   1D72 6A            [ 2]  238         ror     a
+   1D73 90 F7         [ 4]  239         bcc     $12
+   1D75 A9 A0         [ 2]  240         lda     #0xA0                                   ; 160 msec
+   1D77 85 50         [ 3]  241         sta     RAM_50
+   1D79                     242 $13:
+   1D79 20 13 1E      [ 6]  243         jsr     TUPDATE                                 ; housekeeping
+   1D7C AD 02 03      [ 4]  244         lda     transport_periph$ddr_reg_b
+   1D7F 6A            [ 2]  245         ror     a
+   1D80 90 EA         [ 4]  246         bcc     $12
+   1D82 A5 50         [ 3]  247         lda     RAM_50
+   1D84 D0 F3         [ 4]  248         bne     $13
+   1D86 60            [ 6]  249         rts
+                            250 ;
+   1D87                     251 PLAYTRK:
+   1D87 AD 00 03      [ 4]  252         lda     transport_periph$ddr_reg_a
+   1D8A A9 40         [ 2]  253         lda     #0x40
+   1D8C 85 86         [ 3]  254         sta     board_2_periph$ddr_reg_b                ; only Board 2 PB6 on
+   1D8E 85 8A         [ 3]  255         sta     board_3_periph$ddr_reg_b                ; only Board 3 PB6 on
+   1D90                     256 $14:
+   1D90 AD 02 03      [ 4]  257         lda     transport_periph$ddr_reg_b
+   1D93 4A            [ 2]  258         lsr     a
+   1D94 90 11         [ 4]  259         bcc     LOSTCD                                  ; b0=0, no carrier, exit
+   1D96 20 A0 1E      [ 6]  260         jsr     AGCUPD                                  ; do AGC Mic Logic
+   1D99 20 13 1E      [ 6]  261         jsr     TUPDATE                                 ; housekeeping
+   1D9C AD 01 03      [ 4]  262         lda     transport_control_reg_a                 ; Did we get a byte?
+   1D9F 10 EF         [ 4]  263         bpl     $14                                     ; No, loop
+   1DA1 20 B9 1D      [ 6]  264         jsr     PROTOHAND                               ; Yes, Process Incoming Byte
+   1DA4 4C 90 1D      [ 3]  265         jmp     $14
+                            266 
+                            267 ;       Lost carrier - wait 100 msec for more data before giving up
+   1DA7                     268 LOSTCD:
+   1DA7 A9 64         [ 2]  269         lda     #0x64                                   ; 100 msec
+   1DA9 85 50         [ 3]  270         sta     RAM_50
+   1DAB                     271 $15:
+   1DAB 20 13 1E      [ 6]  272         jsr     TUPDATE
+   1DAE AD 02 03      [ 4]  273         lda     transport_periph$ddr_reg_b
+   1DB1 4A            [ 2]  274         lsr     a
+   1DB2 B0 D3         [ 4]  275         bcs     PLAYTRK                                 ; carrier
+   1DB4 A5 50         [ 3]  276         lda     RAM_50
+   1DB6 D0 F3         [ 4]  277         bne     $15
+   1DB8 60            [ 6]  278         rts
+                            279 ;
+                            280 ; Protocol handler
+                            281 ;
+   1DB9                     282 PROTOHAND:
+   1DB9 AD 00 03      [ 4]  283         lda     transport_periph$ddr_reg_a
+   1DBC 29 7F         [ 2]  284         and     #0x7F                                   ; insure data is ASCII
+   1DBE 85 5C         [ 3]  285         sta     RAM_5C                                  ; store it here
+   1DC0 29 7E         [ 2]  286         and     #0x7E                                   ; ignore bottom bit
+   1DC2 C9 22         [ 2]  287         cmp     #0x22                                   ; is it 0x22 or 0x23?
+   1DC4 F0 38         [ 4]  288         beq     PROCCHNL                                ; if so, process as channel
+   1DC6 C9 36         [ 2]  289         cmp     #0x36                                   ; is it 0x36?
+   1DC8 F0 34         [ 4]  290         beq     PROCCHNL                                ; if so, process as channel
+   1DCA A5 5C         [ 3]  291         lda     RAM_5C                                  ; get original byte
+   1DCC 38            [ 2]  292         sec
+   1DCD E9 41         [ 2]  293         sbc     #0x41                                   ; subtract 0x41
+   1DCF A8            [ 2]  294         tay                                             ; filter (0x41 to 0x50)
+   1DD0 30 30         [ 4]  295         bmi     $18                                     ; if original < 0x41, exit
+   1DD2 C9 10         [ 2]  296         cmp     #0x10
+   1DD4 B0 2C         [ 4]  297         bcs     $18                                     ; if original >= 0x51, exit
+   1DD6 A2 84         [ 2]  298         ldx     #0x84                                   ; x = port offset
+   1DD8 C9 08         [ 2]  299         cmp     #0x08
+   1DDA 90 08         [ 4]  300         bcc     $16                                     ; if original is 0x41 to 0x48, use offset 0x84
+   1DDC A2 88         [ 2]  301         ldx     #0x88
+   1DDE C9 0E         [ 2]  302         cmp     #0x0E                                   ; if original is 0x49 to 0x4E, use offset 0x88
+   1DE0 90 02         [ 4]  303         bcc     $16
+   1DE2 A2 8A         [ 2]  304         ldx     #0x8A                                   ; if original is 0x4F to 0x50, use offset 0x8A
+   1DE4                     305 $16:
+   1DE4 B9 03 1E      [ 5]  306         lda     MASKTBL,y                               ; lookup bitmask
+   1DE7 85 5D         [ 3]  307         sta     RAM_5D                                  ; store mask in RAM_5D
+   1DE9 A5 5E         [ 3]  308         lda     RAM_5E
+   1DEB 4A            [ 2]  309         lsr     a                                       ; get on/off in carry
+   1DEC B0 09         [ 4]  310         bcs     $17                                     ; if on, jump
+   1DEE A5 5D         [ 3]  311         lda     RAM_5D
+   1DF0 49 FF         [ 2]  312         eor     #0xFF
+   1DF2 35 00         [ 4]  313         and     RAM_start,x
+   1DF4 95 00         [ 4]  314         sta     RAM_start,x                             ; turn off solenoid
+   1DF6 60            [ 6]  315         rts
+                            316 ;
+   1DF7                     317 $17:
+   1DF7 A5 5D         [ 3]  318         lda     RAM_5D
+   1DF9 15 00         [ 4]  319         ora     RAM_start,x
+   1DFB 95 00         [ 4]  320         sta     RAM_start,x                             ; turn on solenoid
+   1DFD 60            [ 6]  321         rts
+                            322 ;
+   1DFE                     323 PROCCHNL:
+   1DFE A5 5C         [ 3]  324         lda     RAM_5C
+   1E00 85 5E         [ 3]  325         sta     RAM_5E
+   1E02                     326 $18:
+   1E02 60            [ 6]  327         rts
+                            328 ;
+                            329 ; bit mask table
+                            330 ;
+   1E03                     331 MASKTBL:
+   1E03 01 02 04 08         332         .db     0x01,0x02,0x04,0x08
+   1E07 10 20 40 80         333         .db     0x10,0x20,0x40,0x80
+   1E0B 01 02 04 08         334         .db     0x01,0x02,0x04,0x08
+   1E0F 10 20 01 02         335         .db     0x10,0x20,0x01,0x02
+                            336 ;
+   1E13                     337 TUPDATE:
+   1E13 AD 05 02      [ 4]  338         lda     U18_edge_detect_control_DI_pos          ; Did the PROG button get pushed or timer expire?
+   1E16 85 5F         [ 3]  339         sta     RAM_5F                                  ; store this state in 5F
+   1E18 F0 44         [ 4]  340         beq     TEXIT                                   ; No flags set, return
+   1E1A A5 5B         [ 3]  341         lda     RAM_5B                                  ; Are we already running?
+   1E1C 30 0E         [ 4]  342         bmi     $19                                     ; yes, jump ahead
+   1E1E A5 5F         [ 3]  343         lda     RAM_5F                                  ; else check flags
+   1E20 29 40         [ 2]  344         and     #0x40                                   ; PROG pushed?
+   1E22 F0 16         [ 4]  345         beq     RDTIMER                                 ; if not, go to read timer
+   1E24 A9 80         [ 2]  346         lda     #0x80
+   1E26 85 5B         [ 3]  347         sta     RAM_5B                                  ; PROG Button pushed
+   1E28 A9 FA         [ 2]  348         lda     #0xFA
+   1E2A 85 51         [ 3]  349         sta     RAM_51
+   1E2C                     350 $19:
+   1E2C A5 51         [ 3]  351         lda     RAM_51                                  ; for 250ms?
+   1E2E D0 06         [ 4]  352         bne     $20                                     ; no, exit
+   1E30 A9 00         [ 2]  353         lda     #0x00
+   1E32 85 5B         [ 3]  354         sta     RAM_5B                                  ; yes, reset PROG button state
+   1E34 E6 5A         [ 5]  355         inc     RAM_5A                                  ; and mark as running
+   1E36                     356 $20:
+   1E36 A5 5F         [ 3]  357         lda     RAM_5F                                  ; check timer irq bit
+   1E38 10 24         [ 4]  358         bpl     TEXIT                                   ; if timer not expired, return
+   1E3A                     359 RDTIMER:
+   1E3A AD 04 02      [ 4]  360         lda     U18_timer                               ; ???
+   1E3D A9 01         [ 2]  361         lda     #0x01
+   1E3F 8D 17 02      [ 4]  362         sta     U18_17                                  ; ???
+   1E42 C6 50         [ 5]  363         dec     RAM_50                                  ; decrement these timers every timer reset (1ms)
+   1E44 C6 51         [ 5]  364         dec     RAM_51
+   1E46 C6 52         [ 5]  365         dec     RAM_52
+   1E48 C6 53         [ 5]  366         dec     RAM_53
+   1E4A D0 12         [ 4]  367         bne     TEXIT                                   ; if timer RAM_53 expires, then wrap to 100
+   1E4C A9 64         [ 2]  368         lda     #0x64                                   ; 100
+   1E4E 85 53         [ 3]  369         sta     RAM_53
+   1E50 C6 54         [ 5]  370         dec     RAM_54
+   1E52 C6 55         [ 5]  371         dec     RAM_55
+   1E54 C6 56         [ 5]  372         dec     RAM_56
+   1E56 D0 06         [ 4]  373         bne     TEXIT                                   ; if timer RAM_56 expires, then wrap to 100
+   1E58 A9 64         [ 2]  374         lda     #0x64                                   ; 100
+   1E5A 85 56         [ 3]  375         sta     RAM_56
+   1E5C C6 57         [ 5]  376         dec     RAM_57
+   1E5E                     377 TEXIT:
+   1E5E 60            [ 6]  378         rts
+                            379 ;
+                            380 ;       Read the AGC mic level
+                            381 ;       Take the average of 8 samples, and put it into RAM_60 (range is 0 to 8)
+                            382 ;
+   1E5F                     383 AGCMICRD:
+   1E5F A9 00         [ 2]  384         lda     #0x00
+   1E61 85 61         [ 3]  385         sta     RAM_61                                  ; init final agc value
+   1E63 85 62         [ 3]  386         sta     RAM_62                                  ; init agc sample counter
+   1E65 A9 0A         [ 2]  387         lda     #0x0A
+   1E67 85 54         [ 3]  388         sta     RAM_54                                  ; Start a 1 second timer
+   1E69                     389 $23:
+   1E69 20 13 1E      [ 6]  390         jsr     TUPDATE                                 ; housekeeping
+   1E6C A5 54         [ 3]  391         lda     RAM_54
+   1E6E D0 F9         [ 4]  392         bne     $23                                     ; if 1 sec, do housekeeping
+   1E70 A9 0A         [ 2]  393         lda     #0x0A
+   1E72 85 54         [ 3]  394         sta     RAM_54                                  ; reset timer
+   1E74 A5 62         [ 3]  395         lda     RAM_62
+   1E76 C9 08         [ 2]  396         cmp     #0x08                                   ; 8 samples?
+   1E78 F0 15         [ 4]  397         beq     $27                                     ; yes - jump to final calculation
+   1E7A E6 62         [ 5]  398         inc     RAM_62                                  ; increment the sample counter
+   1E7C A2 09         [ 2]  399         ldx     #0x09
+   1E7E 38            [ 2]  400         sec
+   1E7F AD 80 03      [ 4]  401         lda     audio_periph$ddr_reg_a                  ; read the agc mic level
+   1E82                     402 $24:                                                    ; read the most significant high bit
+   1E82 2A            [ 2]  403         rol     a
+   1E83 CA            [ 2]  404         dex
+   1E84 90 FC         [ 4]  405         bcc     $24
+   1E86 18            [ 2]  406         clc
+   1E87 8A            [ 2]  407         txa                                             ; 8=high bit7, 0=no high bits
+   1E88 65 61         [ 3]  408         adc     RAM_61                                  ; add it into RAM_61 (do this 8 times)
+   1E8A 85 61         [ 3]  409         sta     RAM_61
+   1E8C 4C 69 1E      [ 3]  410         jmp     $23
+                            411 ;
+   1E8F                     412 $27:
+   1E8F 46 61         [ 5]  413         lsr     RAM_61                                  ; divide by 8 (average of 8 samples)
+   1E91 46 61         [ 5]  414         lsr     RAM_61
+   1E93 46 61         [ 5]  415         lsr     RAM_61
+   1E95 A5 61         [ 3]  416         lda     RAM_61
+   1E97 85 60         [ 3]  417         sta     RAM_60                                  ; store agc value in RAM_60
+   1E99 A9 00         [ 2]  418         lda     #0x00
+   1E9B 85 61         [ 3]  419         sta     RAM_61                                  ; clear these 2 and return
+   1E9D 85 62         [ 3]  420         sta     RAM_62
+   1E9F 60            [ 6]  421         rts
+                            422 ;
+                            423 ;        Do AGC Mic Logic
+                            424 ;
+   1EA0                     425 AGCUPD:
+   1EA0 AD 80 02      [ 4]  426         lda     U19_PORTA                               ; read AGC knob
+   1EA3 49 FF         [ 2]  427         eor     #0xFF                                   ; invert the bits
+   1EA5 4A            [ 2]  428         lsr     a                                       ; get into lower nibble
+   1EA6 4A            [ 2]  429         lsr     a
+   1EA7 4A            [ 2]  430         lsr     a
+   1EA8 4A            [ 2]  431         lsr     a
+   1EA9 18            [ 2]  432         clc
+   1EAA 65 60         [ 3]  433         adc     RAM_60                                  ; add audio level to it
+   1EAC AA            [ 2]  434         tax
+   1EAD BD D3 1E      [ 5]  435         lda     AGCTABLE,x                              ; and get the table value
+   1EB0 85 63         [ 3]  436         sta     RAM_63                                  ; store this value in RAM_63
+   1EB2 A5 52         [ 3]  437         lda     RAM_52                                  ; 10ms timer expired?
+   1EB4 D0 16         [ 4]  438         bne     $26                                     ; no, just update CPU Leds
+   1EB6 A9 0A         [ 2]  439         lda     #0x0A
+   1EB8 85 52         [ 3]  440         sta     RAM_52                                  ; restart 10ms timer
+   1EBA A5 63         [ 3]  441         lda     RAM_63                                  ; every 10ms, adjust gain by 1 if needed
+   1EBC CD 82 03      [ 4]  442         cmp     audio_periph$ddr_reg_b                  ; compare with current value
+   1EBF 90 08         [ 4]  443         bcc     $25
+   1EC1 F0 09         [ 4]  444         beq     $26
+   1EC3 EE 82 03      [ 6]  445         inc     audio_periph$ddr_reg_b                  ; increase value
+   1EC6 4C CC 1E      [ 3]  446         jmp     $26
+                            447 ;
+   1EC9                     448 $25:
+   1EC9 CE 82 03      [ 6]  449         dec     audio_periph$ddr_reg_b                  ; decrease value
+   1ECC                     450 $26:
+   1ECC AD 82 03      [ 4]  451         lda     audio_periph$ddr_reg_b                  ; update CPU leds with value
+   1ECF 8D 82 02      [ 4]  452         sta     U19_PORTB
+   1ED2 60            [ 6]  453         rts
+                            454 ;
+                            455 ;       AGC table
+                            456 ;
+   1ED3                     457 AGCTABLE:
+   1ED3 03 04 06 08         458         .db     0x03, 0x04, 0x06, 0x08
+   1ED7 10 16 20 2D         459         .db     0x10, 0x16, 0x20, 0x2D
+   1EDB 40 5A 80 BF         460         .db     0x40, 0x5A, 0x80, 0xBF
+   1EDF FF FF FF FF         461         .db     0xFF, 0xFF, 0xFF, 0xFF 
+   1EE3 FF                  462         .db     0xFF
+                            463 ;
+                            464 ; all ff's in this gap
+                            465 ;
+   1FFA                     466         .org    0x1FFA
+                            467 ;
+                            468 ; vectors
+                            469 ;
+   1FFA                     470 NMIVEC:
+   1FFA FF FF               471         .dw     0xFFFF
+   1FFC                     472 RESETVEC:
+   1FFC 00 1C               473         .dw     RESET
+   1FFE                     474 IRQVEC:
+   1FFE FF FF               475         .dw     0xFFFF
