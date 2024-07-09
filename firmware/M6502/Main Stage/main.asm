@@ -154,46 +154,46 @@ L1064:
 ;       Main Program Start
 ;
 RESET:
-        cld
-        sei
-        ldx     #0xF0
+        cld                                             ; No decimal mode
+        sei                                             ; Interrupts are not used
+        ldx     #0xF0                                   ; Stack is at 0x01F0
         txs
-        lda     #0x00
-        ldx     #0x10
-L106F:
+        lda     #0x00                                   ; Clear RAM
+        ldx     #0x10                                   ; from 0x0010 to 0x007F
+ZERORAM:
         sta     RAM_start,x
         inx
         cpx     #0x80
-        bne     L106F
-        lda     #0x00
-        sta     transport_control_reg_a
-        sta     U18_PORTB
-        sta     audio_control_reg_a
-        sta     audio_control_reg_b
-        sta     U18_edge_detect_control_DI_pos
-        sta     U19_edge_detect_control_DI_pos
-        sta     U18_06
-        sta     U19_06
-        sta     transport_control_reg_b
-        sta     U18_DDRA
+        bne     ZERORAM
+        lda     #0x00                                   ; Initialize these registers to 0x00
+        sta     transport_control_reg_a                 ; Clear transport control A, select DDRA
+        sta     U18_PORTB                               ; CPU board lights off
+        sta     audio_control_reg_a                     ; Clear audio control A, select DDRA
+        sta     audio_control_reg_b                     ; Clear audio control B, select DDRB
+        sta     U18_edge_detect_control_DI_pos          ; ???
+        sta     U19_edge_detect_control_DI_pos          ; ???
+        sta     U18_06                                  ; ???
+        sta     U19_06                                  ; ???
+        sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
+        sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
-        sta     U19_DDRA
-        sta     U19_PORTA
+        sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
+        sta     U19_PORTA                               ; turn on RESET button light
         lda     #0xFF
-        sta     audio_periph$ddr_reg_b
-        sta     U18_DDRB
-        sta     U19_DDRB
+        sta     audio_periph$ddr_reg_b                  ; DAC08 outputs
+        sta     U18_DDRB                                ; Button lights are outputs
+        sta     U19_DDRB                                ; CPU card lights are outputs
         lda     #0xFC
-        sta     transport_periph$ddr_reg_b
+        sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
         lda     #0x2E
-        sta     transport_control_reg_a
-        sta     transport_control_reg_b
+        sta     transport_control_reg_a                 ; transport CA2 is Read strobe (~DDR), set IRQA bit on ~DR low to high 
+        sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
         lda     #0x3C
-        sta     audio_control_reg_b
-        sta     audio_control_reg_a
+        sta     audio_control_reg_b                     ; CA2 High - Disable BG Audio
+        sta     audio_control_reg_a                     ; CB2 high - Disable Tape Audio
         lda     #0x10
-        sta     audio_periph$ddr_reg_b
-        sta     U19_PORTB
+        sta     audio_periph$ddr_reg_b                  ; DAC08 outputs - bit 4 only?
+        sta     U19_PORTB                               ; turn on CPU LEDs 5
         lda     #0x00
         sta     RAM_5E
         lda     #0x64
@@ -208,8 +208,8 @@ L106F:
         sta     U19_PORTA
         lda     #0x33
         jsr     L170F
-        lda     #0x10
-        jsr     L158C
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
         lda     #0x28
         sta     RAM_4F
 L10F0:
@@ -234,8 +234,8 @@ L1113:
         jmp     L1113
 ;
 L111B:
-        lda     #0x40
-        jsr     L158C
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD                                 ; REWIND tape
         lda     RAM_55
         sta     U19_PORTB
 L1125:
@@ -258,8 +258,8 @@ L1138:
         jmp     L1129
 ;
 L1147:
-        lda     #0x20
-        jsr     L158C
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD                                 ; FFWD tape
         lda     #0x19
         sta     RAM_4F
 L1150:
@@ -272,14 +272,14 @@ L1150:
         sta     RAM_56
         sta     RAM_57
         jsr     L14C7
-        lda     #0x80
-        jsr     L158C
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY tape
         jsr     L152C
         lda     #0x96
         sta     RAM_4F
-        lda     #0x80
-        jsr     L158C
-        jsr     L158C
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY tape
+        jsr     TAPECMD                                 ; PLAY tape
 L1178:
         jsr     L11F1
         cmp     #0x24
@@ -333,8 +333,8 @@ L11D0:
         sta     RAM_49
         sta     U18_PORTB
         sta     U19_PORTB
-        lda     #0x10
-        jsr     L158C
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
         jmp     L11D0
 ;
 L11E2:
@@ -348,9 +348,9 @@ X11E9:
 L11F1:
         lda     RAM_4F
         beq     L1200
-        lda     transport_control_reg_a             ; Wait for Transport Byte
+        lda     transport_control_reg_a                 ; Wait for Transport Byte
         bpl     L11F1
-        lda     transport_periph$ddr_reg_a          ; Read Transport Byte
+        lda     transport_periph$ddr_reg_a              ; Read Transport Byte
         and     #0x7F
         rts
 ;
@@ -392,8 +392,8 @@ L1236:
         bne     L124D
         lda     #0x64
         sta     RAM_50
-        lda     #0x80
-        jsr     L158C
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY tape
         lda     #0x03
         sta     RAM_6B
         lda     #0xA0
@@ -417,8 +417,8 @@ L125D:
 L1267:
         lda     RAM_4C
         bne     L127C
-        lda     #0x10
-        jsr     L158C
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
         lda     #0x80
         sta     RAM_6B
 L1274:
@@ -431,7 +431,7 @@ L127C:
         bcs     L122C
 L1281:
         jsr     L15A9
-        jsr     L1600
+        jsr     AGCUPD
         lda     RAM_5A
         bne     L122C
         lda     U18_PORTB
@@ -775,8 +775,8 @@ L14D3:
         rts
 ;
 L14D7:
-        lda     #0x20
-        jsr     L158C
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD                                 ; FFWD Tape
         jsr     L1564
         inc     RAM_55
         lda     RAM_55
@@ -790,8 +790,8 @@ L14D7:
 L14F0:
         inc     RAM_55
 L14F2:
-        lda     #0x40
-        jsr     L158C
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD                                 ; REWIND Tape
         jsr     L1564
         dec     RAM_55
         lda     RAM_55
@@ -803,8 +803,8 @@ L14F2:
         rts
 ;
 L150B:
-        lda     #0x40
-        jsr     L158C
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD                                 ; REWIND Tape
         jsr     L1564
         lda     #0x03
         sta     RAM_4F
@@ -813,18 +813,18 @@ L1517:
         lda     RAM_4F
         bne     L1517
 L151E:
-        lda     #0x20
-        jsr     L158C
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD                                 ; FFWD Tape
         jsr     L1564
-        lda     #0x10
-        jsr     L158C
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP Tape
         rts
 ;
 L152C:
         lda     RAM_6B
         bmi     L1563
-        lda     #0x80
-        jsr     L158C
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY Tape
         lda     #0xFA
         sta     RAM_4B
 L1539:
@@ -845,8 +845,8 @@ L154D:
         jsr     L1939
         lda     RAM_4B
         bne     L154D
-        lda     #0x10
-        jsr     L158C
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
         lda     #0x80
         sta     RAM_6B
 L1563:
@@ -876,8 +876,11 @@ L157C:
 L158B:
         rts
 ;
-L158C:
-        sta     transport_periph$ddr_reg_b
+;       Send Transport command for 0.250 sec
+;       (Unified)
+;
+TAPECMD:
+        sta     transport_periph$ddr_reg_b              ; enable output line
         lda     #0xFA
         sta     RAM_4B
 L1593:
@@ -885,11 +888,11 @@ L1593:
         lda     RAM_4B
         bne     L1593
         lda     transport_periph$ddr_reg_b
-        and     #0x60
-        bne     L15A8
-        lda     #0x00
-        sta     transport_periph$ddr_reg_b
-        sta     RAM_6B
+        and     #TAPEMODE_REWIND | #TAPEMODE_FFWD       ; Is it a REWIND or FFWD?
+        bne     L15A8                                   ; Yes, go to exit
+        lda     #0x00                                   ; else unassert STOP or PLAY
+        sta     transport_periph$ddr_reg_b              ; and then exit
+        sta     RAM_6B                                  ; ???
 L15A8:
         rts
 ;
@@ -949,35 +952,35 @@ L15F7:
 L15FF:
         rts
 ;
-;       AGC audio stuff
+;        Do AGC Mic Logic
 ;
-L1600:
-        lda     U19_PORTA
-        eor     #0xFF
-        lsr     a
+AGCUPD:
+        lda     U19_PORTA                               ; read AGC knob
+        eor     #0xFF                                   ; invert the bits
+        lsr     a                                       ; get into lower nibble
         lsr     a
         lsr     a
         lsr     a
         clc
-        adc     RAM_5E
+        adc     RAM_5E                                  ; add audio level to it
         tax
-        lda     X1688,x
-        sta     RAM_62
-        lda     RAM_4D
-        bne     L162C
+        lda     AGCTABLE,x                              ; and get the table value
+        sta     RAM_62                                  ; store this value in RAM_62
+        lda     RAM_4D                                  ; 10ms timer expired?
+        bne     L162C                                   ; no, just update CPU Leds
         lda     #0x0A
-        sta     RAM_4D
-        lda     RAM_62
-        cmp     audio_periph$ddr_reg_b
+        sta     RAM_4D                                  ; restart 10ms timer
+        lda     RAM_62                                  ; every 10ms, adjust gain by 1 if needed
+        cmp     audio_periph$ddr_reg_b                  ; compare with current value
         bcc     L1629
         beq     L162C
-        inc     audio_periph$ddr_reg_b
+        inc     audio_periph$ddr_reg_b                  ; increase value
         jmp     L162C
 ;
 L1629:
-        dec     audio_periph$ddr_reg_b
+        dec     audio_periph$ddr_reg_b                  ; decrease value
 L162C:
-        lda     audio_periph$ddr_reg_b
+        lda     audio_periph$ddr_reg_b                  ; update CPU leds with value
         sta     U19_PORTB
         rts
 ;
@@ -1000,25 +1003,25 @@ L164C:
         lda     #0x0A
         sta     RAM_51
         lda     RAM_60
-        cmp     #0x08
-        beq     L166D
-        inc     RAM_60
+        cmp     #0x08                                   ; 8 samples?
+        beq     L166D                                   ; yes - jump to final calculation
+        inc     RAM_60                                  ; increment the sample counter
         ldx     #0x09
         sec
-        lda     audio_periph$ddr_reg_a
-L1662:
+        lda     audio_periph$ddr_reg_a                  ; read the agc mic level
+L1662:                                                  ; read the most significant high bit
         rol     a
         dex
         bcc     L1662
         clc
-        txa
-        adc     RAM_61
+        txa                                             ; 8=high bit7, 0=no high bits
+        adc     RAM_61                                  ; add it into RAM_61 (do this 8 times)
         sta     RAM_61
 L166C:
         rts
 ;
 L166D:
-        lsr     RAM_61
+        lsr     RAM_61                                  ; divide by 8 (average of 8 samples)
         lsr     RAM_61
         lsr     RAM_61
         lda     RAM_61
@@ -1033,9 +1036,9 @@ L166D:
         sta     RAM_63
         jmp     L18AA
 ;
-;   AGC Mic table
+;   AGC table
 ;
-X1688:
+AGCTABLE:
         .db     0x03, 0x04, 0x06, 0x08
         .db     0x10, 0x16, 0x20, 0x2D
         .db     0x40, 0x5A, 0x80, 0xBF
@@ -1146,9 +1149,9 @@ L173A:
         rts
 ;
 L173F:
-        lda     #0x80
-        jsr     L158C
-        jsr     L158C
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                             ; PLAY tape
+        jsr     TAPECMD                             ; PLAY tape
 L1747:
         lda     transport_control_reg_a             ; Wait for Transport Byte
         asl     a
@@ -1299,7 +1302,7 @@ L181A:
         jmp     L1778
 ;
 L1822:
-        jsr     L1600
+        jsr     AGCUPD
         lda     transport_periph$ddr_reg_b
         lsr     a
         bcc     L182F

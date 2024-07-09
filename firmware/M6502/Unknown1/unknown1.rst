@@ -241,7 +241,7 @@
    1CDC 20 B0 1D      [ 6]  153         jsr     WAITCD                                  ; wait for carrier
    1CDF A9 10         [ 2]  154         lda     #TAPEMODE_STOP
    1CE1 20 72 1D      [ 6]  155         jsr     TAPECMD                                 ; STOP Tape
-   1CE4 20 3F 1D      [ 6]  156         jsr     INITBRDS
+   1CE4 20 3F 1D      [ 6]  156         jsr     INITBRDS                                ; init the boards
    1CE7                     157 WAITPLAY:
    1CE7 4C 68 1F      [ 3]  158         jmp     CALLP1                                  ; code patch - dont queue PROG button presses
                             159 ;
@@ -659,12 +659,14 @@
                             571 ;
                             572 ; all zeros in this gap
                             573 ;
-   1FFC                     574         .org    0x1FFC
+   1FFA                     574         .org    0x1FFA
                             575 ;
                             576 ; vectors
                             577 ;
-   1FFC                     578 RESETVEC:
-   1FFC 00 1C               579         .dw     RESET
-   1FFE                     580 IRQVEC:
-   1FFE 00 00               581         .dw     RAM_start
-                            582 
+   1FFA                     578 NMIVEC:
+   1FFA 00 00               579         .dw     RAM_start
+   1FFC                     580 RESETVEC:
+   1FFC 00 1C               581         .dw     RESET
+   1FFE                     582 IRQVEC:
+   1FFE 00 00               583         .dw     RAM_start
+                            584 

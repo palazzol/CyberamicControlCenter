@@ -153,7 +153,7 @@ $30:
         jsr     WAITCD                                  ; wait for carrier
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP Tape
-        jsr     INITBRDS
+        jsr     INITBRDS                                ; init the boards
 WAITPLAY:
         jmp     CALLP1                                  ; code patch - dont queue PROG button presses
 ;
@@ -571,10 +571,12 @@ CALLP1:
 ;
 ; all zeros in this gap
 ;
-        .org    0x1FFC
+        .org    0x1FFA
 ;
 ; vectors
 ;
+NMIVEC:
+        .dw     RAM_start
 RESETVEC:
         .dw     RESET
 IRQVEC:
