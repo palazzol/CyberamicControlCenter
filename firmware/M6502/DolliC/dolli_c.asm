@@ -155,13 +155,13 @@ INITBRDS:
         lda     #0x00
         ldx     #0x01
         jsr     DOBOARD                                 ; write 0x00 to port+1
-        lda     #0xFF
+        lda     #0xFF                                   ; set DDRx to all outputs
         ldx     #0x00
         jsr     DOBOARD                                 ; write 0xFF to port
         lda     #0x34
         ldx     #0x01
         jsr     DOBOARD                                 ; write 0x34 to port+1
-        lda     #0x00
+        lda     #0x00                                   ; Cx2 low, port all low
         ldx     #0x00
         jsr     DOBOARD                                 ; write 0x00 to port
         rts
@@ -286,7 +286,7 @@ PROTOHAND:
         and     #0x7E                                   ; ignore bottom bit
         cmp     #0x22                                   ; is it 0x22 or 0x23?
         beq     PROCCHNL                                ; if so, process as channel
-        cmp     #0x36                                   ; is it 0x36?
+        cmp     #0x36                                   ; is it 0x36 or 0x37?
         beq     PROCCHNL                                ; if so, process as channel
         lda     RAM_5C                                  ; get original byte
         sec
@@ -297,11 +297,11 @@ PROTOHAND:
         bcs     $18                                     ; if original >= 0x51, exit
         ldx     #0x84                                   ; x = port offset
         cmp     #0x08
-        bcc     $16                                     ; if original is 0x41 to 0x48, use offset 0x84
+        bcc     $16                                     ; if original is 0x41 to 0x48, use offset 0x84 (board 2A)
         ldx     #0x88
-        cmp     #0x0E                                   ; if original is 0x49 to 0x4E, use offset 0x88
+        cmp     #0x0E                                   ; if original is 0x49 to 0x4E, use offset 0x88 (board 3A)
         bcc     $16
-        ldx     #0x8A                                   ; if original is 0x4F to 0x50, use offset 0x8A
+        ldx     #0x8A                                   ; if original is 0x4F to 0x50, use offset 0x8A (board 3B)
 $16:
         lda     MASKTBL,y                               ; lookup bitmask
         sta     RAM_5D                                  ; store mask in RAM_5D

@@ -243,13 +243,13 @@
    1CF9 A9 00         [ 2]  155         lda     #0x00
    1CFB A2 01         [ 2]  156         ldx     #0x01
    1CFD 20 16 1D      [ 6]  157         jsr     DOBOARD                                 ; write 0x00 to port+1
-   1D00 A9 FF         [ 2]  158         lda     #0xFF
+   1D00 A9 FF         [ 2]  158         lda     #0xFF                                   ; set DDRx to all outputs
    1D02 A2 00         [ 2]  159         ldx     #0x00
    1D04 20 16 1D      [ 6]  160         jsr     DOBOARD                                 ; write 0xFF to port
    1D07 A9 34         [ 2]  161         lda     #0x34
    1D09 A2 01         [ 2]  162         ldx     #0x01
    1D0B 20 16 1D      [ 6]  163         jsr     DOBOARD                                 ; write 0x34 to port+1
-   1D0E A9 00         [ 2]  164         lda     #0x00
+   1D0E A9 00         [ 2]  164         lda     #0x00                                   ; Cx2 low, port all low
    1D10 A2 00         [ 2]  165         ldx     #0x00
    1D12 20 16 1D      [ 6]  166         jsr     DOBOARD                                 ; write 0x00 to port
    1D15 60            [ 6]  167         rts
@@ -374,7 +374,7 @@
    1DC0 29 7E         [ 2]  286         and     #0x7E                                   ; ignore bottom bit
    1DC2 C9 22         [ 2]  287         cmp     #0x22                                   ; is it 0x22 or 0x23?
    1DC4 F0 38         [ 4]  288         beq     PROCCHNL                                ; if so, process as channel
-   1DC6 C9 36         [ 2]  289         cmp     #0x36                                   ; is it 0x36?
+   1DC6 C9 36         [ 2]  289         cmp     #0x36                                   ; is it 0x36 or 0x37?
    1DC8 F0 34         [ 4]  290         beq     PROCCHNL                                ; if so, process as channel
    1DCA A5 5C         [ 3]  291         lda     RAM_5C                                  ; get original byte
    1DCC 38            [ 2]  292         sec
@@ -385,11 +385,11 @@
    1DD4 B0 2C         [ 4]  297         bcs     $18                                     ; if original >= 0x51, exit
    1DD6 A2 84         [ 2]  298         ldx     #0x84                                   ; x = port offset
    1DD8 C9 08         [ 2]  299         cmp     #0x08
-   1DDA 90 08         [ 4]  300         bcc     $16                                     ; if original is 0x41 to 0x48, use offset 0x84
+   1DDA 90 08         [ 4]  300         bcc     $16                                     ; if original is 0x41 to 0x48, use offset 0x84 (board 2A)
    1DDC A2 88         [ 2]  301         ldx     #0x88
-   1DDE C9 0E         [ 2]  302         cmp     #0x0E                                   ; if original is 0x49 to 0x4E, use offset 0x88
+   1DDE C9 0E         [ 2]  302         cmp     #0x0E                                   ; if original is 0x49 to 0x4E, use offset 0x88 (board 3A)
    1DE0 90 02         [ 4]  303         bcc     $16
-   1DE2 A2 8A         [ 2]  304         ldx     #0x8A                                   ; if original is 0x4F to 0x50, use offset 0x8A
+   1DE2 A2 8A         [ 2]  304         ldx     #0x8A                                   ; if original is 0x4F to 0x50, use offset 0x8A (board 3B)
    1DE4                     305 $16:
    1DE4 B9 03 1E      [ 5]  306         lda     MASKTBL,y                               ; lookup bitmask
    1DE7 85 5D         [ 3]  307         sta     RAM_5D                                  ; store mask in RAM_5D

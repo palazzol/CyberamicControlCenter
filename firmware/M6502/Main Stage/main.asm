@@ -27,11 +27,11 @@ RAM_3C   = 0x003C
 RAM_3D   = 0x003D
 
 ; IRQ timer section 1
-RAM_3E   = 0x003E
-RAM_3F   = 0x003F
-RAM_40   = 0x0040
-RAM_41   = 0x0041
-RAM_42   = 0x0042
+RAM_3E   = 0x003E           ; r/100
+RAM_3F   = 0x003F           ; r/100
+RAM_40   = 0x0040           ; r/100
+RAM_41   = 0x0041           ; r/100
+RAM_42   = 0x0042           ; r/100
 
 RAM_44   = 0x0044
 RAM_45   = 0x0045
@@ -42,18 +42,18 @@ RAM_49   = 0x0049
 RAM_4A   = 0x004A
 
 ; IRQ timer section 2
-RAM_4B   = 0x004B
-RAM_4C   = 0x004C
-RAM_4D   = 0x004D
-RAM_4E   = 0x004E
-RAM_4F   = 0x004F
-RAM_50   = 0x0050
-RAM_51   = 0x0051
-RAM_52   = 0x0052
-RAM_53   = 0x0053
+RAM_4B   = 0x004B           ; r
+RAM_4C   = 0x004C           ; r
+RAM_4D   = 0x004D           ; r
+RAM_4E   = 0x004E           ; r, autoload to 100
+RAM_4F   = 0x004F           ; r/100
+RAM_50   = 0x0050           ; r/100
+RAM_51   = 0x0051           ; r/100
+RAM_52   = 0x0052           ; r/100, autoload to 100
+RAM_53   = 0x0053           ; r/10000
 
 RAM_55   = 0x0055
-RAM_56   = 0x0056
+RAM_56   = 0x0056           ; expected program number?
 RAM_57   = 0x0057
 RAM_58   = 0x0058
 RAM_59   = 0x0059
@@ -91,8 +91,8 @@ IRQ:
         lda     U18_edge_detect_control_DI_pos  ; clear PA7 flag
         lda     U19_edge_detect_control_DI_pos  ; clear PA7 flag
         lda     #0x7D
-        sta     U18_1D                  ; div by 8, enable interrupt
-        lda     RAM_4B                   ; timer
+        sta     U18_1D                      ; div by 8, enable interrupt
+        lda     RAM_4B                      ; timer
         beq     L1012
         dec     RAM_4B
 L1012:
@@ -220,10 +220,10 @@ L10F0:
         jsr     L18AA
         lda     U18_PORTA
         eor     #0xFF
-        cmp     #0x10
-        bne     L111B
+        cmp     #0x10                                   ; DIAG pushed?
+        bne     L111B                                   ; if not, jump ahead
         lda     #0xFF
-        sta     board_7_periph$ddr_reg_a
+        sta     board_7_periph$ddr_reg_a                ; all lights on?
         sta     board_7_periph$ddr_reg_b
         sta     board_8_periph$ddr_reg_a
         sta     board_8_periph$ddr_reg_b
@@ -261,7 +261,7 @@ L1147:
         lda     #TAPEMODE_FFWD
         jsr     TAPECMD                                 ; FFWD tape
         lda     #0x19
-        sta     RAM_4F
+        sta     RAM_4F                                  ; 2.5 secs?
 L1150:
         jsr     L1939
         lda     RAM_4F
@@ -269,7 +269,7 @@ L1150:
         lda     #0x00
         sta     RAM_55
         lda     #0x01
-        sta     RAM_56
+        sta     RAM_56                                  ; set expected program number to 1?
         sta     RAM_57
         jsr     L14C7
         lda     #TAPEMODE_PLAY
@@ -281,40 +281,41 @@ L1150:
         jsr     TAPECMD                                 ; PLAY tape
         jsr     TAPECMD                                 ; PLAY tape
 L1178:
-        jsr     L11F1
+        jsr     L11F1                                   ; loop until 0x24 received
         cmp     #0x24
         bne     L1178
 L117F:
-        jsr     L11F1
+        jsr     L11F1                                   ; eat any additional 0x24 received
         cmp     #0x24
         beq     L117F
-        and     #0x3F
+        and     #0x3F                                   ; else compare to number
         cmp     RAM_56
-        beq     L1193
-        jmp     RESET
+        beq     L1193                                   ; if match, jump
+        jmp     RESET                                   ; else reset
 ;
         lda     #0x00
         sta     RAM_49
 L1193:
-        jsr     L11F1
+        jsr     L11F1                                   ; eat chars until a 0x28
         cmp     #0x28
         bne     L1193
-        jsr     L11F1
-        cmp     #0x47
+        jsr     L11F1                                   ; get a character
+        cmp     #0x47                                   ; < 0x47, jump
         bcc     L11CC
-        cmp     #0x5A
+        cmp     #0x5A                                   ; >= 0x5A
         bcs     L11CC
-        and     #0x1F
+        and     #0x1F                                   ; only bottom 5 bits used
         ldx     #0x00
         ldy     #0x00
-L11AB:
-        sta     RAM_70,x
+; process 0x47 to 0x59 which is now 0x07 to 0x19
+L11AB:                                                  
+        sta     RAM_70,x                                ; queue this value
         inx
-        jsr     L11F1
-        cmp     X11E9,y
-        beq     L11AB
-        iny
-        cmp     X11E9,y
+        jsr     L11F1                                   ; get another value
+        cmp     X11E9,y                                 ; find it in this table
+        beq     L11AB   
+        iny                                             ; if found, jump to queue it
+        cmp     X11E9,y                                 ; else keep looking
         bne     L11CC
         cpy     #0x07
         bne     L11AB
@@ -901,9 +902,9 @@ L15A9:
         bne     L15D6
         lda     U18_PORTA
         eor     #0xFF
-        beq     L15D5
-        sta     RAM_5B
-        bpl     L15C1
+        beq     L15D5                                   ; nothing pushed, jump to exit
+        sta     RAM_5B                                  ; buffer buttons in RAM_5B
+        bpl     L15C1                                   ; PROG pushed, jump
         eor     U18_PORTB
         sta     U18_PORTB
         jmp     L15CD
@@ -967,19 +968,19 @@ AGCUPD:
         lda     AGCTABLE,x                              ; and get the table value
         sta     RAM_62                                  ; store this value in RAM_62
         lda     RAM_4D                                  ; 10ms timer expired?
-        bne     L162C                                   ; no, just update CPU Leds
+        bne     $26                                     ; no, just update CPU Leds
         lda     #0x0A
         sta     RAM_4D                                  ; restart 10ms timer
         lda     RAM_62                                  ; every 10ms, adjust gain by 1 if needed
         cmp     audio_periph$ddr_reg_b                  ; compare with current value
-        bcc     L1629
-        beq     L162C
+        bcc     $25
+        beq     $26
         inc     audio_periph$ddr_reg_b                  ; increase value
-        jmp     L162C
+        jmp     $26
 ;
-L1629:
+$25:
         dec     audio_periph$ddr_reg_b                  ; decrease value
-L162C:
+$26:
         lda     audio_periph$ddr_reg_b                  ; update CPU leds with value
         sta     U19_PORTB
         rts
@@ -1004,7 +1005,7 @@ L164C:
         sta     RAM_51
         lda     RAM_60
         cmp     #0x08                                   ; 8 samples?
-        beq     L166D                                   ; yes - jump to final calculation
+        beq     $27                                     ; yes - jump to final calculation
         inc     RAM_60                                  ; increment the sample counter
         ldx     #0x09
         sec
@@ -1020,7 +1021,7 @@ L1662:                                                  ; read the most signific
 L166C:
         rts
 ;
-L166D:
+$27:
         lsr     RAM_61                                  ; divide by 8 (average of 8 samples)
         lsr     RAM_61
         lsr     RAM_61
@@ -1184,17 +1185,17 @@ L1778:
         bcc     L178F
         lda     transport_periph$ddr_reg_a          ; Read Transport Byte
         and     #0x7F
-        sta     RAM_65                               ; First byte into 0065
+        sta     RAM_65                              ; First byte into 0065
         cmp     #0x22
         bcc     L1778                               ; ignore if < 0x22
         cmp     #0x40
         bcs     L1792                               ; jump if >= 0x40
-        sta     RAM_64                               ; put it here if it's >= 0x22 and < 0x40
+        sta     RAM_64                              ; put it here if it's >= 0x22 and < 0x40
 L178F:
         jmp     L181A
 ;
-L1792:
-        lda     RAM_64                               ; read the last command byte
+L1792:                                              
+        lda     RAM_64                              ; read the last command byte
         and     #0x7E
         sec
         sbc     #0x22
@@ -1210,44 +1211,45 @@ L17AA:
 ;
 ;       Decode command byte in 0064 and channel byte in 0065
 ;       to a command offset in 0066 and bit mask in 0068, return with carry clear
+;       Handles 0x26/0x27, 0x32/0x33, 0x3E/0x3F
 ;
 L17AD:
-        lda     RAM_64                               ; read the last command byte?
+        lda     RAM_64                                  ; read the last command byte?
 L17AF:
         sec
-        sbc     #0x26
+        sbc     #0x26                                   ; 0x00/0x01,0x0C/0x0D,0x18/0x19
         lsr     a
-        tay
-        lda     X1DB2,y
-        sta     RAM_66                               ; table value goes here
+        tay                                             ; 0x00, 0x06, 0x0C
+        lda     X1DB2,y                                 ; 0x6A, 0x80, 0x82 (??, board1A, board1B)
+        sta     RAM_66                                  ; table value goes here
         tya
         asl     a
         asl     a
         asl     a
-        tay                                         ; times 8
+        tay                                             ; 0x00, 0x30, 0x60
         lda     #0x01
-        sta     RAM_68                               ; set bit 0 here
-        lda     RAM_65                               ; get current byte
+        sta     RAM_68                                  ; set bit 0 here
+        lda     RAM_65                                  ; get current byte
 L17C4:
         cmp     X1E04,y
         beq     L17D0
         iny
-        asl     RAM_68                               ; now RAM_68 has the right bit
+        asl     RAM_68                                  ; now RAM_68 has the right bit
         bcc     L17C4
-        clc                                         ; code not found, return
+        clc                                             ; code not found, return
         rts
 ;
 L17D0:
-        ldy     #0x00
+        ldy     #0x00                                   ; code found
         lda     RAM_64
-        lsr     a                                   ; get bottom bit on/off into carry
-        lda     RAM_68                               ; get bitmask
-        bcs     L17E1                               ; if on, jump ahead
+        lsr     a                                       ; get bottom bit on/off into carry
+        lda     RAM_68                                  ; get bitmask
+        bcs     L17E1                                   ; if on, jump ahead
         eor     #0xFF
         and     [RAM_66],y
 L17DD:
-        sta     [RAM_66],y                           ; set bit in 0066
-        sec                                         ; code found
+        sta     [RAM_66],y                              ; set bit in 0066
+        sec                                             ; code found
         rts
 ;
 L17E1:
@@ -1268,11 +1270,11 @@ L17EC:
 L17F1:
         lda     RAM_65
         cmp     #0x40
-        bcc     L180D
+        bcc     L180D                                   ; < 0x40, ignore
         cmp     #0x60
-        bcs     L180D
+        bcs     L180D                                   ; >= 0x60, ignore
         sec
-        sbc     #0x40
+        sbc     #0x40                                   ; range is 0x00 to 0x1f now
         asl     a
         tay
         lda     X1DC2,y
@@ -1312,8 +1314,8 @@ L182F:
         lda     RAM_4B
         beq     L183A
         lda     U18_PORTA
-        and     #0x40
-        bne     L1848
+        and     #0x40                   ; SKIP button pushed?
+        bne     L1848                   ; if not, jump ahead
 L183A:
         jsr     L1699
         jsr     L18FC
@@ -1491,13 +1493,14 @@ L18FC:
         rts
 ;
 L1939:
-        jsr     L1949
-        jsr     L1977
-        jsr     L19A5
-        jsr     L19D3
-        jsr     L1A01
+        jsr     L1949                   ; do something to board 1
+        jsr     L1977                   ; do something to board 2
+        jsr     L19A5                   ; do something to board 5
+        jsr     L19D3                   ; do something to board 4
+        jsr     L1A01                   ; do something to board 3
         rts
-;
+
+; do something to board 1
 L1949:
         ldy     #0x00
         lda     [RAM_38],y
@@ -1526,7 +1529,8 @@ L1968:
         lda     #0xFA
         sta     RAM_3E
         jmp     L1967
-;
+
+; do something to board 2
 L1977:
         ldy     #0x00
         lda     [RAM_34],y
@@ -1555,7 +1559,8 @@ L1996:
         lda     #0xE6
         sta     RAM_3F
         jmp     L1995
-;
+
+; do something to board 5
 L19A5:
         ldy     #0x00
         lda     [RAM_36],y
@@ -1584,7 +1589,8 @@ L19C4:
         lda     #0xD2
         sta     RAM_40
         jmp     L19C3
-;
+
+; do something to board 4
 L19D3:
         ldy     #0x00
         lda     [RAM_3A],y
@@ -1613,7 +1619,8 @@ L19F2:
         lda     #0xBE
         sta     RAM_41
         jmp     L19F1
-;
+
+; do something to board 3
 L1A01:
         ldy     #0x00
         lda     [RAM_3C],y
@@ -2116,57 +2123,57 @@ IGNORE:
 ;
 X1DB2:
         .db     0x6A        ; 0x26 - ???
-        .db     0x96        ; 0x28 - board 6B?
-        .db     0x96        ; 0x2A - board 6B?
-        .db     0x8A        ; 0x2C - board 3B?
-        .db     0x8E        ; 0x2E - board 4B?
+        .db     0x96        ; 0x28 - board 6B
+        .db     0x96        ; 0x2A - board 6B
+        .db     0x8A        ; 0x2C - board 3B
+        .db     0x8E        ; 0x2E - board 4B
         .db     0x69        ; 0x30 - ???
-        .db     0x80        ; 0x32 - board 1
-        .db     0x88        ; 0x34 - board 3
-        .db     0x84        ; 0x36 - board 2
+        .db     0x80        ; 0x32 - board 1A
+        .db     0x88        ; 0x34 - board 3A
+        .db     0x84        ; 0x36 - board 2A
         .db     0x00        ; 0x38
-        .db     0x90        ; 0x3A - board 5
-        .db     0x8C        ; 0x3C - board 4
-        .db     0x82        ; 0x3E - board 1B?
-        .db     0x86        ; 0x40 - board 2B?
+        .db     0x90        ; 0x3A - board 5A
+        .db     0x8C        ; 0x3C - board 4A
+        .db     0x82        ; 0x3E - board 1B
+        .db     0x86        ; 0x40 - board 2B
         .db     0x00        ; 0x42
         .db     0x00        ; 0x44
 ;
 ;       Extended codes for 0x22-0x23?
 ;
 X1DC2:
-        .db     0x9C,0x01
-        .db     0x98,0x02
-        .db     0x9C,0x08
-        .db     0x9C,0x04
-        .db     0x9C,0x10
-        .db     0x98,0x04
+        .db     0x9C,0x01       ; 0x40, board 8A
+        .db     0x98,0x02       ; 0x41, board 7A
+        .db     0x9C,0x08       ; 0x42, board 8A
+        .db     0x9C,0x04       ; 0x43, board 8A
+        .db     0x9C,0x10       ; 0x44, board 8A
+        .db     0x98,0x04       ; 0x45, board 7A
         .db     0x98,0x08
         .db     0x9A,0x20
         .db     0x9A,0x40
         .db     0x9C,0x20
         .db     0x9C,0x40
         .db     0x9C,0x80
-        .db     0x9A,0x01
-        .db     0x9A,0x08
-        .db     0x9A,0x10
-        .db     0x98,0x40
-        .db     0x98,0x80
-        .db     0x9A,0x02
-        .db     0x9A,0x04
-        .db     0x98,0x10
-        .db     0x98,0x20
+        .db     0x9A,0x01       ; 0x4C, board 7B
+        .db     0x9A,0x08       ; 0x4D, board 7B
+        .db     0x9A,0x10       ; 0x4E, board 7B
+        .db     0x98,0x40       ; 0x4F, board 7A
+        .db     0x98,0x80       ; 0x50, board 7A
+        .db     0x9A,0x02       ; 0x51, board 7B
+        .db     0x9A,0x04       ; 0x52, board 7B
+        .db     0x98,0x10       ; 0x53, board 7A
+        .db     0x98,0x20       ; 0x54, board 7A
         .db     0x9C,0x02
         .db     0x9E,0x01
         .db     0x9E,0x08
         .db     0x9E,0x02
-        .db     0x98,0x01
+        .db     0x98,0x01       ; 0x59, board 7A
         .db     0x00,0x80
         .db     0x9E,0x04
         .db     0x9E,0x10
         .db     0x9E,0x20
         .db     0x9E,0x40
-        .db     0x92,0x01
+        .db     0x92,0x01       ; 0x5F, board 5B
         .db     0x00,0x00
 ;
 ;       8 bytes per command, starting with 0x26, 0x28...
@@ -2182,8 +2189,14 @@ X1E04:
 ;
 ;       Gap filled with 0xff here
 ;       
-        .org    0x1ffc
-
-RESETVEC:   .dw     RESET
-IRQVEC:     .dw     IRQ
+        .org    0x1FFA
+;
+; vectors
+;
+NMIVEC:
+            .dw     0xFFFF
+RESETVEC:   
+            .dw     RESET
+IRQVEC:     
+            .dw     IRQ
 
