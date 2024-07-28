@@ -183,7 +183,7 @@ L80C1:
         clrb
         stab    (0x0062)        ; button light buffer?
         jsr     BUTNLIT         ; turn off all button lights
-        jsr     LA341           ; fire 3 bits on board 2
+        jsr     LA341           ; close curtains - fire 3 bits on board 2
         ldaa    (0x0400)
         cmpa    #0x07
         beq     L811C           ; if 7, go directly to CPU test
@@ -384,12 +384,14 @@ L829C:
 L82A1:
         jmp     L8333
 L82A4:
-        cmpa    #0x44           ;'$'
+        cmpa    #0x44           ;'D'
         bne     L82AB
-        jmp     LA366           ; go to security code & setup utility
+        jmp     LA366           ; go to Dave's Setup Utility
 L82AB:
         cmpa    #0x53           ;'S'
         bne     L82A1
+
+; Serial Number Programming
 
         jsr     SERMSGW      
         .ascis  '\n\rEnter security code: '
@@ -1544,7 +1546,7 @@ L8B3C:
         rts
 
 L8B48:
-        jsr     LA32E
+        jsr     LA32E           ; open curtains
 
         jsr     LCDMSG1 
         .ascis  'Light Diagnostic'
@@ -1574,7 +1576,7 @@ L8BB5:
         jsr     L8E95
         cmpa    #0x0D
         bne     L8BB5  
-        jsr     LA341
+        jsr     LA341           ; close curtains
         rts
 
 ; setup IRQ handlers!
@@ -4009,7 +4011,7 @@ LA0E9:
         staa    (0x0063)
         ldab    #0xFD           ; tape deck STOP
         jsr     L86E7
-        jsr     LA32E
+        jsr     LA32E           ; open curtains
         inc     (0x0076)
         clr     (0x0032)
 LA14B:
@@ -4268,16 +4270,18 @@ LA326:
         clr     (0x004E)
         rts
 
+        ; open curtains
 LA32E:
         ldaa    (0x1086)
-        oraa    #0x15
+        oraa    #0x15           ; xxx1x1x1
         staa    (0x1086)
         ldab    #0x01
         jsr     DLYSECSBY2      ; delay 0.5 sec
-        anda    #0xEA
+        anda    #0xEA           ; xxx0x0x0
         staa    (0x1086)
         rts
 
+        ; close curtains
 LA341:
         ldaa    (0x1086)
         oraa    #0x2A           ; xx1x1x1x
@@ -4624,7 +4628,7 @@ LA855:
         rts
 
 LA86A:
-        jsr     LA32E
+        jsr     LA32E           ; open curtains
 
         jsr     LCDMSG1 
         .ascis  '    Warm-Up  '
@@ -4721,7 +4725,7 @@ LA935:
         ldab    #0x02
         jsr     DLYSECSBY2      ; delay 1 sec
         jsr     L86C4           ; Reset boards 1-10
-        jsr     LA341
+        jsr     LA341           ; close curtains
         rts
 
 LA941:
@@ -4794,7 +4798,7 @@ LA994:
         jsr     LCDMSG2 
         .ascis  'programming mode'
 
-        jsr     LA32E
+        jsr     LA32E           ; open curtains
         jsr     L999E
         jsr     L99B1
         ldx     #0x2000

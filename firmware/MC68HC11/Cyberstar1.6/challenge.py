@@ -54,7 +54,7 @@ def Validate(challenge):
 
 def main():
     print('''
-    Workalike for "Tim's World Rules" (c) djp
+    Workalike for "Tim's World Rules" (c) dbp
     (Logic regenerated from reverse engineering of 68HC11 code,
                                         Frank Palazzolo - 2024)
 

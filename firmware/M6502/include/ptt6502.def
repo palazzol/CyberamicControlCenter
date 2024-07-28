@@ -75,6 +75,12 @@ audio_control_reg_a             = 0x0381
 audio_periph$ddr_reg_b          = 0x0382
 audio_control_reg_b             = 0x0383
 
+; Tape Commands
+TAPEMODE_STOP                   = 0x10
+TAPEMODE_FFWD                   = 0x20
+TAPEMODE_REWIND                 = 0x40
+TAPEMODE_PLAY                   = 0x80
+
 
 
 

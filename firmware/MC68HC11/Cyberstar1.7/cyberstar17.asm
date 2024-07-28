@@ -406,14 +406,16 @@ L82A1:
         jmp     L8333
 
 L82A4:
-        cmpa    #0x44           ;'$'
+        cmpa    #0x44           ;'D'
         bne     L82AB
-        jmp     LA366           ; go to security code & setup utility
+        jmp     LA366           ; go to Dave's Setup Utility
 L82AB:
         cmpa    #0x53           ;'S'
         bne     L82A1
 
-        jsr     SERMSGW      
+; Serial Number Programming
+
+        jsr     SERMSGW         
         .ascis  '\n\rEnter security code: '
 
         sei
@@ -5934,7 +5936,7 @@ LF86D:
 
 ; Setup normal SCI, 8 data bits, 1 stop bit
 ; Interrupts disabled, Transmitter and Receiver enabled
-; prescaler = /13, SCR=/2, rate = 9600 baud at 16Mhz clock
+; prescaler = /13, SCR=/1, rate = 19200 baud at 16Mhz clock
 
 LF879:
         ldaa    #0x00
@@ -6069,18 +6071,18 @@ LF91D:
 
 ; NEW - All new code here
 LF941N:
-        jsr     LF987
-        staa    (0x0001)
+        jsr     LF987               ; get a character from serial
+        staa    (0x0001)            ; save it
         cmpa    #0x30
-        bcs     LF985N
+        bcs     LF985N              ; lower than 0, jump
         cmpa    #0x39
-        bhi     LF95BN
+        bhi     LF95BN              ; higher that 9, jump
 LF94EN:
+        asla                        ; get nybble into 
         asla
         asla
         asla
-        asla
-        ldab    #0x04
+        ldab    #0x04               
         tst     (0x0002)
         bpl     LF967N
         bmi     LF973N
@@ -6089,7 +6091,7 @@ LF95BN:
         bcs     LF985N
         cmpa    #0x47               ;'G'
         bcc     LF985N
-        suba    #0x37
+        suba    #0x37               ; convert to nybble
         bra     LF94EN
 LF967N:
         rola
