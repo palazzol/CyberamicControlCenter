@@ -15,23 +15,23 @@
                      0033    15 RAM_33   = 0x0033
                              16 
                              17 ; Table Addresses go here
-                     0034    18 RAM_34   = 0x0034
-                     0035    19 RAM_35   = 0x0035
-                     0036    20 RAM_36   = 0x0036
-                     0037    21 RAM_37   = 0x0037
-                     0038    22 RAM_38   = 0x0038
-                     0039    23 RAM_39   = 0x0039
-                     003A    24 RAM_3A   = 0x003A
-                     003B    25 RAM_3B   = 0x003B
-                     003C    26 RAM_3C   = 0x003C
-                     003D    27 RAM_3D   = 0x003D
+                     0034    18 RAM_34   = 0x0034           ; board 2 table address
+                     0035    19 RAM_35   = 0x0035           ;   (2 bytes)
+                     0036    20 RAM_36   = 0x0036           ; board 5 table address
+                     0037    21 RAM_37   = 0x0037           ;   (2 bytes)
+                     0038    22 RAM_38   = 0x0038           ; board 1 table address
+                     0039    23 RAM_39   = 0x0039           ;   (2 bytes)
+                     003A    24 RAM_3A   = 0x003A           ; board 4 table address
+                     003B    25 RAM_3B   = 0x003B           ;   (2 bytes)
+                     003C    26 RAM_3C   = 0x003C           ; board 3 table address
+                     003D    27 RAM_3D   = 0x003D           ;   (2 bytes)
                              28 
                              29 ; IRQ timer section 1
-                     003E    30 RAM_3E   = 0x003E           ; r/100
-                     003F    31 RAM_3F   = 0x003F           ; r/100
-                     0040    32 RAM_40   = 0x0040           ; r/100
-                     0041    33 RAM_41   = 0x0041           ; r/100
-                     0042    34 RAM_42   = 0x0042           ; r/100
+                     003E    30 RAM_3E   = 0x003E           ; 0.1s timer
+                     003F    31 RAM_3F   = 0x003F           ; 0.1s timer
+                     0040    32 RAM_40   = 0x0040           ; 0.1s timer
+                     0041    33 RAM_41   = 0x0041           ; 0.1s timer
+                     0042    34 RAM_42   = 0x0042           ; 0.1s timer
                              35 
                      0044    36 RAM_44   = 0x0044
                      0045    37 RAM_45   = 0x0045
@@ -42,17 +42,17 @@
                      004A    42 RAM_4A   = 0x004A
                              43 
                              44 ; IRQ timer section 2
-                     004B    45 RAM_4B   = 0x004B           ; r
-                     004C    46 RAM_4C   = 0x004C           ; r
-                     004D    47 RAM_4D   = 0x004D           ; r
-                     004E    48 RAM_4E   = 0x004E           ; r, autoload to 100
-                     004F    49 RAM_4F   = 0x004F           ; r/100
-                     0050    50 RAM_50   = 0x0050           ; r/100
-                     0051    51 RAM_51   = 0x0051           ; r/100
-                     0052    52 RAM_52   = 0x0052           ; r/100, autoload to 100
-                     0053    53 RAM_53   = 0x0053           ; r/10000
+                     004B    45 RAM_4B   = 0x004B           ; 1ms timer
+                     004C    46 RAM_4C   = 0x004C           ; 1ms timer
+                     004D    47 RAM_4D   = 0x004D           ; 1ms timer
+                     004E    48 RAM_4E   = 0x004E           ; 1ms timer, autoload to 100
+                     004F    49 RAM_4F   = 0x004F           ; 0.1s timer
+                     0050    50 RAM_50   = 0x0050           ; 0.1s timer
+                     0051    51 RAM_51   = 0x0051           ; 0.1s timer
+                     0052    52 RAM_52   = 0x0052           ; 0.1s timer, autoload to 100
+                     0053    53 RAM_53   = 0x0053           ; 10s timer
                              54 
-                     0055    55 RAM_55   = 0x0055
+                     0055    55 RAM_55   = 0x0055           ; program number?
                      0056    56 RAM_56   = 0x0056           ; expected program number?
                      0057    57 RAM_57   = 0x0057
                      0058    58 RAM_58   = 0x0058
@@ -61,17 +61,17 @@
                      005B    61 RAM_5B   = 0x005B
                      005C    62 RAM_5C   = 0x005C
                      005D    63 RAM_5D   = 0x005D
-                     005E    64 RAM_5E   = 0x005E
+                     005E    64 RAM_5E   = 0x005E           ; agc related
                      005F    65 RAM_5F   = 0x005F
                      0060    66 RAM_60   = 0x0060
                      0061    67 RAM_61   = 0x0061
                      0062    68 RAM_62   = 0x0062
                      0063    69 RAM_63   = 0x0063
-                     0064    70 RAM_64   = 0x0064   ; Command byte
-                     0065    71 RAM_65   = 0x0065   ; Channel byte
-                     0066    72 RAM_66   = 0x0066   ; Two byte address of current memory
-                     0067    73 RAM_67   = 0x0067   ;   address to write to cards
-                     0068    74 RAM_68   = 0x0068   ; Current Bitmask
+                     0064    70 RAM_64   = 0x0064           ; Command byte
+                     0065    71 RAM_65   = 0x0065           ; Channel byte
+                     0066    72 RAM_66   = 0x0066           ; Two byte address of current memory
+                     0067    73 RAM_67   = 0x0067           ;   address to write to cards
+                     0068    74 RAM_68   = 0x0068           ; Current Bitmask
                      0069    75 RAM_69   = 0x0069
                      006A    76 RAM_6A   = 0x006A
                      006B    77 RAM_6B   = 0x006B
@@ -176,63 +176,63 @@
                              88 ;
    1000                      89 IRQ:
    1000 48            [ 3]   90         pha
-   1001 AD 05 02      [ 4]   91         lda     U18_edge_detect_control_DI_pos  ; clear PA7 flag
-   1004 AD 85 02      [ 4]   92         lda     U19_edge_detect_control_DI_pos  ; clear PA7 flag
-   1007 A9 7D         [ 2]   93         lda     #0x7D
-   1009 8D 1D 02      [ 4]   94         sta     U18_1D                      ; div by 8, enable interrupt
-   100C A5 4B         [ 3]   95         lda     RAM_4B                      ; timer
+   1001 AD 05 02      [ 4]   91         lda     U18_edge_detect_control_DI_pos          ; clear PA7 flag
+   1004 AD 85 02      [ 4]   92         lda     U19_edge_detect_control_DI_pos          ; clear PA7 flag
+   1007 A9 7D         [ 2]   93         lda     #0x7D                                   ; expire every 125*8=1000us=1ms
+   1009 8D 1D 02      [ 4]   94         sta     U18_1D                                  ; div by 8, enable interrupt
+   100C A5 4B         [ 3]   95         lda     RAM_4B                                  ; timer
    100E F0 02         [ 4]   96         beq     L1012
    1010 C6 4B         [ 5]   97         dec     RAM_4B
    1012                      98 L1012:
-   1012 A5 4C         [ 3]   99         lda     RAM_4C                   ; timer
+   1012 A5 4C         [ 3]   99         lda     RAM_4C                                  ; timer
    1014 F0 02         [ 4]  100         beq     L1018
    1016 C6 4C         [ 5]  101         dec     RAM_4C
    1018                     102 L1018:
-   1018 A5 4D         [ 3]  103         lda     RAM_4D                   ; timer
+   1018 A5 4D         [ 3]  103         lda     RAM_4D                                  ; timer
    101A F0 02         [ 4]  104         beq     L101E
    101C C6 4D         [ 5]  105         dec     RAM_4D
    101E                     106 L101E:
-   101E C6 4E         [ 5]  107         dec     RAM_4E                   ; timer
+   101E C6 4E         [ 5]  107         dec     RAM_4E                                  ; timer
    1020 D0 42         [ 4]  108         bne     L1064
    1022 A9 64         [ 2]  109         lda     #0x64
    1024 85 4E         [ 3]  110         sta     RAM_4E
-   1026 A5 4F         [ 3]  111         lda     RAM_4F                   ; timer
+   1026 A5 4F         [ 3]  111         lda     RAM_4F                                  ; timer
    1028 F0 02         [ 4]  112         beq     L102C
    102A C6 4F         [ 5]  113         dec     RAM_4F
    102C                     114 L102C:
-   102C A5 50         [ 3]  115         lda     RAM_50                   ; timer
+   102C A5 50         [ 3]  115         lda     RAM_50                                  ; timer
    102E F0 02         [ 4]  116         beq     L1032
    1030 C6 50         [ 5]  117         dec     RAM_50
    1032                     118 L1032:
-   1032 A5 51         [ 3]  119         lda     RAM_51                   ; timer
+   1032 A5 51         [ 3]  119         lda     RAM_51                                  ; timer
    1034 F0 02         [ 4]  120         beq     L1038
    1036 C6 51         [ 5]  121         dec     RAM_51
    1038                     122 L1038:
-   1038 A5 3E         [ 3]  123         lda     RAM_3E                   ; timer
+   1038 A5 3E         [ 3]  123         lda     RAM_3E                                  ; timer
    103A F0 02         [ 4]  124         beq     L103E
    103C C6 3E         [ 5]  125         dec     RAM_3E
    103E                     126 L103E:
-   103E A5 3F         [ 3]  127         lda     RAM_3F                   ; timer
+   103E A5 3F         [ 3]  127         lda     RAM_3F                                  ; timer
    1040 F0 02         [ 4]  128         beq     L1044
    1042 C6 3F         [ 5]  129         dec     RAM_3F
    1044                     130 L1044:
-   1044 A5 40         [ 3]  131         lda     RAM_40                   ; timer
+   1044 A5 40         [ 3]  131         lda     RAM_40                                  ; timer
    1046 F0 02         [ 4]  132         beq     L104A
    1048 C6 40         [ 5]  133         dec     RAM_40
    104A                     134 L104A:
-   104A A5 41         [ 3]  135         lda     RAM_41                   ; timer
+   104A A5 41         [ 3]  135         lda     RAM_41                                  ; timer
    104C F0 02         [ 4]  136         beq     L1050
    104E C6 41         [ 5]  137         dec     RAM_41
    1050                     138 L1050:
-   1050 A5 42         [ 3]  139         lda     RAM_42                   ; timer
+   1050 A5 42         [ 3]  139         lda     RAM_42                                  ; timer
    1052 F0 02         [ 4]  140         beq     L1056
    1054 C6 42         [ 5]  141         dec     RAM_42
    1056                     142 L1056:
-   1056 C6 52         [ 5]  143         dec     RAM_52                   ; timer
+   1056 C6 52         [ 5]  143         dec     RAM_52                                  ; timer
    1058 D0 0A         [ 4]  144         bne     L1064
    105A A9 64         [ 2]  145         lda     #0x64
    105C 85 52         [ 3]  146         sta     RAM_52
-   105E A5 53         [ 3]  147         lda     RAM_53                   ; timer
+   105E A5 53         [ 3]  147         lda     RAM_53                                  ; timer
    1060 F0 02         [ 4]  148         beq     L1064
    1062 C6 53         [ 5]  149         dec     RAM_53
    1064                     150 L1064:
@@ -284,18 +284,18 @@
    10C3 8D 82 02      [ 4]  196         sta     U19_PORTB                               ; turn on CPU LEDs 5
    10C6 A9 00         [ 2]  197         lda     #0x00
    10C8 85 5E         [ 3]  198         sta     RAM_5E
-   10CA A9 64         [ 2]  199         lda     #0x64
+   10CA A9 64         [ 2]  199         lda     #0x64                                   ; timer expire in 100us
    10CC 85 4E         [ 3]  200         sta     RAM_4E
    10CE 58            [ 2]  201         cli
-   10CF 8D 1C 02      [ 4]  202         sta     U18_1C
+   10CF 8D 1C 02      [ 4]  202         sta     U18_1C                                  ; divide by 1, enable interrupt
    10D2 A9 09         [ 2]  203         lda     #0x09
-   10D4 8D 02 01      [ 4]  204         sta     UART_02
-   10D7 20 FC 18      [ 6]  205         jsr     L18FC
-   10DA 20 99 16      [ 6]  206         jsr     L1699
+   10D4 8D 02 01      [ 4]  204         sta     UART_02                                 ; ???
+   10D7 20 FC 18      [ 6]  205         jsr     L18FC                                   ; init auto movement stuff
+   10DA 20 99 16      [ 6]  206         jsr     L1699                                   ; Init boards
    10DD A9 02         [ 2]  207         lda     #0x02
-   10DF 8D 80 02      [ 4]  208         sta     U19_PORTA
+   10DF 8D 80 02      [ 4]  208         sta     U19_PORTA                               ; turn on RESET light
    10E2 A9 33         [ 2]  209         lda     #0x33
-   10E4 20 0F 17      [ 6]  210         jsr     L170F
+   10E4 20 0F 17      [ 6]  210         jsr     L170F                                   ; ???
    10E7 A9 10         [ 2]  211         lda     #TAPEMODE_STOP
    10E9 20 8C 15      [ 6]  212         jsr     TAPECMD                                 ; STOP tape
    10EC A9 28         [ 2]  213         lda     #0x28
@@ -303,19 +303,19 @@
    10F0                     215 L10F0:
    10F0 20 39 19      [ 6]  216         jsr     L1939
    10F3 A5 4F         [ 3]  217         lda     RAM_4F
-   10F5 D0 F9         [ 4]  218         bne     L10F0
-   10F7 20 99 16      [ 6]  219         jsr     L1699
-   10FA 20 AA 18      [ 6]  220         jsr     L18AA
-   10FD AD 00 02      [ 4]  221         lda     U18_PORTA
-   1100 49 FF         [ 2]  222         eor     #0xFF
+   10F5 D0 F9         [ 4]  218         bne     L10F0                                   ; do auto movements for 4s 
+   10F7 20 99 16      [ 6]  219         jsr     L1699                                   ; init boards
+   10FA 20 AA 18      [ 6]  220         jsr     L18AA                                   ; setup audio mode
+   10FD AD 00 02      [ 4]  221         lda     U18_PORTA                               ; read buttons, active low
+   1100 49 FF         [ 2]  222         eor     #0xFF                                   ; now active high
    1102 C9 10         [ 2]  223         cmp     #0x10                                   ; DIAG pushed?
    1104 D0 15         [ 4]  224         bne     L111B                                   ; if not, jump ahead
-   1106 A9 FF         [ 2]  225         lda     #0xFF
+   1106 A9 FF         [ 2]  225         lda     #0xFF                                   ; DIAG pushed
    1108 85 98         [ 3]  226         sta     board_7_periph$ddr_reg_a                ; all lights on?
    110A 85 9A         [ 3]  227         sta     board_7_periph$ddr_reg_b
    110C 85 9C         [ 3]  228         sta     board_8_periph$ddr_reg_a
    110E 85 9E         [ 3]  229         sta     board_8_periph$ddr_reg_b
-   1110 8D 02 02      [ 4]  230         sta     U18_PORTB
+   1110 8D 02 02      [ 4]  230         sta     U18_PORTB                               ; include button lights
    1113                     231 L1113:
    1113 A9 32         [ 2]  232         lda     #0x32
    1115 20 0F 17      [ 6]  233         jsr     L170F
@@ -325,7 +325,7 @@
    111B A9 40         [ 2]  237         lda     #TAPEMODE_REWIND
    111D 20 8C 15      [ 6]  238         jsr     TAPECMD                                 ; REWIND tape
    1120 A5 55         [ 3]  239         lda     RAM_55
-   1122 8D 82 02      [ 4]  240         sta     U19_PORTB
+   1122 8D 82 02      [ 4]  240         sta     U19_PORTB                               ; track number on CPU lights?
    1125                     241 L1125:
    1125 A9 00         [ 2]  242         lda     #0x00
    1127 85 59         [ 3]  243         sta     RAM_59
@@ -355,9 +355,9 @@
    1153 A5 4F         [ 3]  267         lda     RAM_4F
    1155 D0 F9         [ 4]  268         bne     L1150
    1157 A9 00         [ 2]  269         lda     #0x00
-   1159 85 55         [ 3]  270         sta     RAM_55
+   1159 85 55         [ 3]  270         sta     RAM_55                                  ; set last program number to 0
    115B A9 01         [ 2]  271         lda     #0x01
-   115D 85 56         [ 3]  272         sta     RAM_56                                  ; set expected program number to 1?
+   115D 85 56         [ 3]  272         sta     RAM_56                                  ; set seek track to 1
    115F 85 57         [ 3]  273         sta     RAM_57
    1161 20 C7 14      [ 6]  274         jsr     L14C7
    1164 A9 80         [ 2]  275         lda     #TAPEMODE_PLAY
@@ -457,7 +457,7 @@
    120F 68            [ 4]  368         pla
    1210 68            [ 4]  369         pla
    1211                     370 L1211:
-   1211 20 FC 18      [ 6]  371         jsr     L18FC
+   1211 20 FC 18      [ 6]  371         jsr     L18FC                                   ; init auto movement stuff
    1214 A9 02         [ 2]  372         lda     #0x02
    1216 85 56         [ 3]  373         sta     RAM_56
    1218 20 C7 14      [ 6]  374         jsr     L14C7
@@ -467,7 +467,7 @@
    1222 85 63         [ 3]  378         sta     RAM_63
    1224                     379 L1224:
    1224 A9 18         [ 2]  380         lda     #0x18
-   1226 85 53         [ 3]  381         sta     RAM_53
+   1226 85 53         [ 3]  381         sta     RAM_53                                  ; start a 4 minute timer?
    1228                     382 L1228:
    1228 A9 0A         [ 2]  383         lda     #0x0A
    122A 85 4F         [ 3]  384         sta     RAM_4F
@@ -752,7 +752,7 @@
    141C F0 F0         [ 4]  663         beq     L140E
    141E                     664 L141E:
    141E A9 3C         [ 2]  665         lda     #0x3C
-   1420 85 53         [ 3]  666         sta     RAM_53
+   1420 85 53         [ 3]  666         sta     RAM_53                                  ; start a 10 minute timer
    1422                     667 L1422:
    1422 A9 FA         [ 2]  668         lda     #0xFA
    1424 85 4C         [ 3]  669         sta     RAM_4C
@@ -840,23 +840,23 @@
    14B4 4C 05 14      [ 3]  751         jmp     L1405
                             752 ;
    14B7                     753 L14B7:
-   14B7 E8            [ 2]  754         inx
+   14B7 E8            [ 2]  754         inx                                             ; increment 32 bytes pointer or 
    14B8 E0 1F         [ 2]  755         cpx     #0x1F
    14BA D0 02         [ 4]  756         bne     L14BE
    14BC A2 02         [ 2]  757         ldx     #0x02
    14BE                     758 L14BE:
-   14BE B5 70         [ 4]  759         lda     RAM_70,x
+   14BE B5 70         [ 4]  759         lda     RAM_70,x                                ; RAM_72 to 8F ??
    14C0 C5 4A         [ 3]  760         cmp     RAM_4A
    14C2 D0 F3         [ 4]  761         bne     L14B7
    14C4 86 56         [ 3]  762         stx     RAM_56
    14C6 60            [ 6]  763         rts
                             764 ;
    14C7                     765 L14C7:
-   14C7 A5 56         [ 3]  766         lda     RAM_56
+   14C7 A5 56         [ 3]  766         lda     RAM_56                                  ; A = seek track
    14C9 C5 55         [ 3]  767         cmp     RAM_55
-   14CB 90 06         [ 4]  768         bcc     L14D3
-   14CD F0 03         [ 4]  769         beq     L14D2
-   14CF 20 D7 14      [ 6]  770         jsr     L14D7
+   14CB 90 06         [ 4]  768         bcc     L14D3                                   ; if seek track < last track, rewind
+   14CD F0 03         [ 4]  769         beq     L14D2                                   ; if seek track = last track, return
+   14CF 20 D7 14      [ 6]  770         jsr     L14D7                                   ; if seek track > last track, ffwd
    14D2                     771 L14D2:
    14D2 60            [ 6]  772         rts
                             773 ;
@@ -989,12 +989,12 @@
    15A9                     900 L15A9:
    15A9 A5 5A         [ 3]  901         lda     RAM_5A
    15AB D0 29         [ 4]  902         bne     L15D6
-   15AD AD 00 02      [ 4]  903         lda     U18_PORTA
-   15B0 49 FF         [ 2]  904         eor     #0xFF
+   15AD AD 00 02      [ 4]  903         lda     U18_PORTA                               ; read buttons, active low
+   15B0 49 FF         [ 2]  904         eor     #0xFF                                   ; now active high
    15B2 F0 21         [ 4]  905         beq     L15D5                                   ; nothing pushed, jump to exit
-   15B4 85 5B         [ 3]  906         sta     RAM_5B                                  ; buffer buttons in RAM_5B
+   15B4 85 5B         [ 3]  906         sta     RAM_5B                                  ; buffer buttons (active high) in RAM_5B
    15B6 10 09         [ 4]  907         bpl     L15C1                                   ; PROG pushed, jump
-   15B8 4D 02 02      [ 4]  908         eor     U18_PORTB
+   15B8 4D 02 02      [ 4]  908         eor     U18_PORTB                               ; else toggle all button lights
    15BB 8D 02 02      [ 4]  909         sta     U18_PORTB
    15BE 4C CD 15      [ 3]  910         jmp     L15CD
                             911 ;
@@ -1025,9 +1025,9 @@
    15E4                     936 L15E4:
    15E4 2A            [ 2]  937         rol     a
    15E5 90 10         [ 4]  938         bcc     L15F7
-   15E7 AD 00 02      [ 4]  939         lda     U18_PORTA
-   15EA 49 FF         [ 2]  940         eor     #0xFF
-   15EC D0 11         [ 4]  941         bne     L15FF
+   15E7 AD 00 02      [ 4]  939         lda     U18_PORTA                               ; read buttons, active low
+   15EA 49 FF         [ 2]  940         eor     #0xFF                                   ; now active high
+   15EC D0 11         [ 4]  941         bne     L15FF                                   ; something pushed, exit
    15EE A9 20         [ 2]  942         lda     #0x20
    15F0 85 5A         [ 3]  943         sta     RAM_5A
    15F2 A9 14         [ 2]  944         lda     #0x14
@@ -1162,7 +1162,7 @@
    16C1 85 67         [ 3] 1073         sta     RAM_67
    16C3 85 69         [ 3] 1074         sta     RAM_69
    16C5 85 6A         [ 3] 1075         sta     RAM_6A
-   16C7 AD 00 03      [ 4] 1076         lda     transport_periph$ddr_reg_a          ; Read Transport Byte
+   16C7 AD 00 03      [ 4] 1076         lda     transport_periph$ddr_reg_a              ; Read Transport Byte
    16CA A0 00         [ 2] 1077         ldy     #0x00
    16CC 60            [ 6] 1078         rts
                            1079 ;
@@ -1209,9 +1209,9 @@
    170F                    1120 L170F:
    170F 48            [ 3] 1121         pha
    1710 A9 02         [ 2] 1122         lda     #0x02
-   1712 85 4F         [ 3] 1123         sta     RAM_4F
+   1712 85 4F         [ 3] 1123         sta     RAM_4F              ; 0.2s timer
    1714 A9 04         [ 2] 1124         lda     #0x04
-   1716 85 30         [ 3] 1125         sta     RAM_30
+   1716 85 30         [ 3] 1125         sta     RAM_30              ; 4 times
    1718 68            [ 4] 1126         pla
    1719                    1127 L1719:
    1719 48            [ 3] 1128         pha
@@ -1240,25 +1240,25 @@
                            1151 ;
    173F                    1152 L173F:
    173F A9 80         [ 2] 1153         lda     #TAPEMODE_PLAY
-   1741 20 8C 15      [ 6] 1154         jsr     TAPECMD                             ; PLAY tape
-   1744 20 8C 15      [ 6] 1155         jsr     TAPECMD                             ; PLAY tape
+   1741 20 8C 15      [ 6] 1154         jsr     TAPECMD                                 ; PLAY tape
+   1744 20 8C 15      [ 6] 1155         jsr     TAPECMD                                 ; PLAY tape
    1747                    1156 L1747:
-   1747 AD 01 03      [ 4] 1157         lda     transport_control_reg_a             ; Wait for Transport Byte
+   1747 AD 01 03      [ 4] 1157         lda     transport_control_reg_a                 ; Wait for Transport Byte
    174A 0A            [ 2] 1158         asl     a
    174B 90 FA         [ 4] 1159         bcc     L1747
-   174D AD 00 03      [ 4] 1160         lda     transport_periph$ddr_reg_a          ; Read Transport Byte
+   174D AD 00 03      [ 4] 1160         lda     transport_periph$ddr_reg_a              ; Read Transport Byte
    1750 29 7F         [ 2] 1161         and     #0x7F
-   1752 C9 24         [ 2] 1162         cmp     #0x24                               ; 0x24 code
+   1752 C9 24         [ 2] 1162         cmp     #0x24                                   ; 0x24 code
    1754 D0 F1         [ 4] 1163         bne     L1747
    1756                    1164 L1756:
-   1756 AD 01 03      [ 4] 1165         lda     transport_control_reg_a             ; Wait for Transport Byte
+   1756 AD 01 03      [ 4] 1165         lda     transport_control_reg_a                 ; Wait for Transport Byte
    1759 0A            [ 2] 1166         asl     a
    175A 90 FA         [ 4] 1167         bcc     L1756
-   175C AD 00 03      [ 4] 1168         lda     transport_periph$ddr_reg_a          ; Read Transport Byte
+   175C AD 00 03      [ 4] 1168         lda     transport_periph$ddr_reg_a              ; Read Transport Byte
    175F 29 7F         [ 2] 1169         and     #0x7F
-   1761 C9 24         [ 2] 1170         cmp     #0x24                               ; 0x24 code
+   1761 C9 24         [ 2] 1170         cmp     #0x24                                   ; 0x24 code
    1763 F0 F1         [ 4] 1171         beq     L1756
-   1765 29 3F         [ 2] 1172         and     #0x3F
+   1765 29 3F         [ 2] 1172         and     #0x3F                                   ; ('A'-'Z')(0x41-0x5A) -> (0x01-0x1A)(1-26)
    1767 C5 56         [ 3] 1173         cmp     RAM_56
    1769 F0 03         [ 4] 1174         beq     L176E
    176B 4C 66 10      [ 3] 1175         jmp     RESET
@@ -1269,22 +1269,22 @@
    1774 A9 41         [ 2] 1180         lda     #0x41
    1776 85 92         [ 3] 1181         sta     board_5_periph$ddr_reg_b
    1778                    1182 L1778:
-   1778 AD 01 03      [ 4] 1183         lda     transport_control_reg_a             ; Wait for Transport Byte
+   1778 AD 01 03      [ 4] 1183         lda     transport_control_reg_a                 ; Wait for Transport Byte
    177B 0A            [ 2] 1184         asl     a
    177C 90 11         [ 4] 1185         bcc     L178F
-   177E AD 00 03      [ 4] 1186         lda     transport_periph$ddr_reg_a          ; Read Transport Byte
+   177E AD 00 03      [ 4] 1186         lda     transport_periph$ddr_reg_a              ; Read Transport Byte
    1781 29 7F         [ 2] 1187         and     #0x7F
-   1783 85 65         [ 3] 1188         sta     RAM_65                              ; First byte into 0065
+   1783 85 65         [ 3] 1188         sta     RAM_65                                  ; First byte into 0065
    1785 C9 22         [ 2] 1189         cmp     #0x22
-   1787 90 EF         [ 4] 1190         bcc     L1778                               ; ignore if < 0x22
+   1787 90 EF         [ 4] 1190         bcc     L1778                                   ; ignore if < 0x22
    1789 C9 40         [ 2] 1191         cmp     #0x40
-   178B B0 05         [ 4] 1192         bcs     L1792                               ; jump if >= 0x40
-   178D 85 64         [ 3] 1193         sta     RAM_64                              ; put it here if it's >= 0x22 and < 0x40
+   178B B0 05         [ 4] 1192         bcs     L1792                                   ; jump if >= 0x40
+   178D 85 64         [ 3] 1193         sta     RAM_64                                  ; put it here if it's >= 0x22 and < 0x40
    178F                    1194 L178F:
    178F 4C 1A 18      [ 3] 1195         jmp     L181A
                            1196 ;
    1792                    1197 L1792:                                              
-   1792 A5 64         [ 3] 1198         lda     RAM_64                              ; read the last command byte
+   1792 A5 64         [ 3] 1198         lda     RAM_64                                  ; read the last command byte
    1794 29 7E         [ 2] 1199         and     #0x7E
    1796 38            [ 2] 1200         sec
    1797 E9 22         [ 2] 1201         sbc     #0x22
@@ -1296,7 +1296,7 @@
    17A4 20 AA 17      [ 6] 1207         jsr     L17AA
    17A7 4C 78 17      [ 3] 1208         jmp     L1778
    17AA                    1209 L17AA:
-   17AA 6C 6C 00      [ 5] 1210         jmp     [RAM_6C]                              ;INFO: indirect jump
+   17AA 6C 6C 00      [ 5] 1210         jmp     [RAM_6C]                                ;INFO: indirect jump
                            1211 ;
                            1212 ;       Decode command byte in 0064 and channel byte in 0065
                            1213 ;       to a command offset in 0066 and bit mask in 0068, return with carry clear
@@ -1402,9 +1402,9 @@
    182F                    1313 L182F:
    182F A5 4B         [ 3] 1314         lda     RAM_4B
    1831 F0 07         [ 4] 1315         beq     L183A
-   1833 AD 00 02      [ 4] 1316         lda     U18_PORTA
-   1836 29 40         [ 2] 1317         and     #0x40                   ; SKIP button pushed?
-   1838 D0 0E         [ 4] 1318         bne     L1848                   ; if not, jump ahead
+   1833 AD 00 02      [ 4] 1316         lda     U18_PORTA                               ; read buttons, active low
+   1836 29 40         [ 2] 1317         and     #0x40                                   ; SKIP button pushed?
+   1838 D0 0E         [ 4] 1318         bne     L1848                                   ; if not, jump ahead
    183A                    1319 L183A:
    183A 20 99 16      [ 6] 1320         jsr     L1699
    183D 20 FC 18      [ 6] 1321         jsr     L18FC
@@ -1467,839 +1467,840 @@
    1898 05 68         [ 3] 1378         ora     RAM_68
    189A 85 92         [ 3] 1379         sta     board_5_periph$ddr_reg_b
    189C 4C 78 17      [ 3] 1380         jmp     L1778
-                           1381 ;
-   189F                    1382 L189F:
-   189F A9 34         [ 2] 1383         lda     #0x34
-   18A1 48            [ 3] 1384         pha
-   18A2 A9 40         [ 2] 1385         lda     #0x40
-   18A4 A0 34         [ 2] 1386         ldy     #0x34
-   18A6 A2 3C         [ 2] 1387         ldx     #0x3C
-   18A8 D0 14         [ 4] 1388         bne     L18BE
-   18AA                    1389 L18AA:
-   18AA A9 34         [ 2] 1390         lda     #0x34
-   18AC 48            [ 3] 1391         pha
-   18AD A9 00         [ 2] 1392         lda     #0x00
-   18AF A0 3C         [ 2] 1393         ldy     #0x3C
-   18B1 A2 34         [ 2] 1394         ldx     #0x34
-   18B3 D0 09         [ 4] 1395         bne     L18BE
-   18B5                    1396 L18B5:
-   18B5 A9 3C         [ 2] 1397         lda     #0x3C
-   18B7 48            [ 3] 1398         pha
-   18B8 A9 00         [ 2] 1399         lda     #0x00
-   18BA A0 3C         [ 2] 1400         ldy     #0x3C
-   18BC A2 3C         [ 2] 1401         ldx     #0x3C
-   18BE                    1402 L18BE:
-   18BE 8E 81 03      [ 4] 1403         stx     audio_control_reg_a
-   18C1 8C 83 03      [ 4] 1404         sty     audio_control_reg_b
-   18C4 A2 00         [ 2] 1405         ldx     #0x00
-   18C6 20 D0 18      [ 6] 1406         jsr     L18D0
-   18C9 68            [ 4] 1407         pla
-   18CA A2 01         [ 2] 1408         ldx     #0x01
-   18CC 20 D0 18      [ 6] 1409         jsr     L18D0
-   18CF 60            [ 6] 1410         rts
-                           1411 ;
-   18D0                    1412 L18D0:
-   18D0 95 82         [ 4] 1413         sta     board_1_periph$ddr_reg_b,x
-   18D2 E8            [ 2] 1414         inx
-   18D3 E8            [ 2] 1415         inx
-   18D4 E8            [ 2] 1416         inx
-   18D5 E8            [ 2] 1417         inx
-   18D6 E0 17         [ 2] 1418         cpx     #0x17
-   18D8 90 F6         [ 4] 1419         bcc     L18D0
-   18DA 60            [ 6] 1420         rts
-                           1421 ;
-                           1422 ;       Act like call to L17AD, but if code not found, act like a you got a 002C
-                           1423 ;
-   18DB                    1424 L18DB:
-   18DB 20 AD 17      [ 6] 1425         jsr     L17AD
-   18DE 90 01         [ 4] 1426         bcc     L18E1
-   18E0 60            [ 6] 1427         rts
-                           1428 ;
-   18E1                    1429 L18E1:
-   18E1 A9 2C         [ 2] 1430         lda     #0x2C
-   18E3 4C AF 17      [ 3] 1431         jmp     L17AF
-                           1432 ;
-                           1433 ;       Act like call to L17AD, but if code not found, act like a you got a 002E
-                           1434 ;
-   18E6                    1435 L18E6:
-   18E6 20 AD 17      [ 6] 1436         jsr     L17AD
-   18E9 90 01         [ 4] 1437         bcc     L18EC
-   18EB 60            [ 6] 1438         rts
-                           1439 ;
-   18EC                    1440 L18EC:
-   18EC A9 2E         [ 2] 1441         lda     #0x2E
-   18EE 4C AF 17      [ 3] 1442         jmp     L17AF
-                           1443 ;
-                           1444 ;       Act like call to L17AD, but if code not found, act like a you got a 0040
-                           1445 ;
-   18F1                    1446 L18F1:
-   18F1 20 AD 17      [ 6] 1447         jsr     L17AD
-   18F4 90 01         [ 4] 1448         bcc     L18F7
-   18F6 60            [ 6] 1449         rts
-                           1450 ;
-   18F7                    1451 L18F7:
-   18F7 A9 40         [ 2] 1452         lda     #0x40
-   18F9 4C AF 17      [ 3] 1453         jmp     L17AF
-                           1454 ;
-   18FC                    1455 L18FC:
-   18FC A9 FA         [ 2] 1456         lda     #0xFA
-   18FE 85 3E         [ 3] 1457         sta     RAM_3E
-   1900 A9 E6         [ 2] 1458         lda     #0xE6
-   1902 85 3F         [ 3] 1459         sta     RAM_3F
-   1904 A9 D2         [ 2] 1460         lda     #0xD2
-   1906 85 40         [ 3] 1461         sta     RAM_40
-   1908 A9 BE         [ 2] 1462         lda     #0xBE
-   190A 85 41         [ 3] 1463         sta     RAM_41
-   190C A9 AA         [ 2] 1464         lda     #0xAA
-   190E 85 42         [ 3] 1465         sta     RAM_42
-                           1466 
-                           1467         ;       Init Table addresses
-                           1468 
-   1910 A9 2F         [ 2] 1469         lda     #0x2F                   ; X1A2F - board 1 related?
-   1912 85 38         [ 3] 1470         sta     RAM_38
-   1914 A9 1A         [ 2] 1471         lda     #0x1A
-   1916 85 39         [ 3] 1472         sta     RAM_39
-                           1473 
-   1918 A9 01         [ 2] 1474         lda     #0x01                   ; X1B01 - board 2 related?
-   191A 85 34         [ 3] 1475         sta     RAM_34
-   191C A9 1B         [ 2] 1476         lda     #0x1B
-   191E 85 35         [ 3] 1477         sta     RAM_35
-                           1478 
-   1920 A9 B9         [ 2] 1479         lda     #0xB9                   ; X1BB9 - board 5 related?
-   1922 85 36         [ 3] 1480         sta     RAM_36
-   1924 A9 1B         [ 2] 1481         lda     #0x1B
-   1926 85 37         [ 3] 1482         sta     RAM_37
-                           1483 
-   1928 A9 4B         [ 2] 1484         lda     #0x4B                   ; X1C4B - board 4 related?
-   192A 85 3A         [ 3] 1485         sta     RAM_3A
-   192C A9 1C         [ 2] 1486         lda     #0x1C
-   192E 85 3B         [ 3] 1487         sta     RAM_3B
-                           1488 
-   1930 A9 05         [ 2] 1489         lda     #0x05                   ; X1D05 - board 3 related?
-   1932 85 3C         [ 3] 1490         sta     RAM_3C
-   1934 A9 1D         [ 2] 1491         lda     #0x1D
-   1936 85 3D         [ 3] 1492         sta     RAM_3D
-   1938 60            [ 6] 1493         rts
-                           1494 ;
-   1939                    1495 L1939:
-   1939 20 49 19      [ 6] 1496         jsr     L1949                   ; do something to board 1
-   193C 20 77 19      [ 6] 1497         jsr     L1977                   ; do something to board 2
-   193F 20 A5 19      [ 6] 1498         jsr     L19A5                   ; do something to board 5
-   1942 20 D3 19      [ 6] 1499         jsr     L19D3                   ; do something to board 4
-   1945 20 01 1A      [ 6] 1500         jsr     L1A01                   ; do something to board 3
-   1948 60            [ 6] 1501         rts
-                           1502 
-                           1503 ; do something to board 1
-   1949                    1504 L1949:
-   1949 A0 00         [ 2] 1505         ldy     #0x00
-   194B B1 38         [ 6] 1506         lda     [RAM_38],y
-   194D C9 FF         [ 2] 1507         cmp     #0xFF
-   194F F0 17         [ 4] 1508         beq     L1968
-   1951 C5 3E         [ 3] 1509         cmp     RAM_3E
-   1953 D0 12         [ 4] 1510         bne     L1967
-   1955 C8            [ 2] 1511         iny
-   1956 B1 38         [ 6] 1512         lda     [RAM_38],y
-   1958 85 80         [ 3] 1513         sta     board_1_periph$ddr_reg_a
-   195A 18            [ 2] 1514         clc
-   195B A5 38         [ 3] 1515         lda     RAM_38
-   195D 69 02         [ 2] 1516         adc     #0x02
-   195F 85 38         [ 3] 1517         sta     RAM_38
-   1961 A5 39         [ 3] 1518         lda     RAM_39
-   1963 69 00         [ 2] 1519         adc     #0x00
-   1965 85 39         [ 3] 1520         sta     RAM_39
-   1967                    1521 L1967:
-   1967 60            [ 6] 1522         rts
-                           1523 ;
-   1968                    1524 L1968:
-   1968 A9 2F         [ 2] 1525         lda     #0x2F
-   196A 85 38         [ 3] 1526         sta     RAM_38
-   196C A9 1A         [ 2] 1527         lda     #0x1A
-   196E 85 39         [ 3] 1528         sta     RAM_39
-   1970 A9 FA         [ 2] 1529         lda     #0xFA
-   1972 85 3E         [ 3] 1530         sta     RAM_3E
-   1974 4C 67 19      [ 3] 1531         jmp     L1967
-                           1532 
-                           1533 ; do something to board 2
-   1977                    1534 L1977:
-   1977 A0 00         [ 2] 1535         ldy     #0x00
-   1979 B1 34         [ 6] 1536         lda     [RAM_34],y
-   197B C9 FF         [ 2] 1537         cmp     #0xFF
-   197D F0 17         [ 4] 1538         beq     L1996
-   197F C5 3F         [ 3] 1539         cmp     RAM_3F
-   1981 D0 12         [ 4] 1540         bne     L1995
-   1983 C8            [ 2] 1541         iny
-   1984 B1 34         [ 6] 1542         lda     [RAM_34],y
-   1986 85 84         [ 3] 1543         sta     board_2_periph$ddr_reg_a
-   1988 18            [ 2] 1544         clc
-   1989 A5 34         [ 3] 1545         lda     RAM_34
-   198B 69 02         [ 2] 1546         adc     #0x02
-   198D 85 34         [ 3] 1547         sta     RAM_34
-   198F A5 35         [ 3] 1548         lda     RAM_35
-   1991 69 00         [ 2] 1549         adc     #0x00
-   1993 85 35         [ 3] 1550         sta     RAM_35
-   1995                    1551 L1995:
-   1995 60            [ 6] 1552         rts
-                           1553 ;
-   1996                    1554 L1996:
-   1996 A9 01         [ 2] 1555         lda     #0x01
-   1998 85 34         [ 3] 1556         sta     RAM_34
-   199A A9 1B         [ 2] 1557         lda     #0x1B
-   199C 85 35         [ 3] 1558         sta     RAM_35
-   199E A9 E6         [ 2] 1559         lda     #0xE6
-   19A0 85 3F         [ 3] 1560         sta     RAM_3F
-   19A2 4C 95 19      [ 3] 1561         jmp     L1995
-                           1562 
-                           1563 ; do something to board 5
-   19A5                    1564 L19A5:
-   19A5 A0 00         [ 2] 1565         ldy     #0x00
-   19A7 B1 36         [ 6] 1566         lda     [RAM_36],y
-   19A9 C9 FF         [ 2] 1567         cmp     #0xFF
-   19AB F0 17         [ 4] 1568         beq     L19C4
-   19AD C5 40         [ 3] 1569         cmp     RAM_40
-   19AF D0 12         [ 4] 1570         bne     L19C3
-   19B1 C8            [ 2] 1571         iny
-   19B2 B1 36         [ 6] 1572         lda     [RAM_36],y
-   19B4 85 90         [ 3] 1573         sta     board_5_periph$ddr_reg_a
-   19B6 18            [ 2] 1574         clc
-   19B7 A5 36         [ 3] 1575         lda     RAM_36
-   19B9 69 02         [ 2] 1576         adc     #0x02
-   19BB 85 36         [ 3] 1577         sta     RAM_36
-   19BD A5 37         [ 3] 1578         lda     RAM_37
-   19BF 69 00         [ 2] 1579         adc     #0x00
-   19C1 85 37         [ 3] 1580         sta     RAM_37
-   19C3                    1581 L19C3:
-   19C3 60            [ 6] 1582         rts
-                           1583 ;
-   19C4                    1584 L19C4:
-   19C4 A9 B9         [ 2] 1585         lda     #0xB9
-   19C6 85 36         [ 3] 1586         sta     RAM_36
-   19C8 A9 1B         [ 2] 1587         lda     #0x1B
-   19CA 85 37         [ 3] 1588         sta     RAM_37
-   19CC A9 D2         [ 2] 1589         lda     #0xD2
-   19CE 85 40         [ 3] 1590         sta     RAM_40
-   19D0 4C C3 19      [ 3] 1591         jmp     L19C3
-                           1592 
-                           1593 ; do something to board 4
-   19D3                    1594 L19D3:
-   19D3 A0 00         [ 2] 1595         ldy     #0x00
-   19D5 B1 3A         [ 6] 1596         lda     [RAM_3A],y
-   19D7 C9 FF         [ 2] 1597         cmp     #0xFF
-   19D9 F0 17         [ 4] 1598         beq     L19F2
-   19DB C5 41         [ 3] 1599         cmp     RAM_41
-   19DD D0 12         [ 4] 1600         bne     L19F1
-   19DF C8            [ 2] 1601         iny
-   19E0 B1 3A         [ 6] 1602         lda     [RAM_3A],y
-   19E2 85 8C         [ 3] 1603         sta     board_4_periph$ddr_reg_a
-   19E4 18            [ 2] 1604         clc
-   19E5 A5 3A         [ 3] 1605         lda     RAM_3A
-   19E7 69 02         [ 2] 1606         adc     #0x02
-   19E9 85 3A         [ 3] 1607         sta     RAM_3A
-   19EB A5 3B         [ 3] 1608         lda     RAM_3B
-   19ED 69 00         [ 2] 1609         adc     #0x00
-   19EF 85 3B         [ 3] 1610         sta     RAM_3B
-   19F1                    1611 L19F1:
-   19F1 60            [ 6] 1612         rts
-                           1613 ;
-   19F2                    1614 L19F2:
-   19F2 A9 4B         [ 2] 1615         lda     #0x4B
-   19F4 85 3A         [ 3] 1616         sta     RAM_3A
-   19F6 A9 1C         [ 2] 1617         lda     #0x1C
-   19F8 85 3B         [ 3] 1618         sta     RAM_3B
-   19FA A9 BE         [ 2] 1619         lda     #0xBE
-   19FC 85 41         [ 3] 1620         sta     RAM_41
-   19FE 4C F1 19      [ 3] 1621         jmp     L19F1
-                           1622 
-                           1623 ; do something to board 3
-   1A01                    1624 L1A01:
-   1A01 A0 00         [ 2] 1625         ldy     #0x00
-   1A03 B1 3C         [ 6] 1626         lda     [RAM_3C],y
-   1A05                    1627 L1A05:
-   1A05 C9 FF         [ 2] 1628         cmp     #0xFF
-   1A07 F0 17         [ 4] 1629         beq     L1A20
-   1A09 C5 42         [ 3] 1630         cmp     RAM_42
-   1A0B D0 12         [ 4] 1631         bne     L1A1F
-   1A0D C8            [ 2] 1632         iny
-   1A0E B1 3C         [ 6] 1633         lda     [RAM_3C],y
-   1A10 85 88         [ 3] 1634         sta     board_3_periph$ddr_reg_a
-   1A12 18            [ 2] 1635         clc
-   1A13 A5 3C         [ 3] 1636         lda     RAM_3C
-   1A15 69 02         [ 2] 1637         adc     #0x02
-   1A17 85 3C         [ 3] 1638         sta     RAM_3C
-   1A19 A5 3D         [ 3] 1639         lda     RAM_3D
-   1A1B 69 00         [ 2] 1640         adc     #0x00
-   1A1D 85 3D         [ 3] 1641         sta     RAM_3D
-   1A1F                    1642 L1A1F:
-   1A1F 60            [ 6] 1643         rts
-                           1644 ;
-   1A20                    1645 L1A20:
-   1A20 A9 05         [ 2] 1646         lda     #0x05
-   1A22 85 3C         [ 3] 1647         sta     RAM_3C
-   1A24 A9 1D         [ 2] 1648         lda     #0x1D
-   1A26 85 3D         [ 3] 1649         sta     RAM_3D
-   1A28 A9 AA         [ 2] 1650         lda     #0xAA
-   1A2A 85 42         [ 3] 1651         sta     RAM_42
-   1A2C 4C 1F 1A      [ 3] 1652         jmp     L1A1F
-                           1653 ;
+                           1381 
+                           1382 ; setup one of 3 audio modes?
+   189F                    1383 L189F:
+   189F A9 34         [ 2] 1384         lda     #0x34
+   18A1 48            [ 3] 1385         pha
+   18A2 A9 40         [ 2] 1386         lda     #0x40
+   18A4 A0 34         [ 2] 1387         ldy     #0x34
+   18A6 A2 3C         [ 2] 1388         ldx     #0x3C
+   18A8 D0 14         [ 4] 1389         bne     L18BE
+   18AA                    1390 L18AA:
+   18AA A9 34         [ 2] 1391         lda     #0x34
+   18AC 48            [ 3] 1392         pha
+   18AD A9 00         [ 2] 1393         lda     #0x00
+   18AF A0 3C         [ 2] 1394         ldy     #0x3C
+   18B1 A2 34         [ 2] 1395         ldx     #0x34
+   18B3 D0 09         [ 4] 1396         bne     L18BE
+   18B5                    1397 L18B5:
+   18B5 A9 3C         [ 2] 1398         lda     #0x3C
+   18B7 48            [ 3] 1399         pha
+   18B8 A9 00         [ 2] 1400         lda     #0x00
+   18BA A0 3C         [ 2] 1401         ldy     #0x3C
+   18BC A2 3C         [ 2] 1402         ldx     #0x3C
+   18BE                    1403 L18BE:
+   18BE 8E 81 03      [ 4] 1404         stx     audio_control_reg_a
+   18C1 8C 83 03      [ 4] 1405         sty     audio_control_reg_b
+   18C4 A2 00         [ 2] 1406         ldx     #0x00
+   18C6 20 D0 18      [ 6] 1407         jsr     L18D0
+   18C9 68            [ 4] 1408         pla
+   18CA A2 01         [ 2] 1409         ldx     #0x01
+   18CC 20 D0 18      [ 6] 1410         jsr     L18D0
+   18CF 60            [ 6] 1411         rts
+                           1412 ;
+   18D0                    1413 L18D0:
+   18D0 95 82         [ 4] 1414         sta     board_1_periph$ddr_reg_b,x
+   18D2 E8            [ 2] 1415         inx
+   18D3 E8            [ 2] 1416         inx
+   18D4 E8            [ 2] 1417         inx
+   18D5 E8            [ 2] 1418         inx
+   18D6 E0 17         [ 2] 1419         cpx     #0x17
+   18D8 90 F6         [ 4] 1420         bcc     L18D0
+   18DA 60            [ 6] 1421         rts
+                           1422 ;
+                           1423 ;       Act like call to L17AD, but if code not found, act like a you got a 002C
+                           1424 ;
+   18DB                    1425 L18DB:
+   18DB 20 AD 17      [ 6] 1426         jsr     L17AD
+   18DE 90 01         [ 4] 1427         bcc     L18E1
+   18E0 60            [ 6] 1428         rts
+                           1429 ;
+   18E1                    1430 L18E1:
+   18E1 A9 2C         [ 2] 1431         lda     #0x2C
+   18E3 4C AF 17      [ 3] 1432         jmp     L17AF
+                           1433 ;
+                           1434 ;       Act like call to L17AD, but if code not found, act like a you got a 002E
+                           1435 ;
+   18E6                    1436 L18E6:
+   18E6 20 AD 17      [ 6] 1437         jsr     L17AD
+   18E9 90 01         [ 4] 1438         bcc     L18EC
+   18EB 60            [ 6] 1439         rts
+                           1440 ;
+   18EC                    1441 L18EC:
+   18EC A9 2E         [ 2] 1442         lda     #0x2E
+   18EE 4C AF 17      [ 3] 1443         jmp     L17AF
+                           1444 ;
+                           1445 ;       Act like call to L17AD, but if code not found, act like a you got a 0040
+                           1446 ;
+   18F1                    1447 L18F1:
+   18F1 20 AD 17      [ 6] 1448         jsr     L17AD
+   18F4 90 01         [ 4] 1449         bcc     L18F7
+   18F6 60            [ 6] 1450         rts
+                           1451 ;
+   18F7                    1452 L18F7:
+   18F7 A9 40         [ 2] 1453         lda     #0x40
+   18F9 4C AF 17      [ 3] 1454         jmp     L17AF
+                           1455 ;
+   18FC                    1456 L18FC:
+   18FC A9 FA         [ 2] 1457         lda     #0xFA                                   ; init timers for auto movements
+   18FE 85 3E         [ 3] 1458         sta     RAM_3E
+   1900 A9 E6         [ 2] 1459         lda     #0xE6
+   1902 85 3F         [ 3] 1460         sta     RAM_3F
+   1904 A9 D2         [ 2] 1461         lda     #0xD2
+   1906 85 40         [ 3] 1462         sta     RAM_40
+   1908 A9 BE         [ 2] 1463         lda     #0xBE
+   190A 85 41         [ 3] 1464         sta     RAM_41
+   190C A9 AA         [ 2] 1465         lda     #0xAA
+   190E 85 42         [ 3] 1466         sta     RAM_42
+                           1467 
+                           1468         ;       Init Table addresses
+                           1469 
+   1910 A9 2F         [ 2] 1470         lda     #0x2F                                   ; X1A2F - board 1 related?
+   1912 85 38         [ 3] 1471         sta     RAM_38
+   1914 A9 1A         [ 2] 1472         lda     #0x1A
+   1916 85 39         [ 3] 1473         sta     RAM_39
+                           1474 
+   1918 A9 01         [ 2] 1475         lda     #0x01                                   ; X1B01 - board 2 related?
+   191A 85 34         [ 3] 1476         sta     RAM_34
+   191C A9 1B         [ 2] 1477         lda     #0x1B
+   191E 85 35         [ 3] 1478         sta     RAM_35
+                           1479 
+   1920 A9 B9         [ 2] 1480         lda     #0xB9                                   ; X1BB9 - board 5 related?
+   1922 85 36         [ 3] 1481         sta     RAM_36
+   1924 A9 1B         [ 2] 1482         lda     #0x1B
+   1926 85 37         [ 3] 1483         sta     RAM_37
+                           1484 
+   1928 A9 4B         [ 2] 1485         lda     #0x4B                                   ; X1C4B - board 4 related?
+   192A 85 3A         [ 3] 1486         sta     RAM_3A
+   192C A9 1C         [ 2] 1487         lda     #0x1C
+   192E 85 3B         [ 3] 1488         sta     RAM_3B
+                           1489 
+   1930 A9 05         [ 2] 1490         lda     #0x05                                   ; X1D05 - board 3 related?
+   1932 85 3C         [ 3] 1491         sta     RAM_3C
+   1934 A9 1D         [ 2] 1492         lda     #0x1D
+   1936 85 3D         [ 3] 1493         sta     RAM_3D
+   1938 60            [ 6] 1494         rts
+                           1495 ;
+   1939                    1496 L1939:
+   1939 20 49 19      [ 6] 1497         jsr     L1949                                   ; do something to board 1
+   193C 20 77 19      [ 6] 1498         jsr     L1977                                   ; do something to board 2
+   193F 20 A5 19      [ 6] 1499         jsr     L19A5                                   ; do something to board 5
+   1942 20 D3 19      [ 6] 1500         jsr     L19D3                                   ; do something to board 4
+   1945 20 01 1A      [ 6] 1501         jsr     L1A01                                   ; do something to board 3
+   1948 60            [ 6] 1502         rts
+                           1503 
+                           1504 ; do something to board 1
+   1949                    1505 L1949:
+   1949 A0 00         [ 2] 1506         ldy     #0x00
+   194B B1 38         [ 6] 1507         lda     [RAM_38],y
+   194D C9 FF         [ 2] 1508         cmp     #0xFF
+   194F F0 17         [ 4] 1509         beq     L1968
+   1951 C5 3E         [ 3] 1510         cmp     RAM_3E
+   1953 D0 12         [ 4] 1511         bne     L1967
+   1955 C8            [ 2] 1512         iny
+   1956 B1 38         [ 6] 1513         lda     [RAM_38],y
+   1958 85 80         [ 3] 1514         sta     board_1_periph$ddr_reg_a
+   195A 18            [ 2] 1515         clc
+   195B A5 38         [ 3] 1516         lda     RAM_38
+   195D 69 02         [ 2] 1517         adc     #0x02
+   195F 85 38         [ 3] 1518         sta     RAM_38
+   1961 A5 39         [ 3] 1519         lda     RAM_39
+   1963 69 00         [ 2] 1520         adc     #0x00
+   1965 85 39         [ 3] 1521         sta     RAM_39
+   1967                    1522 L1967:
+   1967 60            [ 6] 1523         rts
+                           1524 ;
+   1968                    1525 L1968:
+   1968 A9 2F         [ 2] 1526         lda     #0x2F
+   196A 85 38         [ 3] 1527         sta     RAM_38
+   196C A9 1A         [ 2] 1528         lda     #0x1A
+   196E 85 39         [ 3] 1529         sta     RAM_39
+   1970 A9 FA         [ 2] 1530         lda     #0xFA
+   1972 85 3E         [ 3] 1531         sta     RAM_3E
+   1974 4C 67 19      [ 3] 1532         jmp     L1967
+                           1533 
+                           1534 ; do something to board 2
+   1977                    1535 L1977:
+   1977 A0 00         [ 2] 1536         ldy     #0x00
+   1979 B1 34         [ 6] 1537         lda     [RAM_34],y
+   197B C9 FF         [ 2] 1538         cmp     #0xFF
+   197D F0 17         [ 4] 1539         beq     L1996
+   197F C5 3F         [ 3] 1540         cmp     RAM_3F
+   1981 D0 12         [ 4] 1541         bne     L1995
+   1983 C8            [ 2] 1542         iny
+   1984 B1 34         [ 6] 1543         lda     [RAM_34],y
+   1986 85 84         [ 3] 1544         sta     board_2_periph$ddr_reg_a
+   1988 18            [ 2] 1545         clc
+   1989 A5 34         [ 3] 1546         lda     RAM_34
+   198B 69 02         [ 2] 1547         adc     #0x02
+   198D 85 34         [ 3] 1548         sta     RAM_34
+   198F A5 35         [ 3] 1549         lda     RAM_35
+   1991 69 00         [ 2] 1550         adc     #0x00
+   1993 85 35         [ 3] 1551         sta     RAM_35
+   1995                    1552 L1995:
+   1995 60            [ 6] 1553         rts
+                           1554 ;
+   1996                    1555 L1996:
+   1996 A9 01         [ 2] 1556         lda     #0x01
+   1998 85 34         [ 3] 1557         sta     RAM_34
+   199A A9 1B         [ 2] 1558         lda     #0x1B
+   199C 85 35         [ 3] 1559         sta     RAM_35
+   199E A9 E6         [ 2] 1560         lda     #0xE6
+   19A0 85 3F         [ 3] 1561         sta     RAM_3F
+   19A2 4C 95 19      [ 3] 1562         jmp     L1995
+                           1563 
+                           1564 ; do something to board 5
+   19A5                    1565 L19A5:
+   19A5 A0 00         [ 2] 1566         ldy     #0x00
+   19A7 B1 36         [ 6] 1567         lda     [RAM_36],y
+   19A9 C9 FF         [ 2] 1568         cmp     #0xFF
+   19AB F0 17         [ 4] 1569         beq     L19C4
+   19AD C5 40         [ 3] 1570         cmp     RAM_40
+   19AF D0 12         [ 4] 1571         bne     L19C3
+   19B1 C8            [ 2] 1572         iny
+   19B2 B1 36         [ 6] 1573         lda     [RAM_36],y
+   19B4 85 90         [ 3] 1574         sta     board_5_periph$ddr_reg_a
+   19B6 18            [ 2] 1575         clc
+   19B7 A5 36         [ 3] 1576         lda     RAM_36
+   19B9 69 02         [ 2] 1577         adc     #0x02
+   19BB 85 36         [ 3] 1578         sta     RAM_36
+   19BD A5 37         [ 3] 1579         lda     RAM_37
+   19BF 69 00         [ 2] 1580         adc     #0x00
+   19C1 85 37         [ 3] 1581         sta     RAM_37
+   19C3                    1582 L19C3:
+   19C3 60            [ 6] 1583         rts
+                           1584 ;
+   19C4                    1585 L19C4:
+   19C4 A9 B9         [ 2] 1586         lda     #0xB9
+   19C6 85 36         [ 3] 1587         sta     RAM_36
+   19C8 A9 1B         [ 2] 1588         lda     #0x1B
+   19CA 85 37         [ 3] 1589         sta     RAM_37
+   19CC A9 D2         [ 2] 1590         lda     #0xD2
+   19CE 85 40         [ 3] 1591         sta     RAM_40
+   19D0 4C C3 19      [ 3] 1592         jmp     L19C3
+                           1593 
+                           1594 ; do something to board 4
+   19D3                    1595 L19D3:
+   19D3 A0 00         [ 2] 1596         ldy     #0x00
+   19D5 B1 3A         [ 6] 1597         lda     [RAM_3A],y
+   19D7 C9 FF         [ 2] 1598         cmp     #0xFF
+   19D9 F0 17         [ 4] 1599         beq     L19F2
+   19DB C5 41         [ 3] 1600         cmp     RAM_41
+   19DD D0 12         [ 4] 1601         bne     L19F1
+   19DF C8            [ 2] 1602         iny
+   19E0 B1 3A         [ 6] 1603         lda     [RAM_3A],y
+   19E2 85 8C         [ 3] 1604         sta     board_4_periph$ddr_reg_a
+   19E4 18            [ 2] 1605         clc
+   19E5 A5 3A         [ 3] 1606         lda     RAM_3A
+   19E7 69 02         [ 2] 1607         adc     #0x02
+   19E9 85 3A         [ 3] 1608         sta     RAM_3A
+   19EB A5 3B         [ 3] 1609         lda     RAM_3B
+   19ED 69 00         [ 2] 1610         adc     #0x00
+   19EF 85 3B         [ 3] 1611         sta     RAM_3B
+   19F1                    1612 L19F1:
+   19F1 60            [ 6] 1613         rts
+                           1614 ;
+   19F2                    1615 L19F2:
+   19F2 A9 4B         [ 2] 1616         lda     #0x4B
+   19F4 85 3A         [ 3] 1617         sta     RAM_3A
+   19F6 A9 1C         [ 2] 1618         lda     #0x1C
+   19F8 85 3B         [ 3] 1619         sta     RAM_3B
+   19FA A9 BE         [ 2] 1620         lda     #0xBE
+   19FC 85 41         [ 3] 1621         sta     RAM_41
+   19FE 4C F1 19      [ 3] 1622         jmp     L19F1
+                           1623 
+                           1624 ; do something to board 3
+   1A01                    1625 L1A01:
+   1A01 A0 00         [ 2] 1626         ldy     #0x00
+   1A03 B1 3C         [ 6] 1627         lda     [RAM_3C],y
+   1A05                    1628 L1A05:
+   1A05 C9 FF         [ 2] 1629         cmp     #0xFF
+   1A07 F0 17         [ 4] 1630         beq     L1A20
+   1A09 C5 42         [ 3] 1631         cmp     RAM_42
+   1A0B D0 12         [ 4] 1632         bne     L1A1F
+   1A0D C8            [ 2] 1633         iny
+   1A0E B1 3C         [ 6] 1634         lda     [RAM_3C],y
+   1A10 85 88         [ 3] 1635         sta     board_3_periph$ddr_reg_a
+   1A12 18            [ 2] 1636         clc
+   1A13 A5 3C         [ 3] 1637         lda     RAM_3C
+   1A15 69 02         [ 2] 1638         adc     #0x02
+   1A17 85 3C         [ 3] 1639         sta     RAM_3C
+   1A19 A5 3D         [ 3] 1640         lda     RAM_3D
+   1A1B 69 00         [ 2] 1641         adc     #0x00
+   1A1D 85 3D         [ 3] 1642         sta     RAM_3D
+   1A1F                    1643 L1A1F:
+   1A1F 60            [ 6] 1644         rts
+                           1645 ;
+   1A20                    1646 L1A20:
+   1A20 A9 05         [ 2] 1647         lda     #0x05
+   1A22 85 3C         [ 3] 1648         sta     RAM_3C
+   1A24 A9 1D         [ 2] 1649         lda     #0x1D
+   1A26 85 3D         [ 3] 1650         sta     RAM_3D
+   1A28 A9 AA         [ 2] 1651         lda     #0xAA
+   1A2A 85 42         [ 3] 1652         sta     RAM_42
+   1A2C 4C 1F 1A      [ 3] 1653         jmp     L1A1F
                            1654 ;
                            1655 ;
-   1A2F                    1656 X1A2F:
-   1A2F FA 20              1657         .db     0xFA, 0x20
-   1A31 FA 20              1658         .db     0xFA, 0x20
-   1A33 F6 22              1659         .db     0xF6, 0x22
-   1A35 F5 20              1660         .db     0xF5, 0x20
-   1A37 F5 20              1661         .db     0xF5, 0x20
-   1A39 F3 22              1662         .db     0xF3, 0x22
-   1A3B F2 20              1663         .db     0xF2, 0x20
-   1A3D E5 22              1664         .db     0xE5, 0x22
-   1A3F E5 22              1665         .db     0xE5, 0x22
-   1A41 E2 20              1666         .db     0xE2, 0x20
-   1A43 D2 20              1667         .db     0xD2, 0x20
-   1A45 BE 00              1668         .db     0xBE, 0x00
-   1A47 BC 22              1669         .db     0xBC, 0x22
-   1A49 BB 30              1670         .db     0xBB, 0x30
-   1A4B B9 32              1671         .db     0xB9, 0x32
-   1A4D B9 32              1672         .db     0xB9, 0x32
-   1A4F B7 30              1673         .db     0xB7, 0x30
-   1A51 B6 32              1674         .db     0xB6, 0x32
-   1A53 B5 30              1675         .db     0xB5, 0x30
-   1A55 B4 32              1676         .db     0xB4, 0x32
-   1A57 B4 32              1677         .db     0xB4, 0x32
-   1A59 B3 20              1678         .db     0xB3, 0x20
-   1A5B B3 20              1679         .db     0xB3, 0x20
-   1A5D B1 A0              1680         .db     0xB1, 0xA0
-   1A5F B1 A0              1681         .db     0xB1, 0xA0
-   1A61 B0 A2              1682         .db     0xB0, 0xA2
-   1A63 AF A0              1683         .db     0xAF, 0xA0
-   1A65 AF A6              1684         .db     0xAF, 0xA6
-   1A67 AE A0              1685         .db     0xAE, 0xA0
-   1A69 AE A6              1686         .db     0xAE, 0xA6
-   1A6B AD A4              1687         .db     0xAD, 0xA4
-   1A6D AC A0              1688         .db     0xAC, 0xA0
-   1A6F AC A0              1689         .db     0xAC, 0xA0
-   1A71 AB A0              1690         .db     0xAB, 0xA0
-   1A73 AA A0              1691         .db     0xAA, 0xA0
-   1A75 AA A0              1692         .db     0xAA, 0xA0
-   1A77 A2 80              1693         .db     0xA2, 0x80
-   1A79 A0 A0              1694         .db     0xA0, 0xA0
-   1A7B A0 A0              1695         .db     0xA0, 0xA0
-   1A7D 8D 80              1696         .db     0x8D, 0x80
-   1A7F 8A A0              1697         .db     0x8A, 0xA0
-   1A81 7E 80              1698         .db     0x7E, 0x80
-   1A83 7B A0              1699         .db     0x7B, 0xA0
-   1A85 79 A4              1700         .db     0x79, 0xA4
-   1A87 78 A0              1701         .db     0x78, 0xA0
-   1A89 77 A4              1702         .db     0x77, 0xA4
-   1A8B 76 A0              1703         .db     0x76, 0xA0
-   1A8D 75 A4              1704         .db     0x75, 0xA4
-   1A8F 74 A0              1705         .db     0x74, 0xA0
-   1A91 73 A4              1706         .db     0x73, 0xA4
-   1A93 72 A0              1707         .db     0x72, 0xA0
-   1A95 71 A4              1708         .db     0x71, 0xA4
-   1A97 70 A0              1709         .db     0x70, 0xA0
-   1A99 6F A4              1710         .db     0x6F, 0xA4
-   1A9B 6E A0              1711         .db     0x6E, 0xA0
-   1A9D 6D A4              1712         .db     0x6D, 0xA4
-   1A9F 6C A0              1713         .db     0x6C, 0xA0
-   1AA1 69 80              1714         .db     0x69, 0x80
-   1AA3 69 80              1715         .db     0x69, 0x80
-   1AA5 67 A0              1716         .db     0x67, 0xA0
-   1AA7 5E 20              1717         .db     0x5E, 0x20
-   1AA9 58 24              1718         .db     0x58, 0x24
-   1AAB 57 20              1719         .db     0x57, 0x20
-   1AAD 57 20              1720         .db     0x57, 0x20
-   1AAF 56 24              1721         .db     0x56, 0x24
-   1AB1 55 20              1722         .db     0x55, 0x20
-   1AB3 54 24              1723         .db     0x54, 0x24
-   1AB5 54 24              1724         .db     0x54, 0x24
-   1AB7 53 20              1725         .db     0x53, 0x20
-   1AB9 52 24              1726         .db     0x52, 0x24
-   1ABB 52 24              1727         .db     0x52, 0x24
-   1ABD 50 20              1728         .db     0x50, 0x20
-   1ABF 4F 24              1729         .db     0x4F, 0x24
-   1AC1 4E 20              1730         .db     0x4E, 0x20
-   1AC3 4D 24              1731         .db     0x4D, 0x24
-   1AC5 4C 20              1732         .db     0x4C, 0x20
-   1AC7 4C 20              1733         .db     0x4C, 0x20
-   1AC9 4B 24              1734         .db     0x4B, 0x24
-   1ACB 4A 20              1735         .db     0x4A, 0x20
-   1ACD 49 20              1736         .db     0x49, 0x20
-   1ACF 49 00              1737         .db     0x49, 0x00
-   1AD1 48 20              1738         .db     0x48, 0x20
-   1AD3 47 20              1739         .db     0x47, 0x20
-   1AD5 47 20              1740         .db     0x47, 0x20
-   1AD7 46 20              1741         .db     0x46, 0x20
-   1AD9 45 24              1742         .db     0x45, 0x24
-   1ADB 45 24              1743         .db     0x45, 0x24
-   1ADD 44 20              1744         .db     0x44, 0x20
-   1ADF 42 20              1745         .db     0x42, 0x20
-   1AE1 42 20              1746         .db     0x42, 0x20
-   1AE3 37 04              1747         .db     0x37, 0x04
-   1AE5 35 20              1748         .db     0x35, 0x20
-   1AE7 2E 04              1749         .db     0x2E, 0x04
-   1AE9 2E 04              1750         .db     0x2E, 0x04
-   1AEB 2D 20              1751         .db     0x2D, 0x20
-   1AED 23 24              1752         .db     0x23, 0x24
-   1AEF 21 20              1753         .db     0x21, 0x20
-   1AF1 17 24              1754         .db     0x17, 0x24
-   1AF3 13 00              1755         .db     0x13, 0x00
-   1AF5 11 24              1756         .db     0x11, 0x24
-   1AF7 10 30              1757         .db     0x10, 0x30
-   1AF9 07 34              1758         .db     0x07, 0x34
-   1AFB 06 30              1759         .db     0x06, 0x30
-   1AFD 05 30              1760         .db     0x05, 0x30
-   1AFF FF FF              1761         .db     0xFF, 0xFF
-                           1762 ;
-   1B01                    1763 X1B01:
-   1B01 D7 22              1764         .db     0xD7, 0x22
-   1B03 D5 20              1765         .db     0xD5, 0x20
-   1B05 C9 22              1766         .db     0xC9, 0x22
-   1B07 C7 20              1767         .db     0xC7, 0x20
-   1B09 C4 24              1768         .db     0xC4, 0x24
-   1B0B C3 20              1769         .db     0xC3, 0x20
-   1B0D C2 24              1770         .db     0xC2, 0x24
-   1B0F C1 20              1771         .db     0xC1, 0x20
-   1B11 BF 24              1772         .db     0xBF, 0x24
-   1B13 BF 24              1773         .db     0xBF, 0x24
-   1B15 BE 20              1774         .db     0xBE, 0x20
-   1B17 BD 24              1775         .db     0xBD, 0x24
-   1B19 BC 20              1776         .db     0xBC, 0x20
-   1B1B BB 24              1777         .db     0xBB, 0x24
-   1B1D BA 20              1778         .db     0xBA, 0x20
-   1B1F B9 20              1779         .db     0xB9, 0x20
-   1B21 B8 24              1780         .db     0xB8, 0x24
-   1B23 B7 20              1781         .db     0xB7, 0x20
-   1B25 B4 00              1782         .db     0xB4, 0x00
-   1B27 B4 00              1783         .db     0xB4, 0x00
-   1B29 B2 20              1784         .db     0xB2, 0x20
-   1B2B A9 20              1785         .db     0xA9, 0x20
-   1B2D A3 20              1786         .db     0xA3, 0x20
-   1B2F A2 20              1787         .db     0xA2, 0x20
-   1B31 A1 20              1788         .db     0xA1, 0x20
-   1B33 A0 20              1789         .db     0xA0, 0x20
-   1B35 A0 20              1790         .db     0xA0, 0x20
-   1B37 9F 20              1791         .db     0x9F, 0x20
-   1B39 9F 20              1792         .db     0x9F, 0x20
-   1B3B 9E 20              1793         .db     0x9E, 0x20
-   1B3D 9D 24              1794         .db     0x9D, 0x24
-   1B3F 9D 24              1795         .db     0x9D, 0x24
-   1B41 9B 20              1796         .db     0x9B, 0x20
-   1B43 9A 24              1797         .db     0x9A, 0x24
-   1B45 99 20              1798         .db     0x99, 0x20
-   1B47 98 20              1799         .db     0x98, 0x20
-   1B49 97 24              1800         .db     0x97, 0x24
-   1B4B 97 24              1801         .db     0x97, 0x24
-   1B4D 95 20              1802         .db     0x95, 0x20
-   1B4F 95 20              1803         .db     0x95, 0x20
-   1B51 94 00              1804         .db     0x94, 0x00
-   1B53 94 00              1805         .db     0x94, 0x00
-   1B55 93 20              1806         .db     0x93, 0x20
-   1B57 92 00              1807         .db     0x92, 0x00
-   1B59 92 00              1808         .db     0x92, 0x00
-   1B5B 91 20              1809         .db     0x91, 0x20
-   1B5D 90 20              1810         .db     0x90, 0x20
-   1B5F 90 20              1811         .db     0x90, 0x20
-   1B61 8F 20              1812         .db     0x8F, 0x20
-   1B63 8D 20              1813         .db     0x8D, 0x20
-   1B65 8D 20              1814         .db     0x8D, 0x20
-   1B67 81 00              1815         .db     0x81, 0x00
-   1B69 7F 20              1816         .db     0x7F, 0x20
-   1B6B 79 00              1817         .db     0x79, 0x00
-   1B6D 79 00              1818         .db     0x79, 0x00
-   1B6F 78 20              1819         .db     0x78, 0x20
-   1B71 76 20              1820         .db     0x76, 0x20
-   1B73 6B 00              1821         .db     0x6B, 0x00
-   1B75 69 20              1822         .db     0x69, 0x20
-   1B77 5E 00              1823         .db     0x5E, 0x00
-   1B79 5C 20              1824         .db     0x5C, 0x20
-   1B7B 5B 30              1825         .db     0x5B, 0x30
-   1B7D 52 10              1826         .db     0x52, 0x10
-   1B7F 51 30              1827         .db     0x51, 0x30
-   1B81 50 30              1828         .db     0x50, 0x30
-   1B83 50 30              1829         .db     0x50, 0x30
-   1B85 4F 20              1830         .db     0x4F, 0x20
-   1B87 4E 20              1831         .db     0x4E, 0x20
-   1B89 4E 20              1832         .db     0x4E, 0x20
-   1B8B 4D 20              1833         .db     0x4D, 0x20
-   1B8D 46 A0              1834         .db     0x46, 0xA0
-   1B8F 45 A0              1835         .db     0x45, 0xA0
-   1B91 3D A0              1836         .db     0x3D, 0xA0
-   1B93 3D A0              1837         .db     0x3D, 0xA0
-   1B95 39 20              1838         .db     0x39, 0x20
-   1B97 2A 00              1839         .db     0x2A, 0x00
-   1B99 28 20              1840         .db     0x28, 0x20
-   1B9B 1E 00              1841         .db     0x1E, 0x00
-   1B9D 1C 22              1842         .db     0x1C, 0x22
-   1B9F 1C 22              1843         .db     0x1C, 0x22
-   1BA1 1B 20              1844         .db     0x1B, 0x20
-   1BA3 1A 22              1845         .db     0x1A, 0x22
-   1BA5 19 20              1846         .db     0x19, 0x20
-   1BA7 18 22              1847         .db     0x18, 0x22
-   1BA9 18 22              1848         .db     0x18, 0x22
-   1BAB 16 20              1849         .db     0x16, 0x20
-   1BAD 15 22              1850         .db     0x15, 0x22
-   1BAF 15 22              1851         .db     0x15, 0x22
-   1BB1 14 A0              1852         .db     0x14, 0xA0
-   1BB3 13 A2              1853         .db     0x13, 0xA2
-   1BB5 11 A0              1854         .db     0x11, 0xA0
-   1BB7 FF FF              1855         .db     0xFF, 0xFF
-                           1856 ;
-   1BB9                    1857 X1BB9:
-   1BB9 CD 20              1858         .db     0xCD, 0x20
-   1BBB CC 20              1859         .db     0xCC, 0x20
-   1BBD CB 20              1860         .db     0xCB, 0x20
-   1BBF CB 20              1861         .db     0xCB, 0x20
-   1BC1 CA 00              1862         .db     0xCA, 0x00
-   1BC3 C9 20              1863         .db     0xC9, 0x20
-   1BC5 C9 20              1864         .db     0xC9, 0x20
-   1BC7 C8 20              1865         .db     0xC8, 0x20
-   1BC9 C1 A0              1866         .db     0xC1, 0xA0
-   1BCB C0 A0              1867         .db     0xC0, 0xA0
-   1BCD B8 A0              1868         .db     0xB8, 0xA0
-   1BCF B8 20              1869         .db     0xB8, 0x20
-   1BD1 B4 20              1870         .db     0xB4, 0x20
-   1BD3 A6 00              1871         .db     0xA6, 0x00
-   1BD5 A4 20              1872         .db     0xA4, 0x20
-   1BD7 99 00              1873         .db     0x99, 0x00
-   1BD9 97 22              1874         .db     0x97, 0x22
-   1BDB 97 22              1875         .db     0x97, 0x22
-   1BDD 96 20              1876         .db     0x96, 0x20
-   1BDF 95 22              1877         .db     0x95, 0x22
-   1BE1 94 20              1878         .db     0x94, 0x20
-   1BE3 93 22              1879         .db     0x93, 0x22
-   1BE5 93 22              1880         .db     0x93, 0x22
-   1BE7 91 20              1881         .db     0x91, 0x20
-   1BE9 90 20              1882         .db     0x90, 0x20
-   1BEB 90 20              1883         .db     0x90, 0x20
-   1BED 8D A0              1884         .db     0x8D, 0xA0
-   1BEF 8C A0              1885         .db     0x8C, 0xA0
-   1BF1 7D A2              1886         .db     0x7D, 0xA2
-   1BF3 7D A2              1887         .db     0x7D, 0xA2
-   1BF5 7B A0              1888         .db     0x7B, 0xA0
-   1BF7 7B A0              1889         .db     0x7B, 0xA0
-   1BF9 79 A2              1890         .db     0x79, 0xA2
-   1BFB 79 A2              1891         .db     0x79, 0xA2
-   1BFD 77 A0              1892         .db     0x77, 0xA0
-   1BFF 77 A0              1893         .db     0x77, 0xA0
-   1C01 76 80              1894         .db     0x76, 0x80
-   1C03 75 A0              1895         .db     0x75, 0xA0
-   1C05 6E 20              1896         .db     0x6E, 0x20
-   1C07 67 24              1897         .db     0x67, 0x24
-   1C09 66 20              1898         .db     0x66, 0x20
-   1C0B 65 24              1899         .db     0x65, 0x24
-   1C0D 64 20              1900         .db     0x64, 0x20
-   1C0F 63 24              1901         .db     0x63, 0x24
-   1C11 63 24              1902         .db     0x63, 0x24
-   1C13 61 20              1903         .db     0x61, 0x20
-   1C15 60 24              1904         .db     0x60, 0x24
-   1C17 5F 20              1905         .db     0x5F, 0x20
-   1C19 5E 20              1906         .db     0x5E, 0x20
-   1C1B 5D 24              1907         .db     0x5D, 0x24
-   1C1D 5C 20              1908         .db     0x5C, 0x20
-   1C1F 5B 24              1909         .db     0x5B, 0x24
-   1C21 5A 20              1910         .db     0x5A, 0x20
-   1C23 59 24              1911         .db     0x59, 0x24
-   1C25 58 20              1912         .db     0x58, 0x20
-   1C27 56 20              1913         .db     0x56, 0x20
-   1C29 55 04              1914         .db     0x55, 0x04
-   1C2B 54 00              1915         .db     0x54, 0x00
-   1C2D 53 24              1916         .db     0x53, 0x24
-   1C2F 52 20              1917         .db     0x52, 0x20
-   1C31 52 20              1918         .db     0x52, 0x20
-   1C33 4F 24              1919         .db     0x4F, 0x24
-   1C35 4F 24              1920         .db     0x4F, 0x24
-   1C37 4E 30              1921         .db     0x4E, 0x30
-   1C39 4D 30              1922         .db     0x4D, 0x30
-   1C3B 47 10              1923         .db     0x47, 0x10
-   1C3D 45 30              1924         .db     0x45, 0x30
-   1C3F 35 30              1925         .db     0x35, 0x30
-   1C41 33 10              1926         .db     0x33, 0x10
-   1C43 31 30              1927         .db     0x31, 0x30
-   1C45 31 30              1928         .db     0x31, 0x30
-   1C47 1D 20              1929         .db     0x1D, 0x20
-   1C49 FF FF              1930         .db     0xFF, 0xFF
-                           1931 ;
-   1C4B                    1932 X1C4B:
-   1C4B BE 00              1933         .db     0xBE, 0x00
-   1C4D BC 22              1934         .db     0xBC, 0x22
-   1C4F BB 30              1935         .db     0xBB, 0x30
-   1C51 B9 32              1936         .db     0xB9, 0x32
-   1C53 B7 30              1937         .db     0xB7, 0x30
-   1C55 B6 32              1938         .db     0xB6, 0x32
-   1C57 B5 30              1939         .db     0xB5, 0x30
-   1C59 B4 32              1940         .db     0xB4, 0x32
-   1C5B B4 32              1941         .db     0xB4, 0x32
-   1C5D B3 20              1942         .db     0xB3, 0x20
-   1C5F B3 20              1943         .db     0xB3, 0x20
-   1C61 B1 A0              1944         .db     0xB1, 0xA0
-   1C63 B1 A0              1945         .db     0xB1, 0xA0
-   1C65 B0 A2              1946         .db     0xB0, 0xA2
-   1C67 AF A0              1947         .db     0xAF, 0xA0
-   1C69 AF A6              1948         .db     0xAF, 0xA6
-   1C6B AE A0              1949         .db     0xAE, 0xA0
-   1C6D AE A6              1950         .db     0xAE, 0xA6
-   1C6F AD A4              1951         .db     0xAD, 0xA4
-   1C71 AC A0              1952         .db     0xAC, 0xA0
-   1C73 AC A0              1953         .db     0xAC, 0xA0
-   1C75 AB A0              1954         .db     0xAB, 0xA0
-   1C77 AA A0              1955         .db     0xAA, 0xA0
-   1C79 AA A0              1956         .db     0xAA, 0xA0
-   1C7B A2 80              1957         .db     0xA2, 0x80
-   1C7D A0 A0              1958         .db     0xA0, 0xA0
-   1C7F A0 A0              1959         .db     0xA0, 0xA0
-   1C81 8D 80              1960         .db     0x8D, 0x80
-   1C83 8A A0              1961         .db     0x8A, 0xA0
-   1C85 7E 80              1962         .db     0x7E, 0x80
-   1C87 7B A0              1963         .db     0x7B, 0xA0
-   1C89 79 A4              1964         .db     0x79, 0xA4
-   1C8B 78 A0              1965         .db     0x78, 0xA0
-   1C8D 77 A4              1966         .db     0x77, 0xA4
-   1C8F 76 A0              1967         .db     0x76, 0xA0
-   1C91 75 A4              1968         .db     0x75, 0xA4
-   1C93 74 A0              1969         .db     0x74, 0xA0
-   1C95 73 A4              1970         .db     0x73, 0xA4
-   1C97 72 A0              1971         .db     0x72, 0xA0
-   1C99 71 A4              1972         .db     0x71, 0xA4
-   1C9B 70 A0              1973         .db     0x70, 0xA0
-   1C9D 6F A4              1974         .db     0x6F, 0xA4
-   1C9F 6E A0              1975         .db     0x6E, 0xA0
-   1CA1 6D A4              1976         .db     0x6D, 0xA4
-   1CA3 6C A0              1977         .db     0x6C, 0xA0
-   1CA5 69 80              1978         .db     0x69, 0x80
-   1CA7 69 80              1979         .db     0x69, 0x80
-   1CA9 67 A0              1980         .db     0x67, 0xA0
-   1CAB 5E 20              1981         .db     0x5E, 0x20
-   1CAD 58 24              1982         .db     0x58, 0x24
-   1CAF 57 20              1983         .db     0x57, 0x20
-   1CB1 57 20              1984         .db     0x57, 0x20
-   1CB3 56 24              1985         .db     0x56, 0x24
-   1CB5 55 20              1986         .db     0x55, 0x20
-   1CB7 54 24              1987         .db     0x54, 0x24
-   1CB9 54 24              1988         .db     0x54, 0x24
-   1CBB 53 20              1989         .db     0x53, 0x20
-   1CBD 52 24              1990         .db     0x52, 0x24
-   1CBF 52 24              1991         .db     0x52, 0x24
-   1CC1 50 20              1992         .db     0x50, 0x20
-   1CC3 4F 24              1993         .db     0x4F, 0x24
-   1CC5 4E 20              1994         .db     0x4E, 0x20
-   1CC7 4D 24              1995         .db     0x4D, 0x24
-   1CC9 4C 20              1996         .db     0x4C, 0x20
-   1CCB 4C 20              1997         .db     0x4C, 0x20
-   1CCD 4B 24              1998         .db     0x4B, 0x24
-   1CCF 4A 20              1999         .db     0x4A, 0x20
-   1CD1 49 20              2000         .db     0x49, 0x20
-   1CD3 49 00              2001         .db     0x49, 0x00
-   1CD5 48 20              2002         .db     0x48, 0x20
-   1CD7 47 20              2003         .db     0x47, 0x20
-   1CD9 47 20              2004         .db     0x47, 0x20
-   1CDB 46 20              2005         .db     0x46, 0x20
-   1CDD 45 24              2006         .db     0x45, 0x24
-   1CDF 45 24              2007         .db     0x45, 0x24
-   1CE1 44 20              2008         .db     0x44, 0x20
-   1CE3 42 20              2009         .db     0x42, 0x20
-   1CE5 42 20              2010         .db     0x42, 0x20
-   1CE7 37 04              2011         .db     0x37, 0x04
-   1CE9 35 20              2012         .db     0x35, 0x20
-   1CEB 2E 04              2013         .db     0x2E, 0x04
-   1CED 2E 04              2014         .db     0x2E, 0x04
-   1CEF 2D 20              2015         .db     0x2D, 0x20
-   1CF1 23 24              2016         .db     0x23, 0x24
-   1CF3 21 20              2017         .db     0x21, 0x20
-   1CF5 17 24              2018         .db     0x17, 0x24
-   1CF7 13 00              2019         .db     0x13, 0x00
-   1CF9 11 24              2020         .db     0x11, 0x24
-   1CFB 10 30              2021         .db     0x10, 0x30
-   1CFD 07 34              2022         .db     0x07, 0x34
-   1CFF 06 30              2023         .db     0x06, 0x30
-   1D01 05 30              2024         .db     0x05, 0x30
-   1D03 FF FF              2025         .db     0xFF, 0xFF
-                           2026 ;
-   1D05                    2027 X1D05:
-   1D05 A9 20              2028         .db     0xA9, 0x20
-   1D07 A3 20              2029         .db     0xA3, 0x20
-   1D09 A2 20              2030         .db     0xA2, 0x20
-   1D0B A1 20              2031         .db     0xA1, 0x20
-   1D0D A0 20              2032         .db     0xA0, 0x20
-   1D0F A0 20              2033         .db     0xA0, 0x20
-   1D11 9F 20              2034         .db     0x9F, 0x20
-   1D13 9F 20              2035         .db     0x9F, 0x20
-   1D15 9E 20              2036         .db     0x9E, 0x20
-   1D17 9D 24              2037         .db     0x9D, 0x24
-   1D19 9D 24              2038         .db     0x9D, 0x24
-   1D1B 9B 20              2039         .db     0x9B, 0x20
-   1D1D 9A 24              2040         .db     0x9A, 0x24
-   1D1F 99 20              2041         .db     0x99, 0x20
-   1D21 98 20              2042         .db     0x98, 0x20
-   1D23 97 24              2043         .db     0x97, 0x24
-   1D25 97 24              2044         .db     0x97, 0x24
-   1D27 95 20              2045         .db     0x95, 0x20
-   1D29 95 20              2046         .db     0x95, 0x20
-   1D2B 94 00              2047         .db     0x94, 0x00
-   1D2D 94 00              2048         .db     0x94, 0x00
-   1D2F 93 20              2049         .db     0x93, 0x20
-   1D31 92 00              2050         .db     0x92, 0x00
-   1D33 92 00              2051         .db     0x92, 0x00
-   1D35 91 20              2052         .db     0x91, 0x20
-   1D37 90 20              2053         .db     0x90, 0x20
-   1D39 90 20              2054         .db     0x90, 0x20
-   1D3B 8F 20              2055         .db     0x8F, 0x20
-   1D3D 8D 20              2056         .db     0x8D, 0x20
-   1D3F 8D 20              2057         .db     0x8D, 0x20
-   1D41 81 00              2058         .db     0x81, 0x00
-   1D43 7F 20              2059         .db     0x7F, 0x20
-   1D45 79 00              2060         .db     0x79, 0x00
-   1D47 79 00              2061         .db     0x79, 0x00
-   1D49 78 20              2062         .db     0x78, 0x20
-   1D4B 76 20              2063         .db     0x76, 0x20
-   1D4D 6B 00              2064         .db     0x6B, 0x00
-   1D4F 69 20              2065         .db     0x69, 0x20
-   1D51 5E 00              2066         .db     0x5E, 0x00
-   1D53 5C 20              2067         .db     0x5C, 0x20
-   1D55 5B 30              2068         .db     0x5B, 0x30
-   1D57 52 10              2069         .db     0x52, 0x10
-   1D59 51 30              2070         .db     0x51, 0x30
-   1D5B 50 30              2071         .db     0x50, 0x30
-   1D5D 50 30              2072         .db     0x50, 0x30
-   1D5F 4F 20              2073         .db     0x4F, 0x20
-   1D61 4E 20              2074         .db     0x4E, 0x20
-   1D63 4E 20              2075         .db     0x4E, 0x20
-   1D65 4D 20              2076         .db     0x4D, 0x20
-   1D67 46 A0              2077         .db     0x46, 0xA0
-   1D69 45 A0              2078         .db     0x45, 0xA0
-   1D6B 3D A0              2079         .db     0x3D, 0xA0
-   1D6D 3D A0              2080         .db     0x3D, 0xA0
-   1D6F 39 20              2081         .db     0x39, 0x20
-   1D71 2A 00              2082         .db     0x2A, 0x00
-   1D73 28 20              2083         .db     0x28, 0x20
-   1D75 1E 00              2084         .db     0x1E, 0x00
-   1D77 1C 22              2085         .db     0x1C, 0x22
-   1D79 1C 22              2086         .db     0x1C, 0x22
-   1D7B 1B 20              2087         .db     0x1B, 0x20
-   1D7D 1A 22              2088         .db     0x1A, 0x22
-   1D7F 19 20              2089         .db     0x19, 0x20
-   1D81 18 22              2090         .db     0x18, 0x22
-   1D83 18 22              2091         .db     0x18, 0x22
-   1D85 16 20              2092         .db     0x16, 0x20
-   1D87 15 22              2093         .db     0x15, 0x22
-   1D89 15 22              2094         .db     0x15, 0x22
-   1D8B 14 A0              2095         .db     0x14, 0xA0
-   1D8D 13 A2              2096         .db     0x13, 0xA2
-   1D8F 11 A0              2097         .db     0x11, 0xA0
-   1D91 FF FF              2098         .db     0xFF, 0xFF
-                           2099 ;
-                           2100 ;       Jump Table - process command bytes
-                           2101 ;
-   1D93                    2102 X1D93:
-   1D93 F1 17              2103         .dw     L17F1                   ; 0x22-23 ( "# card 7?) - extended codes?
-   1D95 B1 1D              2104         .dw     IGNORE                  ; 0x24-25
-   1D97 AD 17              2105         .dw     L17AD                   ; 0x26-27 ( &' ???)
-   1D99 B1 1D              2106         .dw     IGNORE                  ; 0x28-29
-   1D9B 0E 18              2107         .dw     L180E                   ; 0x2A-2B ( *+ card 8?) - def 30
-   1D9D B1 1D              2108         .dw     IGNORE                  ; 0x2C-2D
-   1D9F B1 1D              2109         .dw     IGNORE                  ; 0x2E-2F
-   1DA1 B1 1D              2110         .dw     IGNORE                  ; 0x30-31
-   1DA3 AD 17              2111         .dw     L17AD                   ; 0x32-33 ( 23 card 1?)
-   1DA5 DB 18              2112         .dw     L18DB                   ; 0x34-35 ( 45 card 3?) - def 2C
-   1DA7 F1 18              2113         .dw     L18F1                   ; 0x36-37 ( 67 card 2?) - def 40
-   1DA9 19 18              2114         .dw     L1819                   ; 0x38-39 ( 89 card 6?) - do nothing?
-   1DAB E6 17              2115         .dw     L17E6                   ; 0x3A-3B ( :; card 5?) - def 28
-   1DAD E6 18              2116         .dw     L18E6                   ; 0x3C-3D ( <= card 4?) - def 2E
-   1DAF AD 17              2117         .dw     L17AD                   ; 0x3E-3F ( >? ???)
-                           2118 
-   1DB1                    2119 IGNORE:
-   1DB1 60            [ 6] 2120         rts
-                           2121 ;
-                           2122 ;       Memory address codes
-                           2123 ;
-   1DB2                    2124 X1DB2:
-   1DB2 6A                 2125         .db     0x6A        ; 0x26 - ???
-   1DB3 96                 2126         .db     0x96        ; 0x28 - board 6B
-   1DB4 96                 2127         .db     0x96        ; 0x2A - board 6B
-   1DB5 8A                 2128         .db     0x8A        ; 0x2C - board 3B
-   1DB6 8E                 2129         .db     0x8E        ; 0x2E - board 4B
-   1DB7 69                 2130         .db     0x69        ; 0x30 - ???
-   1DB8 80                 2131         .db     0x80        ; 0x32 - board 1A
-   1DB9 88                 2132         .db     0x88        ; 0x34 - board 3A
-   1DBA 84                 2133         .db     0x84        ; 0x36 - board 2A
-   1DBB 00                 2134         .db     0x00        ; 0x38
-   1DBC 90                 2135         .db     0x90        ; 0x3A - board 5A
-   1DBD 8C                 2136         .db     0x8C        ; 0x3C - board 4A
-   1DBE 82                 2137         .db     0x82        ; 0x3E - board 1B
-   1DBF 86                 2138         .db     0x86        ; 0x40 - board 2B
-   1DC0 00                 2139         .db     0x00        ; 0x42
-   1DC1 00                 2140         .db     0x00        ; 0x44
-                           2141 ;
-                           2142 ;       Extended codes for 0x22-0x23?
-                           2143 ;
-   1DC2                    2144 X1DC2:
-   1DC2 9C 01              2145         .db     0x9C,0x01       ; 0x40, board 8A
-   1DC4 98 02              2146         .db     0x98,0x02       ; 0x41, board 7A
-   1DC6 9C 08              2147         .db     0x9C,0x08       ; 0x42, board 8A
-   1DC8 9C 04              2148         .db     0x9C,0x04       ; 0x43, board 8A
-   1DCA 9C 10              2149         .db     0x9C,0x10       ; 0x44, board 8A
-   1DCC 98 04              2150         .db     0x98,0x04       ; 0x45, board 7A
-   1DCE 98 08              2151         .db     0x98,0x08
-   1DD0 9A 20              2152         .db     0x9A,0x20
-   1DD2 9A 40              2153         .db     0x9A,0x40
-   1DD4 9C 20              2154         .db     0x9C,0x20
-   1DD6 9C 40              2155         .db     0x9C,0x40
-   1DD8 9C 80              2156         .db     0x9C,0x80
-   1DDA 9A 01              2157         .db     0x9A,0x01       ; 0x4C, board 7B
-   1DDC 9A 08              2158         .db     0x9A,0x08       ; 0x4D, board 7B
-   1DDE 9A 10              2159         .db     0x9A,0x10       ; 0x4E, board 7B
-   1DE0 98 40              2160         .db     0x98,0x40       ; 0x4F, board 7A
-   1DE2 98 80              2161         .db     0x98,0x80       ; 0x50, board 7A
-   1DE4 9A 02              2162         .db     0x9A,0x02       ; 0x51, board 7B
-   1DE6 9A 04              2163         .db     0x9A,0x04       ; 0x52, board 7B
-   1DE8 98 10              2164         .db     0x98,0x10       ; 0x53, board 7A
-   1DEA 98 20              2165         .db     0x98,0x20       ; 0x54, board 7A
-   1DEC 9C 02              2166         .db     0x9C,0x02
-   1DEE 9E 01              2167         .db     0x9E,0x01
-   1DF0 9E 08              2168         .db     0x9E,0x08
-   1DF2 9E 02              2169         .db     0x9E,0x02
-   1DF4 98 01              2170         .db     0x98,0x01       ; 0x59, board 7A
-   1DF6 00 80              2171         .db     0x00,0x80
-   1DF8 9E 04              2172         .db     0x9E,0x04
-   1DFA 9E 10              2173         .db     0x9E,0x10
-   1DFC 9E 20              2174         .db     0x9E,0x20
-   1DFE 9E 40              2175         .db     0x9E,0x40
-   1E00 92 01              2176         .db     0x92,0x01       ; 0x5F, board 5B
-   1E02 00 00              2177         .db     0x00,0x00
-                           2178 ;
-                           2179 ;       8 bytes per command, starting with 0x26, 0x28...
-                           2180 ;
-   1E04                    2181 X1E04:
-   1E04 46 45 48 41 4A 4C  2182         .db     'F,'E,'H,'A,'J,'L,'I,'B, 0, 0, 0,'\,'W,'X, 0, 0     ; 0x26, 0x28
+                           1656 ;
+   1A2F                    1657 X1A2F:
+   1A2F FA 20              1658         .db     0xFA, 0x20
+   1A31 FA 20              1659         .db     0xFA, 0x20
+   1A33 F6 22              1660         .db     0xF6, 0x22
+   1A35 F5 20              1661         .db     0xF5, 0x20
+   1A37 F5 20              1662         .db     0xF5, 0x20
+   1A39 F3 22              1663         .db     0xF3, 0x22
+   1A3B F2 20              1664         .db     0xF2, 0x20
+   1A3D E5 22              1665         .db     0xE5, 0x22
+   1A3F E5 22              1666         .db     0xE5, 0x22
+   1A41 E2 20              1667         .db     0xE2, 0x20
+   1A43 D2 20              1668         .db     0xD2, 0x20
+   1A45 BE 00              1669         .db     0xBE, 0x00
+   1A47 BC 22              1670         .db     0xBC, 0x22
+   1A49 BB 30              1671         .db     0xBB, 0x30
+   1A4B B9 32              1672         .db     0xB9, 0x32
+   1A4D B9 32              1673         .db     0xB9, 0x32
+   1A4F B7 30              1674         .db     0xB7, 0x30
+   1A51 B6 32              1675         .db     0xB6, 0x32
+   1A53 B5 30              1676         .db     0xB5, 0x30
+   1A55 B4 32              1677         .db     0xB4, 0x32
+   1A57 B4 32              1678         .db     0xB4, 0x32
+   1A59 B3 20              1679         .db     0xB3, 0x20
+   1A5B B3 20              1680         .db     0xB3, 0x20
+   1A5D B1 A0              1681         .db     0xB1, 0xA0
+   1A5F B1 A0              1682         .db     0xB1, 0xA0
+   1A61 B0 A2              1683         .db     0xB0, 0xA2
+   1A63 AF A0              1684         .db     0xAF, 0xA0
+   1A65 AF A6              1685         .db     0xAF, 0xA6
+   1A67 AE A0              1686         .db     0xAE, 0xA0
+   1A69 AE A6              1687         .db     0xAE, 0xA6
+   1A6B AD A4              1688         .db     0xAD, 0xA4
+   1A6D AC A0              1689         .db     0xAC, 0xA0
+   1A6F AC A0              1690         .db     0xAC, 0xA0
+   1A71 AB A0              1691         .db     0xAB, 0xA0
+   1A73 AA A0              1692         .db     0xAA, 0xA0
+   1A75 AA A0              1693         .db     0xAA, 0xA0
+   1A77 A2 80              1694         .db     0xA2, 0x80
+   1A79 A0 A0              1695         .db     0xA0, 0xA0
+   1A7B A0 A0              1696         .db     0xA0, 0xA0
+   1A7D 8D 80              1697         .db     0x8D, 0x80
+   1A7F 8A A0              1698         .db     0x8A, 0xA0
+   1A81 7E 80              1699         .db     0x7E, 0x80
+   1A83 7B A0              1700         .db     0x7B, 0xA0
+   1A85 79 A4              1701         .db     0x79, 0xA4
+   1A87 78 A0              1702         .db     0x78, 0xA0
+   1A89 77 A4              1703         .db     0x77, 0xA4
+   1A8B 76 A0              1704         .db     0x76, 0xA0
+   1A8D 75 A4              1705         .db     0x75, 0xA4
+   1A8F 74 A0              1706         .db     0x74, 0xA0
+   1A91 73 A4              1707         .db     0x73, 0xA4
+   1A93 72 A0              1708         .db     0x72, 0xA0
+   1A95 71 A4              1709         .db     0x71, 0xA4
+   1A97 70 A0              1710         .db     0x70, 0xA0
+   1A99 6F A4              1711         .db     0x6F, 0xA4
+   1A9B 6E A0              1712         .db     0x6E, 0xA0
+   1A9D 6D A4              1713         .db     0x6D, 0xA4
+   1A9F 6C A0              1714         .db     0x6C, 0xA0
+   1AA1 69 80              1715         .db     0x69, 0x80
+   1AA3 69 80              1716         .db     0x69, 0x80
+   1AA5 67 A0              1717         .db     0x67, 0xA0
+   1AA7 5E 20              1718         .db     0x5E, 0x20
+   1AA9 58 24              1719         .db     0x58, 0x24
+   1AAB 57 20              1720         .db     0x57, 0x20
+   1AAD 57 20              1721         .db     0x57, 0x20
+   1AAF 56 24              1722         .db     0x56, 0x24
+   1AB1 55 20              1723         .db     0x55, 0x20
+   1AB3 54 24              1724         .db     0x54, 0x24
+   1AB5 54 24              1725         .db     0x54, 0x24
+   1AB7 53 20              1726         .db     0x53, 0x20
+   1AB9 52 24              1727         .db     0x52, 0x24
+   1ABB 52 24              1728         .db     0x52, 0x24
+   1ABD 50 20              1729         .db     0x50, 0x20
+   1ABF 4F 24              1730         .db     0x4F, 0x24
+   1AC1 4E 20              1731         .db     0x4E, 0x20
+   1AC3 4D 24              1732         .db     0x4D, 0x24
+   1AC5 4C 20              1733         .db     0x4C, 0x20
+   1AC7 4C 20              1734         .db     0x4C, 0x20
+   1AC9 4B 24              1735         .db     0x4B, 0x24
+   1ACB 4A 20              1736         .db     0x4A, 0x20
+   1ACD 49 20              1737         .db     0x49, 0x20
+   1ACF 49 00              1738         .db     0x49, 0x00
+   1AD1 48 20              1739         .db     0x48, 0x20
+   1AD3 47 20              1740         .db     0x47, 0x20
+   1AD5 47 20              1741         .db     0x47, 0x20
+   1AD7 46 20              1742         .db     0x46, 0x20
+   1AD9 45 24              1743         .db     0x45, 0x24
+   1ADB 45 24              1744         .db     0x45, 0x24
+   1ADD 44 20              1745         .db     0x44, 0x20
+   1ADF 42 20              1746         .db     0x42, 0x20
+   1AE1 42 20              1747         .db     0x42, 0x20
+   1AE3 37 04              1748         .db     0x37, 0x04
+   1AE5 35 20              1749         .db     0x35, 0x20
+   1AE7 2E 04              1750         .db     0x2E, 0x04
+   1AE9 2E 04              1751         .db     0x2E, 0x04
+   1AEB 2D 20              1752         .db     0x2D, 0x20
+   1AED 23 24              1753         .db     0x23, 0x24
+   1AEF 21 20              1754         .db     0x21, 0x20
+   1AF1 17 24              1755         .db     0x17, 0x24
+   1AF3 13 00              1756         .db     0x13, 0x00
+   1AF5 11 24              1757         .db     0x11, 0x24
+   1AF7 10 30              1758         .db     0x10, 0x30
+   1AF9 07 34              1759         .db     0x07, 0x34
+   1AFB 06 30              1760         .db     0x06, 0x30
+   1AFD 05 30              1761         .db     0x05, 0x30
+   1AFF FF FF              1762         .db     0xFF, 0xFF
+                           1763 ;
+   1B01                    1764 X1B01:
+   1B01 D7 22              1765         .db     0xD7, 0x22
+   1B03 D5 20              1766         .db     0xD5, 0x20
+   1B05 C9 22              1767         .db     0xC9, 0x22
+   1B07 C7 20              1768         .db     0xC7, 0x20
+   1B09 C4 24              1769         .db     0xC4, 0x24
+   1B0B C3 20              1770         .db     0xC3, 0x20
+   1B0D C2 24              1771         .db     0xC2, 0x24
+   1B0F C1 20              1772         .db     0xC1, 0x20
+   1B11 BF 24              1773         .db     0xBF, 0x24
+   1B13 BF 24              1774         .db     0xBF, 0x24
+   1B15 BE 20              1775         .db     0xBE, 0x20
+   1B17 BD 24              1776         .db     0xBD, 0x24
+   1B19 BC 20              1777         .db     0xBC, 0x20
+   1B1B BB 24              1778         .db     0xBB, 0x24
+   1B1D BA 20              1779         .db     0xBA, 0x20
+   1B1F B9 20              1780         .db     0xB9, 0x20
+   1B21 B8 24              1781         .db     0xB8, 0x24
+   1B23 B7 20              1782         .db     0xB7, 0x20
+   1B25 B4 00              1783         .db     0xB4, 0x00
+   1B27 B4 00              1784         .db     0xB4, 0x00
+   1B29 B2 20              1785         .db     0xB2, 0x20
+   1B2B A9 20              1786         .db     0xA9, 0x20
+   1B2D A3 20              1787         .db     0xA3, 0x20
+   1B2F A2 20              1788         .db     0xA2, 0x20
+   1B31 A1 20              1789         .db     0xA1, 0x20
+   1B33 A0 20              1790         .db     0xA0, 0x20
+   1B35 A0 20              1791         .db     0xA0, 0x20
+   1B37 9F 20              1792         .db     0x9F, 0x20
+   1B39 9F 20              1793         .db     0x9F, 0x20
+   1B3B 9E 20              1794         .db     0x9E, 0x20
+   1B3D 9D 24              1795         .db     0x9D, 0x24
+   1B3F 9D 24              1796         .db     0x9D, 0x24
+   1B41 9B 20              1797         .db     0x9B, 0x20
+   1B43 9A 24              1798         .db     0x9A, 0x24
+   1B45 99 20              1799         .db     0x99, 0x20
+   1B47 98 20              1800         .db     0x98, 0x20
+   1B49 97 24              1801         .db     0x97, 0x24
+   1B4B 97 24              1802         .db     0x97, 0x24
+   1B4D 95 20              1803         .db     0x95, 0x20
+   1B4F 95 20              1804         .db     0x95, 0x20
+   1B51 94 00              1805         .db     0x94, 0x00
+   1B53 94 00              1806         .db     0x94, 0x00
+   1B55 93 20              1807         .db     0x93, 0x20
+   1B57 92 00              1808         .db     0x92, 0x00
+   1B59 92 00              1809         .db     0x92, 0x00
+   1B5B 91 20              1810         .db     0x91, 0x20
+   1B5D 90 20              1811         .db     0x90, 0x20
+   1B5F 90 20              1812         .db     0x90, 0x20
+   1B61 8F 20              1813         .db     0x8F, 0x20
+   1B63 8D 20              1814         .db     0x8D, 0x20
+   1B65 8D 20              1815         .db     0x8D, 0x20
+   1B67 81 00              1816         .db     0x81, 0x00
+   1B69 7F 20              1817         .db     0x7F, 0x20
+   1B6B 79 00              1818         .db     0x79, 0x00
+   1B6D 79 00              1819         .db     0x79, 0x00
+   1B6F 78 20              1820         .db     0x78, 0x20
+   1B71 76 20              1821         .db     0x76, 0x20
+   1B73 6B 00              1822         .db     0x6B, 0x00
+   1B75 69 20              1823         .db     0x69, 0x20
+   1B77 5E 00              1824         .db     0x5E, 0x00
+   1B79 5C 20              1825         .db     0x5C, 0x20
+   1B7B 5B 30              1826         .db     0x5B, 0x30
+   1B7D 52 10              1827         .db     0x52, 0x10
+   1B7F 51 30              1828         .db     0x51, 0x30
+   1B81 50 30              1829         .db     0x50, 0x30
+   1B83 50 30              1830         .db     0x50, 0x30
+   1B85 4F 20              1831         .db     0x4F, 0x20
+   1B87 4E 20              1832         .db     0x4E, 0x20
+   1B89 4E 20              1833         .db     0x4E, 0x20
+   1B8B 4D 20              1834         .db     0x4D, 0x20
+   1B8D 46 A0              1835         .db     0x46, 0xA0
+   1B8F 45 A0              1836         .db     0x45, 0xA0
+   1B91 3D A0              1837         .db     0x3D, 0xA0
+   1B93 3D A0              1838         .db     0x3D, 0xA0
+   1B95 39 20              1839         .db     0x39, 0x20
+   1B97 2A 00              1840         .db     0x2A, 0x00
+   1B99 28 20              1841         .db     0x28, 0x20
+   1B9B 1E 00              1842         .db     0x1E, 0x00
+   1B9D 1C 22              1843         .db     0x1C, 0x22
+   1B9F 1C 22              1844         .db     0x1C, 0x22
+   1BA1 1B 20              1845         .db     0x1B, 0x20
+   1BA3 1A 22              1846         .db     0x1A, 0x22
+   1BA5 19 20              1847         .db     0x19, 0x20
+   1BA7 18 22              1848         .db     0x18, 0x22
+   1BA9 18 22              1849         .db     0x18, 0x22
+   1BAB 16 20              1850         .db     0x16, 0x20
+   1BAD 15 22              1851         .db     0x15, 0x22
+   1BAF 15 22              1852         .db     0x15, 0x22
+   1BB1 14 A0              1853         .db     0x14, 0xA0
+   1BB3 13 A2              1854         .db     0x13, 0xA2
+   1BB5 11 A0              1855         .db     0x11, 0xA0
+   1BB7 FF FF              1856         .db     0xFF, 0xFF
+                           1857 ;
+   1BB9                    1858 X1BB9:
+   1BB9 CD 20              1859         .db     0xCD, 0x20
+   1BBB CC 20              1860         .db     0xCC, 0x20
+   1BBD CB 20              1861         .db     0xCB, 0x20
+   1BBF CB 20              1862         .db     0xCB, 0x20
+   1BC1 CA 00              1863         .db     0xCA, 0x00
+   1BC3 C9 20              1864         .db     0xC9, 0x20
+   1BC5 C9 20              1865         .db     0xC9, 0x20
+   1BC7 C8 20              1866         .db     0xC8, 0x20
+   1BC9 C1 A0              1867         .db     0xC1, 0xA0
+   1BCB C0 A0              1868         .db     0xC0, 0xA0
+   1BCD B8 A0              1869         .db     0xB8, 0xA0
+   1BCF B8 20              1870         .db     0xB8, 0x20
+   1BD1 B4 20              1871         .db     0xB4, 0x20
+   1BD3 A6 00              1872         .db     0xA6, 0x00
+   1BD5 A4 20              1873         .db     0xA4, 0x20
+   1BD7 99 00              1874         .db     0x99, 0x00
+   1BD9 97 22              1875         .db     0x97, 0x22
+   1BDB 97 22              1876         .db     0x97, 0x22
+   1BDD 96 20              1877         .db     0x96, 0x20
+   1BDF 95 22              1878         .db     0x95, 0x22
+   1BE1 94 20              1879         .db     0x94, 0x20
+   1BE3 93 22              1880         .db     0x93, 0x22
+   1BE5 93 22              1881         .db     0x93, 0x22
+   1BE7 91 20              1882         .db     0x91, 0x20
+   1BE9 90 20              1883         .db     0x90, 0x20
+   1BEB 90 20              1884         .db     0x90, 0x20
+   1BED 8D A0              1885         .db     0x8D, 0xA0
+   1BEF 8C A0              1886         .db     0x8C, 0xA0
+   1BF1 7D A2              1887         .db     0x7D, 0xA2
+   1BF3 7D A2              1888         .db     0x7D, 0xA2
+   1BF5 7B A0              1889         .db     0x7B, 0xA0
+   1BF7 7B A0              1890         .db     0x7B, 0xA0
+   1BF9 79 A2              1891         .db     0x79, 0xA2
+   1BFB 79 A2              1892         .db     0x79, 0xA2
+   1BFD 77 A0              1893         .db     0x77, 0xA0
+   1BFF 77 A0              1894         .db     0x77, 0xA0
+   1C01 76 80              1895         .db     0x76, 0x80
+   1C03 75 A0              1896         .db     0x75, 0xA0
+   1C05 6E 20              1897         .db     0x6E, 0x20
+   1C07 67 24              1898         .db     0x67, 0x24
+   1C09 66 20              1899         .db     0x66, 0x20
+   1C0B 65 24              1900         .db     0x65, 0x24
+   1C0D 64 20              1901         .db     0x64, 0x20
+   1C0F 63 24              1902         .db     0x63, 0x24
+   1C11 63 24              1903         .db     0x63, 0x24
+   1C13 61 20              1904         .db     0x61, 0x20
+   1C15 60 24              1905         .db     0x60, 0x24
+   1C17 5F 20              1906         .db     0x5F, 0x20
+   1C19 5E 20              1907         .db     0x5E, 0x20
+   1C1B 5D 24              1908         .db     0x5D, 0x24
+   1C1D 5C 20              1909         .db     0x5C, 0x20
+   1C1F 5B 24              1910         .db     0x5B, 0x24
+   1C21 5A 20              1911         .db     0x5A, 0x20
+   1C23 59 24              1912         .db     0x59, 0x24
+   1C25 58 20              1913         .db     0x58, 0x20
+   1C27 56 20              1914         .db     0x56, 0x20
+   1C29 55 04              1915         .db     0x55, 0x04
+   1C2B 54 00              1916         .db     0x54, 0x00
+   1C2D 53 24              1917         .db     0x53, 0x24
+   1C2F 52 20              1918         .db     0x52, 0x20
+   1C31 52 20              1919         .db     0x52, 0x20
+   1C33 4F 24              1920         .db     0x4F, 0x24
+   1C35 4F 24              1921         .db     0x4F, 0x24
+   1C37 4E 30              1922         .db     0x4E, 0x30
+   1C39 4D 30              1923         .db     0x4D, 0x30
+   1C3B 47 10              1924         .db     0x47, 0x10
+   1C3D 45 30              1925         .db     0x45, 0x30
+   1C3F 35 30              1926         .db     0x35, 0x30
+   1C41 33 10              1927         .db     0x33, 0x10
+   1C43 31 30              1928         .db     0x31, 0x30
+   1C45 31 30              1929         .db     0x31, 0x30
+   1C47 1D 20              1930         .db     0x1D, 0x20
+   1C49 FF FF              1931         .db     0xFF, 0xFF
+                           1932 ;
+   1C4B                    1933 X1C4B:
+   1C4B BE 00              1934         .db     0xBE, 0x00
+   1C4D BC 22              1935         .db     0xBC, 0x22
+   1C4F BB 30              1936         .db     0xBB, 0x30
+   1C51 B9 32              1937         .db     0xB9, 0x32
+   1C53 B7 30              1938         .db     0xB7, 0x30
+   1C55 B6 32              1939         .db     0xB6, 0x32
+   1C57 B5 30              1940         .db     0xB5, 0x30
+   1C59 B4 32              1941         .db     0xB4, 0x32
+   1C5B B4 32              1942         .db     0xB4, 0x32
+   1C5D B3 20              1943         .db     0xB3, 0x20
+   1C5F B3 20              1944         .db     0xB3, 0x20
+   1C61 B1 A0              1945         .db     0xB1, 0xA0
+   1C63 B1 A0              1946         .db     0xB1, 0xA0
+   1C65 B0 A2              1947         .db     0xB0, 0xA2
+   1C67 AF A0              1948         .db     0xAF, 0xA0
+   1C69 AF A6              1949         .db     0xAF, 0xA6
+   1C6B AE A0              1950         .db     0xAE, 0xA0
+   1C6D AE A6              1951         .db     0xAE, 0xA6
+   1C6F AD A4              1952         .db     0xAD, 0xA4
+   1C71 AC A0              1953         .db     0xAC, 0xA0
+   1C73 AC A0              1954         .db     0xAC, 0xA0
+   1C75 AB A0              1955         .db     0xAB, 0xA0
+   1C77 AA A0              1956         .db     0xAA, 0xA0
+   1C79 AA A0              1957         .db     0xAA, 0xA0
+   1C7B A2 80              1958         .db     0xA2, 0x80
+   1C7D A0 A0              1959         .db     0xA0, 0xA0
+   1C7F A0 A0              1960         .db     0xA0, 0xA0
+   1C81 8D 80              1961         .db     0x8D, 0x80
+   1C83 8A A0              1962         .db     0x8A, 0xA0
+   1C85 7E 80              1963         .db     0x7E, 0x80
+   1C87 7B A0              1964         .db     0x7B, 0xA0
+   1C89 79 A4              1965         .db     0x79, 0xA4
+   1C8B 78 A0              1966         .db     0x78, 0xA0
+   1C8D 77 A4              1967         .db     0x77, 0xA4
+   1C8F 76 A0              1968         .db     0x76, 0xA0
+   1C91 75 A4              1969         .db     0x75, 0xA4
+   1C93 74 A0              1970         .db     0x74, 0xA0
+   1C95 73 A4              1971         .db     0x73, 0xA4
+   1C97 72 A0              1972         .db     0x72, 0xA0
+   1C99 71 A4              1973         .db     0x71, 0xA4
+   1C9B 70 A0              1974         .db     0x70, 0xA0
+   1C9D 6F A4              1975         .db     0x6F, 0xA4
+   1C9F 6E A0              1976         .db     0x6E, 0xA0
+   1CA1 6D A4              1977         .db     0x6D, 0xA4
+   1CA3 6C A0              1978         .db     0x6C, 0xA0
+   1CA5 69 80              1979         .db     0x69, 0x80
+   1CA7 69 80              1980         .db     0x69, 0x80
+   1CA9 67 A0              1981         .db     0x67, 0xA0
+   1CAB 5E 20              1982         .db     0x5E, 0x20
+   1CAD 58 24              1983         .db     0x58, 0x24
+   1CAF 57 20              1984         .db     0x57, 0x20
+   1CB1 57 20              1985         .db     0x57, 0x20
+   1CB3 56 24              1986         .db     0x56, 0x24
+   1CB5 55 20              1987         .db     0x55, 0x20
+   1CB7 54 24              1988         .db     0x54, 0x24
+   1CB9 54 24              1989         .db     0x54, 0x24
+   1CBB 53 20              1990         .db     0x53, 0x20
+   1CBD 52 24              1991         .db     0x52, 0x24
+   1CBF 52 24              1992         .db     0x52, 0x24
+   1CC1 50 20              1993         .db     0x50, 0x20
+   1CC3 4F 24              1994         .db     0x4F, 0x24
+   1CC5 4E 20              1995         .db     0x4E, 0x20
+   1CC7 4D 24              1996         .db     0x4D, 0x24
+   1CC9 4C 20              1997         .db     0x4C, 0x20
+   1CCB 4C 20              1998         .db     0x4C, 0x20
+   1CCD 4B 24              1999         .db     0x4B, 0x24
+   1CCF 4A 20              2000         .db     0x4A, 0x20
+   1CD1 49 20              2001         .db     0x49, 0x20
+   1CD3 49 00              2002         .db     0x49, 0x00
+   1CD5 48 20              2003         .db     0x48, 0x20
+   1CD7 47 20              2004         .db     0x47, 0x20
+   1CD9 47 20              2005         .db     0x47, 0x20
+   1CDB 46 20              2006         .db     0x46, 0x20
+   1CDD 45 24              2007         .db     0x45, 0x24
+   1CDF 45 24              2008         .db     0x45, 0x24
+   1CE1 44 20              2009         .db     0x44, 0x20
+   1CE3 42 20              2010         .db     0x42, 0x20
+   1CE5 42 20              2011         .db     0x42, 0x20
+   1CE7 37 04              2012         .db     0x37, 0x04
+   1CE9 35 20              2013         .db     0x35, 0x20
+   1CEB 2E 04              2014         .db     0x2E, 0x04
+   1CED 2E 04              2015         .db     0x2E, 0x04
+   1CEF 2D 20              2016         .db     0x2D, 0x20
+   1CF1 23 24              2017         .db     0x23, 0x24
+   1CF3 21 20              2018         .db     0x21, 0x20
+   1CF5 17 24              2019         .db     0x17, 0x24
+   1CF7 13 00              2020         .db     0x13, 0x00
+   1CF9 11 24              2021         .db     0x11, 0x24
+   1CFB 10 30              2022         .db     0x10, 0x30
+   1CFD 07 34              2023         .db     0x07, 0x34
+   1CFF 06 30              2024         .db     0x06, 0x30
+   1D01 05 30              2025         .db     0x05, 0x30
+   1D03 FF FF              2026         .db     0xFF, 0xFF
+                           2027 ;
+   1D05                    2028 X1D05:
+   1D05 A9 20              2029         .db     0xA9, 0x20
+   1D07 A3 20              2030         .db     0xA3, 0x20
+   1D09 A2 20              2031         .db     0xA2, 0x20
+   1D0B A1 20              2032         .db     0xA1, 0x20
+   1D0D A0 20              2033         .db     0xA0, 0x20
+   1D0F A0 20              2034         .db     0xA0, 0x20
+   1D11 9F 20              2035         .db     0x9F, 0x20
+   1D13 9F 20              2036         .db     0x9F, 0x20
+   1D15 9E 20              2037         .db     0x9E, 0x20
+   1D17 9D 24              2038         .db     0x9D, 0x24
+   1D19 9D 24              2039         .db     0x9D, 0x24
+   1D1B 9B 20              2040         .db     0x9B, 0x20
+   1D1D 9A 24              2041         .db     0x9A, 0x24
+   1D1F 99 20              2042         .db     0x99, 0x20
+   1D21 98 20              2043         .db     0x98, 0x20
+   1D23 97 24              2044         .db     0x97, 0x24
+   1D25 97 24              2045         .db     0x97, 0x24
+   1D27 95 20              2046         .db     0x95, 0x20
+   1D29 95 20              2047         .db     0x95, 0x20
+   1D2B 94 00              2048         .db     0x94, 0x00
+   1D2D 94 00              2049         .db     0x94, 0x00
+   1D2F 93 20              2050         .db     0x93, 0x20
+   1D31 92 00              2051         .db     0x92, 0x00
+   1D33 92 00              2052         .db     0x92, 0x00
+   1D35 91 20              2053         .db     0x91, 0x20
+   1D37 90 20              2054         .db     0x90, 0x20
+   1D39 90 20              2055         .db     0x90, 0x20
+   1D3B 8F 20              2056         .db     0x8F, 0x20
+   1D3D 8D 20              2057         .db     0x8D, 0x20
+   1D3F 8D 20              2058         .db     0x8D, 0x20
+   1D41 81 00              2059         .db     0x81, 0x00
+   1D43 7F 20              2060         .db     0x7F, 0x20
+   1D45 79 00              2061         .db     0x79, 0x00
+   1D47 79 00              2062         .db     0x79, 0x00
+   1D49 78 20              2063         .db     0x78, 0x20
+   1D4B 76 20              2064         .db     0x76, 0x20
+   1D4D 6B 00              2065         .db     0x6B, 0x00
+   1D4F 69 20              2066         .db     0x69, 0x20
+   1D51 5E 00              2067         .db     0x5E, 0x00
+   1D53 5C 20              2068         .db     0x5C, 0x20
+   1D55 5B 30              2069         .db     0x5B, 0x30
+   1D57 52 10              2070         .db     0x52, 0x10
+   1D59 51 30              2071         .db     0x51, 0x30
+   1D5B 50 30              2072         .db     0x50, 0x30
+   1D5D 50 30              2073         .db     0x50, 0x30
+   1D5F 4F 20              2074         .db     0x4F, 0x20
+   1D61 4E 20              2075         .db     0x4E, 0x20
+   1D63 4E 20              2076         .db     0x4E, 0x20
+   1D65 4D 20              2077         .db     0x4D, 0x20
+   1D67 46 A0              2078         .db     0x46, 0xA0
+   1D69 45 A0              2079         .db     0x45, 0xA0
+   1D6B 3D A0              2080         .db     0x3D, 0xA0
+   1D6D 3D A0              2081         .db     0x3D, 0xA0
+   1D6F 39 20              2082         .db     0x39, 0x20
+   1D71 2A 00              2083         .db     0x2A, 0x00
+   1D73 28 20              2084         .db     0x28, 0x20
+   1D75 1E 00              2085         .db     0x1E, 0x00
+   1D77 1C 22              2086         .db     0x1C, 0x22
+   1D79 1C 22              2087         .db     0x1C, 0x22
+   1D7B 1B 20              2088         .db     0x1B, 0x20
+   1D7D 1A 22              2089         .db     0x1A, 0x22
+   1D7F 19 20              2090         .db     0x19, 0x20
+   1D81 18 22              2091         .db     0x18, 0x22
+   1D83 18 22              2092         .db     0x18, 0x22
+   1D85 16 20              2093         .db     0x16, 0x20
+   1D87 15 22              2094         .db     0x15, 0x22
+   1D89 15 22              2095         .db     0x15, 0x22
+   1D8B 14 A0              2096         .db     0x14, 0xA0
+   1D8D 13 A2              2097         .db     0x13, 0xA2
+   1D8F 11 A0              2098         .db     0x11, 0xA0
+   1D91 FF FF              2099         .db     0xFF, 0xFF
+                           2100 ;
+                           2101 ;       Jump Table - process command bytes
+                           2102 ;
+   1D93                    2103 X1D93:
+   1D93 F1 17              2104         .dw     L17F1                                   ; 0x22-23 ( "# card 7?) - extended codes?
+   1D95 B1 1D              2105         .dw     IGNORE                                  ; 0x24-25
+   1D97 AD 17              2106         .dw     L17AD                                   ; 0x26-27 ( &' ???)
+   1D99 B1 1D              2107         .dw     IGNORE                                  ; 0x28-29
+   1D9B 0E 18              2108         .dw     L180E                                   ; 0x2A-2B ( *+ card 8?) - def 30
+   1D9D B1 1D              2109         .dw     IGNORE                                  ; 0x2C-2D
+   1D9F B1 1D              2110         .dw     IGNORE                                  ; 0x2E-2F
+   1DA1 B1 1D              2111         .dw     IGNORE                                  ; 0x30-31
+   1DA3 AD 17              2112         .dw     L17AD                                   ; 0x32-33 ( 23 card 1?)
+   1DA5 DB 18              2113         .dw     L18DB                                   ; 0x34-35 ( 45 card 3?) - def 2C
+   1DA7 F1 18              2114         .dw     L18F1                                   ; 0x36-37 ( 67 card 2?) - def 40
+   1DA9 19 18              2115         .dw     L1819                                   ; 0x38-39 ( 89 card 6?) - do nothing?
+   1DAB E6 17              2116         .dw     L17E6                                   ; 0x3A-3B ( :; card 5?) - def 28
+   1DAD E6 18              2117         .dw     L18E6                                   ; 0x3C-3D ( <= card 4?) - def 2E
+   1DAF AD 17              2118         .dw     L17AD                                   ; 0x3E-3F ( >? ???)
+                           2119 
+   1DB1                    2120 IGNORE:
+   1DB1 60            [ 6] 2121         rts
+                           2122 ;
+                           2123 ;       Memory address codes
+                           2124 ;
+   1DB2                    2125 X1DB2:
+   1DB2 6A                 2126         .db     0x6A                                    ; 0x26 - board 6A via RAM_6A
+   1DB3 96                 2127         .db     0x96                                    ; 0x28 - board 6B
+   1DB4 96                 2128         .db     0x96                                    ; 0x2A - board 6B
+   1DB5 8A                 2129         .db     0x8A                                    ; 0x2C - board 3B
+   1DB6 8E                 2130         .db     0x8E                                    ; 0x2E - board 4B
+   1DB7 69                 2131         .db     0x69                                    ; 0x30 - board 5B via RAM_69
+   1DB8 80                 2132         .db     0x80                                    ; 0x32 - board 1A
+   1DB9 88                 2133         .db     0x88                                    ; 0x34 - board 3A
+   1DBA 84                 2134         .db     0x84                                    ; 0x36 - board 2A
+   1DBB 00                 2135         .db     0x00                                    ; 0x38
+   1DBC 90                 2136         .db     0x90                                    ; 0x3A - board 5A
+   1DBD 8C                 2137         .db     0x8C                                    ; 0x3C - board 4A
+   1DBE 82                 2138         .db     0x82                                    ; 0x3E - board 1B
+   1DBF 86                 2139         .db     0x86                                    ; 0x40 - board 2B
+   1DC0 00                 2140         .db     0x00                                    ; 0x42
+   1DC1 00                 2141         .db     0x00                                    ; 0x44
+                           2142 ;
+                           2143 ;       Extended codes for 0x22-0x23
+                           2144 ;
+   1DC2                    2145 X1DC2:
+   1DC2 9C 01              2146         .db     0x9C,0x01                               ; 0x40, board 8A
+   1DC4 98 02              2147         .db     0x98,0x02                               ; 0x41, board 7A
+   1DC6 9C 08              2148         .db     0x9C,0x08                               ; 0x42, board 8A
+   1DC8 9C 04              2149         .db     0x9C,0x04                               ; 0x43, board 8A
+   1DCA 9C 10              2150         .db     0x9C,0x10                               ; 0x44, board 8A
+   1DCC 98 04              2151         .db     0x98,0x04                               ; 0x45, board 7A
+   1DCE 98 08              2152         .db     0x98,0x08                               ; 0x46, board 7A
+   1DD0 9A 20              2153         .db     0x9A,0x20                               ; 0x47, board 7B
+   1DD2 9A 40              2154         .db     0x9A,0x40                               ; 0x48, board 7B
+   1DD4 9C 20              2155         .db     0x9C,0x20                               ; 0x49, board 8A
+   1DD6 9C 40              2156         .db     0x9C,0x40                               ; 0x4A, board 8A
+   1DD8 9C 80              2157         .db     0x9C,0x80                               ; 0x4B, board 8A
+   1DDA 9A 01              2158         .db     0x9A,0x01                               ; 0x4C, board 7B
+   1DDC 9A 08              2159         .db     0x9A,0x08                               ; 0x4D, board 7B
+   1DDE 9A 10              2160         .db     0x9A,0x10                               ; 0x4E, board 7B
+   1DE0 98 40              2161         .db     0x98,0x40                               ; 0x4F, board 7A
+   1DE2 98 80              2162         .db     0x98,0x80                               ; 0x50, board 7A
+   1DE4 9A 02              2163         .db     0x9A,0x02                               ; 0x51, board 7B
+   1DE6 9A 04              2164         .db     0x9A,0x04                               ; 0x52, board 7B
+   1DE8 98 10              2165         .db     0x98,0x10                               ; 0x53, board 7A
+   1DEA 98 20              2166         .db     0x98,0x20                               ; 0x54, board 7A
+   1DEC 9C 02              2167         .db     0x9C,0x02                               ; 0x55, board 8A
+   1DEE 9E 01              2168         .db     0x9E,0x01                               ; 0x56, board 8B
+   1DF0 9E 08              2169         .db     0x9E,0x08                               ; 0x57, board 8B
+   1DF2 9E 02              2170         .db     0x9E,0x02                               ; 0x58, board 8B
+   1DF4 98 01              2171         .db     0x98,0x01                               ; 0x59, board 7A
+   1DF6 00 80              2172         .db     0x00,0x80                               ; 0x5A
+   1DF8 9E 04              2173         .db     0x9E,0x04                               ; 0x5B, board 8B
+   1DFA 9E 10              2174         .db     0x9E,0x10                               ; 0x5C, board 8B
+   1DFC 9E 20              2175         .db     0x9E,0x20                               ; 0x5D, board 8B
+   1DFE 9E 40              2176         .db     0x9E,0x40                               ; 0x5E, board 8B
+   1E00 92 01              2177         .db     0x92,0x01                               ; 0x5F, board 5B
+   1E02 00 00              2178         .db     0x00,0x00                               ; 0x60
+                           2179 ;
+                           2180 ;       8 bytes per command, starting with 0x26, 0x28...
+                           2181 ;
+   1E04                    2182 X1E04:
+   1E04 46 45 48 41 4A 4C  2183         .db     'F,'E,'H,'A,'J,'L,'I,'B, 0, 0, 0,'\,'W,'X, 0, 0     ; 0x26, 0x28
         49 42 00 00 00 5C
         57 58 00 00
-   1E14 41 46 43 00 00 00  2183         .db     'A,'F,'C, 0, 0, 0, 0, 0,'G,'B,'E,'F,'J,'K, 0, 0     ; 0x2A, 0x2C
+   1E14 41 46 43 00 00 00  2184         .db     'A,'F,'C, 0, 0, 0, 0, 0,'G,'B,'E,'F,'J,'K, 0, 0     ; 0x2A, 0x2C
         00 00 47 42 45 46
         4A 4B 00 00
-   1E24 47 42 43 45 46 4A  2184         .db     'G,'B,'C,'E,'F,'J, 0, 0, 0,'J,'I,'M,'K,'L, 0, 0     ; 0x2E, 0x30
+   1E24 47 42 43 45 46 4A  2185         .db     'G,'B,'C,'E,'F,'J, 0, 0, 0,'J,'I,'M,'K,'L, 0, 0     ; 0x2E, 0x30
         00 00 00 4A 49 4D
         4B 4C 00 00
-   1E34 41 55 43 50 49 4E  2185         .db     'A,'U,'C,'P,'I,'N,'T,'V,'A,'D,'C,'V,'I,'N,'H,'T     ; 0x32, 0x34
+   1E34 41 55 43 50 49 4E  2186         .db     'A,'U,'C,'P,'I,'N,'T,'V,'A,'D,'C,'V,'I,'N,'H,'T     ; 0x32, 0x34
         54 56 41 44 43 56
         49 4E 48 54
-   1E44 41 48 47 50 49 4E  2186         .db     'A,'H,'G,'P,'I,'N,'T,'V, 0, 0, 0, 0, 0, 0, 0, 0     ; 0x36, 0x38
+   1E44 41 48 47 50 49 4E  2187         .db     'A,'H,'G,'P,'I,'N,'T,'V, 0, 0, 0, 0, 0, 0, 0, 0     ; 0x36, 0x38
         54 56 00 00 00 00
         00 00 00 00
-   1E54 41 44 43 50 46 4E  2187         .db     'A,'D,'C,'P,'F,'N,'K,'L,'A,'H,'L,'D,'I,'N,'T,'V     ; 0x3A, 0x3C
+   1E54 41 44 43 50 46 4E  2188         .db     'A,'D,'C,'P,'F,'N,'K,'L,'A,'H,'L,'D,'I,'N,'T,'V     ; 0x3A, 0x3C
         4B 4C 41 48 4C 44
         49 4E 54 56
-   1E64 41 44 43 50 49 42  2188         .db     'A,'D,'C,'P,'I,'B, 0, 0,'B,'C,'D,'E,'F,'J, 0, 0     ; 0x3E, 0x40
+   1E64 41 44 43 50 49 42  2189         .db     'A,'D,'C,'P,'I,'B, 0, 0,'B,'C,'D,'E,'F,'J, 0, 0     ; 0x3E, 0x40
         00 00 42 43 44 45
         46 4A 00 00
-                           2189 ;
-                           2190 ;       Gap filled with 0xff here
-                           2191 ;       
-   1FFA                    2192         .org    0x1FFA
-                           2193 ;
-                           2194 ; vectors
-                           2195 ;
-   1FFA                    2196 NMIVEC:
-   1FFA FF FF              2197             .dw     0xFFFF
-   1FFC                    2198 RESETVEC:   
-   1FFC 66 10              2199             .dw     RESET
-   1FFE                    2200 IRQVEC:     
-   1FFE 00 10              2201             .dw     IRQ
-                           2202 
+                           2190 ;
+                           2191 ;       Gap filled with 0xff here
+                           2192 ;       
+   1FFA                    2193         .org    0x1FFA
+                           2194 ;
+                           2195 ; vectors
+                           2196 ;
+   1FFA                    2197 NMIVEC:
+   1FFA FF FF              2198             .dw     0xFFFF
+   1FFC                    2199 RESETVEC:   
+   1FFC 66 10              2200             .dw     RESET
+   1FFE                    2201 IRQVEC:     
+   1FFE 00 10              2202             .dw     IRQ
+                           2203 
