@@ -8,3 +8,5 @@ Thumbs.db
 *.lst
 *.sym
 *.map
+
+roms/new/*
