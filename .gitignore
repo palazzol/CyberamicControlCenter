@@ -1,1 +1,10 @@
 Thumbs.db
+
+*.pyc
+
+*.hlr
+*.rel
+*.s19
+*.lst
+*.sym
+*.map
