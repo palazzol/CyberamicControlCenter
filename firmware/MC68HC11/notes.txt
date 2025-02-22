@@ -1,0 +1,45 @@
+
+
+Todo:
+
+X X add 6811 to demon gui
+Commit new hc11 demon target stuff
+
+X update diassembly - fix $ to D 
+X fix baud comments - different from 1.6 is 9600, 1.7 is 19200
+
+document how to enter 
+D - Daves menu with PW
+S - Serial Number mode with PW
+MINI-MON ??? (only on 1.7)
+Other external code at 3000 or 4000 (1.7)
+
+---
+
+On Boot:
+
+If there is a 0x7E at 0x3000:
+    Put 'E' on display, and jump there, before any serial comm possible
+
+If Serial reads an Esc char:
+    Go to warm start MINIMON (1.7 only, or broken MINIMON on 1.6)
+
+# Only in 1.7
+If there is a 0x7E at 0x4000:
+    JSR to 0x4000
+    WARM start MINIMON
+Else:
+
+If there is a 0x7E at 0x8000 (should be)
+    Put at 'A' on Display
+    JSR to 0x8000
+    WARM start MINIMON
+Else
+    COLD START MINIMON (include banner)
+
+---
+
+MINIMON (1.7)
+
+
+
