@@ -1,0 +1,17 @@
+
+
+60 secs play = 17.25 counts = 0.2875
+
+15 secs ff = 67 counts = 4.4666
+near beginning of tape
+
+15 secs ff = 76 counts = 5.0666
+further into the tape
+
+15 secs rewind = 58 counts = 3.866
+
+16 secs rewind = 36 counts = 2.250
+
+42 secs rewind = 52 counts = 1.2381
+near beginning
+
