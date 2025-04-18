@@ -1409,14 +1409,14 @@
 		)
 	)
 	(junction
-		(at 118.11 93.345)
+		(at 118.11 92.075)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6fcd5796-8242-4fcd-8332-2a94f7bab7b6")
 	)
 	(wire
 		(pts
-			(xy 130.81 93.345) (xy 118.11 93.345)
+			(xy 130.81 92.075) (xy 118.11 92.075)
 		)
 		(stroke
 			(width 0)
@@ -1426,7 +1426,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 93.345) (xy 130.81 87.63)
+			(xy 130.81 92.075) (xy 130.81 87.63)
 		)
 		(stroke
 			(width 0)
@@ -1436,7 +1436,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 93.98) (xy 118.11 93.345)
+			(xy 118.11 92.71) (xy 118.11 92.075)
 		)
 		(stroke
 			(width 0)
@@ -1446,7 +1446,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 93.345) (xy 118.11 87.63)
+			(xy 118.11 92.075) (xy 118.11 87.63)
 		)
 		(stroke
 			(width 0)
@@ -2386,7 +2386,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 118.11 93.98 0)
+		(at 118.11 92.71 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2395,7 +2395,7 @@
 		(fields_autoplaced yes)
 		(uuid "a9b324dc-9480-41e8-91e5-b8e2830f84d5")
 		(property "Reference" "#PWR02"
-			(at 118.11 100.33 0)
+			(at 118.11 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2404,7 +2404,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 118.11 98.1155 0)
+			(at 118.11 96.8455 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2412,7 +2412,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 118.11 93.98 0)
+			(at 118.11 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2421,7 +2421,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 118.11 93.98 0)
+			(at 118.11 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2430,7 +2430,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 118.11 93.98 0)
+			(at 118.11 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
