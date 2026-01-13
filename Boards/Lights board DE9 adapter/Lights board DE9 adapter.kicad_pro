@@ -37,9 +37,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 2.0,
-          "height": 3.18,
-          "width": 3.18
+          "drill": 0.762,
+          "height": 1.524,
+          "width": 1.524
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -101,7 +101,7 @@
         "padstack": "warning",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
+        "silk_edge_clearance": "ignore",
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
@@ -189,8 +189,8 @@
       ],
       "track_widths": [
         0.0,
-        0.35,
-        0.7
+        0.4,
+        1.27
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -457,6 +457,7 @@
       "single_global_label": "ignore",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
+      "undefined_netclass": "error",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
       "wire_dangling": "error"
@@ -467,7 +468,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "LCD board modified.kicad_pro",
+    "filename": "Lights board DE9 adapter.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -615,7 +616,7 @@
   },
   "sheets": [
     [
-      "888cc3c5-4977-4c0f-99ef-9bc23e587961",
+      "633bfe1c-ec0b-4781-874f-169b02255c8c",
       "Root"
     ]
   ],
