@@ -69,7 +69,6 @@
 			(psnegative no)
 			(psa4output no)
 			(plot_black_and_white yes)
-			(plotinvisibletext no)
 			(sketchpadsonfab no)
 			(plotpadnumbers no)
 			(hidednponfab no)
@@ -9044,7 +9043,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "cyberamic control center HC11 display/comtrol board"
+	(gr_text "cyberamic control center HC11 display/control board"
 		(at 61 33.5 0)
 		(layer "F.SilkS")
 		(uuid "79e4ca33-27c9-48f0-8c97-19dd7949ae97")
