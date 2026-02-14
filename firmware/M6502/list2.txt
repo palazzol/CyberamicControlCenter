@@ -1,0 +1,33 @@
+
+Dolli:
+DolliC\dolli_c_ref.bin                                   400 337e 2a90f001*
+
+King/Beagles:
+015-0020-10_REV_L_FREE_BEAGKING_1c00_5efe_u20.bin        400 5efe 3fae07db*
+    (Unknown2, bb_u21_1-06.bin)
+HalfAChuck - no label\halfchuck_ref.bin                  400 275f 3111ef44*
+HalfAChuck - orange label\halfchuckorange_ref.bin        400 58c0 92503808*
+Unknown1\unknown1_full.bin                              1000 5cbc 16bb85ac*
+    (can reduce to 400)                                 (400 68bc 5fd51d52)
+017-0160-01_kingbeagles_sync_799d.bin                   1000 799d ac7c2aa3
+    (no_start)
+king_sync_test-version_5-26-88_7ed5.bin                 1000 7ed5 423c0fcf
+no_start_king_sync_random_2732a_7edc.bin                1000 7edc 5eecb640
+tx_king.bin                                             1000 b2bb a87cb0c3
+
+Main:
+stage_flex_sync_rnd_test_version_5-26-88_03bb.bin       1000 03bb 5cce6b24*
+017-0001-10_flex_stage_8_min_f101.bin                   1000 f101 2d30ce7f
+017-0028-01_stage_flex_rnd_6min_2732a_336b.bin          1000 336b 3f28065a
+017-0120-01_stg_3m_dif_live_sync_2732a_afd8.bin         1000 afd8 e2f42c64
+017-0160-01_cec_cyberstar_all_4-13-92_1990_0572.bin     1000 0572 6d529b54
+
+Other:
+no_label#3.bin                                          1000 b789 00bac7a3
+    (partial)
+no_label.bin                                            1000 035e b848eaad
+    (partial)
+2708\king.bin                                            400 937f 91c260b7
+    (first rom in incomplete set)
+2708\015-0001-10_rev_m-4_stage_1800_u21_4min.bin         400 8be4 446fc505
+    (first rom in incomplete set)
