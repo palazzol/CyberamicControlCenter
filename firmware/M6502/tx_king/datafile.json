@@ -1,0 +1,8 @@
+{
+  "data": [
+    {"start": "1000", "end": "19ff"},
+    {"start": "1caf", "end": "1cb6"},
+    {"start": "1d9a", "end": "1daa"},
+    {"start": "1e0f", "end": "1fff"}
+  ]
+}
