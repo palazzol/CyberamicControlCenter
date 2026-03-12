@@ -1,0 +1,1942 @@
+                              1 
+                              2         .area   region1 (ABS)
+                              3 
+                              4         .include "../../include/ptt6502.def"
+                              1 
+                              2 ;
+                              3 ; Peripheral Addresses for PTT 6502 system
+                              4 ;
+                              5 
+                     0000     6 RAM_start                       = 0x0000
+                              7 
+                              8 ; Board Select 1
+                     0080     9 board_1_periph$ddr_reg_a        = 0x0080
+                     0081    10 board_1_control_reg_a           = 0x0081
+                     0082    11 board_1_periph$ddr_reg_b        = 0x0082
+                     0083    12 board_1_control_reg_b           = 0x0083
+                             13 
+                             14 ; Board Select 2
+                     0084    15 board_2_periph$ddr_reg_a        = 0x0084
+                     0086    16 board_2_periph$ddr_reg_b        = 0x0086
+                             17 
+                             18 ; Board Select 3
+                     0088    19 board_3_periph$ddr_reg_a        = 0x0088
+                     008A    20 board_3_periph$ddr_reg_b        = 0x008A
+                             21 
+                             22 ; Board Select 4
+                     008C    23 board_4_periph$ddr_reg_a        = 0x008C
+                     008E    24 board_4_periph$ddr_reg_b        = 0x008E
+                             25 
+                             26 ; Board Select 5
+                     0090    27 board_5_periph$ddr_reg_a        = 0x0090
+                     0092    28 board_5_periph$ddr_reg_b        = 0x0092
+                             29 
+                             30 ; Board Select 6
+                     0094    31 board_6_periph$ddr_reg_a        = 0x0094
+                             32 
+                             33 ; Board Select 7
+                     0098    34 board_7_periph$ddr_reg_a        = 0x0098
+                     009A    35 board_7_periph$ddr_reg_b        = 0x009A
+                             36 
+                             37 ; Board Select 8
+                     009C    38 board_8_periph$ddr_reg_a        = 0x009C
+                     009E    39 board_8_periph$ddr_reg_b        = 0x009E
+                             40 
+                             41 ; UART / Board Select 11
+                     0101    42 UART_01                         = 0x0101
+                     0102    43 UART_02                         = 0x0102
+                             44 
+                             45 ; 1st 6532 on CPU board
+                     0200    46 U18_PORTA                       = 0x0200
+                     0201    47 U18_DDRA                        = 0x0201
+                     0202    48 U18_PORTB                       = 0x0202
+                     0203    49 U18_DDRB                        = 0x0203
+                     0204    50 U18_timer                       = 0x0204
+                     0205    51 U18_edge_detect_control_DI_pos  = 0x0205
+                     0206    52 U18_06                          = 0x0206    
+                     0215    53 U18_timer_8T_DI                 = 0x0215
+                     0217    54 U18_17                          = 0x0217
+                     021C    55 U18_1C                          = 0x021C    ; timer div by 1, enable interrupt
+                     021D    56 U18_1D                          = 0x021D    ; timer div by 1, disable interrupt
+                             57 
+                             58 ; 2nd 6532 on CPU board
+                     0280    59 U19_PORTA                       = 0x0280
+                     0281    60 U19_DDRA                        = 0x0281
+                     0282    61 U19_PORTB                       = 0x0282
+                     0283    62 U19_DDRB                        = 0x0283
+                     0285    63 U19_edge_detect_control_DI_pos  = 0x0285
+                     0286    64 U19_06                          = 0x0286
+                             65 
+                             66 ; XPRT / Board Select 12
+                     0300    67 transport_periph$ddr_reg_a      = 0x0300
+                     0301    68 transport_control_reg_a         = 0x0301
+                     0302    69 transport_periph$ddr_reg_b      = 0x0302
+                     0303    70 transport_control_reg_b         = 0x0303
+                             71 
+                             72 ; AUDIO / Board Select 13
+                     0380    73 audio_periph$ddr_reg_a          = 0x0380
+                     0381    74 audio_control_reg_a             = 0x0381
+                     0382    75 audio_periph$ddr_reg_b          = 0x0382
+                     0383    76 audio_control_reg_b             = 0x0383
+                             77 
+                             78 ; Tape Commands
+                     0010    79 TAPEMODE_STOP                   = 0x10
+                     0020    80 TAPEMODE_FFWD                   = 0x20
+                     0040    81 TAPEMODE_REWIND                 = 0x40
+                     0080    82 TAPEMODE_PLAY                   = 0x80
+                             83 
+                             84 
+                             85 
+                             86 
+                             87 
+                             88 
+                              5 
+   1000                       6         .org    0x1000
+                              7 
+   1000 FC 1F 1F 00 01 18     8         .byte   0xFC,0x1F,0x1F,0x00,0x01,0x18
+                              9 
+   1006                      10 L1006:
+   1006 1F 00 00 00 00 00    11         .byte   0x1F,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+        00 00 00 00
+                             12 
+   1010                      13 L1010:
+   1010 48            [ 3]   14         pha
+   1011 AD 05 02      [ 4]   15         lda     U18_edge_detect_control_DI_pos
+   1014 AD 85 02      [ 4]   16         lda     U19_edge_detect_control_DI_pos
+   1017 A9 7D         [ 2]   17         lda     #0x7D
+   1019 8D 1D 02      [ 4]   18         sta     U18_1D
+   101C A5 5A         [ 3]   19         lda     0x5A
+   101E F0 02         [ 4]   20         beq     L1022
+   1020 C6 5A         [ 5]   21         dec     0x5A
+                             22 
+                             23 
+   1022                      24 L1022:
+   1022 A5 5B         [ 3]   25         lda     0x5B
+   1024 F0 02         [ 4]   26         beq     L1028
+   1026 C6 5B         [ 5]   27         dec     0x5B
+                             28 
+                             29 
+   1028                      30 L1028:
+   1028 A5 5C         [ 3]   31         lda     0x5C
+   102A F0 02         [ 4]   32         beq     L102E
+   102C C6 5C         [ 5]   33         dec     0x5C
+                             34 
+                             35 
+   102E                      36 L102E:
+   102E C6 5D         [ 5]   37         dec     0x5D
+   1030 D0 42         [ 4]   38         bne     L1074
+   1032 A9 64         [ 2]   39         lda     #0x64
+   1034 85 5D         [ 3]   40         sta     0x5D
+   1036 A5 5E         [ 3]   41         lda     0x5E
+   1038 F0 02         [ 4]   42         beq     L103C
+   103A C6 5E         [ 5]   43         dec     0x5E
+                             44 
+                             45 
+   103C                      46 L103C:
+   103C A5 5F         [ 3]   47         lda     0x5F
+   103E F0 02         [ 4]   48         beq     L1042
+   1040 C6 5F         [ 5]   49         dec     0x5F
+                             50 
+                             51 
+   1042                      52 L1042:
+   1042 A5 60         [ 3]   53         lda     0x60
+   1044 F0 02         [ 4]   54         beq     L1048
+   1046 C6 60         [ 5]   55         dec     0x60
+                             56 
+                             57 
+   1048                      58 L1048:
+   1048 A5 4A         [ 3]   59         lda     0x4A
+   104A F0 02         [ 4]   60         beq     L104E
+   104C C6 4A         [ 5]   61         dec     0x4A
+                             62 
+                             63 
+   104E                      64 L104E:
+   104E A5 4B         [ 3]   65         lda     0x4B
+   1050 F0 02         [ 4]   66         beq     L1054
+   1052 C6 4B         [ 5]   67         dec     0x4B
+                             68 
+                             69 
+   1054                      70 L1054:
+   1054 A5 4C         [ 3]   71         lda     0x4C
+   1056 F0 02         [ 4]   72         beq     L105A
+   1058 C6 4C         [ 5]   73         dec     0x4C
+                             74 
+                             75 
+   105A                      76 L105A:
+   105A A5 4D         [ 3]   77         lda     0x4D
+   105C F0 02         [ 4]   78         beq     L1060
+   105E C6 4D         [ 5]   79         dec     0x4D
+                             80 
+                             81 
+   1060                      82 L1060:
+   1060 A5 4E         [ 3]   83         lda     0x4E
+   1062 F0 02         [ 4]   84         beq     L1066
+   1064 C6 4E         [ 5]   85         dec     0x4E
+                             86 
+                             87 
+   1066                      88 L1066:
+   1066 C6 61         [ 5]   89         dec     0x61
+   1068 D0 0A         [ 4]   90         bne     L1074
+   106A A9 64         [ 2]   91         lda     #0x64
+   106C 85 61         [ 3]   92         sta     0x61
+   106E A5 62         [ 3]   93         lda     0x62
+   1070 F0 02         [ 4]   94         beq     L1074
+   1072 C6 62         [ 5]   95         dec     0x62
+                             96 
+                             97 
+   1074                      98 L1074:
+   1074 68            [ 4]   99         pla
+   1075 40            [ 6]  100         rti
+                            101 
+   1076                     102 L1076:
+   1076 D8            [ 2]  103         cld
+   1077 78            [ 2]  104         sei
+   1078 A2 F0         [ 2]  105         ldx     #0xF0
+   107A 9A            [ 2]  106         txs
+   107B A9 00         [ 2]  107         lda     #0x00
+   107D A2 10         [ 2]  108         ldx     #0x10
+                            109 
+                            110 
+   107F                     111 L107F:
+   107F 95 00         [ 4]  112         sta     0x00,x
+   1081 E8            [ 2]  113         inx
+   1082 E0 80         [ 2]  114         cpx     #0x80
+   1084 D0 F9         [ 4]  115         bne     L107F
+   1086 A9 00         [ 2]  116         lda     #0x00
+   1088 8D 01 03      [ 4]  117         sta     transport_control_reg_a
+   108B 8D 02 02      [ 4]  118         sta     U18_PORTB
+   108E 8D 81 03      [ 4]  119         sta     audio_control_reg_a
+   1091 8D 83 03      [ 4]  120         sta     audio_control_reg_b
+   1094 8D 05 02      [ 4]  121         sta     U18_edge_detect_control_DI_pos
+   1097 8D 85 02      [ 4]  122         sta     U19_edge_detect_control_DI_pos
+   109A 8D 06 02      [ 4]  123         sta     U18_06
+   109D 8D 86 02      [ 4]  124         sta     U19_06
+   10A0 8D 03 03      [ 4]  125         sta     transport_control_reg_b
+   10A3 8D 01 02      [ 4]  126         sta     U18_DDRA
+   10A6 A9 02         [ 2]  127         lda     #0x02
+   10A8 8D 81 02      [ 4]  128         sta     U19_DDRA
+   10AB 8D 80 02      [ 4]  129         sta     U19_PORTA
+   10AE A9 FF         [ 2]  130         lda     #0xFF
+   10B0 8D 82 03      [ 4]  131         sta     audio_periph$ddr_reg_b
+   10B3 8D 03 02      [ 4]  132         sta     U18_DDRB
+   10B6 8D 83 02      [ 4]  133         sta     U19_DDRB
+   10B9 A9 FC         [ 2]  134         lda     #0xFC
+   10BB 8D 02 03      [ 4]  135         sta     transport_periph$ddr_reg_b
+   10BE A9 2E         [ 2]  136         lda     #0x2E
+   10C0 8D 01 03      [ 4]  137         sta     transport_control_reg_a
+   10C3 8D 03 03      [ 4]  138         sta     transport_control_reg_b
+   10C6 A9 3C         [ 2]  139         lda     #0x3C
+   10C8 8D 83 03      [ 4]  140         sta     audio_control_reg_b
+   10CB 8D 81 03      [ 4]  141         sta     audio_control_reg_a
+   10CE A9 64         [ 2]  142         lda     #0x64
+   10D0 85 5D         [ 3]  143         sta     0x5D
+                            144 
+                            145 
+   10D2                     146 L10D2:
+   10D2 A9 00         [ 2]  147         lda     #0x00
+   10D4 85 71         [ 3]  148         sta     0x71
+   10D6 A9 02         [ 2]  149         lda     #0x02
+   10D8 8D 80 02      [ 4]  150         sta     U19_PORTA
+   10DB A9 03         [ 2]  151         lda     #0x03
+   10DD 8D 02 01      [ 4]  152         sta     UART_02
+   10E0 EA            [ 2]  153         nop
+   10E1 A9 09         [ 2]  154         lda     #0x09
+   10E3 8D 02 01      [ 4]  155         sta     UART_02
+   10E6 58            [ 2]  156         cli
+   10E7 8D 1C 02      [ 4]  157         sta     U18_1C
+   10EA 20 4D 12      [ 6]  158         jsr     L124D
+   10ED A9 14         [ 2]  159         lda     #0x14
+   10EF 85 5E         [ 3]  160         sta     0x5E
+                            161 
+                            162 
+   10F1                     163 L10F1:
+   10F1 20 ED 11      [ 6]  164         jsr     L11ED
+   10F4 A5 64         [ 3]  165         lda     0x64
+   10F6 29 10         [ 2]  166         and     #0x10
+   10F8 F0 03         [ 4]  167         beq     L10FD
+   10FA 4C E2 1B      [ 3]  168         jmp     L1BE2
+                            169 
+                            170 
+   10FD                     171 L10FD:
+   10FD A5 5E         [ 3]  172         lda     0x5E
+   10FF D0 F0         [ 4]  173         bne     L10F1
+                            174 
+                            175 
+   1101                     176 L1101:
+   1101 A9 00         [ 2]  177         lda     #0x00
+   1103 85 64         [ 3]  178         sta     0x64
+   1105 20 E0 14      [ 6]  179         jsr     L14E0
+   1108 20 4D 12      [ 6]  180         jsr     L124D
+   110B 20 1D 15      [ 6]  181         jsr     L151D
+   110E A9 10         [ 2]  182         lda     #0x10
+   1110 20 D9 11      [ 6]  183         jsr     L11D9
+   1113 20 4D 12      [ 6]  184         jsr     L124D
+                            185 
+                            186 
+   1116                     187 L1116:
+   1116 20 1D 15      [ 6]  188         jsr     L151D
+   1119 AD 00 02      [ 4]  189         lda     U18_PORTA
+   111C 29 80         [ 2]  190         and     #0x80
+   111E D0 F6         [ 4]  191         bne     L1116
+   1120 A9 40         [ 2]  192         lda     #0x40
+   1122 20 D9 11      [ 6]  193         jsr     L11D9
+                            194 
+                            195 
+   1125                     196 L1125:
+   1125 20 1D 15      [ 6]  197         jsr     L151D
+   1128 AD 00 02      [ 4]  198         lda     U18_PORTA
+   112B 29 80         [ 2]  199         and     #0x80
+   112D D0 F6         [ 4]  200         bne     L1125
+   112F A9 00         [ 2]  201         lda     #0x00
+   1131 8D 80 02      [ 4]  202         sta     U19_PORTA
+   1134 85 64         [ 3]  203         sta     0x64
+   1136 A9 10         [ 2]  204         lda     #0x10
+   1138 20 D9 11      [ 6]  205         jsr     L11D9
+   113B A5 70         [ 3]  206         lda     0x70
+   113D F0 26         [ 4]  207         beq     L1165
+   113F A9 20         [ 2]  208         lda     #0x20
+   1141 20 D9 11      [ 6]  209         jsr     L11D9
+   1144 A9 00         [ 2]  210         lda     #0x00
+   1146 85 70         [ 3]  211         sta     0x70
+                            212 
+                            213 
+   1148                     214 L1148:
+   1148 A9 04         [ 2]  215         lda     #0x04
+   114A 85 5E         [ 3]  216         sta     0x5E
+                            217 
+                            218 
+   114C                     219 L114C:
+   114C AD 00 02      [ 4]  220         lda     U18_PORTA
+   114F 29 80         [ 2]  221         and     #0x80
+   1151 F0 AE         [ 4]  222         beq     L1101
+   1153 20 1D 15      [ 6]  223         jsr     L151D
+   1156 A5 5E         [ 3]  224         lda     0x5E
+   1158 D0 F2         [ 4]  225         bne     L114C
+   115A AD 02 02      [ 4]  226         lda     U18_PORTB
+   115D 49 80         [ 2]  227         eor     #0x80
+   115F 8D 02 02      [ 4]  228         sta     U18_PORTB
+   1162 4C 48 11      [ 3]  229         jmp     L1148
+                            230 
+                            231 
+   1165                     232 L1165:
+   1165 AD 02 02      [ 4]  233         lda     U18_PORTB
+   1168 29 02         [ 2]  234         and     #0x02
+   116A 09 80         [ 2]  235         ora     #0x80
+   116C 8D 02 02      [ 4]  236         sta     U18_PORTB
+   116F A9 80         [ 2]  237         lda     #0x80
+   1171 20 D9 11      [ 6]  238         jsr     L11D9
+   1174 A5 94         [ 3]  239         lda     0x94
+   1176 09 03         [ 2]  240         ora     #0x03
+   1178 85 94         [ 3]  241         sta     0x94
+   117A A9 46         [ 2]  242         lda     #0x46
+   117C 85 5E         [ 3]  243         sta     0x5E
+                            244 
+                            245 
+   117E                     246 L117E:
+   117E 20 1D 15      [ 6]  247         jsr     L151D
+   1181 A5 5E         [ 3]  248         lda     0x5E
+   1183 D0 F9         [ 4]  249         bne     L117E
+   1185 20 4D 12      [ 6]  250         jsr     L124D
+                            251 
+                            252 
+   1188                     253 L1188:
+   1188 A5 94         [ 3]  254         lda     0x94
+   118A 29 FC         [ 2]  255         and     #0xFC
+   118C 85 94         [ 3]  256         sta     0x94
+   118E 20 E0 14      [ 6]  257         jsr     L14E0
+   1191 A9 00         [ 2]  258         lda     #0x00
+   1193 85 63         [ 3]  259         sta     0x63
+   1195 85 64         [ 3]  260         sta     0x64
+   1197 85 50         [ 3]  261         sta     0x50
+   1199 A9 64         [ 2]  262         lda     #0x64
+   119B 85 5A         [ 3]  263         sta     0x5A
+                            264 
+                            265 
+   119D                     266 L119D:
+   119D AD 02 03      [ 4]  267         lda     transport_periph$ddr_reg_b
+   11A0 4A            [ 2]  268         lsr
+   11A1 B0 07         [ 4]  269         bcs     L11AA
+   11A3 A9 64         [ 2]  270         lda     #0x64
+   11A5 85 5A         [ 3]  271         sta     0x5A
+   11A7 20 1D 15      [ 6]  272         jsr     L151D
+                            273 
+                            274 
+   11AA                     275 L11AA:
+   11AA A5 5A         [ 3]  276         lda     0x5A
+   11AC F0 1E         [ 4]  277         beq     L11CC
+   11AE 20 ED 11      [ 6]  278         jsr     L11ED
+   11B1 A5 64         [ 3]  279         lda     0x64
+   11B3 A2 00         [ 2]  280         ldx     #0x00
+   11B5 86 64         [ 3]  281         stx     0x64
+   11B7 C9 01         [ 2]  282         cmp     #0x01
+   11B9 F0 04         [ 4]  283         beq     L11BF
+   11BB C9 02         [ 2]  284         cmp     #0x02
+   11BD D0 06         [ 4]  285         bne     L11C5
+                            286 
+                            287 
+   11BF                     288 L11BF:
+   11BF 4D 02 02      [ 4]  289         eor     U18_PORTB
+   11C2 8D 02 02      [ 4]  290         sta     U18_PORTB
+                            291 
+                            292 
+   11C5                     293 L11C5:
+   11C5 C9 80         [ 2]  294         cmp     #0x80
+   11C7 D0 D4         [ 4]  295         bne     L119D
+   11C9 4C D2 10      [ 3]  296         jmp     L10D2
+                            297 
+                            298 
+   11CC                     299 L11CC:
+   11CC AD 02 02      [ 4]  300         lda     U18_PORTB
+   11CF 29 03         [ 2]  301         and     #0x03
+   11D1 09 A0         [ 2]  302         ora     #0xA0
+   11D3 8D 02 02      [ 4]  303         sta     U18_PORTB
+   11D6 4C 7F 12      [ 3]  304         jmp     L127F
+                            305 
+                            306 
+   11D9                     307 L11D9:
+   11D9 8D 02 03      [ 4]  308         sta     transport_periph$ddr_reg_b
+   11DC A9 0A         [ 2]  309         lda     #0x0A
+   11DE 85 5E         [ 3]  310         sta     0x5E
+                            311 
+                            312 
+   11E0                     313 L11E0:
+   11E0 20 1D 15      [ 6]  314         jsr     L151D
+   11E3 A5 5E         [ 3]  315         lda     0x5E
+   11E5 D0 F9         [ 4]  316         bne     L11E0
+   11E7 A9 00         [ 2]  317         lda     #0x00
+   11E9 8D 02 03      [ 4]  318         sta     transport_periph$ddr_reg_b
+   11EC 60            [ 6]  319         rts
+                            320 
+                            321 
+   11ED                     322 L11ED:
+   11ED A5 63         [ 3]  323         lda     0x63
+   11EF D0 14         [ 4]  324         bne     L1205
+   11F1 AD 00 02      [ 4]  325         lda     U18_PORTA
+   11F4 49 FF         [ 2]  326         eor     #0xFF
+   11F6 F0 0C         [ 4]  327         beq     L1204
+   11F8 85 64         [ 3]  328         sta     0x64
+   11FA 85 51         [ 3]  329         sta     0x51
+   11FC A9 80         [ 2]  330         lda     #0x80
+   11FE 85 63         [ 3]  331         sta     0x63
+   1200 A9 14         [ 2]  332         lda     #0x14
+   1202 85 5C         [ 3]  333         sta     0x5C
+                            334 
+                            335 
+   1204                     336 L1204:
+   1204 60            [ 6]  337         rts
+                            338 
+                            339 
+   1205                     340 L1205:
+   1205 A5 63         [ 3]  341         lda     0x63
+   1207 2A            [ 2]  342         rol
+   1208 90 09         [ 4]  343         bcc     L1213
+   120A A5 5C         [ 3]  344         lda     0x5C
+   120C D0 29         [ 4]  345         bne     L1237
+   120E A9 40         [ 2]  346         lda     #0x40
+   1210 85 63         [ 3]  347         sta     0x63
+   1212 60            [ 6]  348         rts
+                            349 
+                            350 
+   1213                     351 L1213:
+   1213 2A            [ 2]  352         rol
+   1214 90 10         [ 4]  353         bcc     L1226
+   1216 AD 00 02      [ 4]  354         lda     U18_PORTA
+   1219 49 FF         [ 2]  355         eor     #0xFF
+   121B D0 1A         [ 4]  356         bne     L1237
+   121D A9 20         [ 2]  357         lda     #0x20
+   121F 85 63         [ 3]  358         sta     0x63
+   1221 A9 14         [ 2]  359         lda     #0x14
+   1223 85 5C         [ 3]  360         sta     0x5C
+   1225 60            [ 6]  361         rts
+                            362 
+                            363 
+   1226                     364 L1226:
+   1226 A5 5C         [ 3]  365         lda     0x5C
+   1228 D0 0D         [ 4]  366         bne     L1237
+   122A A9 00         [ 2]  367         lda     #0x00
+   122C 85 63         [ 3]  368         sta     0x63
+   122E A5 51         [ 3]  369         lda     0x51
+   1230 29 10         [ 2]  370         and     #0x10
+   1232 F0 03         [ 4]  371         beq     L1237
+   1234 4C 38 12      [ 3]  372         jmp     L1238
+                            373 
+                            374 
+   1237                     375 L1237:
+   1237 60            [ 6]  376         rts
+                            377 
+                            378 
+   1238                     379 L1238:
+   1238 A9 10         [ 2]  380         lda     #0x10
+   123A 20 D9 11      [ 6]  381         jsr     L11D9
+   123D A9 10         [ 2]  382         lda     #0x10
+   123F 8D 02 02      [ 4]  383         sta     U18_PORTB
+   1242 20 4D 12      [ 6]  384         jsr     L124D
+   1245 A9 20         [ 2]  385         lda     #0x20
+   1247 20 D9 11      [ 6]  386         jsr     L11D9
+   124A 4C 16 11      [ 3]  387         jmp     L1116
+                            388 
+                            389 
+   124D                     390 L124D:
+   124D A2 00         [ 2]  391         ldx     #0x00
+                            392 
+                            393 
+   124F                     394 L124F:
+   124F A9 30         [ 2]  395         lda     #0x30
+   1251 95 81         [ 4]  396         sta     0x81,x
+   1253 95 83         [ 4]  397         sta     0x83,x
+   1255 A9 FF         [ 2]  398         lda     #0xFF
+   1257 95 80         [ 4]  399         sta     0x80,x
+   1259 95 82         [ 4]  400         sta     0x82,x
+   125B A9 34         [ 2]  401         lda     #0x34
+   125D 95 81         [ 4]  402         sta     0x81,x
+   125F 95 83         [ 4]  403         sta     0x83,x
+   1261 A9 00         [ 2]  404         lda     #0x00
+   1263 95 80         [ 4]  405         sta     0x80,x
+   1265 95 82         [ 4]  406         sta     0x82,x
+   1267 E8            [ 2]  407         inx
+   1268 E8            [ 2]  408         inx
+   1269 E8            [ 2]  409         inx
+   126A E8            [ 2]  410         inx
+   126B E0 20         [ 2]  411         cpx     #0x20
+   126D 90 E0         [ 4]  412         bcc     L124F
+   126F A9 24         [ 2]  413         lda     #0x24
+   1271 85 68         [ 3]  414         sta     0x68
+   1273 A9 00         [ 2]  415         lda     #0x00
+   1275 85 6B         [ 3]  416         sta     0x6B
+   1277 85 54         [ 3]  417         sta     0x54
+   1279 AD 00 03      [ 4]  418         lda     transport_periph$ddr_reg_a
+   127C A0 00         [ 2]  419         ldy     #0x00
+   127E 60            [ 6]  420         rts
+                            421 
+                            422 
+   127F                     423 L127F:
+   127F 20 4D 12      [ 6]  424         jsr     L124D
+   1282 A5 94         [ 3]  425         lda     0x94
+   1284 29 FC         [ 2]  426         and     #0xFC
+   1286 85 94         [ 3]  427         sta     0x94
+                            428 
+                            429 
+   1288                     430 L1288:
+   1288 AD 01 03      [ 4]  431         lda     transport_control_reg_a
+   128B 0A            [ 2]  432         asl
+   128C 90 14         [ 4]  433         bcc     L12A2
+   128E AD 00 03      [ 4]  434         lda     transport_periph$ddr_reg_a
+                            435 
+                            436 
+   1291                     437 L1291:
+   1291 29 7F         [ 2]  438         and     #0x7F
+   1293 20 BA 1C      [ 6]  439         jsr     L1CBA
+   1296 85 69         [ 3]  440         sta     0x69
+   1298 C9 22         [ 2]  441         cmp     #0x22
+   129A 90 EC         [ 4]  442         bcc     L1288
+   129C C9 40         [ 2]  443         cmp     #0x40
+   129E B0 1D         [ 4]  444         bcs     L12BD
+   12A0 85 68         [ 3]  445         sta     0x68
+                            446 
+                            447 
+   12A2                     448 L12A2:
+   12A2 20 B8 1C      [ 6]  449         jsr     L1CB8
+   12A5 B0 EA         [ 4]  450         bcs     L1291
+   12A7 A5 5E         [ 3]  451         lda     0x5E
+   12A9 F0 03         [ 4]  452         beq     L12AE
+   12AB 4C 9C 19      [ 3]  453         jmp     L199C
+                            454 
+                            455 
+   12AE                     456 L12AE:
+   12AE A5 4F         [ 3]  457         lda     0x4F
+   12B0 D0 05         [ 4]  458         bne     L12B7
+   12B2 20 E0 14      [ 6]  459         jsr     L14E0
+   12B5 E6 4F         [ 5]  460         inc     0x4F
+                            461 
+                            462 
+   12B7                     463 L12B7:
+   12B7 20 1D 15      [ 6]  464         jsr     L151D
+   12BA 4C 9C 19      [ 3]  465         jmp     L199C
+                            466 
+                            467 
+   12BD                     468 L12BD:
+   12BD A5 50         [ 3]  469         lda     0x50
+   12BF C9 FF         [ 2]  470         cmp     #0xFF
+   12C1 D0 06         [ 4]  471         bne     L12C9
+   12C3 A5 68         [ 3]  472         lda     0x68
+   12C5 C9 24         [ 2]  473         cmp     #0x24
+   12C7 D0 BF         [ 4]  474         bne     L1288
+                            475 
+                            476 
+   12C9                     477 L12C9:
+   12C9 A5 68         [ 3]  478         lda     0x68
+   12CB 29 7E         [ 2]  479         and     #0x7E
+   12CD 38            [ 2]  480         sec
+   12CE E9 22         [ 2]  481         sbc     #0x22
+   12D0 C9 02         [ 2]  482         cmp     #0x02
+   12D2 F0 0E         [ 4]  483         beq     L12E2
+   12D4 C9 16         [ 2]  484         cmp     #0x16
+   12D6 F0 0A         [ 4]  485         beq     L12E2
+   12D8 48            [ 3]  486         pha
+   12D9 A9 14         [ 2]  487         lda     #0x14
+   12DB 85 5E         [ 3]  488         sta     0x5E
+   12DD A9 00         [ 2]  489         lda     #0x00
+   12DF 85 4F         [ 3]  490         sta     0x4F
+   12E1 68            [ 4]  491         pla
+                            492 
+                            493 
+   12E2                     494 L12E2:
+   12E2 AA            [ 2]  495         tax
+   12E3 BD B0 1A      [ 5]  496         lda     X1AB0,x
+   12E6 85 6C         [ 3]  497         sta     0x6C
+   12E8 BD B1 1A      [ 5]  498         lda     X1AB1,x
+   12EB 85 6D         [ 3]  499         sta     0x6D
+   12ED 20 F3 12      [ 6]  500         jsr     L12F3
+   12F0 4C 88 12      [ 3]  501         jmp     L1288
+                            502 
+                            503 
+   12F3                     504 L12F3:
+   12F3 6C 6C 00      [ 5]  505         jmp     [0x006C]
+                            506 
+                            507 
+   12F6                     508 L12F6:
+   12F6 48            [ 3]  509         pha
+   12F7 A9 02         [ 2]  510         lda     #0x02
+   12F9 85 5E         [ 3]  511         sta     0x5E
+   12FB A9 04         [ 2]  512         lda     #0x04
+   12FD 85 67         [ 3]  513         sta     0x67
+   12FF 68            [ 4]  514         pla
+                            515 
+                            516 
+   1300                     517 L1300:
+   1300 48            [ 3]  518         pha
+   1301 20 1D 15      [ 6]  519         jsr     L151D
+   1304 A9 53         [ 2]  520         lda     #0x53
+   1306 20 12 13      [ 6]  521         jsr     L1312
+   1309 68            [ 4]  522         pla
+   130A 20 12 13      [ 6]  523         jsr     L1312
+   130D C6 67         [ 5]  524         dec     0x67
+   130F D0 EF         [ 4]  525         bne     L1300
+   1311 60            [ 6]  526         rts
+                            527 
+                            528 
+   1312                     529 L1312:
+   1312 48            [ 3]  530         pha
+                            531 
+                            532 
+   1313                     533 L1313:
+   1313 20 1D 15      [ 6]  534         jsr     L151D
+   1316 A5 5E         [ 3]  535         lda     0x5E
+   1318 F0 07         [ 4]  536         beq     L1321
+   131A AD 02 01      [ 4]  537         lda     UART_02
+   131D 29 02         [ 2]  538         and     #0x02
+   131F F0 F2         [ 4]  539         beq     L1313
+                            540 
+                            541 
+   1321                     542 L1321:
+   1321 68            [ 4]  543         pla
+   1322 8D 01 01      [ 4]  544         sta     UART_01
+   1325 60            [ 6]  545         rts
+                            546 
+                            547 
+   1326                     548 L1326:
+   1326 A5 68         [ 3]  549         lda     0x68
+                            550 
+                            551 
+   1328                     552 L1328:
+   1328 38            [ 2]  553         sec
+   1329 E9 26         [ 2]  554         sbc     #0x26
+   132B 4A            [ 2]  555         lsr
+   132C A8            [ 2]  556         tay
+   132D B9 CF 1A      [ 5]  557         lda     X1ACF,y
+   1330 85 6A         [ 3]  558         sta     0x6A
+   1332 98            [ 2]  559         tya
+   1333 0A            [ 2]  560         asl
+   1334 0A            [ 2]  561         asl
+   1335 0A            [ 2]  562         asl
+   1336 A8            [ 2]  563         tay
+   1337 A9 01         [ 2]  564         lda     #0x01
+   1339 85 59         [ 3]  565         sta     0x59
+   133B A5 69         [ 3]  566         lda     0x69
+                            567 
+                            568 
+   133D                     569 L133D:
+   133D D9 21 1B      [ 5]  570         cmp     X1B21,y
+   1340 F0 07         [ 4]  571         beq     L1349
+   1342 C8            [ 2]  572         iny
+   1343 06 59         [ 5]  573         asl     0x59
+   1345 90 F6         [ 4]  574         bcc     L133D
+   1347 18            [ 2]  575         clc
+   1348 60            [ 6]  576         rts
+                            577 
+                            578 
+   1349                     579 L1349:
+   1349 A0 00         [ 2]  580         ldy     #0x00
+   134B A5 68         [ 3]  581         lda     0x68
+   134D 4A            [ 2]  582         lsr
+   134E A5 59         [ 3]  583         lda     0x59
+   1350 B0 08         [ 4]  584         bcs     L135A
+   1352 49 FF         [ 2]  585         eor     #0xFF
+   1354 31 6A         [ 6]  586         and     [0x6A],y
+                            587 
+                            588 
+   1356                     589 L1356:
+   1356 91 6A         [ 6]  590         sta     [0x6A],y
+   1358 38            [ 2]  591         sec
+   1359 60            [ 6]  592         rts
+                            593 
+                            594 
+   135A                     595 L135A:
+   135A 11 6A         [ 6]  596         ora     [0x6A],y
+   135C 4C 56 13      [ 3]  597         jmp     L1356
+   135F 20 26 13      [ 6]  598         jsr     L1326
+   1362 90 01         [ 4]  599         bcc     L1365
+   1364 60            [ 6]  600         rts
+                            601 
+                            602 
+   1365                     603 L1365:
+   1365 A9 28         [ 2]  604         lda     #0x28
+   1367 4C 28 13      [ 3]  605         jmp     L1328
+   136A A5 69         [ 3]  606         lda     0x69
+   136C C9 40         [ 2]  607         cmp     #0x40
+   136E 90 16         [ 4]  608         bcc     L1386
+   1370 C9 60         [ 2]  609         cmp     #0x60
+   1372 B0 12         [ 4]  610         bcs     L1386
+   1374 38            [ 2]  611         sec
+   1375 E9 40         [ 2]  612         sbc     #0x40
+   1377 0A            [ 2]  613         asl
+   1378 A8            [ 2]  614         tay
+   1379 B9 DF 1A      [ 5]  615         lda     X1ADF,y
+   137C 85 6A         [ 3]  616         sta     0x6A
+   137E B9 E0 1A      [ 5]  617         lda     X1AE0,y
+   1381 85 59         [ 3]  618         sta     0x59
+   1383 4C 49 13      [ 3]  619         jmp     L1349
+                            620 
+                            621 
+   1386                     622 L1386:
+   1386 60            [ 6]  623         rts
+   1387 20 26 13      [ 6]  624         jsr     L1326
+   138A B0 05         [ 4]  625         bcs     L1391
+   138C A9 30         [ 2]  626         lda     #0x30
+   138E 20 28 13      [ 6]  627         jsr     L1328
+                            628 
+                            629 
+   1391                     630 L1391:
+   1391 60            [ 6]  631         rts
+   1392 A5 69         [ 3]  632         lda     0x69
+   1394 C9 4C         [ 2]  633         cmp     #0x4C
+   1396 D0 48         [ 4]  634         bne     L13E0
+   1398 E6 70         [ 5]  635         inc     0x70
+   139A A5 70         [ 3]  636         lda     0x70
+   139C C9 03         [ 2]  637         cmp     #0x03
+   139E 90 4F         [ 4]  638         bcc     L13EF
+   13A0 A9 10         [ 2]  639         lda     #0x10
+   13A2 20 D9 11      [ 6]  640         jsr     L11D9
+   13A5 20 E0 14      [ 6]  641         jsr     L14E0
+                            642 
+                            643 
+   13A8                     644 L13A8:
+   13A8 A9 06         [ 2]  645         lda     #0x06
+   13AA 85 5E         [ 3]  646         sta     0x5E
+                            647 
+                            648 
+   13AC                     649 L13AC:
+   13AC 20 1D 15      [ 6]  650         jsr     L151D
+   13AF AD 00 02      [ 4]  651         lda     U18_PORTA
+   13B2 29 04         [ 2]  652         and     #0x04
+   13B4 F0 0F         [ 4]  653         beq     L13C5
+   13B6 A5 5E         [ 3]  654         lda     0x5E
+   13B8 D0 F2         [ 4]  655         bne     L13AC
+   13BA AD 02 02      [ 4]  656         lda     U18_PORTB
+   13BD 49 04         [ 2]  657         eor     #0x04
+   13BF 8D 02 02      [ 4]  658         sta     U18_PORTB
+   13C2 4C A8 13      [ 3]  659         jmp     L13A8
+                            660 
+                            661 
+   13C5                     662 L13C5:
+   13C5 AD 02 02      [ 4]  663         lda     U18_PORTB
+   13C8 29 FB         [ 2]  664         and     #0xFB
+   13CA 8D 02 02      [ 4]  665         sta     U18_PORTB
+   13CD A9 80         [ 2]  666         lda     #0x80
+   13CF 20 D9 11      [ 6]  667         jsr     L11D9
+   13D2 A9 32         [ 2]  668         lda     #0x32
+   13D4 85 5E         [ 3]  669         sta     0x5E
+                            670 
+                            671 
+   13D6                     672 L13D6:
+   13D6 20 1D 15      [ 6]  673         jsr     L151D
+   13D9 A5 5E         [ 3]  674         lda     0x5E
+   13DB D0 F9         [ 4]  675         bne     L13D6
+   13DD 4C EF 13      [ 3]  676         jmp     L13EF
+                            677 
+                            678 
+   13E0                     679 L13E0:
+   13E0 A5 50         [ 3]  680         lda     0x50
+   13E2 C9 FF         [ 2]  681         cmp     #0xFF
+   13E4 D0 0A         [ 4]  682         bne     L13F0
+   13E6 A5 69         [ 3]  683         lda     0x69
+   13E8 C9 45         [ 2]  684         cmp     #0x45
+   13EA D0 03         [ 4]  685         bne     L13EF
+   13EC 4C 8C 14      [ 3]  686         jmp     L148C
+                            687 
+                            688 
+   13EF                     689 L13EF:
+   13EF 60            [ 6]  690         rts
+                            691 
+                            692 
+   13F0                     693 L13F0:
+   13F0 A5 69         [ 3]  694         lda     0x69
+   13F2 C9 42         [ 2]  695         cmp     #0x42
+   13F4 F0 03         [ 4]  696         beq     L13F9
+   13F6 4C 8C 14      [ 3]  697         jmp     L148C
+                            698 
+                            699 
+   13F9                     700 L13F9:
+   13F9 AD 02 02      [ 4]  701         lda     U18_PORTB
+   13FC 29 02         [ 2]  702         and     #0x02
+   13FE F0 67         [ 4]  703         beq     L1467
+   1400 A9 42         [ 2]  704         lda     #0x42
+   1402 85 50         [ 3]  705         sta     0x50
+   1404 A5 94         [ 3]  706         lda     0x94
+   1406 09 02         [ 2]  707         ora     #0x02
+   1408 29 FE         [ 2]  708         and     #0xFE
+   140A 85 94         [ 3]  709         sta     0x94
+   140C AD 02 02      [ 4]  710         lda     U18_PORTB
+   140F 29 01         [ 2]  711         and     #0x01
+   1411 D0 03         [ 4]  712         bne     L1416
+   1413 4C 4A 14      [ 3]  713         jmp     L144A
+                            714 
+                            715 
+   1416                     716 L1416:
+   1416 A9 10         [ 2]  717         lda     #0x10
+   1418 20 D9 11      [ 6]  718         jsr     L11D9
+   141B A9 18         [ 2]  719         lda     #0x18
+   141D 85 62         [ 3]  720         sta     0x62
+                            721 
+                            722 
+   141F                     723 L141F:
+   141F A9 0A         [ 2]  724         lda     #0x0A
+   1421 85 5E         [ 3]  725         sta     0x5E
+                            726 
+                            727 
+   1423                     728 L1423:
+   1423 20 1D 15      [ 6]  729         jsr     L151D
+   1426 A5 5E         [ 3]  730         lda     0x5E
+   1428 F0 10         [ 4]  731         beq     L143A
+   142A AD 00 02      [ 4]  732         lda     U18_PORTA
+   142D 49 FF         [ 2]  733         eor     #0xFF
+   142F 29 01         [ 2]  734         and     #0x01
+   1431 D0 12         [ 4]  735         bne     L1445
+   1433 A5 62         [ 3]  736         lda     0x62
+   1435 F0 0E         [ 4]  737         beq     L1445
+   1437 4C 23 14      [ 3]  738         jmp     L1423
+                            739 
+                            740 
+   143A                     741 L143A:
+   143A AD 02 02      [ 4]  742         lda     U18_PORTB
+   143D 49 01         [ 2]  743         eor     #0x01
+   143F 8D 02 02      [ 4]  744         sta     U18_PORTB
+   1442 4C 1F 14      [ 3]  745         jmp     L141F
+                            746 
+                            747 
+   1445                     748 L1445:
+   1445 A9 80         [ 2]  749         lda     #0x80
+   1447 20 D9 11      [ 6]  750         jsr     L11D9
+                            751 
+                            752 
+   144A                     753 L144A:
+   144A A9 AA         [ 2]  754         lda     #0xAA
+   144C 8D 02 02      [ 4]  755         sta     U18_PORTB
+                            756 
+                            757 
+   144F                     758 L144F:
+   144F 20 1D 15      [ 6]  759         jsr     L151D
+   1452 AD 02 03      [ 4]  760         lda     transport_periph$ddr_reg_b
+   1455 4A            [ 2]  761         lsr
+   1456 90 F7         [ 4]  762         bcc     L144F
+   1458 A9 05         [ 2]  763         lda     #0x05
+   145A 85 5E         [ 3]  764         sta     0x5E
+                            765 
+                            766 
+   145C                     767 L145C:
+   145C AD 02 03      [ 4]  768         lda     transport_periph$ddr_reg_b
+   145F 4A            [ 2]  769         lsr
+   1460 90 ED         [ 4]  770         bcc     L144F
+   1462 A5 5E         [ 3]  771         lda     0x5E
+   1464 D0 F6         [ 4]  772         bne     L145C
+   1466 60            [ 6]  773         rts
+                            774 
+                            775 
+   1467                     776 L1467:
+   1467 A9 FF         [ 2]  777         lda     #0xFF
+   1469 85 50         [ 3]  778         sta     0x50
+   146B A5 94         [ 3]  779         lda     0x94
+   146D 09 01         [ 2]  780         ora     #0x01
+   146F 29 FD         [ 2]  781         and     #0xFD
+   1471 85 52         [ 3]  782         sta     0x52
+   1473 A5 96         [ 3]  783         lda     0x96
+   1475 85 6F         [ 3]  784         sta     0x6F
+   1477 20 4D 12      [ 6]  785         jsr     L124D
+   147A A5 6F         [ 3]  786         lda     0x6F
+   147C 85 96         [ 3]  787         sta     0x96
+   147E A5 52         [ 3]  788         lda     0x52
+   1480 85 94         [ 3]  789         sta     0x94
+   1482 A9 C0         [ 2]  790         lda     #0xC0
+   1484 8D 02 02      [ 4]  791         sta     U18_PORTB
+   1487 A9 31         [ 2]  792         lda     #0x31
+   1489 20 F6 12      [ 6]  793         jsr     L12F6
+                            794 
+                            795 
+   148C                     796 L148C:
+   148C C9 45         [ 2]  797         cmp     #0x45
+   148E D0 10         [ 4]  798         bne     L14A0
+   1490 A9 00         [ 2]  799         lda     #0x00
+   1492 85 50         [ 3]  800         sta     0x50
+   1494 A9 80         [ 2]  801         lda     #0x80
+   1496 8D 02 02      [ 4]  802         sta     U18_PORTB
+   1499 A5 94         [ 3]  803         lda     0x94
+   149B 29 FC         [ 2]  804         and     #0xFC
+   149D 85 94         [ 3]  805         sta     0x94
+   149F 60            [ 6]  806         rts
+                            807 
+                            808 
+   14A0                     809 L14A0:
+   14A0 C9 57         [ 2]  810         cmp     #0x57
+   14A2 D0 08         [ 4]  811         bne     L14AC
+   14A4 AD 02 02      [ 4]  812         lda     U18_PORTB
+   14A7 49 08         [ 2]  813         eor     #0x08
+   14A9 8D 02 02      [ 4]  814         sta     U18_PORTB
+                            815 
+                            816 
+   14AC                     817 L14AC:
+   14AC 60            [ 6]  818         rts
+   14AD 20 C5 14      [ 6]  819         jsr     L14C5
+   14B0 20 84 1A      [ 6]  820         jsr     L1A84
+   14B3 A5 69         [ 3]  821         lda     0x69
+   14B5 C9 4E         [ 2]  822         cmp     #0x4E
+   14B7 B0 01         [ 4]  823         bcs     L14BA
+   14B9 60            [ 6]  824         rts
+                            825 
+                            826 
+   14BA                     827 L14BA:
+   14BA 20 26 13      [ 6]  828         jsr     L1326
+   14BD 90 01         [ 4]  829         bcc     L14C0
+   14BF 60            [ 6]  830         rts
+                            831 
+                            832 
+   14C0                     833 L14C0:
+   14C0 A9 2B         [ 2]  834         lda     #0x2B
+   14C2 4C 28 13      [ 3]  835         jmp     L1328
+                            836 
+                            837 
+   14C5                     838 L14C5:
+   14C5 A5 71         [ 3]  839         lda     0x71
+   14C7 D0 06         [ 4]  840         bne     L14CF
+   14C9 A5 69         [ 3]  841         lda     0x69
+   14CB C9 5A         [ 2]  842         cmp     #0x5A
+   14CD F0 01         [ 4]  843         beq     L14D0
+                            844 
+                            845 
+   14CF                     846 L14CF:
+   14CF 60            [ 6]  847         rts
+                            848 
+                            849 
+   14D0                     850 L14D0:
+   14D0 68            [ 4]  851         pla
+   14D1 68            [ 4]  852         pla
+   14D2 68            [ 4]  853         pla
+   14D3 68            [ 4]  854         pla
+   14D4 20 4D 12      [ 6]  855         jsr     L124D
+   14D7 A5 94         [ 3]  856         lda     0x94
+   14D9 09 03         [ 2]  857         ora     #0x03
+   14DB 85 94         [ 3]  858         sta     0x94
+   14DD 4C D2 10      [ 3]  859         jmp     L10D2
+                            860 
+                            861 
+   14E0                     862 L14E0:
+   14E0 A9 FA         [ 2]  863         lda     #0xFA
+   14E2 85 4A         [ 3]  864         sta     0x4A
+   14E4 A9 E6         [ 2]  865         lda     #0xE6
+   14E6 85 4B         [ 3]  866         sta     0x4B
+   14E8 A9 D2         [ 2]  867         lda     #0xD2
+   14EA 85 4C         [ 3]  868         sta     0x4C
+   14EC A9 BE         [ 2]  869         lda     #0xBE
+   14EE 85 4D         [ 3]  870         sta     0x4D
+   14F0 A9 AA         [ 2]  871         lda     #0xAA
+   14F2 85 4E         [ 3]  872         sta     0x4E
+   14F4 A9 36         [ 2]  873         lda     #0x36
+   14F6 85 44         [ 3]  874         sta     0x44
+   14F8 A9 16         [ 2]  875         lda     #0x16
+   14FA 85 45         [ 3]  876         sta     0x45
+   14FC A9 08         [ 2]  877         lda     #0x08
+   14FE 85 40         [ 3]  878         sta     0x40
+   1500 A9 17         [ 2]  879         lda     #0x17
+   1502 85 41         [ 3]  880         sta     0x41
+   1504 A9 C0         [ 2]  881         lda     #0xC0
+   1506 85 42         [ 3]  882         sta     0x42
+   1508 A9 17         [ 2]  883         lda     #0x17
+   150A 85 43         [ 3]  884         sta     0x43
+   150C A9 52         [ 2]  885         lda     #0x52
+   150E 85 46         [ 3]  886         sta     0x46
+   1510 A9 18         [ 2]  887         lda     #0x18
+   1512 85 47         [ 3]  888         sta     0x47
+   1514 A9 0E         [ 2]  889         lda     #0x0E
+   1516 85 48         [ 3]  890         sta     0x48
+   1518 A9 19         [ 2]  891         lda     #0x19
+   151A 85 49         [ 3]  892         sta     0x49
+   151C 60            [ 6]  893         rts
+                            894 
+                            895 
+   151D                     896 L151D:
+   151D AD 06 10      [ 4]  897         lda     L1006
+   1520 29 01         [ 2]  898         and     #0x01
+   1522 F0 03         [ 4]  899         beq     L1527
+   1524 20 50 15      [ 6]  900         jsr     L1550
+                            901 
+                            902 
+   1527                     903 L1527:
+   1527 AD 06 10      [ 4]  904         lda     L1006
+   152A 29 02         [ 2]  905         and     #0x02
+   152C F0 03         [ 4]  906         beq     L1531
+   152E 20 7E 15      [ 6]  907         jsr     L157E
+                            908 
+                            909 
+   1531                     910 L1531:
+   1531 AD 06 10      [ 4]  911         lda     L1006
+   1534 29 04         [ 2]  912         and     #0x04
+   1536 F0 03         [ 4]  913         beq     L153B
+   1538 20 AC 15      [ 6]  914         jsr     L15AC
+                            915 
+                            916 
+   153B                     917 L153B:
+   153B AD 06 10      [ 4]  918         lda     L1006
+   153E 29 08         [ 2]  919         and     #0x08
+   1540 F0 03         [ 4]  920         beq     L1545
+   1542 20 DA 15      [ 6]  921         jsr     L15DA
+                            922 
+                            923 
+   1545                     924 L1545:
+   1545 AD 06 10      [ 4]  925         lda     L1006
+   1548 29 10         [ 2]  926         and     #0x10
+   154A F0 03         [ 4]  927         beq     L154F
+   154C 20 08 16      [ 6]  928         jsr     L1608
+                            929 
+                            930 
+   154F                     931 L154F:
+   154F 60            [ 6]  932         rts
+                            933 
+                            934 
+   1550                     935 L1550:
+   1550 A0 00         [ 2]  936         ldy     #0x00
+   1552 B1 44         [ 6]  937         lda     [0x44],y
+   1554 C9 FF         [ 2]  938         cmp     #0xFF
+   1556 F0 17         [ 4]  939         beq     L156F
+   1558 C5 4A         [ 3]  940         cmp     0x4A
+   155A 90 12         [ 4]  941         bcc     L156E
+   155C C8            [ 2]  942         iny
+   155D B1 44         [ 6]  943         lda     [0x44],y
+   155F 85 80         [ 3]  944         sta     0x80
+   1561 18            [ 2]  945         clc
+   1562 A5 44         [ 3]  946         lda     0x44
+   1564 69 02         [ 2]  947         adc     #0x02
+   1566 85 44         [ 3]  948         sta     0x44
+   1568 A5 45         [ 3]  949         lda     0x45
+   156A 69 00         [ 2]  950         adc     #0x00
+   156C 85 45         [ 3]  951         sta     0x45
+                            952 
+                            953 
+   156E                     954 L156E:
+   156E 60            [ 6]  955         rts
+                            956 
+                            957 
+   156F                     958 L156F:
+   156F A9 36         [ 2]  959         lda     #0x36
+   1571 85 44         [ 3]  960         sta     0x44
+   1573 A9 16         [ 2]  961         lda     #0x16
+   1575 85 45         [ 3]  962         sta     0x45
+   1577 A9 FA         [ 2]  963         lda     #0xFA
+   1579 85 4A         [ 3]  964         sta     0x4A
+   157B 4C 6E 15      [ 3]  965         jmp     L156E
+                            966 
+                            967 
+   157E                     968 L157E:
+   157E A0 00         [ 2]  969         ldy     #0x00
+   1580 B1 40         [ 6]  970         lda     [0x40],y
+   1582 C9 FF         [ 2]  971         cmp     #0xFF
+   1584 F0 17         [ 4]  972         beq     L159D
+   1586 C5 4B         [ 3]  973         cmp     0x4B
+   1588 90 12         [ 4]  974         bcc     L159C
+   158A C8            [ 2]  975         iny
+   158B B1 40         [ 6]  976         lda     [0x40],y
+   158D 85 84         [ 3]  977         sta     0x84
+   158F 18            [ 2]  978         clc
+   1590 A5 40         [ 3]  979         lda     0x40
+   1592 69 02         [ 2]  980         adc     #0x02
+   1594 85 40         [ 3]  981         sta     0x40
+   1596 A5 41         [ 3]  982         lda     0x41
+   1598 69 00         [ 2]  983         adc     #0x00
+   159A 85 41         [ 3]  984         sta     0x41
+                            985 
+                            986 
+   159C                     987 L159C:
+   159C 60            [ 6]  988         rts
+                            989 
+                            990 
+   159D                     991 L159D:
+   159D A9 08         [ 2]  992         lda     #0x08
+   159F 85 40         [ 3]  993         sta     0x40
+   15A1 A9 17         [ 2]  994         lda     #0x17
+   15A3 85 41         [ 3]  995         sta     0x41
+   15A5 A9 E6         [ 2]  996         lda     #0xE6
+   15A7 85 4B         [ 3]  997         sta     0x4B
+   15A9 4C 9C 15      [ 3]  998         jmp     L159C
+                            999 
+                           1000 
+   15AC                    1001 L15AC:
+   15AC A0 00         [ 2] 1002         ldy     #0x00
+   15AE B1 42         [ 6] 1003         lda     [0x42],y
+   15B0 C9 FF         [ 2] 1004         cmp     #0xFF
+   15B2 F0 17         [ 4] 1005         beq     L15CB
+   15B4 C5 4C         [ 3] 1006         cmp     0x4C
+   15B6 90 12         [ 4] 1007         bcc     L15CA
+   15B8 C8            [ 2] 1008         iny
+   15B9 B1 42         [ 6] 1009         lda     [0x42],y
+   15BB 85 90         [ 3] 1010         sta     0x90
+   15BD 18            [ 2] 1011         clc
+   15BE A5 42         [ 3] 1012         lda     0x42
+   15C0 69 02         [ 2] 1013         adc     #0x02
+   15C2 85 42         [ 3] 1014         sta     0x42
+   15C4 A5 43         [ 3] 1015         lda     0x43
+   15C6 69 00         [ 2] 1016         adc     #0x00
+   15C8 85 43         [ 3] 1017         sta     0x43
+                           1018 
+                           1019 
+   15CA                    1020 L15CA:
+   15CA 60            [ 6] 1021         rts
+                           1022 
+                           1023 
+   15CB                    1024 L15CB:
+   15CB A9 C0         [ 2] 1025         lda     #0xC0
+   15CD 85 42         [ 3] 1026         sta     0x42
+   15CF A9 17         [ 2] 1027         lda     #0x17
+   15D1 85 43         [ 3] 1028         sta     0x43
+   15D3 A9 D2         [ 2] 1029         lda     #0xD2
+   15D5 85 4C         [ 3] 1030         sta     0x4C
+   15D7 4C CA 15      [ 3] 1031         jmp     L15CA
+                           1032 
+                           1033 
+   15DA                    1034 L15DA:
+   15DA A0 00         [ 2] 1035         ldy     #0x00
+   15DC B1 46         [ 6] 1036         lda     [0x46],y
+   15DE C9 FF         [ 2] 1037         cmp     #0xFF
+   15E0 F0 17         [ 4] 1038         beq     L15F9
+   15E2 C5 4D         [ 3] 1039         cmp     0x4D
+   15E4 90 12         [ 4] 1040         bcc     L15F8
+   15E6 C8            [ 2] 1041         iny
+   15E7 B1 46         [ 6] 1042         lda     [0x46],y
+   15E9 85 8C         [ 3] 1043         sta     0x8C
+   15EB 18            [ 2] 1044         clc
+   15EC A5 46         [ 3] 1045         lda     0x46
+   15EE 69 02         [ 2] 1046         adc     #0x02
+   15F0 85 46         [ 3] 1047         sta     0x46
+   15F2 A5 47         [ 3] 1048         lda     0x47
+   15F4 69 00         [ 2] 1049         adc     #0x00
+   15F6 85 47         [ 3] 1050         sta     0x47
+                           1051 
+                           1052 
+   15F8                    1053 L15F8:
+   15F8 60            [ 6] 1054         rts
+                           1055 
+                           1056 
+   15F9                    1057 L15F9:
+   15F9 A9 52         [ 2] 1058         lda     #0x52
+   15FB 85 46         [ 3] 1059         sta     0x46
+   15FD A9 18         [ 2] 1060         lda     #0x18
+   15FF 85 47         [ 3] 1061         sta     0x47
+   1601 A9 BE         [ 2] 1062         lda     #0xBE
+   1603 85 4D         [ 3] 1063         sta     0x4D
+   1605 4C F8 15      [ 3] 1064         jmp     L15F8
+                           1065 
+                           1066 
+   1608                    1067 L1608:
+   1608 A0 00         [ 2] 1068         ldy     #0x00
+   160A B1 48         [ 6] 1069         lda     [0x48],y
+   160C C9 FF         [ 2] 1070         cmp     #0xFF
+   160E F0 17         [ 4] 1071         beq     L1627
+   1610 C5 4E         [ 3] 1072         cmp     0x4E
+   1612 90 12         [ 4] 1073         bcc     L1626
+   1614 C8            [ 2] 1074         iny
+   1615 B1 48         [ 6] 1075         lda     [0x48],y
+   1617 85 88         [ 3] 1076         sta     0x88
+   1619 18            [ 2] 1077         clc
+   161A A5 48         [ 3] 1078         lda     0x48
+   161C 69 02         [ 2] 1079         adc     #0x02
+   161E 85 48         [ 3] 1080         sta     0x48
+   1620 A5 49         [ 3] 1081         lda     0x49
+   1622 69 00         [ 2] 1082         adc     #0x00
+   1624 85 49         [ 3] 1083         sta     0x49
+                           1084 
+                           1085 
+   1626                    1086 L1626:
+   1626 60            [ 6] 1087         rts
+                           1088 
+                           1089 
+   1627                    1090 L1627:
+   1627 A9 0E         [ 2] 1091         lda     #0x0E
+   1629 85 48         [ 3] 1092         sta     0x48
+   162B A9 19         [ 2] 1093         lda     #0x19
+   162D 85 49         [ 3] 1094         sta     0x49
+   162F A9 AA         [ 2] 1095         lda     #0xAA
+   1631 85 4E         [ 3] 1096         sta     0x4E
+   1633 4C 26 16      [ 3] 1097         jmp     L1626
+                           1098 
+   1636                    1099 X1636:
+   1636 FA 20 FA 20 F6 22  1100         .byte   0xFA,0x20,0xFA,0x20,0xF6,0x22,0xF5,0x20,0xF5,0x20,0xF3,0x22,0xF2,0x20,0xE5,0x22
+        F5 20 F5 20 F3 22
+        F2 20 E5 22
+   1646 E5 22 E2 20 D2 20  1101         .byte   0xE5,0x22,0xE2,0x20,0xD2,0x20,0xBE,0x00,0xBC,0x22,0xBB,0x30,0xB9,0x32,0xB9,0x32
+        BE 00 BC 22 BB 30
+        B9 32 B9 32
+   1656 B7 30 B6 32 B5 30  1102         .byte   0xB7,0x30,0xB6,0x32,0xB5,0x30,0xB4,0x32,0xB4,0x32,0xB3,0x20,0xB3,0x20,0xB1,0xA0
+        B4 32 B4 32 B3 20
+        B3 20 B1 A0
+   1666 B1 A0 B0 A2 AF A0  1103         .byte   0xB1,0xA0,0xB0,0xA2,0xAF,0xA0,0xAF,0xA6,0xAE,0xA0,0xAE,0xA6,0xAD,0xA4,0xAC,0xA0
+        AF A6 AE A0 AE A6
+        AD A4 AC A0
+   1676 AC A0 AB A0 AA A0  1104         .byte   0xAC,0xA0,0xAB,0xA0,0xAA,0xA0,0xAA,0xA0,0xA2,0x80,0xA0,0xA0,0xA0,0xA0,0x8D,0x80
+        AA A0 A2 80 A0 A0
+        A0 A0 8D 80
+   1686 8A A0 7E 80 7B A0  1105         .byte   0x8A,0xA0,0x7E,0x80,0x7B,0xA0,0x79,0xA4,0x78,0xA0,0x77,0xA4,0x76,0xA0,0x75,0xA4
+        79 A4 78 A0 77 A4
+        76 A0 75 A4
+   1696 74 A0 73 A4 72 A0  1106         .byte   0x74,0xA0,0x73,0xA4,0x72,0xA0,0x71,0xA4,0x70,0xA0,0x6F,0xA4,0x6E,0xA0,0x6D,0xA4
+        71 A4 70 A0 6F A4
+        6E A0 6D A4
+   16A6 6C A0 69 80 69 80  1107         .byte   0x6C,0xA0,0x69,0x80,0x69,0x80,0x67,0xA0,0x5E,0x20,0x58,0x24,0x57,0x20,0x57,0x20
+        67 A0 5E 20 58 24
+        57 20 57 20
+   16B6 56 24 55 20 54 24  1108         .byte   0x56,0x24,0x55,0x20,0x54,0x24,0x54,0x24,0x53,0x20,0x52,0x24,0x52,0x24,0x50,0x20
+        54 24 53 20 52 24
+        52 24 50 20
+   16C6 4F 24 4E 20 4D 24  1109         .byte   0x4F,0x24,0x4E,0x20,0x4D,0x24,0x4C,0x20,0x4C,0x20,0x4B,0x24,0x4A,0x20,0x49,0x20
+        4C 20 4C 20 4B 24
+        4A 20 49 20
+   16D6 49 00 48 20 47 20  1110         .byte   0x49,0x00,0x48,0x20,0x47,0x20,0x47,0x20,0x46,0x20,0x45,0x24,0x45,0x24,0x44,0x20
+        47 20 46 20 45 24
+        45 24 44 20
+   16E6 42 20 42 20 37 04  1111         .byte   0x42,0x20,0x42,0x20,0x37,0x04,0x35,0x20,0x2E,0x04,0x2E,0x04,0x2D,0x20,0x23,0x24
+        35 20 2E 04 2E 04
+        2D 20 23 24
+   16F6 21 20 17 24 13 00  1112         .byte   0x21,0x20,0x17,0x24,0x13,0x00,0x11,0x24,0x10,0x30,0x07,0x34,0x06,0x30,0x05,0x30
+        11 24 10 30 07 34
+        06 30 05 30
+   1706 FF FF D7 22 D5 20  1113         .byte   0xFF,0xFF,0xD7,0x22,0xD5,0x20,0xC9,0x22,0xC7,0x20,0xC4,0x24,0xC3,0x20,0xC2,0x24
+        C9 22 C7 20 C4 24
+        C3 20 C2 24
+   1716 C1 20 BF 24 BF 24  1114         .byte   0xC1,0x20,0xBF,0x24,0xBF,0x24,0xBE,0x20,0xBD,0x24,0xBC,0x20,0xBB,0x24,0xBA,0x20
+        BE 20 BD 24 BC 20
+        BB 24 BA 20
+   1726 B9 20 B8 24 B7 20  1115         .byte   0xB9,0x20,0xB8,0x24,0xB7,0x20,0xB4,0x00,0xB4,0x00,0xB2,0x20,0xA9,0x20,0xA3,0x20
+        B4 00 B4 00 B2 20
+        A9 20 A3 20
+   1736 A2 20 A1 20 A0 20  1116         .byte   0xA2,0x20,0xA1,0x20,0xA0,0x20,0xA0,0x20,0x9F,0x20,0x9F,0x20,0x9E,0x20,0x9D,0x24
+        A0 20 9F 20 9F 20
+        9E 20 9D 24
+   1746 9D 24 9B 20 9A 24  1117         .byte   0x9D,0x24,0x9B,0x20,0x9A,0x24,0x99,0x20,0x98,0x20,0x97,0x24,0x97,0x24,0x95,0x20
+        99 20 98 20 97 24
+        97 24 95 20
+   1756 95 20 94 00 94 00  1118         .byte   0x95,0x20,0x94,0x00,0x94,0x00,0x93,0x20,0x92,0x00,0x92,0x00,0x91,0x20,0x90,0x20
+        93 20 92 00 92 00
+        91 20 90 20
+   1766 90 20 8F 20 8D 20  1119         .byte   0x90,0x20,0x8F,0x20,0x8D,0x20,0x8D,0x20,0x81,0x00,0x7F,0x20,0x79,0x00,0x79,0x00
+        8D 20 81 00 7F 20
+        79 00 79 00
+   1776 78 20 76 20 6B 00  1120         .byte   0x78,0x20,0x76,0x20,0x6B,0x00,0x69,0x20,0x5E,0x00,0x5C,0x20,0x5B,0x30,0x52,0x10
+        69 20 5E 00 5C 20
+        5B 30 52 10
+   1786 51 30 50 30 50 30  1121         .byte   0x51,0x30,0x50,0x30,0x50,0x30,0x4F,0x20,0x4E,0x20,0x4E,0x20,0x4D,0x20,0x46,0xA0
+        4F 20 4E 20 4E 20
+        4D 20 46 A0
+   1796 45 A0 3D A0 3D A0  1122         .byte   0x45,0xA0,0x3D,0xA0,0x3D,0xA0,0x39,0x20,0x2A,0x00,0x28,0x20,0x1E,0x00,0x1C,0x22
+        39 20 2A 00 28 20
+        1E 00 1C 22
+   17A6 1C 22 1B 20 1A 22  1123         .byte   0x1C,0x22,0x1B,0x20,0x1A,0x22,0x19,0x20,0x18,0x22,0x18,0x22,0x16,0x20,0x15,0x22
+        19 20 18 22 18 22
+        16 20 15 22
+   17B6 15 22 14 A0 13 A2  1124         .byte   0x15,0x22,0x14,0xA0,0x13,0xA2,0x11,0xA0,0xFF,0xFF,0xCD,0x20,0xCC,0x20,0xCB,0x20
+        11 A0 FF FF CD 20
+        CC 20 CB 20
+   17C6 CB 20 CA 00 C9 20  1125         .byte   0xCB,0x20,0xCA,0x00,0xC9,0x20,0xC9,0x20,0xC8,0x20,0xC1,0xA0,0xC0,0xA0,0xB8,0xA0
+        C9 20 C8 20 C1 A0
+        C0 A0 B8 A0
+   17D6 B8 20 B4 20 A6 00  1126         .byte   0xB8,0x20,0xB4,0x20,0xA6,0x00,0xA4,0x20,0x99,0x00,0x97,0x22,0x97,0x22,0x96,0x20
+        A4 20 99 00 97 22
+        97 22 96 20
+   17E6 95 22 94 20 93 22  1127         .byte   0x95,0x22,0x94,0x20,0x93,0x22,0x93,0x22,0x91,0x20,0x90,0x20,0x90,0x20,0x8D,0xA0
+        93 22 91 20 90 20
+        90 20 8D A0
+   17F6 8C A0 7D A2 7D A2  1128         .byte   0x8C,0xA0,0x7D,0xA2,0x7D,0xA2,0x7B,0xA0,0x7B,0xA0,0x79,0xA2,0x79,0xA2,0x77,0xA0
+        7B A0 7B A0 79 A2
+        79 A2 77 A0
+   1806 77 A0 76 80 75 A0  1129         .byte   0x77,0xA0,0x76,0x80,0x75,0xA0,0x6E,0x20,0x67,0x24,0x66,0x20,0x65,0x24,0x64,0x20
+        6E 20 67 24 66 20
+        65 24 64 20
+   1816 63 24 63 24 61 20  1130         .byte   0x63,0x24,0x63,0x24,0x61,0x20,0x60,0x24,0x5F,0x20,0x5E,0x20,0x5D,0x24,0x5C,0x20
+        60 24 5F 20 5E 20
+        5D 24 5C 20
+   1826 5B 24 5A 20 59 24  1131         .byte   0x5B,0x24,0x5A,0x20,0x59,0x24,0x58,0x20,0x56,0x20,0x55,0x04,0x54,0x00,0x53,0x24
+        58 20 56 20 55 04
+        54 00 53 24
+   1836 52 20 52 20 4F 24  1132         .byte   0x52,0x20,0x52,0x20,0x4F,0x24,0x4F,0x24,0x4E,0x30,0x4D,0x30,0x47,0x10,0x45,0x30
+        4F 24 4E 30 4D 30
+        47 10 45 30
+   1846 35 30 33 10 31 30  1133         .byte   0x35,0x30,0x33,0x10,0x31,0x30,0x31,0x30,0x1D,0x20,0xFF,0xFF,0xBE,0x00,0xBC,0x22
+        31 30 1D 20 FF FF
+        BE 00 BC 22
+   1856 BB 30 B9 32 B9 32  1134         .byte   0xBB,0x30,0xB9,0x32,0xB9,0x32,0xB7,0x30,0xB6,0x32,0xB5,0x30,0xB4,0x32,0xB4,0x32
+        B7 30 B6 32 B5 30
+        B4 32 B4 32
+   1866 B3 20 B3 20 B1 A0  1135         .byte   0xB3,0x20,0xB3,0x20,0xB1,0xA0,0xB1,0xA0,0xB0,0xA2,0xAF,0xA0,0xAF,0xA6,0xAE,0xA0
+        B1 A0 B0 A2 AF A0
+        AF A6 AE A0
+   1876 AE A6 AD A4 AC A0  1136         .byte   0xAE,0xA6,0xAD,0xA4,0xAC,0xA0,0xAC,0xA0,0xAB,0xA0,0xAA,0xA0,0xAA,0xA0,0xA2,0x80
+        AC A0 AB A0 AA A0
+        AA A0 A2 80
+   1886 A0 A0 A0 A0 8D 80  1137         .byte   0xA0,0xA0,0xA0,0xA0,0x8D,0x80,0x8A,0xA0,0x7E,0x80,0x7B,0xA0,0x79,0xA4,0x78,0xA0
+        8A A0 7E 80 7B A0
+        79 A4 78 A0
+   1896 77 A4 76 A0 75 A4  1138         .byte   0x77,0xA4,0x76,0xA0,0x75,0xA4,0x74,0xA0,0x73,0xA4,0x72,0xA0,0x71,0xA4,0x70,0xA0
+        74 A0 73 A4 72 A0
+        71 A4 70 A0
+   18A6 6F A4 6E A0 6D A4  1139         .byte   0x6F,0xA4,0x6E,0xA0,0x6D,0xA4,0x6C,0xA0,0x69,0x80,0x69,0x80,0x67,0xA0,0x5E,0x20
+        6C A0 69 80 69 80
+        67 A0 5E 20
+   18B6 58 24 57 20 57 20  1140         .byte   0x58,0x24,0x57,0x20,0x57,0x20,0x56,0x24,0x55,0x20,0x54,0x24,0x54,0x24,0x53,0x20
+        56 24 55 20 54 24
+        54 24 53 20
+   18C6 52 24 52 24 50 20  1141         .byte   0x52,0x24,0x52,0x24,0x50,0x20,0x4F,0x24,0x4E,0x20,0x4D,0x24,0x4C,0x20,0x4C,0x20
+        4F 24 4E 20 4D 24
+        4C 20 4C 20
+   18D6 4B 24 4A 20 49 20  1142         .byte   0x4B,0x24,0x4A,0x20,0x49,0x20,0x49,0x00,0x48,0x20,0x47,0x20,0x47,0x20,0x46,0x20
+        49 00 48 20 47 20
+        47 20 46 20
+   18E6 45 24 45 24 44 20  1143         .byte   0x45,0x24,0x45,0x24,0x44,0x20,0x42,0x20,0x42,0x20,0x37,0x04,0x35,0x20,0x2E,0x04
+        42 20 42 20 37 04
+        35 20 2E 04
+   18F6 2E 04 2D 20 23 24  1144         .byte   0x2E,0x04,0x2D,0x20,0x23,0x24,0x21,0x20,0x17,0x24,0x13,0x00,0x11,0x24,0x10,0x30
+        21 20 17 24 13 00
+        11 24 10 30
+   1906 07 34 06 30 05 30  1145         .byte   0x07,0x34,0x06,0x30,0x05,0x30,0xFF,0xFF,0xA9,0x20,0xA3,0x20,0xA2,0x20,0xA1,0x20
+        FF FF A9 20 A3 20
+        A2 20 A1 20
+   1916 A0 20 A0 20 9F 20  1146         .byte   0xA0,0x20,0xA0,0x20,0x9F,0x20,0x9F,0x20,0x9E,0x20,0x9D,0x24,0x9D,0x24,0x9B,0x20
+        9F 20 9E 20 9D 24
+        9D 24 9B 20
+   1926 9A 24 99 20 98 20  1147         .byte   0x9A,0x24,0x99,0x20,0x98,0x20,0x97,0x24,0x97,0x24,0x95,0x20,0x95,0x20,0x94,0x00
+        97 24 97 24 95 20
+        95 20 94 00
+   1936 94 00 93 20 92 00  1148         .byte   0x94,0x00,0x93,0x20,0x92,0x00,0x92,0x00,0x91,0x20,0x90,0x20,0x90,0x20,0x8F,0x20
+        92 00 91 20 90 20
+        90 20 8F 20
+   1946 8D 20 8D 20 81 00  1149         .byte   0x8D,0x20,0x8D,0x20,0x81,0x00,0x7F,0x20,0x79,0x00,0x79,0x00,0x78,0x20,0x76,0x20
+        7F 20 79 00 79 00
+        78 20 76 20
+   1956 6B 00 69 20 5E 00  1150         .byte   0x6B,0x00,0x69,0x20,0x5E,0x00,0x5C,0x20,0x5B,0x30,0x52,0x10,0x51,0x30,0x50,0x30
+        5C 20 5B 30 52 10
+        51 30 50 30
+   1966 50 30 4F 20 4E 20  1151         .byte   0x50,0x30,0x4F,0x20,0x4E,0x20,0x4E,0x20,0x4D,0x20,0x46,0xA0,0x45,0xA0,0x3D,0xA0
+        4E 20 4D 20 46 A0
+        45 A0 3D A0
+   1976 3D A0 39 20 2A 00  1152         .byte   0x3D,0xA0,0x39,0x20,0x2A,0x00,0x28,0x20,0x1E,0x00,0x1C,0x22,0x1C,0x22,0x1B,0x20
+        28 20 1E 00 1C 22
+        1C 22 1B 20
+   1986 1A 22 19 20 18 22  1153         .byte   0x1A,0x22,0x19,0x20,0x18,0x22,0x18,0x22,0x16,0x20,0x15,0x22,0x15,0x22,0x14,0xA0
+        18 22 16 20 15 22
+        15 22 14 A0
+   1996 13 A2 11 A0 FF FF  1154         .byte   0x13,0xA2,0x11,0xA0,0xFF,0xFF
+                           1155 
+   199C                    1156 L199C:
+   199C AD 05 02      [ 4] 1157         lda     U18_edge_detect_control_DI_pos
+   199F 30 03         [ 4] 1158         bmi     L19A4
+   19A1 4C 88 12      [ 3] 1159         jmp     L1288
+                           1160 
+                           1161 
+   19A4                    1162 L19A4:
+   19A4 20 ED 11      [ 6] 1163         jsr     L11ED
+   19A7 A5 64         [ 3] 1164         lda     0x64
+   19A9 C9 01         [ 2] 1165         cmp     #0x01
+   19AB F0 04         [ 4] 1166         beq     L19B1
+   19AD C9 02         [ 2] 1167         cmp     #0x02
+   19AF D0 06         [ 4] 1168         bne     L19B7
+                           1169 
+                           1170 
+   19B1                    1171 L19B1:
+   19B1 4D 02 02      [ 4] 1172         eor     U18_PORTB
+   19B4 8D 02 02      [ 4] 1173         sta     U18_PORTB
+                           1174 
+                           1175 
+   19B7                    1176 L19B7:
+   19B7 A9 00         [ 2] 1177         lda     #0x00
+   19B9 85 64         [ 3] 1178         sta     0x64
+   19BB AD 02 03      [ 4] 1179         lda     transport_periph$ddr_reg_b
+   19BE 4A            [ 2] 1180         lsr
+   19BF 90 04         [ 4] 1181         bcc     L19C5
+   19C1 A9 64         [ 2] 1182         lda     #0x64
+   19C3 85 5A         [ 3] 1183         sta     0x5A
+                           1184 
+                           1185 
+   19C5                    1186 L19C5:
+   19C5 A5 5A         [ 3] 1187         lda     0x5A
+   19C7 D0 0F         [ 4] 1188         bne     L19D8
+   19C9 A5 50         [ 3] 1189         lda     0x50
+   19CB F0 05         [ 4] 1190         beq     L19D2
+   19CD A9 80         [ 2] 1191         lda     #0x80
+   19CF 8D 02 02      [ 4] 1192         sta     U18_PORTB
+                           1193 
+                           1194 
+   19D2                    1195 L19D2:
+   19D2 20 4D 12      [ 6] 1196         jsr     L124D
+   19D5 4C 88 11      [ 3] 1197         jmp     L1188
+                           1198 
+                           1199 
+   19D8                    1200 L19D8:
+   19D8 A5 54         [ 3] 1201         lda     0x54
+   19DA 29 3E         [ 2] 1202         and     #0x3E
+   19DC 85 59         [ 3] 1203         sta     0x59
+   19DE D0 04         [ 4] 1204         bne     L19E4
+                           1205 
+                           1206 
+   19E0                    1207 L19E0:
+   19E0 A9 0C         [ 2] 1208         lda     #0x0C
+   19E2 85 5F         [ 3] 1209         sta     0x5F
+                           1210 
+                           1211 
+   19E4                    1212 L19E4:
+   19E4 A5 5F         [ 3] 1213         lda     0x5F
+   19E6 C9 07         [ 2] 1214         cmp     #0x07
+   19E8 B0 08         [ 4] 1215         bcs     L19F2
+   19EA C9 00         [ 2] 1216         cmp     #0x00
+   19EC F0 F2         [ 4] 1217         beq     L19E0
+   19EE A9 00         [ 2] 1218         lda     #0x00
+   19F0 85 59         [ 3] 1219         sta     0x59
+                           1220 
+                           1221 
+   19F2                    1222 L19F2:
+   19F2 A5 92         [ 3] 1223         lda     0x92
+   19F4 29 C1         [ 2] 1224         and     #0xC1
+   19F6 05 59         [ 3] 1225         ora     0x59
+   19F8 85 92         [ 3] 1226         sta     0x92
+   19FA 4C 88 12      [ 3] 1227         jmp     L1288
+   19FD A9 34         [ 2] 1228         lda     #0x34
+   19FF 48            [ 3] 1229         pha
+   1A00 A9 40         [ 2] 1230         lda     #0x40
+   1A02 A0 34         [ 2] 1231         ldy     #0x34
+   1A04 A2 3C         [ 2] 1232         ldx     #0x3C
+   1A06 D0 14         [ 4] 1233         bne     L1A1C
+   1A08 A9 34         [ 2] 1234         lda     #0x34
+   1A0A 48            [ 3] 1235         pha
+   1A0B A9 00         [ 2] 1236         lda     #0x00
+   1A0D A0 3C         [ 2] 1237         ldy     #0x3C
+   1A0F A2 34         [ 2] 1238         ldx     #0x34
+   1A11 D0 09         [ 4] 1239         bne     L1A1C
+   1A13 A9 3C         [ 2] 1240         lda     #0x3C
+   1A15 48            [ 3] 1241         pha
+   1A16 A9 00         [ 2] 1242         lda     #0x00
+   1A18 A0 3C         [ 2] 1243         ldy     #0x3C
+   1A1A A2 3C         [ 2] 1244         ldx     #0x3C
+                           1245 
+                           1246 
+   1A1C                    1247 L1A1C:
+   1A1C 8E 81 03      [ 4] 1248         stx     audio_control_reg_a
+   1A1F 8C 83 03      [ 4] 1249         sty     audio_control_reg_b
+   1A22 A2 00         [ 2] 1250         ldx     #0x00
+   1A24 20 2E 1A      [ 6] 1251         jsr     L1A2E
+   1A27 68            [ 4] 1252         pla
+   1A28 A2 01         [ 2] 1253         ldx     #0x01
+   1A2A 20 2E 1A      [ 6] 1254         jsr     L1A2E
+   1A2D 60            [ 6] 1255         rts
+                           1256 
+                           1257 
+   1A2E                    1258 L1A2E:
+   1A2E 95 82         [ 4] 1259         sta     0x82,x
+   1A30 E8            [ 2] 1260         inx
+   1A31 E8            [ 2] 1261         inx
+   1A32 E8            [ 2] 1262         inx
+   1A33 E8            [ 2] 1263         inx
+   1A34 E0 17         [ 2] 1264         cpx     #0x17
+   1A36 90 F6         [ 4] 1265         bcc     L1A2E
+   1A38 60            [ 6] 1266         rts
+   1A39 20 26 13      [ 6] 1267         jsr     L1326
+   1A3C 90 01         [ 4] 1268         bcc     L1A3F
+   1A3E 60            [ 6] 1269         rts
+                           1270 
+                           1271 
+   1A3F                    1272 L1A3F:
+   1A3F A9 2C         [ 2] 1273         lda     #0x2C
+   1A41 4C 28 13      [ 3] 1274         jmp     L1328
+   1A44 20 26 13      [ 6] 1275         jsr     L1326
+   1A47 90 01         [ 4] 1276         bcc     L1A4A
+   1A49 60            [ 6] 1277         rts
+                           1278 
+                           1279 
+   1A4A                    1280 L1A4A:
+   1A4A A9 2E         [ 2] 1281         lda     #0x2E
+   1A4C 4C 28 13      [ 3] 1282         jmp     L1328
+   1A4F 20 26 13      [ 6] 1283         jsr     L1326
+   1A52 90 01         [ 4] 1284         bcc     L1A55
+   1A54 60            [ 6] 1285         rts
+                           1286 
+                           1287 
+   1A55                    1288 L1A55:
+   1A55 A9 40         [ 2] 1289         lda     #0x40
+   1A57 4C 28 13      [ 3] 1290         jmp     L1328
+   1A5A 20 26 13      [ 6] 1291         jsr     L1326
+   1A5D A5 69         [ 3] 1292         lda     0x69
+   1A5F C9 41         [ 2] 1293         cmp     #0x41
+   1A61 F0 01         [ 4] 1294         beq     L1A64
+   1A63 60            [ 6] 1295         rts
+                           1296 
+                           1297 
+   1A64                    1298 L1A64:
+   1A64 A5 68         [ 3] 1299         lda     0x68
+   1A66 C9 3F         [ 2] 1300         cmp     #0x3F
+   1A68 F0 0D         [ 4] 1301         beq     L1A77
+   1A6A A5 8A         [ 3] 1302         lda     0x8A
+   1A6C 29 DF         [ 2] 1303         and     #0xDF
+   1A6E 85 8A         [ 3] 1304         sta     0x8A
+   1A70 A5 8E         [ 3] 1305         lda     0x8E
+   1A72 29 DF         [ 2] 1306         and     #0xDF
+   1A74 85 8E         [ 3] 1307         sta     0x8E
+   1A76 60            [ 6] 1308         rts
+                           1309 
+                           1310 
+   1A77                    1311 L1A77:
+   1A77 A5 8A         [ 3] 1312         lda     0x8A
+   1A79 09 20         [ 2] 1313         ora     #0x20
+   1A7B 85 8A         [ 3] 1314         sta     0x8A
+   1A7D A5 8E         [ 3] 1315         lda     0x8E
+   1A7F 09 20         [ 2] 1316         ora     #0x20
+   1A81 85 8E         [ 3] 1317         sta     0x8E
+   1A83 60            [ 6] 1318         rts
+                           1319 
+                           1320 
+   1A84                    1321 L1A84:
+   1A84 A5 68         [ 3] 1322         lda     0x68
+   1A86 C9 38         [ 2] 1323         cmp     #0x38
+   1A88 F0 0B         [ 4] 1324         beq     L1A95
+   1A8A A5 69         [ 3] 1325         lda     0x69
+   1A8C 60            [ 6] 1326         rts
+   1A8D C9 58         [ 2] 1327         cmp     #0x58
+   1A8F F0 05         [ 4] 1328         beq     L1A96
+   1A91 C9 59         [ 2] 1329         cmp     #0x59
+   1A93 F0 12         [ 4] 1330         beq     L1AA7
+                           1331 
+                           1332 
+   1A95                    1333 L1A95:
+   1A95 60            [ 6] 1334         rts
+                           1335 
+                           1336 
+   1A96                    1337 L1A96:
+   1A96 A5 94         [ 3] 1338         lda     0x94
+   1A98 29 03         [ 2] 1339         and     #0x03
+   1A9A C9 03         [ 2] 1340         cmp     #0x03
+   1A9C F0 F7         [ 4] 1341         beq     L1A95
+   1A9E 85 6E         [ 3] 1342         sta     0x6E
+   1AA0 A5 94         [ 3] 1343         lda     0x94
+   1AA2 09 03         [ 2] 1344         ora     #0x03
+   1AA4 85 94         [ 3] 1345         sta     0x94
+   1AA6 60            [ 6] 1346         rts
+                           1347 
+                           1348 
+   1AA7                    1349 L1AA7:
+   1AA7 A5 94         [ 3] 1350         lda     0x94
+   1AA9 09 03         [ 2] 1351         ora     #0x03
+   1AAB 25 6E         [ 3] 1352         and     0x6E
+   1AAD 85 94         [ 3] 1353         sta     0x94
+   1AAF 60            [ 6] 1354         rts
+                           1355 
+                           1356 
+   1AB0                    1357 X1AB0:
+   1AB0 6A                 1358         .byte   0x6A
+                           1359 
+   1AB1                    1360 X1AB1:
+   1AB1 13 92 13 CE 1A CE  1361         .byte   0x13,0x92,0x13,0xCE,0x1A,0xCE,0x1A,0x87,0x13,0xCE,0x1A,0xCE,0x1A,0xCE,0x1A,0x26
+        1A 87 13 CE 1A CE
+        1A CE 1A 26
+   1AC1 13 39 1A 4F 1A AD  1362         .byte   0x13,0x39,0x1A,0x4F,0x1A,0xAD,0x14,0x5F,0x13,0x44,0x1A,0x5A,0x1A,0x60
+        14 5F 13 44 1A 5A
+        1A 60
+                           1363 
+   1ACF                    1364 X1ACF:
+   1ACF 94 96 96 8A 8E 54  1365         .byte   0x94,0x96,0x96,0x8A,0x8E,0x54,0x80,0x88,0x84,0x94,0x90,0x8C,0x82,0x86,0x00,0x00
+        80 88 84 94 90 8C
+        82 86 00 00
+                           1366 
+                           1367 
+   1ADF                    1368 X1ADF:
+   1ADF 9C                 1369         .byte   0x9C
+                           1370 
+   1AE0                    1371 X1AE0:
+   1AE0 01 98 02 9C 08 9C  1372         .byte   0x01,0x98,0x02,0x9C,0x08,0x9C,0x04,0x9C,0x10,0x98,0x04,0x98,0x08,0x9A,0x20,0x9A
+        04 9C 10 98 04 98
+        08 9A 20 9A
+   1AF0 40 9C 20 9C 40 9C  1373         .byte   0x40,0x9C,0x20,0x9C,0x40,0x9C,0x80,0x9A,0x01,0x9A,0x08,0x9A,0x10,0x98,0x40,0x98
+        80 9A 01 9A 08 9A
+        10 98 40 98
+   1B00 80 9A 02 9A 04 98  1374         .byte   0x80,0x9A,0x02,0x9A,0x04,0x98,0x10,0x98,0x20,0x9C,0x02,0x9E,0x01,0x9E,0x08,0x9E
+        10 98 20 9C 02 9E
+        01 9E 08 9E
+   1B10 02 98 01 00 80 9E  1375         .byte   0x02,0x98,0x01,0x00,0x80,0x9E,0x04,0x9E,0x10,0x9E,0x20,0x9E,0x40,0x92,0x01,0x00
+        04 9E 10 9E 20 9E
+        40 92 01 00
+   1B20 00                 1376         .byte   0x00
+                           1377 
+   1B21                    1378 X1B21:
+   1B21 00 00 48 41 4A 4C  1379         .byte   0x00,0x00,0x48,0x41,0x4A,0x4C,0x49,0x42,0x00,0x00,0x00,0x5C,0x57,0x58,0x00,0x00
+        49 42 00 00 00 5C
+        57 58 00 00
+   1B31 55 56 57 00 00 00  1380         .byte   0x55,0x56,0x57,0x00,0x00,0x00,0x00,0x00,0x47,0x42,0x45,0x46,0x4A,0x4B,0x00,0x00
+        00 00 47 42 45 46
+        4A 4B 00 00
+   1B41 47 42 43 45 46 4A  1381         .byte   0x47,0x42,0x43,0x45,0x46,0x4A,0x00,0x00,0x00,0x4A,0x49,0x4D,0x4B,0x4C,0x00,0x00
+        00 00 00 4A 49 4D
+        4B 4C 00 00
+   1B51 41 55 43 50 49 4E  1382         .byte   0x41,0x55,0x43,0x50,0x49,0x4E,0x54,0x56,0x41,0x44,0x43,0x56,0x49,0x4E,0x48,0x54
+        54 56 41 44 43 56
+        49 4E 48 54
+   1B61 41 48 47 50 49 4E  1383         .byte   0x41,0x48,0x47,0x50,0x49,0x4E,0x54,0x56,0x00,0x00,0x4F,0x50,0x51,0x52,0x53,0x54
+        54 56 00 00 4F 50
+        51 52 53 54
+   1B71 41 44 43 50 46 4E  1384         .byte   0x41,0x44,0x43,0x50,0x46,0x4E,0x4B,0x4C,0x41,0x48,0x4C,0x44,0x49,0x4E,0x54,0x56
+        4B 4C 41 48 4C 44
+        49 4E 54 56
+   1B81 41 44 43 50 49 42  1385         .byte   0x41,0x44,0x43,0x50,0x49,0x42,0x00,0x00,0x42,0x43,0x44,0x45,0x46,0x4A,0x00,0x00
+        00 00 42 43 44 45
+        46 4A 00 00
+   1B91 43 79 62 65 72 76  1386         .byte   0x43,0x79,0x62,0x65,0x72,0x76,0x69,0x73,0x69,0x6F,0x6E,0x20,0x70,0x72,0x6F,0x67
+        69 73 69 6F 6E 20
+        70 72 6F 67
+   1BA1 72 61 6D 20 28 63  1387         .byte   0x72,0x61,0x6D,0x20,0x28,0x63,0x29,0x20,0x31,0x39,0x38,0x38,0x20,0x62,0x79,0x20
+        29 20 31 39 38 38
+        20 62 79 20
+   1BB1 53 68 6F 77 42 69  1388         .byte   0x53,0x68,0x6F,0x77,0x42,0x69,0x7A,0x20,0x50,0x69,0x7A,0x7A,0x61,0x20,0x54,0x69
+        7A 20 50 69 7A 7A
+        61 20 54 69
+   1BC1 6D 65 2C 20 49 6E  1389         .byte   0x6D,0x65,0x2C,0x20,0x49,0x6E,0x63,0x2E,0x70,0x72,0x6F,0x67,0x72,0x61,0x6D,0x20
+        63 2E 70 72 6F 67
+        72 61 6D 20
+   1BD1 62 79 20 44 61 76  1390         .byte   0x62,0x79,0x20,0x44,0x61,0x76,0x65,0x20,0x50,0x68,0x69,0x6C,0x69,0x70,0x73,0x65
+        65 20 50 68 69 6C
+        69 70 73 65
+   1BE1 6E                 1391         .byte   0x6E
+                           1392 
+   1BE2                    1393 L1BE2:
+   1BE2 A9 00         [ 2] 1394         lda     #0x00
+   1BE4 85 63         [ 3] 1395         sta     0x63
+   1BE6 A9 50         [ 2] 1396         lda     #0x50
+   1BE8 8D 02 02      [ 4] 1397         sta     U18_PORTB
+                           1398 
+                           1399 
+   1BEB                    1400 L1BEB:
+   1BEB A9 03         [ 2] 1401         lda     #0x03
+   1BED 85 5E         [ 3] 1402         sta     0x5E
+   1BEF AD 02 02      [ 4] 1403         lda     U18_PORTB
+   1BF2 49 60         [ 2] 1404         eor     #0x60
+   1BF4 8D 02 02      [ 4] 1405         sta     U18_PORTB
+                           1406 
+                           1407 
+   1BF7                    1408 L1BF7:
+   1BF7 A9 00         [ 2] 1409         lda     #0x00
+   1BF9 85 63         [ 3] 1410         sta     0x63
+   1BFB 20 ED 11      [ 6] 1411         jsr     L11ED
+   1BFE A5 64         [ 3] 1412         lda     0x64
+   1C00 8D 82 02      [ 4] 1413         sta     U19_PORTB
+   1C03 29 40         [ 2] 1414         and     #0x40
+   1C05 D0 13         [ 4] 1415         bne     L1C1A
+   1C07 A5 64         [ 3] 1416         lda     0x64
+   1C09 8D 82 02      [ 4] 1417         sta     U19_PORTB
+   1C0C 29 20         [ 2] 1418         and     #0x20
+   1C0E F0 03         [ 4] 1419         beq     L1C13
+   1C10 4C A8 1C      [ 3] 1420         jmp     L1CA8
+                           1421 
+                           1422 
+   1C13                    1423 L1C13:
+   1C13 A5 5E         [ 3] 1424         lda     0x5E
+   1C15 D0 E0         [ 4] 1425         bne     L1BF7
+   1C17 4C EB 1B      [ 3] 1426         jmp     L1BEB
+                           1427 
+                           1428 
+   1C1A                    1429 L1C1A:
+   1C1A A9 01         [ 2] 1430         lda     #0x01
+   1C1C 85 71         [ 3] 1431         sta     0x71
+   1C1E A9 40         [ 2] 1432         lda     #0x40
+   1C20 8D 02 02      [ 4] 1433         sta     U18_PORTB
+   1C23 A9 00         [ 2] 1434         lda     #0x00
+   1C25 8D 02 03      [ 4] 1435         sta     transport_periph$ddr_reg_b
+   1C28 20 4D 12      [ 6] 1436         jsr     L124D
+   1C2B A5 94         [ 3] 1437         lda     0x94
+   1C2D 09 82         [ 2] 1438         ora     #0x82
+   1C2F 29 FE         [ 2] 1439         and     #0xFE
+   1C31 85 94         [ 3] 1440         sta     0x94
+   1C33 85 6E         [ 3] 1441         sta     0x6E
+   1C35 A9 01         [ 2] 1442         lda     #0x01
+   1C37 85 96         [ 3] 1443         sta     0x96
+                           1444 
+                           1445 
+   1C39                    1446 L1C39:
+   1C39 AD 00 02      [ 4] 1447         lda     U18_PORTA
+   1C3C 29 80         [ 2] 1448         and     #0x80
+   1C3E D0 21         [ 4] 1449         bne     L1C61
+   1C40 20 4D 12      [ 6] 1450         jsr     L124D
+                           1451 
+                           1452 
+   1C43                    1453 L1C43:
+   1C43 AD 00 02      [ 4] 1454         lda     U18_PORTA
+   1C46 29 80         [ 2] 1455         and     #0x80
+   1C48 F0 F9         [ 4] 1456         beq     L1C43
+   1C4A A9 05         [ 2] 1457         lda     #0x05
+   1C4C 85 5E         [ 3] 1458         sta     0x5E
+                           1459 
+                           1460 
+   1C4E                    1461 L1C4E:
+   1C4E AD 00 02      [ 4] 1462         lda     U18_PORTA
+   1C51 29 80         [ 2] 1463         and     #0x80
+   1C53 F0 EE         [ 4] 1464         beq     L1C43
+   1C55 A5 5E         [ 3] 1465         lda     0x5E
+   1C57 D0 F5         [ 4] 1466         bne     L1C4E
+   1C59 A5 6E         [ 3] 1467         lda     0x6E
+   1C5B 85 94         [ 3] 1468         sta     0x94
+   1C5D A9 01         [ 2] 1469         lda     #0x01
+   1C5F 85 96         [ 3] 1470         sta     0x96
+                           1471 
+                           1472 
+   1C61                    1473 L1C61:
+   1C61 AD 01 03      [ 4] 1474         lda     transport_control_reg_a
+   1C64 0A            [ 2] 1475         asl
+   1C65 90 D2         [ 4] 1476         bcc     L1C39
+   1C67 AD 00 03      [ 4] 1477         lda     transport_periph$ddr_reg_a
+   1C6A 29 7F         [ 2] 1478         and     #0x7F
+   1C6C 20 BA 1C      [ 6] 1479         jsr     L1CBA
+   1C6F 85 69         [ 3] 1480         sta     0x69
+   1C71 C9 22         [ 2] 1481         cmp     #0x22
+   1C73 90 C4         [ 4] 1482         bcc     L1C39
+   1C75 C9 40         [ 2] 1483         cmp     #0x40
+   1C77 B0 02         [ 4] 1484         bcs     L1C7B
+   1C79 85 68         [ 3] 1485         sta     0x68
+                           1486 
+                           1487 
+   1C7B                    1488 L1C7B:
+   1C7B A5 68         [ 3] 1489         lda     0x68
+   1C7D 29 7E         [ 2] 1490         and     #0x7E
+   1C7F 38            [ 2] 1491         sec
+   1C80 E9 22         [ 2] 1492         sbc     #0x22
+   1C82 C9 02         [ 2] 1493         cmp     #0x02
+   1C84 F0 0E         [ 4] 1494         beq     L1C94
+   1C86 C9 16         [ 2] 1495         cmp     #0x16
+   1C88 F0 0A         [ 4] 1496         beq     L1C94
+   1C8A 48            [ 3] 1497         pha
+   1C8B A9 14         [ 2] 1498         lda     #0x14
+   1C8D 85 5E         [ 3] 1499         sta     0x5E
+   1C8F A9 00         [ 2] 1500         lda     #0x00
+   1C91 85 4F         [ 3] 1501         sta     0x4F
+   1C93 68            [ 4] 1502         pla
+                           1503 
+                           1504 
+   1C94                    1505 L1C94:
+   1C94 AA            [ 2] 1506         tax
+   1C95 BD B0 1A      [ 5] 1507         lda     X1AB0,x
+   1C98 85 6C         [ 3] 1508         sta     0x6C
+   1C9A BD B1 1A      [ 5] 1509         lda     X1AB1,x
+   1C9D 85 6D         [ 3] 1510         sta     0x6D
+   1C9F 20 A5 1C      [ 6] 1511         jsr     L1CA5
+   1CA2 4C 39 1C      [ 3] 1512         jmp     L1C39
+                           1513 
+                           1514 
+   1CA5                    1515 L1CA5:
+   1CA5 6C 6C 00      [ 5] 1516         jmp     [0x006C]
+                           1517 
+                           1518 
+   1CA8                    1519 L1CA8:
+   1CA8 A9 FF         [ 2] 1520         lda     #0xFF
+   1CAA 85 98         [ 3] 1521         sta     0x98
+   1CAC 85 9A         [ 3] 1522         sta     0x9A
+   1CAE 85 9C         [ 3] 1523         sta     0x9C
+   1CB0 85 9E         [ 3] 1524         sta     0x9E
+   1CB2 8D 02 02      [ 4] 1525         sta     U18_PORTB
+                           1526 
+                           1527 
+   1CB5                    1528 L1CB5:
+   1CB5 4C B5 1C      [ 3] 1529         jmp     L1CB5
+                           1530 
+                           1531 
+   1CB8                    1532 L1CB8:
+   1CB8 60            [ 6] 1533         rts
+   1CB9 60            [ 6] 1534         rts
+                           1535 
+                           1536 
+   1CBA                    1537 L1CBA:
+   1CBA 60            [ 6] 1538         rts
+   1CBB 60            [ 6] 1539         rts
+   1CBC 60            [ 6] 1540         rts
+   1CBD FF FF FF FF FF FF  1541         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1CCD FF FF FF FF FF FF  1542         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1CDD FF FF FF FF FF FF  1543         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1CED FF FF FF FF FF FF  1544         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1CFD FF FF FF FF FF FF  1545         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D0D FF FF FF FF FF FF  1546         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D1D FF FF FF FF FF FF  1547         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D2D FF FF FF FF FF FF  1548         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D3D FF FF FF FF FF FF  1549         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D4D FF FF FF FF FF FF  1550         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D5D FF FF FF FF FF FF  1551         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D6D FF FF FF FF FF FF  1552         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D7D FF FF FF FF FF FF  1553         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D8D FF FF FF FF FF FF  1554         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1D9D FF FF FF FF FF FF  1555         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DAD FF FF FF FF FF FF  1556         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DBD FF FF FF FF FF FF  1557         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DCD FF FF FF FF FF FF  1558         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DDD FF FF FF FF FF FF  1559         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DED FF FF FF FF FF FF  1560         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1DFD FF FF FF FF FF FF  1561         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E0D FF FF FF FF FF FF  1562         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E1D FF FF FF FF FF FF  1563         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E2D FF FF FF FF FF FF  1564         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E3D FF FF FF FF FF FF  1565         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E4D FF FF FF FF FF FF  1566         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E5D FF FF FF FF FF FF  1567         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E6D FF FF FF FF FF FF  1568         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E7D FF FF FF FF FF FF  1569         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E8D FF FF FF FF FF FF  1570         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1E9D FF FF FF FF FF FF  1571         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1EAD FF FF FF FF FF FF  1572         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1EBD FF FF FF FF FF FF  1573         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1ECD FF FF FF FF FF FF  1574         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1EDD FF FF FF FF FF FF  1575         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1EED FF FF FF FF FF FF  1576         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1EFD FF FF FF FF FF FF  1577         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F0D FF FF FF FF FF FF  1578         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F1D FF FF FF FF FF FF  1579         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F2D FF FF FF FF FF FF  1580         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F3D FF FF FF FF FF FF  1581         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F4D FF FF FF FF FF FF  1582         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F5D FF FF FF FF FF FF  1583         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F6D FF FF FF FF FF FF  1584         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F7D FF FF FF FF FF FF  1585         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F8D FF FF FF FF FF FF  1586         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1F9D FF FF FF FF FF FF  1587         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1FAD FF FF FF FF FF FF  1588         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1FBD FF FF FF FF FF FF  1589         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1FCD FF FF FF FF FF FF  1590         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1FDD FF FF FF FF FF FF  1591         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF FF FF FF
+   1FED FF FF FF FF FF FF  1592         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+        FF
+                           1593 
+   1FFA                    1594         .org    0x1FFA
+                           1595         ;
+                           1596         ; vectors
+                           1597         ;
+   1FFA                    1598 NMIVEC:
+   1FFA FF FF              1599         .dw     0xFFFF
+   1FFC                    1600 RESETVEC:
+   1FFC 76 10              1601         .dw     L1076
+   1FFE                    1602 IRQVEC:
+   1FFE 10 10              1603         .dw     L1010

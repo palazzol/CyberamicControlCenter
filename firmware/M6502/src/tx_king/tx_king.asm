@@ -1,0 +1,724 @@
+
+        .area   region1 (ABS)
+
+        .include "../../include/ptt6502.def"
+
+        .org    0x1000
+        
+        .byte   0xff                    ; Need this, or .s19 file wont start here
+
+        .org    0x1A00
+
+L1A00:
+        cld
+        sei
+        ldx     #0xF0
+        txs
+        lda     #0x00
+        ldx     #0x10
+
+
+L1A09:
+        sta     0x00,x
+        inx
+        cpx     #0x80
+        bne     L1A09
+        lda     #0x00
+        sta     transport_control_reg_a
+        sta     transport_periph$ddr_reg_a
+        sta     audio_control_reg_a
+        sta     audio_periph$ddr_reg_a
+        sta     audio_control_reg_b
+        sta     U18_edge_detect_control_DI_pos
+        sta     transport_control_reg_b
+        sta     U18_DDRA
+        lda     #0x02
+        sta     U19_DDRA
+        lda     #0xFF
+        sta     audio_periph$ddr_reg_b
+        sta     U18_DDRB
+        sta     U19_DDRB
+        lda     #0xFC
+        sta     transport_periph$ddr_reg_b
+        lda     #0x2E
+        sta     transport_control_reg_a
+        sta     transport_control_reg_b
+        lda     #0x3C
+        sta     audio_control_reg_a
+        sta     audio_control_reg_b
+        lda     #0x64
+        sta     0x54
+        lda     #0x18
+        sta     0x57
+        lda     #0x64
+        sta     0x56
+        lda     #0x0A
+        sta     0x64
+        lda     #0x10
+        jsr     L1B97
+        lda     #0x28
+        sta     0x55
+        lda     #0x64
+        sta     0x54
+
+
+L1A6C:
+        jsr     L1CB7
+        lda     0x55
+        bne     L1A6C
+        jsr     L1B64
+
+
+L1A76:
+        lda     #0xFA
+        sta     0x66
+        lda     #0x00
+        sta     0x67
+        sta     0x68
+        lda     #0x30
+        lda     #0x40
+        jsr     L1B97
+
+
+L1A87:
+        lda     #0x00
+        sta     0x59
+
+
+L1A8B:
+        lda     transport_periph$ddr_reg_b
+        lda     #0x0A
+        sta     0x50
+        inc     0x59
+        lda     0x59
+        cmp     #0x64
+        bcs     L1AAC
+
+
+L1A9A:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x50
+        beq     L1A87
+        lda     transport_control_reg_b
+        bpl     L1A9A
+        jmp     L1A8B
+
+
+L1AAC:
+        lda     #0x20
+        jsr     L1B97
+        lda     #0x19
+        sta     0x55
+        lda     #0x64
+        sta     0x54
+
+
+L1AB9:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x55
+        bne     L1AB9
+        lda     #0x00
+        sta     0x5A
+        jsr     L1BB5
+        lda     #0x40
+        jsr     L1B97
+        jsr     L1BB5
+        lda     #0xFA
+        sta     0x50
+
+
+L1AD6:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x50
+        bne     L1AD6
+        lda     #0x20
+        jsr     L1B97
+        jsr     L1BB5
+        inc     0x5A
+        lda     #0x10
+        jsr     L1B97
+        lda     #0x80
+        jsr     L1B97
+        jsr     L1BDB
+        lda     #0x10
+        jsr     L1B97
+        jsr     L1B64
+
+
+L1AFF:
+        jsr     L1CB7
+        jsr     L1D67
+        jsr     L1DAB
+        lda     0x5B
+        bne     L1B1C
+        lda     #0x02
+        sta     U19_PORTA
+        lda     #0x00
+        sta     U18_PORTB
+        lda     0x57
+        bne     L1AFF
+        inc     0x5B
+
+
+L1B1C:
+        jsr     L1B64
+        lda     #0x00
+        sta     U19_PORTA
+        lda     #0x80
+        sta     U18_PORTB
+        lda     #0x80
+        jsr     L1B97
+        jsr     L1BDB
+        dec     0x5B
+        jsr     L1C0A
+        jsr     L1B64
+        lda     #0x18
+        sta     0x57
+        lda     #0x64
+        sta     0x56
+        inc     0x5A
+        lda     0x5A
+        cmp     #0x1A
+        bcc     L1B4C
+        jmp     L1A76
+
+
+L1B4C:
+        lda     #0x00
+        sta     0x67
+        sta     0x68
+        lda     #0xFA
+        sta     0x66
+        jsr     L1BDB
+        lda     #0x10
+        jsr     L1B97
+        jsr     L1D1B
+        jmp     L1AFF
+
+
+L1B64:
+        lda     #0x3C
+        sta     audio_control_reg_b
+        lda     #0x34
+        sta     audio_control_reg_a
+        ldx     #0x00
+
+
+L1B70:
+        lda     #0x30
+        sta     0x81,x
+        sta     0x83,x
+        lda     #0xFF
+        sta     0x80,x
+        sta     0x82,x
+        lda     #0x34
+        sta     0x81,x
+        sta     0x83,x
+        lda     #0x00
+        sta     0x80,x
+        sta     0x82,x
+        inx
+        inx
+        inx
+        inx
+        cpx     #0x20
+        bcc     L1B70
+        lda     #0x00
+        sta     0x5F
+        sta     0x65
+        rts
+
+
+L1B97:
+        sta     transport_periph$ddr_reg_b
+        lda     #0xFA
+        sta     0x50
+
+
+L1B9E:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x50
+        bne     L1B9E
+        lda     transport_periph$ddr_reg_b
+        and     #0x60
+        bne     L1BB4
+        lda     #0x00
+        sta     transport_periph$ddr_reg_b
+
+
+L1BB4:
+        rts
+
+
+L1BB5:
+        lda     #0x00
+        sta     0x59
+
+
+L1BB9:
+        lda     transport_periph$ddr_reg_b
+        lda     #0x0A
+        sta     0x50
+        inc     0x59
+        lda     0x59
+        cmp     #0x21
+        bcs     L1BDA
+
+
+L1BC8:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x50
+        beq     L1BB5
+        lda     transport_control_reg_b
+        bpl     L1BC8
+        jmp     L1BB9
+
+
+L1BDA:
+        rts
+
+
+L1BDB:
+        lda     #0xFA
+        sta     0x50
+
+
+L1BDF:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x50
+        bne     L1BDF
+
+
+L1BE9:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     transport_periph$ddr_reg_b
+        ror
+        bcc     L1BE9
+        lda     #0xA0
+        sta     0x50
+
+
+L1BF9:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     transport_periph$ddr_reg_b
+        ror
+        bcc     L1BE9
+        lda     0x50
+        bne     L1BF9
+        rts
+
+
+L1C0A:
+        lda     transport_periph$ddr_reg_a
+        lda     #0x40
+        sta     0x82
+        sta     0x86
+        sta     0x8A
+        sta     0x8E
+        lda     #0x3C
+        sta     audio_control_reg_a
+        lda     #0x34
+        sta     audio_control_reg_b
+        lda     #0x60
+        sta     0x82
+
+
+L1C25:
+        lda     transport_periph$ddr_reg_b
+        lsr
+        bcc     L1C3C
+        jsr     L1D67
+        jsr     L1CB7
+        lda     transport_control_reg_a
+        bpl     L1C25
+        jsr     L1C4E
+        jmp     L1C25
+
+
+L1C3C:
+        lda     #0x64
+        sta     0x50
+
+
+L1C40:
+        jsr     L1CB7
+        lda     transport_periph$ddr_reg_b
+        lsr
+        bcs     L1C0A
+        lda     0x50
+        bne     L1C40
+        rts
+
+
+L1C4E:
+        lda     transport_periph$ddr_reg_a
+
+
+L1C51:
+        and     #0x7F
+        sta     0x5D
+        and     #0x7E
+        cmp     #0x22
+        beq     L1C95
+        cmp     #0x32
+        bcc     L1CAE
+        cmp     #0x3A
+        bcc     L1C95
+        lda     0x5D
+        cmp     #0x41
+        bcc     L1CAE
+        cmp     #0x4F
+        bcs     L1CAE
+        ldx     0x65
+        sec
+        sbc     #0x41
+        cmp     #0x08
+        bcc     L1C78
+        inx
+        inx
+
+
+L1C78:
+        and     #0x07
+        tay
+        lda     X1CAF,y
+        sta     0x5E
+        lda     0x5F
+        lsr
+        bcs     L1C8E
+        lda     0x5E
+        eor     #0xFF
+        and     0x00,x
+        sta     0x00,x
+        rts
+
+
+L1C8E:
+        lda     0x5E
+        ora     0x00,x
+        sta     0x00,x
+        rts
+
+
+L1C95:
+        lda     0x5D
+        sta     0x5F
+        and     #0x7E
+        cmp     #0x22
+        bne     L1CA4
+        lda     #0x98
+        sta     0x65
+        rts
+
+
+L1CA4:
+        sec
+        sbc     #0x32
+        asl
+        clc
+        adc     #0x80
+        sta     0x65
+        rts
+
+
+L1CAE:
+        rts
+
+
+X1CAF:
+        .byte   0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
+
+L1CB7:
+        lda     U18_edge_detect_control_DI_pos
+        sta     0x60
+        beq     L1D1A
+        lda     0x5C
+        bmi     L1CD0
+        lda     0x60
+        and     #0x40
+        beq     L1CE2
+        lda     #0x80
+        sta     0x5C
+        lda     #0xFA
+        sta     0x51
+
+
+L1CD0:
+        lda     0x51
+        bne     L1CDE
+        lda     #0x00
+        sta     0x5C
+        lda     0x5B
+        bne     L1CDE
+        inc     0x5B
+
+
+L1CDE:
+        lda     0x60
+        bpl     L1D1A
+
+
+L1CE2:
+        lda     U18_timer
+        eor     #0xFF
+        lsr
+        lsr
+        lsr
+        sta     0x58
+        bcc     L1CF0
+        inc     0x58
+
+
+L1CF0:
+        lda     #0x7A
+        sec
+        sbc     0x58
+        sta     U18_timer_8T_DI
+        dec     0x50
+        dec     0x51
+        dec     0x53
+        dec     0x54
+        bne     L1D1A
+        lda     #0x64
+        sta     0x54
+        dec     0x55
+        dec     0x66
+        bne     L1D10
+        lda     #0xFA
+        sta     0x66
+
+
+L1D10:
+        dec     0x56
+        bne     L1D1A
+        lda     #0x64
+        sta     0x56
+        dec     0x57
+
+
+L1D1A:
+        rts
+
+
+L1D1B:
+        lda     #0x00
+        sta     0x62
+        sta     0x63
+        lda     #0x0A
+        sta     0x55
+        lda     #0x64
+        sta     0x54
+
+
+L1D29:
+        jsr     L1CB7
+        jsr     L1DAB
+        lda     0x55
+        bne     L1D29
+        lda     #0x0A
+        sta     0x55
+        lda     #0x64
+        sta     0x54
+        lda     0x63
+        cmp     #0x08
+        beq     L1D56
+        inc     0x63
+        ldx     #0x09
+        sec
+        lda     audio_periph$ddr_reg_a
+
+
+L1D49:
+        rol
+        dex
+        bcc     L1D49
+        clc
+        txa
+        adc     0x62
+        sta     0x62
+        jmp     L1D29
+
+
+L1D56:
+        lsr     0x62
+        lsr     0x62
+        lsr     0x62
+        lda     0x62
+        sta     0x61
+        lda     #0x00
+        sta     0x62
+        sta     0x63
+        rts
+
+
+L1D67:
+        lda     U19_PORTA
+        eor     #0xFF
+        lsr
+        lsr
+        lsr
+        lsr
+        clc
+        adc     0x61
+        tax
+        lda     AGCTABLE,x
+        sta     0x64
+        lda     0x53
+        bne     L1D93
+        lda     #0x0A
+        sta     0x53
+        lda     0x64
+        cmp     audio_periph$ddr_reg_b
+        bcc     L1D90
+        beq     L1D93
+        inc     audio_periph$ddr_reg_b
+        jmp     L1D93
+
+
+L1D90:
+        dec     audio_periph$ddr_reg_b
+
+
+L1D93:
+        lda     audio_periph$ddr_reg_b
+        sta     U19_PORTB
+        rts
+
+;
+;       AGC table
+;
+AGCTABLE:
+        .db     0x03, 0x04, 0x06, 0x08
+        .db     0x10, 0x16, 0x20, 0x2D
+        .db     0x40, 0x5A, 0x80, 0xBF
+        .db     0xFF, 0xFF, 0xFF, 0xFF
+        .db     0xFF
+
+L1DAB:
+        lda     0x67
+        tax
+        lda     0x68
+        bne     L1DE5
+        lda     X1E0F,x
+        cmp     #0xFE
+        beq     L1DDC
+        cmp     #0xFF
+        bne     L1DC4
+        lda     #0x00
+        sta     0x67
+        jmp     L1DDB
+
+
+L1DC4:
+        cmp     0x66
+        bne     L1DDB
+        lda     X1E10,x
+        jsr     L1C51
+        lda     X1E11,x
+        jsr     L1C51
+        lda     0x67
+        clc
+        adc     #0x03
+        sta     0x67
+
+
+L1DDB:
+        rts
+
+
+L1DDC:
+        inc     0x68
+        lda     #0x00
+        sta     0x67
+        jmp     L1DDB
+
+
+L1DE5:
+        lda     X1EF3,x
+        cmp     #0xFF
+        bne     L1DF5
+        lda     #0x00
+        sta     0x67
+        sta     0x68
+        jmp     L1DDB
+
+
+L1DF5:
+        cmp     0x66
+        bne     L1DDB
+        lda     X1EF4,x
+        jsr     L1C51
+        lda     X1EF5,x
+        jsr     L1C51
+        lda     0x67
+        clc
+        adc     #0x03
+        sta     0x67
+        jmp     L1DDB
+
+X1E0F:
+        .byte   0xEE
+
+X1E10:
+        .byte   0x35
+
+X1E11:
+        .byte   0x46,0xEB,0x35,0x49,0xE9,0x35,0x4A,0xE9,0x33,0x42,0xE8,0x33,0x46,0xE7,0x32,0x46
+        .byte   0xE6,0x33,0x46,0xE5,0x32,0x46,0xE4,0x33,0x46,0xE3,0x32,0x46,0xE2,0x33,0x46,0xE1
+        .byte   0x32,0x46,0xE0,0x33,0x46,0xDF,0x32,0x46,0xDE,0x33,0x46,0xDD,0x32,0x46,0xDD,0x34
+        .byte   0x46,0xDC,0x33,0x46,0xDB,0x32,0x46,0xDB,0x35,0x46,0xDA,0x33,0x46,0xD9,0x32,0x46
+        .byte   0xD1,0x32,0x42,0xC6,0x33,0x47,0xC6,0x33,0x43,0xC5,0x32,0x47,0xC3,0x34,0x46,0xC2
+        .byte   0x33,0x47,0xC1,0x32,0x47,0xC0,0x35,0x46,0xB9,0x34,0x46,0xB9,0x32,0x43,0xB7,0x35
+        .byte   0x46,0xB7,0x33,0x42,0xB3,0x33,0x46,0xB2,0x32,0x46,0xA8,0x32,0x42,0x9D,0x33,0x47
+        .byte   0x9C,0x32,0x47,0x9B,0x33,0x47,0x9A,0x32,0x47,0x9A,0x34,0x46,0x99,0x33,0x47,0x99
+        .byte   0x33,0x43,0x99,0x35,0x46,0x98,0x32,0x47,0x97,0x33,0x47,0x94,0x32,0x47,0x93,0x33
+        .byte   0x47,0x92,0x32,0x47,0x91,0x33,0x47,0x90,0x32,0x47,0x87,0x33,0x42,0x86,0x32,0x43
+        .byte   0x7D,0x33,0x46,0x7C,0x32,0x46,0x77,0x32,0x42,0x77,0x34,0x46,0x75,0x32,0x43,0x75
+        .byte   0x35,0x46,0x6A,0x33,0x46,0x69,0x32,0x46,0x67,0x33,0x46,0x66,0x32,0x46,0x66,0x32
+        .byte   0x43,0x65,0x34,0x46,0x62,0x35,0x46,0x62,0x33,0x42,0x56,0x33,0x46,0x55,0x32,0x46
+        .byte   0x55,0x32,0x42,0x54,0x33,0x46,0x53,0x32,0x46,0x52,0x33,0x46,0x51,0x32,0x46,0xFE
+        .byte   0xFE,0xFE
+
+X1EF3:
+        .byte   0x50
+
+X1EF4:
+        .byte   0x33
+
+X1EF5:
+        .byte   0x46,0x4F,0x32,0x46,0x4E,0x33,0x46,0x4E,0x33,0x42,0x4D,0x32,0x46,0x4C,0x33,0x46
+        .byte   0x4B,0x32,0x46,0x40,0x34,0x46,0x3E,0x35,0x46,0x3C,0x33,0x47,0x3B,0x32,0x47,0x3A
+        .byte   0x33,0x47,0x39,0x32,0x47,0x32,0x32,0x42,0x29,0x34,0x46,0x28,0x32,0x47,0x27,0x35
+        .byte   0x46,0x26,0x33,0x43,0x23,0x33,0x47,0x22,0x32,0x47,0x1E,0x33,0x42,0x1D,0x32,0x43
+        .byte   0x1B,0x33,0x47,0x1A,0x32,0x47,0x19,0x33,0x47,0x18,0x32,0x47,0x17,0x34,0x46,0x17
+        .byte   0x33,0x47,0x17,0x32,0x42,0x16,0x32,0x47,0x15,0x35,0x46,0x15,0x33,0x43,0x08,0x32
+        .byte   0x43,0x03,0x33,0x46,0x02,0x32,0x46,0x02,0x34,0x46,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+        .byte   0xFF,0xFF,0xFF,0xFF,0xFF
+
+        .org    0x1FFA
+        ;
+        ; vectors
+        ;
+NMIVEC:
+        .dw     0xFFFF
+RESETVEC:
+        .dw     L1A00
+IRQVEC:
+        .dw     0xFFFF
