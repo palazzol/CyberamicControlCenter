@@ -4,9 +4,9 @@
 ;
 ;       Pizza Time Theatre
 ;       Unknown Program (2)
-;       Version Unknown
+;       Version 015-0020-10_REV_L_FREE_BEAGKING
 ;
-;       This image was recovered from the last quarter of a 2732
+;       This image was recovered from the last quarter of a 2732 and a 2708
 ;
 RAM_50  = 0x0050    ; decremented every 1ms
 RAM_51  = 0x0051    ; decremented every 1ms
