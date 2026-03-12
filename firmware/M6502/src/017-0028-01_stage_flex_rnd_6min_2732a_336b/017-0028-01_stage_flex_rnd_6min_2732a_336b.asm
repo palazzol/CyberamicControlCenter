@@ -1135,12 +1135,12 @@ L1671:
 
 
 L1679:
-        lda     0x0102
+        lda     UART_02
         and     #0x05
         beq     L169F
         lda     0x33
         bne     L1690
-        lda     0x0101
+        lda     UART_01
         cmp     #0x4D
         bne     L169F
         inc     0x33
@@ -1150,7 +1150,7 @@ L1679:
 L1690:
         lda     #0x00
         sta     0x33
-        lda     0x0101
+        lda     UART_01
         cmp     #0x31
         beq     L16AB
         cmp     #0x32
@@ -1208,14 +1208,14 @@ L16D0:
         jsr     L18DD
         lda     0x4F
         beq     L16DE
-        lda     0x0102
+        lda     UART_02
         and     #0x02
         beq     L16D0
 
 
 L16DE:
         pla
-        sta     0x0101
+        sta     UART_01
         rts
 
 
