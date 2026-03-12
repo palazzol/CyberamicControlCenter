@@ -16,7 +16,7 @@ echo "Linking..."
 run ../../tools/aslink -n -m -u -s $1.rel
 
 echo "Converting s19 to bin..."
-run objcopy -I srec -O binary --gap-fill 0x00 $1.s19 $1.bin
+run objcopy -I srec -O binary --gap-fill 0xff $1.s19 $1.bin
 echo
 
 echo "Comparing..."
