@@ -1,0 +1,803 @@
+                              1 
+                              2         .area   region1 (ABS)
+                              3 
+                              4         .include "../../include/ptt6502.def"
+                              1 
+                              2 ;
+                              3 ; Peripheral Addresses for PTT 6502 system
+                              4 ;
+                              5 
+                     0000     6 RAM_start                       = 0x0000
+                              7 
+                              8 ; Board Select 1
+                     0080     9 board_1_periph$ddr_reg_a        = 0x0080
+                     0081    10 board_1_control_reg_a           = 0x0081
+                     0082    11 board_1_periph$ddr_reg_b        = 0x0082
+                     0083    12 board_1_control_reg_b           = 0x0083
+                             13 
+                             14 ; Board Select 2
+                     0084    15 board_2_periph$ddr_reg_a        = 0x0084
+                     0086    16 board_2_periph$ddr_reg_b        = 0x0086
+                             17 
+                             18 ; Board Select 3
+                     0088    19 board_3_periph$ddr_reg_a        = 0x0088
+                     008A    20 board_3_periph$ddr_reg_b        = 0x008A
+                             21 
+                             22 ; Board Select 4
+                     008C    23 board_4_periph$ddr_reg_a        = 0x008C
+                     008E    24 board_4_periph$ddr_reg_b        = 0x008E
+                             25 
+                             26 ; Board Select 5
+                     0090    27 board_5_periph$ddr_reg_a        = 0x0090
+                     0092    28 board_5_periph$ddr_reg_b        = 0x0092
+                             29 
+                             30 ; Board Select 6
+                     0094    31 board_6_periph$ddr_reg_a        = 0x0094
+                             32 
+                             33 ; Board Select 7
+                     0098    34 board_7_periph$ddr_reg_a        = 0x0098
+                     009A    35 board_7_periph$ddr_reg_b        = 0x009A
+                             36 
+                             37 ; Board Select 8
+                     009C    38 board_8_periph$ddr_reg_a        = 0x009C
+                     009E    39 board_8_periph$ddr_reg_b        = 0x009E
+                             40 
+                             41 ; UART / Board Select 11
+                     0101    42 UART_01                         = 0x0101
+                     0102    43 UART_02                         = 0x0102
+                             44 
+                             45 ; 1st 6532 on CPU board
+                     0200    46 U18_PORTA                       = 0x0200
+                     0201    47 U18_DDRA                        = 0x0201
+                     0202    48 U18_PORTB                       = 0x0202
+                     0203    49 U18_DDRB                        = 0x0203
+                     0204    50 U18_timer                       = 0x0204
+                     0205    51 U18_edge_detect_control_DI_pos  = 0x0205
+                     0206    52 U18_06                          = 0x0206    
+                     0215    53 U18_timer_8T_DI                 = 0x0215
+                     0217    54 U18_17                          = 0x0217
+                     021C    55 U18_1C                          = 0x021C    ; timer div by 1, enable interrupt
+                     021D    56 U18_1D                          = 0x021D    ; timer div by 1, disable interrupt
+                             57 
+                             58 ; 2nd 6532 on CPU board
+                     0280    59 U19_PORTA                       = 0x0280
+                     0281    60 U19_DDRA                        = 0x0281
+                     0282    61 U19_PORTB                       = 0x0282
+                     0283    62 U19_DDRB                        = 0x0283
+                     0285    63 U19_edge_detect_control_DI_pos  = 0x0285
+                     0286    64 U19_06                          = 0x0286
+                             65 
+                             66 ; XPRT / Board Select 12
+                     0300    67 transport_periph$ddr_reg_a      = 0x0300
+                     0301    68 transport_control_reg_a         = 0x0301
+                     0302    69 transport_periph$ddr_reg_b      = 0x0302
+                     0303    70 transport_control_reg_b         = 0x0303
+                             71 
+                             72 ; AUDIO / Board Select 13
+                     0380    73 audio_periph$ddr_reg_a          = 0x0380
+                     0381    74 audio_control_reg_a             = 0x0381
+                     0382    75 audio_periph$ddr_reg_b          = 0x0382
+                     0383    76 audio_control_reg_b             = 0x0383
+                             77 
+                             78 ; Tape Commands
+                     0010    79 TAPEMODE_STOP                   = 0x10
+                     0020    80 TAPEMODE_FFWD                   = 0x20
+                     0040    81 TAPEMODE_REWIND                 = 0x40
+                     0080    82 TAPEMODE_PLAY                   = 0x80
+                             83 
+                             84 
+                             85 
+                             86 
+                             87 
+                             88 
+                              5 
+   1800                       6         .org    0x1800
+                              7 
+   1800                       8 L1800:
+   1800 D8            [ 2]    9         cld
+   1801 78            [ 2]   10         sei
+   1802 A2 F0         [ 2]   11         ldx     #0xF0
+   1804 9A            [ 2]   12         txs
+   1805 A9 00         [ 2]   13         lda     #0x00
+   1807 A2 10         [ 2]   14         ldx     #0x10
+                             15 
+                             16 
+   1809                      17 L1809:
+   1809 95 00         [ 4]   18         sta     0x00,x
+   180B E8            [ 2]   19         inx
+   180C E0 80         [ 2]   20         cpx     #0x80
+   180E D0 F9         [ 4]   21         bne     L1809
+   1810 A9 00         [ 2]   22         lda     #0x00
+   1812 8D 01 03      [ 4]   23         sta     transport_control_reg_a
+   1815 8D 02 02      [ 4]   24         sta     U18_PORTB
+   1818 8D 81 03      [ 4]   25         sta     audio_control_reg_a
+   181B 8D 83 03      [ 4]   26         sta     audio_control_reg_b
+   181E 8D 05 02      [ 4]   27         sta     U18_edge_detect_control_DI_pos
+   1821 8D 03 03      [ 4]   28         sta     transport_control_reg_b
+   1824 8D 01 02      [ 4]   29         sta     U18_DDRA
+   1827 A9 02         [ 2]   30         lda     #0x02
+   1829 8D 81 02      [ 4]   31         sta     U19_DDRA
+   182C 8D 80 02      [ 4]   32         sta     U19_PORTA
+   182F A9 FF         [ 2]   33         lda     #0xFF
+   1831 8D 82 03      [ 4]   34         sta     audio_periph$ddr_reg_b
+   1834 8D 03 02      [ 4]   35         sta     U18_DDRB
+   1837 8D 83 02      [ 4]   36         sta     U19_DDRB
+   183A A9 FC         [ 2]   37         lda     #0xFC
+   183C 8D 02 03      [ 4]   38         sta     transport_periph$ddr_reg_b
+   183F A9 2E         [ 2]   39         lda     #0x2E
+   1841 8D 01 03      [ 4]   40         sta     transport_control_reg_a
+   1844 8D 03 03      [ 4]   41         sta     transport_control_reg_b
+   1847 A9 3C         [ 2]   42         lda     #0x3C
+   1849 8D 83 03      [ 4]   43         sta     audio_control_reg_b
+   184C 8D 81 03      [ 4]   44         sta     audio_control_reg_a
+   184F A9 10         [ 2]   45         lda     #0x10
+   1851 8D 82 03      [ 4]   46         sta     audio_periph$ddr_reg_b
+   1854 8D 82 02      [ 4]   47         sta     U19_PORTB
+   1857 A9 00         [ 2]   48         lda     #0x00
+   1859 85 63         [ 3]   49         sta     0x63
+   185B A9 64         [ 2]   50         lda     #0x64
+   185D 85 53         [ 3]   51         sta     0x53
+                             52 
+                             53 
+   185F                      54 L185F:
+   185F A9 02         [ 2]   55         lda     #0x02
+   1861 8D 80 02      [ 4]   56         sta     U19_PORTA
+   1864 A9 10         [ 2]   57         lda     #0x10
+   1866 20 0B 1B      [ 6]   58         jsr     L1B0B
+   1869 A9 28         [ 2]   59         lda     #0x28
+   186B 85 54         [ 3]   60         sta     0x54
+                             61 
+                             62 
+   186D                      63 L186D:
+   186D 20 28 1B      [ 6]   64         jsr     L1B28
+   1870 A5 54         [ 3]   65         lda     0x54
+   1872 D0 F9         [ 4]   66         bne     L186D
+   1874 20 52 1C      [ 6]   67         jsr     0x1C52
+   1877 20 ED 1D      [ 6]   68         jsr     0x1DED
+   187A AD 00 02      [ 4]   69         lda     U18_PORTA
+   187D 49 FF         [ 2]   70         eor     #0xFF
+   187F C9 10         [ 2]   71         cmp     #0x10
+   1881 D0 10         [ 4]   72         bne     L1893
+   1883 A9 FF         [ 2]   73         lda     #0xFF
+   1885 85 98         [ 3]   74         sta     0x98
+   1887 85 9A         [ 3]   75         sta     0x9A
+   1889 85 9C         [ 3]   76         sta     0x9C
+   188B 85 9E         [ 3]   77         sta     0x9E
+   188D 8D 02 02      [ 4]   78         sta     U18_PORTB
+                             79 
+                             80 
+   1890                      81 L1890:
+   1890 4C 90 18      [ 3]   82         jmp     L1890
+                             83 
+                             84 
+   1893                      85 L1893:
+   1893 A9 40         [ 2]   86         lda     #0x40
+   1895 20 0B 1B      [ 6]   87         jsr     L1B0B
+   1898 A5 5A         [ 3]   88         lda     0x5A
+   189A 8D 82 02      [ 4]   89         sta     U19_PORTB
+                             90 
+                             91 
+   189D                      92 L189D:
+   189D A9 00         [ 2]   93         lda     #0x00
+   189F 85 5E         [ 3]   94         sta     0x5E
+                             95 
+                             96 
+   18A1                      97 L18A1:
+   18A1 AD 02 03      [ 4]   98         lda     transport_periph$ddr_reg_b
+   18A4 A9 0A         [ 2]   99         lda     #0x0A
+   18A6 85 50         [ 3]  100         sta     0x50
+   18A8 E6 5E         [ 5]  101         inc     0x5E
+   18AA A5 5E         [ 3]  102         lda     0x5E
+   18AC C9 64         [ 2]  103         cmp     #0x64
+   18AE B0 0F         [ 4]  104         bcs     L18BF
+                            105 
+                            106 
+   18B0                     107 L18B0:
+   18B0 20 28 1B      [ 6]  108         jsr     L1B28
+   18B3 A5 50         [ 3]  109         lda     0x50
+   18B5 F0 E6         [ 4]  110         beq     L189D
+   18B7 AD 03 03      [ 4]  111         lda     transport_control_reg_b
+   18BA 10 F4         [ 4]  112         bpl     L18B0
+   18BC 4C A1 18      [ 3]  113         jmp     L18A1
+                            114 
+                            115 
+   18BF                     116 L18BF:
+   18BF A9 20         [ 2]  117         lda     #0x20
+   18C1 20 0B 1B      [ 6]  118         jsr     L1B0B
+   18C4 A9 19         [ 2]  119         lda     #0x19
+   18C6 85 54         [ 3]  120         sta     0x54
+                            121 
+                            122 
+   18C8                     123 L18C8:
+   18C8 20 28 1B      [ 6]  124         jsr     L1B28
+   18CB A5 54         [ 3]  125         lda     0x54
+   18CD D0 F9         [ 4]  126         bne     L18C8
+   18CF A9 00         [ 2]  127         lda     #0x00
+   18D1 85 5A         [ 3]  128         sta     0x5A
+   18D3 A9 02         [ 2]  129         lda     #0x02
+   18D5 85 5B         [ 3]  130         sta     0x5B
+   18D7 85 5C         [ 3]  131         sta     0x5C
+   18D9 20 49 1A      [ 6]  132         jsr     L1A49
+   18DC A9 00         [ 2]  133         lda     #0x00
+   18DE 8D 80 02      [ 4]  134         sta     U19_PORTA
+   18E1 A9 00         [ 2]  135         lda     #0x00
+   18E3 85 68         [ 3]  136         sta     0x68
+                            137 
+                            138 
+   18E5                     139 L18E5:
+   18E5 A9 18         [ 2]  140         lda     #0x18
+   18E7 85 58         [ 3]  141         sta     0x58
+                            142 
+                            143 
+   18E9                     144 L18E9:
+   18E9 A9 0A         [ 2]  145         lda     #0x0A
+   18EB 85 54         [ 3]  146         sta     0x54
+                            147 
+                            148 
+   18ED                     149 L18ED:
+   18ED 20 28 1B      [ 6]  150         jsr     L1B28
+   18F0 A5 68         [ 3]  151         lda     0x68
+   18F2 30 03         [ 4]  152         bmi     L18F7
+   18F4 20 EC 1B      [ 6]  153         jsr     L1BEC
+                            154 
+                            155 
+   18F7                     156 L18F7:
+   18F7 A5 74         [ 3]  157         lda     0x74
+   18F9 30 47         [ 4]  158         bmi     L1942
+   18FB D0 11         [ 4]  159         bne     L190E
+   18FD A9 64         [ 2]  160         lda     #0x64
+   18FF 85 55         [ 3]  161         sta     0x55
+   1901 A9 80         [ 2]  162         lda     #0x80
+   1903 8D 02 03      [ 4]  163         sta     transport_periph$ddr_reg_b
+   1906 A9 03         [ 2]  164         lda     #0x03
+   1908 85 74         [ 3]  165         sta     0x74
+   190A A9 A0         [ 2]  166         lda     #0xA0
+   190C 85 51         [ 3]  167         sta     0x51
+                            168 
+                            169 
+   190E                     170 L190E:
+   190E A5 74         [ 3]  171         lda     0x74
+   1910 6A            [ 2]  172         ror
+   1911 90 0B         [ 4]  173         bcc     L191E
+   1913 A5 55         [ 3]  174         lda     0x55
+   1915 D0 07         [ 4]  175         bne     L191E
+   1917 A9 02         [ 2]  176         lda     #0x02
+   1919 85 74         [ 3]  177         sta     0x74
+   191B 4C 35 19      [ 3]  178         jmp     L1935
+                            179 
+                            180 
+   191E                     181 L191E:
+   191E AD 02 03      [ 4]  182         lda     transport_periph$ddr_reg_b
+   1921 6A            [ 2]  183         ror
+   1922 B0 04         [ 4]  184         bcs     L1928
+   1924 A9 A0         [ 2]  185         lda     #0xA0
+   1926 85 51         [ 3]  186         sta     0x51
+                            187 
+                            188 
+   1928                     189 L1928:
+   1928 A5 51         [ 3]  190         lda     0x51
+   192A D0 11         [ 4]  191         bne     L193D
+   192C A9 10         [ 2]  192         lda     #0x10
+   192E 8D 02 03      [ 4]  193         sta     transport_periph$ddr_reg_b
+   1931 A9 80         [ 2]  194         lda     #0x80
+   1933 85 74         [ 3]  195         sta     0x74
+                            196 
+                            197 
+   1935                     198 L1935:
+   1935 A9 80         [ 2]  199         lda     #0x80
+   1937 2D 02 02      [ 4]  200         and     U18_PORTB
+   193A 8D 02 02      [ 4]  201         sta     U18_PORTB
+                            202 
+                            203 
+   193D                     204 L193D:
+   193D A5 74         [ 3]  205         lda     0x74
+   193F 6A            [ 2]  206         ror
+   1940 B0 AB         [ 4]  207         bcs     L18ED
+                            208 
+                            209 
+   1942                     210 L1942:
+   1942 20 62 1B      [ 6]  211         jsr     L1B62
+   1945 20 B9 1B      [ 6]  212         jsr     L1BB9
+   1948 A5 5F         [ 3]  213         lda     0x5F
+   194A D0 A1         [ 4]  214         bne     L18ED
+   194C AD 02 02      [ 4]  215         lda     U18_PORTB
+   194F 10 94         [ 4]  216         bpl     L18E5
+   1951 2A            [ 2]  217         rol
+   1952 2A            [ 2]  218         rol
+   1953 90 03         [ 4]  219         bcc     L1958
+   1955 4C 84 19      [ 3]  220         jmp     L1984
+                            221 
+                            222 
+   1958                     223 L1958:
+   1958 2A            [ 2]  224         rol
+   1959 90 03         [ 4]  225         bcc     L195E
+   195B 4C 72 19      [ 3]  226         jmp     L1972
+                            227 
+                            228 
+   195E                     229 L195E:
+   195E 2A            [ 2]  230         rol
+   195F 90 03         [ 4]  231         bcc     L1964
+   1961 4C 39 1A      [ 3]  232         jmp     L1A39
+                            233 
+                            234 
+   1964                     235 L1964:
+   1964 29 F0         [ 2]  236         and     #0xF0
+   1966 F0 03         [ 4]  237         beq     L196B
+   1968 4C B3 19      [ 3]  238         jmp     L19B3
+                            239 
+                            240 
+   196B                     241 L196B:
+   196B A5 58         [ 3]  242         lda     0x58
+   196D 30 03         [ 4]  243         bmi     L1972
+   196F 4C ED 18      [ 3]  244         jmp     L18ED
+                            245 
+                            246 
+   1972                     247 L1972:
+   1972 A9 A0         [ 2]  248         lda     #0xA0
+   1974 8D 02 02      [ 4]  249         sta     U18_PORTB
+   1977 A5 5C         [ 3]  250         lda     0x5C
+   1979 85 5B         [ 3]  251         sta     0x5B
+   197B 20 49 1A      [ 6]  252         jsr     L1A49
+   197E 20 AE 1A      [ 6]  253         jsr     L1AAE
+   1981 20 86 1C      [ 6]  254         jsr     0x1C86
+                            255 
+                            256 
+   1984                     257 L1984:
+   1984 A5 5C         [ 3]  258         lda     0x5C
+   1986 C5 5B         [ 3]  259         cmp     0x5B
+   1988 D0 21         [ 4]  260         bne     L19AB
+   198A E6 5C         [ 5]  261         inc     0x5C
+   198C A5 5C         [ 3]  262         lda     0x5C
+   198E C9 06         [ 2]  263         cmp     #0x06
+   1990 F0 14         [ 4]  264         beq     L19A6
+   1992 C9 10         [ 2]  265         cmp     #0x10
+   1994 F0 10         [ 4]  266         beq     L19A6
+   1996 C9 1A         [ 2]  267         cmp     #0x1A
+   1998 D0 11         [ 4]  268         bne     L19AB
+   199A A9 02         [ 2]  269         lda     #0x02
+   199C 85 5C         [ 3]  270         sta     0x5C
+   199E A9 02         [ 2]  271         lda     #0x02
+   19A0 8D 80 02      [ 4]  272         sta     U19_PORTA
+   19A3 4C 5F 18      [ 3]  273         jmp     L185F
+                            274 
+                            275 
+   19A6                     276 L19A6:
+   19A6 18            [ 2]  277         clc
+   19A7 69 06         [ 2]  278         adc     #0x06
+   19A9 85 5C         [ 3]  279         sta     0x5C
+                            280 
+                            281 
+   19AB                     282 L19AB:
+   19AB E6 5B         [ 5]  283         inc     0x5B
+   19AD 20 59 1A      [ 6]  284         jsr     L1A59
+   19B0 4C E5 18      [ 3]  285         jmp     L18E5
+                            286 
+                            287 
+   19B3                     288 L19B3:
+   19B3 A5 58         [ 3]  289         lda     0x58
+   19B5 85 75         [ 3]  290         sta     0x75
+   19B7 AD 02 02      [ 4]  291         lda     U18_PORTB
+   19BA 85 61         [ 3]  292         sta     0x61
+   19BC 29 0F         [ 2]  293         and     #0x0F
+   19BE 85 62         [ 3]  294         sta     0x62
+   19C0 6A            [ 2]  295         ror
+   19C1 90 04         [ 4]  296         bcc     L19C7
+   19C3 A9 09         [ 2]  297         lda     #0x09
+   19C5 D0 1F         [ 4]  298         bne     L19E6
+                            299 
+                            300 
+   19C7                     301 L19C7:
+   19C7 6A            [ 2]  302         ror
+   19C8 90 13         [ 4]  303         bcc     L19DD
+   19CA 18            [ 2]  304         clc
+   19CB A9 06         [ 2]  305         lda     #0x06
+   19CD 65 5D         [ 3]  306         adc     0x5D
+   19CF E6 5D         [ 5]  307         inc     0x5D
+   19D1 A6 5D         [ 3]  308         ldx     0x5D
+   19D3 E0 03         [ 2]  309         cpx     #0x03
+   19D5 90 0F         [ 4]  310         bcc     L19E6
+   19D7 A2 00         [ 2]  311         ldx     #0x00
+   19D9 86 5D         [ 3]  312         stx     0x5D
+   19DB F0 09         [ 4]  313         beq     L19E6
+                            314 
+                            315 
+   19DD                     316 L19DD:
+   19DD 6A            [ 2]  317         ror
+   19DE 90 04         [ 4]  318         bcc     L19E4
+   19E0 A9 0B         [ 2]  319         lda     #0x0B
+   19E2 D0 02         [ 4]  320         bne     L19E6
+                            321 
+                            322 
+   19E4                     323 L19E4:
+   19E4 A9 0A         [ 2]  324         lda     #0x0A
+                            325 
+                            326 
+   19E6                     327 L19E6:
+   19E6 A6 5C         [ 3]  328         ldx     0x5C
+   19E8 E0 0E         [ 2]  329         cpx     #0x0E
+   19EA 90 03         [ 4]  330         bcc     L19EF
+   19EC 18            [ 2]  331         clc
+   19ED 69 0A         [ 2]  332         adc     #0x0A
+                            333 
+                            334 
+   19EF                     335 L19EF:
+   19EF 85 5B         [ 3]  336         sta     0x5B
+   19F1 20 49 1A      [ 6]  337         jsr     L1A49
+   19F4 20 AE 1A      [ 6]  338         jsr     L1AAE
+   19F7 20 ED 1D      [ 6]  339         jsr     0x1DED
+                            340 
+                            341 
+   19FA                     342 L19FA:
+   19FA A9 FA         [ 2]  343         lda     #0xFA
+   19FC 85 51         [ 3]  344         sta     0x51
+                            345 
+                            346 
+   19FE                     347 L19FE:
+   19FE 20 62 1B      [ 6]  348         jsr     L1B62
+   1A01 A5 5F         [ 3]  349         lda     0x5F
+   1A03 D0 11         [ 4]  350         bne     L1A16
+   1A05 20 28 1B      [ 6]  351         jsr     L1B28
+   1A08 A5 51         [ 3]  352         lda     0x51
+   1A0A D0 F2         [ 4]  353         bne     L19FE
+   1A0C AD 02 02      [ 4]  354         lda     U18_PORTB
+   1A0F 45 62         [ 3]  355         eor     0x62
+   1A11 8D 02 02      [ 4]  356         sta     U18_PORTB
+   1A14 D0 E4         [ 4]  357         bne     L19FA
+                            358 
+                            359 
+   1A16                     360 L1A16:
+   1A16 20 28 1B      [ 6]  361         jsr     L1B28
+   1A19 20 62 1B      [ 6]  362         jsr     L1B62
+   1A1C A5 5F         [ 3]  363         lda     0x5F
+   1A1E D0 F6         [ 4]  364         bne     L1A16
+   1A20 AD 02 02      [ 4]  365         lda     U18_PORTB
+   1A23 C5 61         [ 3]  366         cmp     0x61
+   1A25 F0 03         [ 4]  367         beq     L1A2A
+   1A27 4C E9 18      [ 3]  368         jmp     L18E9
+                            369 
+                            370 
+   1A2A                     371 L1A2A:
+   1A2A 20 86 1C      [ 6]  372         jsr     0x1C86
+                            373 
+                            374 
+   1A2D                     375 L1A2D:
+   1A2D E6 5B         [ 5]  376         inc     0x5B
+   1A2F 20 59 1A      [ 6]  377         jsr     L1A59
+   1A32 A5 75         [ 3]  378         lda     0x75
+   1A34 85 58         [ 3]  379         sta     0x58
+   1A36 4C E5 18      [ 3]  380         jmp     L18E5
+                            381 
+                            382 
+   1A39                     383 L1A39:
+   1A39 A9 01         [ 2]  384         lda     #0x01
+   1A3B 85 5B         [ 3]  385         sta     0x5B
+   1A3D 20 49 1A      [ 6]  386         jsr     L1A49
+   1A40 20 AE 1A      [ 6]  387         jsr     L1AAE
+   1A43 20 86 1C      [ 6]  388         jsr     0x1C86
+   1A46 4C 2D 1A      [ 3]  389         jmp     L1A2D
+                            390 
+                            391 
+   1A49                     392 L1A49:
+   1A49 A5 5B         [ 3]  393         lda     0x5B
+   1A4B C5 5A         [ 3]  394         cmp     0x5A
+   1A4D 90 06         [ 4]  395         bcc     L1A55
+   1A4F F0 03         [ 4]  396         beq     L1A54
+   1A51 20 59 1A      [ 6]  397         jsr     L1A59
+                            398 
+                            399 
+   1A54                     400 L1A54:
+   1A54 60            [ 6]  401         rts
+                            402 
+                            403 
+   1A55                     404 L1A55:
+   1A55 20 72 1A      [ 6]  405         jsr     L1A72
+   1A58 60            [ 6]  406         rts
+                            407 
+                            408 
+   1A59                     409 L1A59:
+   1A59 A9 20         [ 2]  410         lda     #0x20
+   1A5B 20 0B 1B      [ 6]  411         jsr     L1B0B
+   1A5E 20 E3 1A      [ 6]  412         jsr     L1AE3
+   1A61 E6 5A         [ 5]  413         inc     0x5A
+   1A63 A5 5A         [ 3]  414         lda     0x5A
+   1A65 8D 82 02      [ 4]  415         sta     U19_PORTB
+   1A68 A5 5B         [ 3]  416         lda     0x5B
+   1A6A C5 5A         [ 3]  417         cmp     0x5A
+   1A6C D0 EB         [ 4]  418         bne     L1A59
+   1A6E 20 8D 1A      [ 6]  419         jsr     L1A8D
+   1A71 60            [ 6]  420         rts
+                            421 
+                            422 
+   1A72                     423 L1A72:
+   1A72 E6 5A         [ 5]  424         inc     0x5A
+                            425 
+                            426 
+   1A74                     427 L1A74:
+   1A74 A9 40         [ 2]  428         lda     #0x40
+   1A76 20 0B 1B      [ 6]  429         jsr     L1B0B
+   1A79 20 E3 1A      [ 6]  430         jsr     L1AE3
+   1A7C C6 5A         [ 5]  431         dec     0x5A
+   1A7E A5 5A         [ 3]  432         lda     0x5A
+   1A80 8D 82 02      [ 4]  433         sta     U19_PORTB
+   1A83 A5 5B         [ 3]  434         lda     0x5B
+   1A85 C5 5A         [ 3]  435         cmp     0x5A
+   1A87 D0 EB         [ 4]  436         bne     L1A74
+   1A89 20 A0 1A      [ 6]  437         jsr     L1AA0
+   1A8C 60            [ 6]  438         rts
+                            439 
+                            440 
+   1A8D                     441 L1A8D:
+   1A8D A9 40         [ 2]  442         lda     #0x40
+   1A8F 20 0B 1B      [ 6]  443         jsr     L1B0B
+   1A92 20 E3 1A      [ 6]  444         jsr     L1AE3
+   1A95 A9 03         [ 2]  445         lda     #0x03
+   1A97 85 54         [ 3]  446         sta     0x54
+                            447 
+                            448 
+   1A99                     449 L1A99:
+   1A99 20 28 1B      [ 6]  450         jsr     L1B28
+   1A9C A5 54         [ 3]  451         lda     0x54
+   1A9E D0 F9         [ 4]  452         bne     L1A99
+                            453 
+                            454 
+   1AA0                     455 L1AA0:
+   1AA0 A9 20         [ 2]  456         lda     #0x20
+   1AA2 20 0B 1B      [ 6]  457         jsr     L1B0B
+   1AA5 20 E3 1A      [ 6]  458         jsr     L1AE3
+   1AA8 A9 10         [ 2]  459         lda     #0x10
+   1AAA 20 0B 1B      [ 6]  460         jsr     L1B0B
+   1AAD 60            [ 6]  461         rts
+                            462 
+                            463 
+   1AAE                     464 L1AAE:
+   1AAE A5 74         [ 3]  465         lda     0x74
+   1AB0 30 30         [ 4]  466         bmi     L1AE2
+   1AB2 A9 80         [ 2]  467         lda     #0x80
+   1AB4 20 0B 1B      [ 6]  468         jsr     L1B0B
+   1AB7 A9 FA         [ 2]  469         lda     #0xFA
+   1AB9 85 50         [ 3]  470         sta     0x50
+                            471 
+                            472 
+   1ABB                     473 L1ABB:
+   1ABB 20 28 1B      [ 6]  474         jsr     L1B28
+   1ABE A5 50         [ 3]  475         lda     0x50
+   1AC0 D0 F9         [ 4]  476         bne     L1ABB
+                            477 
+                            478 
+   1AC2                     479 L1AC2:
+   1AC2 AD 02 03      [ 4]  480         lda     transport_periph$ddr_reg_b
+   1AC5 6A            [ 2]  481         ror
+   1AC6 90 FA         [ 4]  482         bcc     L1AC2
+   1AC8 A9 A0         [ 2]  483         lda     #0xA0
+   1ACA 85 50         [ 3]  484         sta     0x50
+                            485 
+                            486 
+   1ACC                     487 L1ACC:
+   1ACC AD 02 03      [ 4]  488         lda     transport_periph$ddr_reg_b
+   1ACF 6A            [ 2]  489         ror
+   1AD0 90 E9         [ 4]  490         bcc     L1ABB
+   1AD2 20 28 1B      [ 6]  491         jsr     L1B28
+   1AD5 A5 50         [ 3]  492         lda     0x50
+   1AD7 D0 F3         [ 4]  493         bne     L1ACC
+   1AD9 A9 10         [ 2]  494         lda     #0x10
+   1ADB 20 0B 1B      [ 6]  495         jsr     L1B0B
+   1ADE A9 80         [ 2]  496         lda     #0x80
+   1AE0 85 74         [ 3]  497         sta     0x74
+                            498 
+                            499 
+   1AE2                     500 L1AE2:
+   1AE2 60            [ 6]  501         rts
+                            502 
+                            503 
+   1AE3                     504 L1AE3:
+   1AE3 A5 5A         [ 3]  505         lda     0x5A
+   1AE5 8D 82 02      [ 4]  506         sta     U19_PORTB
+                            507 
+                            508 
+   1AE8                     509 L1AE8:
+   1AE8 A9 00         [ 2]  510         lda     #0x00
+   1AEA 85 5E         [ 3]  511         sta     0x5E
+                            512 
+                            513 
+   1AEC                     514 L1AEC:
+   1AEC AD 02 03      [ 4]  515         lda     transport_periph$ddr_reg_b
+   1AEF A9 0A         [ 2]  516         lda     #0x0A
+   1AF1 85 50         [ 3]  517         sta     0x50
+   1AF3 E6 5E         [ 5]  518         inc     0x5E
+   1AF5 A5 5E         [ 3]  519         lda     0x5E
+   1AF7 C9 21         [ 2]  520         cmp     #0x21
+   1AF9 B0 0F         [ 4]  521         bcs     L1B0A
+                            522 
+                            523 
+   1AFB                     524 L1AFB:
+   1AFB 20 28 1B      [ 6]  525         jsr     L1B28
+   1AFE A5 50         [ 3]  526         lda     0x50
+   1B00 F0 E6         [ 4]  527         beq     L1AE8
+   1B02 AD 03 03      [ 4]  528         lda     transport_control_reg_b
+   1B05 10 F4         [ 4]  529         bpl     L1AFB
+   1B07 4C EC 1A      [ 3]  530         jmp     L1AEC
+                            531 
+                            532 
+   1B0A                     533 L1B0A:
+   1B0A 60            [ 6]  534         rts
+                            535 
+                            536 
+   1B0B                     537 L1B0B:
+   1B0B 8D 02 03      [ 4]  538         sta     transport_periph$ddr_reg_b
+   1B0E A9 FA         [ 2]  539         lda     #0xFA
+   1B10 85 50         [ 3]  540         sta     0x50
+                            541 
+                            542 
+   1B12                     543 L1B12:
+   1B12 20 28 1B      [ 6]  544         jsr     L1B28
+   1B15 A5 50         [ 3]  545         lda     0x50
+   1B17 D0 F9         [ 4]  546         bne     L1B12
+   1B19 AD 02 03      [ 4]  547         lda     transport_periph$ddr_reg_b
+   1B1C 29 60         [ 2]  548         and     #0x60
+   1B1E D0 07         [ 4]  549         bne     L1B27
+   1B20 A9 00         [ 2]  550         lda     #0x00
+   1B22 8D 02 03      [ 4]  551         sta     transport_periph$ddr_reg_b
+   1B25 85 74         [ 3]  552         sta     0x74
+                            553 
+                            554 
+   1B27                     555 L1B27:
+   1B27 60            [ 6]  556         rts
+                            557 
+                            558 
+   1B28                     559 L1B28:
+   1B28 AD 05 02      [ 4]  560         lda     U18_edge_detect_control_DI_pos
+   1B2B 10 34         [ 4]  561         bpl     L1B61
+   1B2D AD 04 02      [ 4]  562         lda     U18_timer
+   1B30 49 FF         [ 2]  563         eor     #0xFF
+   1B32 4A            [ 2]  564         lsr
+   1B33 4A            [ 2]  565         lsr
+   1B34 4A            [ 2]  566         lsr
+   1B35 85 59         [ 3]  567         sta     0x59
+   1B37 90 02         [ 4]  568         bcc     L1B3B
+   1B39 E6 59         [ 5]  569         inc     0x59
+                            570 
+                            571 
+   1B3B                     572 L1B3B:
+   1B3B A9 7A         [ 2]  573         lda     #0x7A
+   1B3D 38            [ 2]  574         sec
+   1B3E E5 59         [ 3]  575         sbc     0x59
+   1B40 8D 15 02      [ 4]  576         sta     U18_timer_8T_DI
+   1B43 C6 50         [ 5]  577         dec     0x50
+   1B45 C6 51         [ 5]  578         dec     0x51
+   1B47 C6 52         [ 5]  579         dec     0x52
+   1B49 C6 53         [ 5]  580         dec     0x53
+   1B4B D0 14         [ 4]  581         bne     L1B61
+   1B4D A9 64         [ 2]  582         lda     #0x64
+   1B4F 85 53         [ 3]  583         sta     0x53
+   1B51 C6 54         [ 5]  584         dec     0x54
+   1B53 C6 55         [ 5]  585         dec     0x55
+   1B55 C6 56         [ 5]  586         dec     0x56
+   1B57 C6 57         [ 5]  587         dec     0x57
+   1B59 D0 06         [ 4]  588         bne     L1B61
+   1B5B A9 64         [ 2]  589         lda     #0x64
+   1B5D 85 57         [ 3]  590         sta     0x57
+   1B5F C6 58         [ 5]  591         dec     0x58
+                            592 
+                            593 
+   1B61                     594 L1B61:
+   1B61 60            [ 6]  595         rts
+                            596 
+                            597 
+   1B62                     598 L1B62:
+   1B62 A5 5F         [ 3]  599         lda     0x5F
+   1B64 D0 29         [ 4]  600         bne     L1B8F
+   1B66 AD 00 02      [ 4]  601         lda     U18_PORTA
+   1B69 49 FF         [ 2]  602         eor     #0xFF
+   1B6B F0 21         [ 4]  603         beq     L1B8E
+   1B6D 85 60         [ 3]  604         sta     0x60
+   1B6F 10 09         [ 4]  605         bpl     L1B7A
+   1B71 4D 02 02      [ 4]  606         eor     U18_PORTB
+   1B74 8D 02 02      [ 4]  607         sta     U18_PORTB
+   1B77 4C 86 1B      [ 3]  608         jmp     L1B86
+                            609 
+                            610 
+   1B7A                     611 L1B7A:
+   1B7A AD 02 02      [ 4]  612         lda     U18_PORTB
+   1B7D 29 80         [ 2]  613         and     #0x80
+   1B7F F0 0D         [ 4]  614         beq     L1B8E
+   1B81 05 60         [ 3]  615         ora     0x60
+   1B83 8D 02 02      [ 4]  616         sta     U18_PORTB
+                            617 
+                            618 
+   1B86                     619 L1B86:
+   1B86 A9 80         [ 2]  620         lda     #0x80
+   1B88 85 5F         [ 3]  621         sta     0x5F
+   1B8A A9 14         [ 2]  622         lda     #0x14
+   1B8C 85 50         [ 3]  623         sta     0x50
+                            624 
+                            625 
+   1B8E                     626 L1B8E:
+   1B8E 60            [ 6]  627         rts
+                            628 
+                            629 
+   1B8F                     630 L1B8F:
+   1B8F A5 5F         [ 3]  631         lda     0x5F
+   1B91 2A            [ 2]  632         rol
+   1B92 90 09         [ 4]  633         bcc     L1B9D
+   1B94 A5 50         [ 3]  634         lda     0x50
+   1B96 D0 20         [ 4]  635         bne     L1BB8
+   1B98 A9 40         [ 2]  636         lda     #0x40
+   1B9A 85 5F         [ 3]  637         sta     0x5F
+   1B9C 60            [ 6]  638         rts
+                            639 
+                            640 
+   1B9D                     641 L1B9D:
+   1B9D 2A            [ 2]  642         rol
+   1B9E 90 10         [ 4]  643         bcc     L1BB0
+   1BA0 AD 00 02      [ 4]  644         lda     U18_PORTA
+   1BA3 49 FF         [ 2]  645         eor     #0xFF
+   1BA5 D0 11         [ 4]  646         bne     L1BB8
+   1BA7 A9 20         [ 2]  647         lda     #0x20
+   1BA9 85 5F         [ 3]  648         sta     0x5F
+   1BAB A9 14         [ 2]  649         lda     #0x14
+   1BAD 85 50         [ 3]  650         sta     0x50
+   1BAF 60            [ 6]  651         rts
+                            652 
+                            653 
+   1BB0                     654 L1BB0:
+   1BB0 A5 50         [ 3]  655         lda     0x50
+   1BB2 D0 04         [ 4]  656         bne     L1BB8
+   1BB4 A9 00         [ 2]  657         lda     #0x00
+   1BB6 85 5F         [ 3]  658         sta     0x5F
+                            659 
+                            660 
+   1BB8                     661 L1BB8:
+   1BB8 60            [ 6]  662         rts
+                            663 
+                            664 
+   1BB9                     665 L1BB9:
+   1BB9 AD 80 02      [ 4]  666         lda     U19_PORTA
+   1BBC 49 FF         [ 2]  667         eor     #0xFF
+   1BBE 4A            [ 2]  668         lsr
+   1BBF 4A            [ 2]  669         lsr
+   1BC0 4A            [ 2]  670         lsr
+   1BC1 4A            [ 2]  671         lsr
+   1BC2 18            [ 2]  672         clc
+   1BC3 65 63         [ 3]  673         adc     0x63
+   1BC5 AA            [ 2]  674         tax
+   1BC6 BD 41 1C      [ 5]  675         lda     0x1C41,x
+   1BC9 85 67         [ 3]  676         sta     0x67
+   1BCB A5 52         [ 3]  677         lda     0x52
+   1BCD D0 16         [ 4]  678         bne     L1BE5
+   1BCF A9 0A         [ 2]  679         lda     #0x0A
+   1BD1 85 52         [ 3]  680         sta     0x52
+   1BD3 A5 67         [ 3]  681         lda     0x67
+   1BD5 CD 82 03      [ 4]  682         cmp     audio_periph$ddr_reg_b
+   1BD8 90 08         [ 4]  683         bcc     L1BE2
+   1BDA F0 09         [ 4]  684         beq     L1BE5
+   1BDC EE 82 03      [ 6]  685         inc     audio_periph$ddr_reg_b
+   1BDF 4C E5 1B      [ 3]  686         jmp     L1BE5
+                            687 
+                            688 
+   1BE2                     689 L1BE2:
+   1BE2 CE 82 03      [ 6]  690         dec     audio_periph$ddr_reg_b
+                            691 
+                            692 
+   1BE5                     693 L1BE5:
+   1BE5 AD 82 03      [ 4]  694         lda     audio_periph$ddr_reg_b
+   1BE8 8D 82 02      [ 4]  695         sta     U19_PORTB
+   1BEB 60            [ 6]  696         rts
+                            697 
+                            698 
+   1BEC                     699 L1BEC:
+   1BEC A5 68         [ 3]  700         lda     0x68
+   1BEE D0 15         [ 4]  701         bne     L1C05
+   1BF0 A9 7F         [ 2]  702         lda     #0x7F
+   1BF2 85 68         [ 3]  703         sta     0x68
+   1BF4 20 F8 1D      [ 6]  704         jsr     0x1DF8
+   1BF7 A9 0A         [ 2]  705         lda     #0x0A
+   1BF9 85 56         [ 3]  706         sta     0x56
+   1BFB A5 63         [ 3]  707         lda     0x63
+   1BFD 85 64         [ 3]  708         sta     0x64
+                            709 
+                            710 ;        lda     #0xhh                  ; incomplete instruction
+   1BFF A9                  711         .byte   0xA9                    ; put first byte here
+                            712 
+                            713 ; Symbols out of range
+                     1C05   714 L1C05   =       0x1C05
+                     1DF8   715 L1DF8   =       0x1DF8
