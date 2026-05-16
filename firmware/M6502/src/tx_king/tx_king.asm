@@ -9,7 +9,7 @@
 
         .org    0x1A00
 
-L1A00:
+RESET:
         cld
         sei
         ldx     #0xF0
@@ -17,12 +17,11 @@ L1A00:
         lda     #0x00
         ldx     #0x10
 
-
-L1A09:
+ZERORAM:
         sta     0x00,x
         inx
         cpx     #0x80
-        bne     L1A09
+        bne     ZERORAM
         lda     #0x00
         sta     transport_control_reg_a
         sta     transport_periph$ddr_reg_a
@@ -150,7 +149,7 @@ L1AD6:
 
 L1AFF:
         jsr     L1CB7
-        jsr     L1D67
+        jsr     AGCUPD
         jsr     L1DAB
         lda     0x5B
         bne     L1B1C
@@ -195,7 +194,7 @@ L1B4C:
         jsr     L1BDB
         lda     #0x10
         jsr     L1B97
-        jsr     L1D1B
+        jsr     AGCMICRD
         jmp     L1AFF
 
 
@@ -335,11 +334,11 @@ L1C25:
         lda     transport_periph$ddr_reg_b
         lsr
         bcc     L1C3C
-        jsr     L1D67
+        jsr     AGCUPD
         jsr     L1CB7
         lda     transport_control_reg_a
         bpl     L1C25
-        jsr     L1C4E
+        jsr     PROTOHAND
         jmp     L1C25
 
 
@@ -356,70 +355,64 @@ L1C40:
         lda     0x50
         bne     L1C40
         rts
-
-
-L1C4E:
+;
+; Protocol handler
+;
+PROTOHAND:
         lda     transport_periph$ddr_reg_a
-
-
-L1C51:
+PROCBYTE:
         and     #0x7F
         sta     0x5D
         and     #0x7E
         cmp     #0x22
-        beq     L1C95
+        beq     PROCCHNL
         cmp     #0x32
-        bcc     L1CAE
+        bcc     $18
         cmp     #0x3A
-        bcc     L1C95
+        bcc     PROCCHNL
         lda     0x5D
         cmp     #0x41
-        bcc     L1CAE
+        bcc     $18
         cmp     #0x4F
-        bcs     L1CAE
+        bcs     $18
         ldx     0x65
         sec
         sbc     #0x41
         cmp     #0x08
-        bcc     L1C78
+        bcc     $16
         inx
         inx
-
-
-L1C78:
+$16:
         and     #0x07
         tay
-        lda     X1CAF,y
+        lda     MASKTBL,y
         sta     0x5E
         lda     0x5F
         lsr
-        bcs     L1C8E
+        bcs     $17
         lda     0x5E
         eor     #0xFF
         and     0x00,x
         sta     0x00,x
         rts
-
-
-L1C8E:
+;
+$17:
         lda     0x5E
         ora     0x00,x
         sta     0x00,x
         rts
-
-
-L1C95:
+;
+PROCCHNL:
         lda     0x5D
         sta     0x5F
         and     #0x7E
         cmp     #0x22
-        bne     L1CA4
+        bne     CONVCHNL
         lda     #0x98
         sta     0x65
         rts
-
-
-L1CA4:
+;
+CONVCHNL:
         sec
         sbc     #0x32
         asl
@@ -427,15 +420,18 @@ L1CA4:
         adc     #0x80
         sta     0x65
         rts
-
-
-L1CAE:
+$18:
         rts
-
-
-X1CAF:
-        .byte   0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80
-
+;
+; bit mask table
+;
+MASKTBL:
+        .db     0x01,0x02,0x04,0x08
+        .db     0x10,0x20,0x40,0x80
+;
+;       Housekeeping routine
+;
+;
 L1CB7:
         lda     U18_edge_detect_control_DI_pos
         sta     0x60
@@ -449,8 +445,6 @@ L1CB7:
         sta     0x5C
         lda     #0xFA
         sta     0x51
-
-
 L1CD0:
         lda     0x51
         bne     L1CDE
@@ -459,13 +453,10 @@ L1CD0:
         lda     0x5B
         bne     L1CDE
         inc     0x5B
-
-
 L1CDE:
         lda     0x60
         bpl     L1D1A
-
-
+; Adjust Timer routine
 L1CE2:
         lda     U18_timer
         eor     #0xFF
@@ -494,21 +485,19 @@ L1CF0:
         bne     L1D10
         lda     #0xFA
         sta     0x66
-
-
 L1D10:
         dec     0x56
         bne     L1D1A
         lda     #0x64
         sta     0x56
         dec     0x57
-
-
 L1D1A:
         rts
-
-
-L1D1B:
+;
+;       Read the AGC mic level
+;       Take the average of 8 samples
+;
+AGCMICRD:
         lda     #0x00
         sta     0x62
         sta     0x63
@@ -516,38 +505,33 @@ L1D1B:
         sta     0x55
         lda     #0x64
         sta     0x54
-
-
-L1D29:
+$23:
         jsr     L1CB7
         jsr     L1DAB
         lda     0x55
-        bne     L1D29
+        bne     $23
         lda     #0x0A
         sta     0x55
         lda     #0x64
         sta     0x54
         lda     0x63
         cmp     #0x08
-        beq     L1D56
+        beq     $27
         inc     0x63
         ldx     #0x09
         sec
         lda     audio_periph$ddr_reg_a
-
-
-L1D49:
+$24:
         rol
         dex
-        bcc     L1D49
+        bcc     $24
         clc
         txa
         adc     0x62
         sta     0x62
-        jmp     L1D29
-
-
-L1D56:
+        jmp     $23
+;
+$27:
         lsr     0x62
         lsr     0x62
         lsr     0x62
@@ -557,9 +541,10 @@ L1D56:
         sta     0x62
         sta     0x63
         rts
-
-
-L1D67:
+;
+;        Do AGC Mic Logic
+;
+AGCUPD:
         lda     U19_PORTA
         eor     #0xFF
         lsr
@@ -572,26 +557,22 @@ L1D67:
         lda     AGCTABLE,x
         sta     0x64
         lda     0x53
-        bne     L1D93
+        bne     $26
         lda     #0x0A
         sta     0x53
         lda     0x64
         cmp     audio_periph$ddr_reg_b
-        bcc     L1D90
-        beq     L1D93
+        bcc     $25
+        beq     $26
         inc     audio_periph$ddr_reg_b
-        jmp     L1D93
-
-
-L1D90:
+        jmp     $26
+;
+$25:
         dec     audio_periph$ddr_reg_b
-
-
-L1D93:
+$26:
         lda     audio_periph$ddr_reg_b
         sta     U19_PORTB
         rts
-
 ;
 ;       AGC table
 ;
@@ -621,9 +602,9 @@ L1DC4:
         cmp     0x66
         bne     L1DDB
         lda     X1E10,x
-        jsr     L1C51
+        jsr     PROCBYTE
         lda     X1E11,x
-        jsr     L1C51
+        jsr     PROCBYTE
         lda     0x67
         clc
         adc     #0x03
@@ -655,15 +636,17 @@ L1DF5:
         cmp     0x66
         bne     L1DDB
         lda     X1EF4,x
-        jsr     L1C51
+        jsr     PROCBYTE
         lda     X1EF5,x
-        jsr     L1C51
+        jsr     PROCBYTE
         lda     0x67
         clc
         adc     #0x03
         sta     0x67
         jmp     L1DDB
-
+;
+;       Table of pairs of bytes to process
+;
 X1E0F:
         .byte   0xEE
 
@@ -719,6 +702,6 @@ X1EF5:
 NMIVEC:
         .dw     0xFFFF
 RESETVEC:
-        .dw     L1A00
+        .dw     RESET
 IRQVEC:
         .dw     0xFFFF
