@@ -8,27 +8,27 @@
                               8 ;
                               9 ;       This image was recovered from the last quarter of a 2732 and a 2708
                              10 ;
-                     0050    11 RAM_50  = 0x0050    ; decremented every 1ms
-                     0051    12 RAM_51  = 0x0051    ; decremented every 1ms
-                     0052    13 RAM_52  = 0x0052    ; decremented every 1ms
-                     0053    14 RAM_53  = 0x0053    ; decremented every 1ms, resets to 100
-                     0054    15 RAM_54  = 0x0054    ; decremented every 0.1s
-                     0055    16 RAM_55  = 0x0055    ; decremented every 0.1s, resets to 100
-                     0056    17 RAM_56  = 0x0056    ; decremented every 10s
-                     0057    18 RAM_57  = 0x0057    ; temp timer storage
-                     0058    19 RAM_58  = 0x0058    ; zero crossing counter
-                     0059    20 RAM_59  = 0x0059    ; track counter
-                     005A    21 RAM_5A  = 0x005A    ; number of PROG button presses
+                     0050    11 TIMER_1MS_A     = 0x0050    ; decremented every 1ms
+                     0051    12 TIMER_1MS_B     = 0x0051    ; decremented every 1ms
+                     0052    13 TIMER_1MS_C     = 0x0052    ; decremented every 1ms
+                     0053    14 TIMER_1MS_R     = 0x0053    ; decremented every 1ms, resets to 100
+                     0054    15 TIMER_100MS_A   = 0x0054    ; decremented every 0.1s
+                     0055    16 TIMER_100MS_R   = 0x0055    ; decremented every 0.1s, resets to 100
+                     0056    17 TIMER_10S       = 0x0056    ; decremented every 10s
+                     0057    18 TIMER_TMP1      = 0x0057    ; temp timer storage
+                     0058    19 ZEROCROSS_CTR   = 0x0058    ; zero crossing counter
+                     0059    20 TRACK_CTR       = 0x0059    ; track counter
+                     005A    21 PROG_CTR        = 0x005A    ; number of PROG button presses
                              22 
-                     005C    23 RAM_5C  = 0x005C    ; storage for incoming serial byte (& 0x7F)
-                     005D    24 RAM_5D  = 0x005D    ; bitmask for solenoids
-                     005E    25 RAM_5E  = 0x005E    ; current channel serial byte
-                     005F    26 RAM_5F  = 0x005F    ; temp timer storage
-                     0060    27 RAM_60  = 0x0060    ; agc mic level
-                     0061    28 RAM_61  = 0x0061    ; agc mic level accumulator
-                     0062    29 RAM_62  = 0x0062    ; agc mic sample counter
-                     0063    30 RAM_63  = 0x0063    ; agc calculated gain value
-                     0064    31 RAM_64  = 0x0064    ; current channel port address
+                     005C    23 TAPE_BYTE       = 0x005C    ; storage for incoming serial byte (& 0x7F)
+                     005D    24 SOL_MASK        = 0x005D    ; bitmask for solenoids
+                     005E    25 CURR_CHANNEL    = 0x005E    ; current channel serial byte
+                     005F    26 TIMER_TMP       = 0x005F    ; temp timer storage
+                     0060    27 AGC_LEVEL       = 0x0060    ; agc mic level
+                     0061    28 AGC_ACCUM       = 0x0061    ; agc mic level accumulator
+                     0062    29 AGC_SAMPLES     = 0x0062    ; agc mic sample counter
+                     0063    30 AGC_GAIN        = 0x0063    ; agc calculated gain value
+                     0064    31 CURR_PORT       = 0x0064    ; current channel port address
                              32 
                              33         .include "../../include/ptt6502.def"
                               1 
@@ -158,49 +158,49 @@
    1C49 8D 81 03      [ 4]   70         sta     audio_control_reg_a                     ; CA2 High - Disable BG Audio
    1C4C 8D 83 03      [ 4]   71         sta     audio_control_reg_b                     ; CB2 high - Disable Tape Audio
    1C4F A9 64         [ 2]   72         lda     #0x64
-   1C51 85 53         [ 3]   73         sta     RAM_53                                  ; 100 - init 1 msec master counter
+   1C51 85 53         [ 3]   73         sta     TIMER_1MS_R                             ; 100 - init 1 msec master counter
    1C53 A9 1E         [ 2]   74         lda     #0x1E
-   1C55 85 56         [ 3]   75         sta     RAM_56                                  ; Init an 5 minute timer
+   1C55 85 56         [ 3]   75         sta     TIMER_10S                               ; Init an 5 minute timer
    1C57 A9 64         [ 2]   76         lda     #0x64
-   1C59 85 55         [ 3]   77         sta     RAM_55                                  ; 100 - init 0.1 sec master counter
+   1C59 85 55         [ 3]   77         sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
    1C5B A9 10         [ 2]   78         lda     #0x10                                   ; 16
-   1C5D 85 63         [ 3]   79         sta     RAM_63                                  ; Set initial AGC gain value
+   1C5D 85 63         [ 3]   79         sta     AGC_GAIN                                ; Set initial AGC gain value
    1C5F A9 10         [ 2]   80         lda     #TAPEMODE_STOP
    1C61 20 7C 1D      [ 6]   81         jsr     TAPECMD                                 ; STOP tape
    1C64 A9 28         [ 2]   82         lda     #0x28                                   ; this will count 4 seconds
-   1C66 85 54         [ 3]   83         sta     RAM_54
+   1C66 85 54         [ 3]   83         sta     TIMER_100MS_A
    1C68 A9 64         [ 2]   84         lda     #0x64                                   ; reset master timer
-   1C6A 85 53         [ 3]   85         sta     RAM_53
+   1C6A 85 53         [ 3]   85         sta     TIMER_1MS_R
    1C6C                      86 $1:
    1C6C 20 8D 1E      [ 6]   87         jsr     TUPDATE                                 ; do not much for 4 seconds
-   1C6F A5 54         [ 3]   88         lda     RAM_54
+   1C6F A5 54         [ 3]   88         lda     TIMER_100MS_A
    1C71 D0 F9         [ 4]   89         bne     $1
    1C73                      90 REWIND:
    1C73 A9 40         [ 2]   91         lda     #TAPEMODE_REWIND
    1C75 20 7C 1D      [ 6]   92         jsr     TAPECMD                                 ; REWIND tape
    1C78                      93 $22:
    1C78 A9 00         [ 2]   94         lda     #0x00
-   1C7A 85 58         [ 3]   95         sta     RAM_58                                  ; counter to zero
+   1C7A 85 58         [ 3]   95         sta     ZEROCROSS_CTR                           ; counter to zero
                              96 ; Look for the long tone at the beginning of tape
    1C7C                      97 $2:
    1C7C 20 8D 1E      [ 6]   98         jsr     TUPDATE                                 ; housekeeping
    1C7F AD 03 03      [ 4]   99         lda     transport_control_reg_b                 ; loop until we see tone marking beginning of tape
    1C82 10 F8         [ 4]  100         bpl     $2
    1C84 A9 06         [ 2]  101         lda     #0x06
-   1C86 85 54         [ 3]  102         sta     RAM_54                                  ; set 0.6 second timer
+   1C86 85 54         [ 3]  102         sta     TIMER_100MS_A                           ; set 0.6 second timer
    1C88 A9 64         [ 2]  103         lda     #0x64                                   ; 100 rising edge transitions
-   1C8A 85 53         [ 3]  104         sta     RAM_53
+   1C8A 85 53         [ 3]  104         sta     TIMER_1MS_R
    1C8C                     105 $3:
    1C8C 20 8D 1E      [ 6]  106         jsr     TUPDATE                                 ; housekeeping
    1C8F AD 03 03      [ 4]  107         lda     transport_control_reg_b                 ; loop until 100 transport CB1 rising edges or 0.6 secs expired
    1C92 10 0B         [ 4]  108         bpl     $4                                      ; (> 83.333 Hz for 100 zero crossings)
-   1C94 E6 58         [ 5]  109         inc     RAM_58                                  ; count transitions
+   1C94 E6 58         [ 5]  109         inc     ZEROCROSS_CTR                           ; count transitions
    1C96 AD 02 03      [ 4]  110         lda     transport_periph$ddr_reg_b
-   1C99 A5 58         [ 3]  111         lda     RAM_58
+   1C99 A5 58         [ 3]  111         lda     ZEROCROSS_CTR
    1C9B C9 64         [ 2]  112         cmp     #0x64
    1C9D B0 0B         [ 4]  113         bcs     FINDTRK                                 ; happened 100 times, tape is at the beginning, jump ahead
    1C9F                     114 $4:
-   1C9F A5 54         [ 3]  115         lda     RAM_54
+   1C9F A5 54         [ 3]  115         lda     TIMER_100MS_A
    1CA1 D0 E9         [ 4]  116         bne     $3
    1CA3 4C 78 1C      [ 3]  117         jmp     $22
                             118 ; unused instructions start
@@ -212,29 +212,29 @@
    1CAA A9 20         [ 2]  124         lda     #TAPEMODE_FFWD
    1CAC 20 7C 1D      [ 6]  125         jsr     TAPECMD                                 ; FFWD tape
    1CAF A9 19         [ 2]  126         lda     #0x19
-   1CB1 85 54         [ 3]  127         sta     RAM_54                                  ; 2.5 secs
+   1CB1 85 54         [ 3]  127         sta     TIMER_100MS_A                           ; 2.5 secs
    1CB3 A9 64         [ 2]  128         lda     #0x64
-   1CB5 85 53         [ 3]  129         sta     RAM_53
+   1CB5 85 53         [ 3]  129         sta     TIMER_1MS_R
    1CB7                     130 $5:
    1CB7 20 8D 1E      [ 6]  131         jsr     TUPDATE                                 ; do housekeeping stuff
-   1CBA A5 54         [ 3]  132         lda     RAM_54
+   1CBA A5 54         [ 3]  132         lda     TIMER_100MS_A
    1CBC D0 F9         [ 4]  133         bne     $5
    1CBE A9 00         [ 2]  134         lda     #0x00
-   1CC0 85 59         [ 3]  135         sta     RAM_59
+   1CC0 85 59         [ 3]  135         sta     TRACK_CTR
    1CC2 20 97 1D      [ 6]  136         jsr     WAITTONE                                ; wait for tone signaling beginning of track
    1CC5 A9 40         [ 2]  137         lda     #TAPEMODE_REWIND
    1CC7 20 7C 1D      [ 6]  138         jsr     TAPECMD                                 ; REWIND tape
    1CCA 20 97 1D      [ 6]  139         jsr     WAITTONE                                ; wait for tone signaling beginning of track
    1CCD A9 FA         [ 2]  140         lda     #0xFA
-   1CCF 85 50         [ 3]  141         sta     RAM_50
+   1CCF 85 50         [ 3]  141         sta     TIMER_1MS_A
    1CD1                     142 $30:
    1CD1 20 8D 1E      [ 6]  143         jsr     TUPDATE                                 ; housekeeping
-   1CD4 A5 50         [ 3]  144         lda     RAM_50
+   1CD4 A5 50         [ 3]  144         lda     TIMER_1MS_A
    1CD6 D0 F9         [ 4]  145         bne     $30                                     ; delay for 250 ms
    1CD8 A9 20         [ 2]  146         lda     #TAPEMODE_FFWD
    1CDA 20 7C 1D      [ 6]  147         jsr     TAPECMD                                 ; FFWD tape
    1CDD 20 97 1D      [ 6]  148         jsr     WAITTONE                                ; wait for tone signaling beginning of track
-   1CE0 E6 59         [ 5]  149         inc     RAM_59
+   1CE0 E6 59         [ 5]  149         inc     TRACK_CTR
    1CE2 A9 10         [ 2]  150         lda     #TAPEMODE_STOP
    1CE4 20 7C 1D      [ 6]  151         jsr     TAPECMD                                 ; STOP tape
    1CE7 A9 80         [ 2]  152         lda     #TAPEMODE_PLAY
@@ -246,15 +246,15 @@
    1CF7                     158 WAITPLAY:
    1CF7 20 8D 1E      [ 6]  159         jsr     TUPDATE                                 ; do housekeeping stuff
    1CFA 20 1A 1F      [ 6]  160         jsr     AGCUPD                                  ; do AGC Mic Logic
-   1CFD A5 5A         [ 3]  161         lda     RAM_5A                                  ; wait until we are triggered
-   1CFF D0 10         [ 4]  162         bne     STARTPLAY                                   ; then jump
+   1CFD A5 5A         [ 3]  161         lda     PROG_CTR                                ; wait until we are triggered
+   1CFF D0 10         [ 4]  162         bne     STARTPLAY                               ; then jump
    1D01 A9 02         [ 2]  163         lda     #0x02                                   ; else
    1D03 8D 80 02      [ 4]  164         sta     U19_PORTA                               ; turn on RESET button light
    1D06 A9 00         [ 2]  165         lda     #0x00
    1D08 8D 02 02      [ 4]  166         sta     U18_PORTB                               ; turn on all other button lights
-   1D0B A5 56         [ 3]  167         lda     RAM_56                                  ; has the 8 minute timer run out?
+   1D0B A5 56         [ 3]  167         lda     TIMER_10S                               ; has the 8 minute timer run out?
    1D0D D0 E8         [ 4]  168         bne     WAITPLAY                                ; no, keep looping
-   1D0F E6 5A         [ 5]  169         inc     RAM_5A                                  ; yes, simulate a PROG button press
+   1D0F E6 5A         [ 5]  169         inc     PROG_CTR                                ; yes, simulate a PROG button press
                             170 ;   we have been started!
    1D11                     171 STARTPLAY:
    1D11 20 4F 1D      [ 6]  172         jsr     INITBRDS                                ; init the boards
@@ -265,15 +265,15 @@
    1D1E A9 80         [ 2]  177         lda     #TAPEMODE_PLAY
    1D20 20 7C 1D      [ 6]  178         jsr     TAPECMD                                 ; PLAY tape
    1D23 20 BA 1D      [ 6]  179         jsr     WAITCD                                  ; wait for carrier
-   1D26 C6 5A         [ 5]  180         dec     RAM_5A                                  ; no longer triggered
+   1D26 C6 5A         [ 5]  180         dec     PROG_CTR                                  ; no longer triggered
    1D28 20 E0 1D      [ 6]  181         jsr     PLAYTRK                                 ; play a track!
    1D2B 20 4F 1D      [ 6]  182         jsr     INITBRDS                                ; init the boards
    1D2E A9 1E         [ 2]  183         lda     #0x1E
-   1D30 85 56         [ 3]  184         sta     RAM_56                                  ; set a 5 min timer
+   1D30 85 56         [ 3]  184         sta     TIMER_10S                               ; set a 5 min timer
    1D32 A9 64         [ 2]  185         lda     #0x64
-   1D34 85 55         [ 3]  186         sta     RAM_55
-   1D36 E6 59         [ 5]  187         inc     RAM_59                                  ; track counter
-   1D38 A5 59         [ 3]  188         lda     RAM_59
+   1D34 85 55         [ 3]  186         sta     TIMER_100MS_R
+   1D36 E6 59         [ 5]  187         inc     TRACK_CTR                               ; track counter
+   1D38 A5 59         [ 3]  188         lda     TRACK_CTR
    1D3A C9 1A         [ 2]  189         cmp     #0x1A                                   ; 26?
    1D3C 90 03         [ 4]  190         bcc     NEXTTRK
    1D3E 4C 73 1C      [ 3]  191         jmp     REWIND                                  ; rewind the tape after the total number of tracks are done
@@ -320,10 +320,10 @@
    1D7C                     232 TAPECMD:
    1D7C 8D 02 03      [ 4]  233         sta     transport_periph$ddr_reg_b              ; enable output line
    1D7F A9 FA         [ 2]  234         lda     #0xFA
-   1D81 85 50         [ 3]  235         sta     RAM_50
+   1D81 85 50         [ 3]  235         sta     TIMER_1MS_A
    1D83                     236 $6:
    1D83 20 8D 1E      [ 6]  237         jsr     TUPDATE                                 ; check for PROG button push
-   1D86 A5 50         [ 3]  238         lda     RAM_50
+   1D86 A5 50         [ 3]  238         lda     TIMER_1MS_A
    1D88 D0 F9         [ 4]  239         bne     $6
    1D8A AD 02 03      [ 4]  240         lda     transport_periph$ddr_reg_b
    1D8D 29 60         [ 2]  241         and     #TAPEMODE_REWIND | #TAPEMODE_FFWD       ; Is it a REWIND or FFWD?
@@ -338,18 +338,18 @@
                             250 ;
    1D97                     251 WAITTONE:
    1D97 A9 00         [ 2]  252         lda     #0x00
-   1D99 85 58         [ 3]  253         sta     RAM_58
+   1D99 85 58         [ 3]  253         sta     ZEROCROSS_CTR
    1D9B                     254 $8:
    1D9B AD 02 03      [ 4]  255         lda     transport_periph$ddr_reg_b
    1D9E A9 0A         [ 2]  256         lda     #0x0A
-   1DA0 85 50         [ 3]  257         sta     RAM_50                                  ; 10 msec
-   1DA2 E6 58         [ 5]  258         inc     RAM_58
-   1DA4 A5 58         [ 3]  259         lda     RAM_58
+   1DA0 85 50         [ 3]  257         sta     TIMER_1MS_A                             ; 10 msec
+   1DA2 E6 58         [ 5]  258         inc     ZEROCROSS_CTR
+   1DA4 A5 58         [ 3]  259         lda     ZEROCROSS_CTR
    1DA6 C9 21         [ 2]  260         cmp     #0x21                                   ; wait for 33 rising edges, each within 10ms window
    1DA8 B0 0F         [ 4]  261         bcs     $10                                     ; timeout - exit
    1DAA                     262 $9:
    1DAA 20 8D 1E      [ 6]  263         jsr     TUPDATE                                 ; housekeeping
-   1DAD A5 50         [ 3]  264         lda     RAM_50
+   1DAD A5 50         [ 3]  264         lda     TIMER_1MS_A
    1DAF F0 E6         [ 4]  265         beq     WAITTONE                                ; 10 msec done yet? then loop
    1DB1 AD 03 03      [ 4]  266         lda     transport_control_reg_b                 ; transport CB1 rising edge?
    1DB4 10 F4         [ 4]  267         bpl     $9                                      ; if not, extend the looping
@@ -363,10 +363,10 @@
                             275 ; Wait for 250ms
    1DBA                     276 WAITCD:
    1DBA A9 FA         [ 2]  277         lda     #0xFA
-   1DBC 85 50         [ 3]  278         sta     RAM_50                                  ; 250 msec
+   1DBC 85 50         [ 3]  278         sta     TIMER_1MS_A                             ; 250 msec
    1DBE                     279 $11:
    1DBE 20 8D 1E      [ 6]  280         jsr     TUPDATE                                 ; housekeeping
-   1DC1 A5 50         [ 3]  281         lda     RAM_50
+   1DC1 A5 50         [ 3]  281         lda     TIMER_1MS_A
    1DC3 D0 F9         [ 4]  282         bne     $11
                             283 
                             284 ; Wait for 160ms of consecutive zero crossings
@@ -376,13 +376,13 @@
    1DCB 6A            [ 2]  288         ror     a
    1DCC 90 F7         [ 4]  289         bcc     $12
    1DCE A9 A0         [ 2]  290         lda     #0xA0                                   ; 160 msec
-   1DD0 85 50         [ 3]  291         sta     RAM_50
+   1DD0 85 50         [ 3]  291         sta     TIMER_1MS_A
    1DD2                     292 $13:
    1DD2 20 8D 1E      [ 6]  293         jsr     TUPDATE                                 ; housekeeping
    1DD5 AD 02 03      [ 4]  294         lda     transport_periph$ddr_reg_b
    1DD8 6A            [ 2]  295         ror     a
    1DD9 90 EA         [ 4]  296         bcc     $12
-   1DDB A5 50         [ 3]  297         lda     RAM_50
+   1DDB A5 50         [ 3]  297         lda     TIMER_1MS_A
    1DDD D0 F3         [ 4]  298         bne     $13
    1DDF 60            [ 6]  299         rts
                             300 ;
@@ -415,13 +415,13 @@
                             327 ;       Lost carrier - wait 100 msec for more data before giving up
    1E12                     328 LOSTCD:
    1E12 A9 64         [ 2]  329         lda     #0x64                                   ; 100 msec
-   1E14 85 50         [ 3]  330         sta     RAM_50
+   1E14 85 50         [ 3]  330         sta     TIMER_1MS_A
    1E16                     331 $15:
    1E16 20 8D 1E      [ 6]  332         jsr     TUPDATE
    1E19 AD 02 03      [ 4]  333         lda     transport_periph$ddr_reg_b
    1E1C 4A            [ 2]  334         lsr     a
    1E1D B0 C1         [ 4]  335         bcs     PLAYTRK                                 ; carrier
-   1E1F A5 50         [ 3]  336         lda     RAM_50
+   1E1F A5 50         [ 3]  336         lda     TIMER_1MS_A
    1E21 D0 F3         [ 4]  337         bne     $15
    1E23 60            [ 6]  338         rts
                             339 ;
@@ -430,7 +430,7 @@
    1E24                     342 PROTOHAND:
    1E24 AD 00 03      [ 4]  343         lda     transport_periph$ddr_reg_a
    1E27 29 7F         [ 2]  344         and     #0x7F                                   ; insure data is ASCII
-   1E29 85 5C         [ 3]  345         sta     RAM_5C                                  ; store it here
+   1E29 85 5C         [ 3]  345         sta     TAPE_BYTE                               ; store it here
    1E2B 29 7E         [ 2]  346         and     #0x7E                                   ; ignore bottom bit
    1E2D C9 22         [ 2]  347         cmp     #0x22                                   ; is it 0x22 or 0x23?
    1E2F F0 3A         [ 4]  348         beq     PROCCHNL                                ; if so, process as channel
@@ -438,12 +438,12 @@
    1E33 90 4F         [ 4]  350         bcc     $18                                     ; ignore it
    1E35 C9 3A         [ 2]  351         cmp     #0x3A                                   ; is it < 0x3A
    1E37 90 32         [ 4]  352         bcc     PROCCHNL                                ; process as channel (0x32 to 0x39)
-   1E39 A5 5C         [ 3]  353         lda     RAM_5C
+   1E39 A5 5C         [ 3]  353         lda     TAPE_BYTE
    1E3B C9 41         [ 2]  354         cmp     #0x41                                   ; is it < 0x41?
    1E3D 90 45         [ 4]  355         bcc     $18                                     ; ignore it
    1E3F C9 51         [ 2]  356         cmp     #0x51                                   ; is it >= 0x51?
    1E41 B0 41         [ 4]  357         bcs     $18                                     ; ignore it
-   1E43 A6 64         [ 3]  358         ldx     RAM_64                                  ; X = current board address
+   1E43 A6 64         [ 3]  358         ldx     CURR_PORT                               ; X = current board address
    1E45 38            [ 2]  359         sec                                             ; (it's 0x41 to 0x50)
    1E46 E9 41         [ 2]  360         sbc     #0x41                                   ; subtract 0x41
    1E48 C9 08         [ 2]  361         cmp     #0x08
@@ -454,30 +454,30 @@
    1E4E 29 07         [ 2]  366         and     #0x07                                   ; lookup bitmask in A
    1E50 A8            [ 2]  367         tay
    1E51 B9 85 1E      [ 5]  368         lda     MASKTBL,y
-   1E54 85 5D         [ 3]  369         sta     RAM_5D                                  ; store mask in RAM_5D
-   1E56 A5 5E         [ 3]  370         lda     RAM_5E
+   1E54 85 5D         [ 3]  369         sta     SOL_MASK                                ; store mask in SOL_MASK
+   1E56 A5 5E         [ 3]  370         lda     CURR_CHANNEL
    1E58 4A            [ 2]  371         lsr     a                                       ; get on/off in carry
    1E59 B0 09         [ 4]  372         bcs     $17                                     ; if on, jump
-   1E5B A5 5D         [ 3]  373         lda     RAM_5D
+   1E5B A5 5D         [ 3]  373         lda     SOL_MASK
    1E5D 49 FF         [ 2]  374         eor     #0xFF
    1E5F 35 00         [ 4]  375         and     RAM_start,x
    1E61 95 00         [ 4]  376         sta     RAM_start,x                             ; turn off solenoid
    1E63 60            [ 6]  377         rts
                             378 ;
    1E64                     379 $17:
-   1E64 A5 5D         [ 3]  380         lda     RAM_5D
+   1E64 A5 5D         [ 3]  380         lda     SOL_MASK
    1E66 15 00         [ 4]  381         ora     RAM_start,x
    1E68 95 00         [ 4]  382         sta     RAM_start,x                             ; turn on solenoid
    1E6A 60            [ 6]  383         rts
                             384 ;
    1E6B                     385 PROCCHNL:
-   1E6B A5 5C         [ 3]  386         lda     RAM_5C                                  ; put channel byte in RAM_5E
-   1E6D 85 5E         [ 3]  387         sta     RAM_5E
+   1E6B A5 5C         [ 3]  386         lda     TAPE_BYTE                               ; put channel byte in CURR_CHANNEL
+   1E6D 85 5E         [ 3]  387         sta     CURR_CHANNEL
    1E6F 29 7E         [ 2]  388         and     #0x7E
    1E71 C9 22         [ 2]  389         cmp     #0x22
    1E73 D0 05         [ 4]  390         bne     CONVCHNL
    1E75 A9 98         [ 2]  391         lda     #0x98                                   ; process 0x22 or 0x23
-   1E77 85 64         [ 3]  392         sta     RAM_64                                  ; set this to 0x98 - board 7
+   1E77 85 64         [ 3]  392         sta     CURR_PORT                               ; set this to 0x98 - board 7
    1E79 60            [ 6]  393         rts
                             394 ;
    1E7A                     395 CONVCHNL:
@@ -486,7 +486,7 @@
    1E7D 0A            [ 2]  398         asl     a
    1E7E 18            [ 2]  399         clc
    1E7F 69 80         [ 2]  400         adc     #0x80
-   1E81 85 64         [ 3]  401         sta     RAM_64                                  ; (X-0x32) * 2 + 0x80
+   1E81 85 64         [ 3]  401         sta     CURR_PORT                               ; (X-0x32) * 2 + 0x80
    1E83 60            [ 6]  402         rts
    1E84                     403 $18:
    1E84 60            [ 6]  404         rts
@@ -498,18 +498,18 @@
    1E89 10 20 40 80         410         .db     0x10,0x20,0x40,0x80
                             411 ;
                             412 ;       Housekeeping routine
-                            413 ;       RAM_50 used on entry
+                            413 ;       TIMER_1MS_A used on entry
                             414 ;
    1E8D                     415 TUPDATE:
    1E8D AD 05 02      [ 4]  416         lda     U18_edge_detect_control_DI_pos          ; Did the PROG button get pushed or timer expire?
-   1E90 85 5F         [ 3]  417         sta     RAM_5F                                  ; store this state in 5F
+   1E90 85 5F         [ 3]  417         sta     TIMER_TMP                               ; store this state in 5F
    1E92 F0 3C         [ 4]  418         beq     TEXIT                                   ; No flags set, return
    1E94 29 40         [ 2]  419         and     #0x40                                   ; PROG pushed?
    1E96 F0 04         [ 4]  420         beq     $20                                     ; if not, check if timer expired
    1E98 A9 01         [ 2]  421         lda     #0x01
-   1E9A 85 5A         [ 3]  422         sta     RAM_5A                                  ; Mark as started
+   1E9A 85 5A         [ 3]  422         sta     PROG_CTR                                ; Mark as started
    1E9C                     423 $20:
-   1E9C A5 5F         [ 3]  424         lda     RAM_5F                                  ; check timer irq bit
+   1E9C A5 5F         [ 3]  424         lda     TIMER_TMP                               ; check timer irq bit
    1E9E 10 30         [ 4]  425         bpl     TEXIT                                   ; if timer not expired, return
                             426 ; Adjust Timer routine
    1EA0 AD 04 02      [ 4]  427         lda     U18_timer                               ; read timer in U18
@@ -517,55 +517,55 @@
    1EA5 4A            [ 2]  429         lsr     a                                       ; keep the top 5 bits
    1EA6 4A            [ 2]  430         lsr     a
    1EA7 4A            [ 2]  431         lsr     a
-   1EA8 85 57         [ 3]  432         sta     RAM_57                                  ; store them
+   1EA8 85 57         [ 3]  432         sta     TIMER_TMP1                              ; store them
    1EAA 90 02         [ 4]  433         bcc     $21                                     ; bcc on timer bit D2
-   1EAC E6 57         [ 5]  434         inc     RAM_57                                  ; round up?
-                            435                                                         ; now RAM_57 has the number of 8us 
+   1EAC E6 57         [ 5]  434         inc     TIMER_TMP1                              ; round up?
+                            435                                                         ; now TIMER_TMP1 has the number of 8us 
                             436                                                         ;   intervals since timer expired
    1EAE                     437 $21:
    1EAE A9 7A         [ 2]  438         lda     #0x7A                                   ; reset timer to expire every 0x7A*8 ~= 976 usec?
    1EB0 38            [ 2]  439         sec                                             ; with programming delays, this is 1 msec
-   1EB1 E5 57         [ 3]  440         sbc     RAM_57
+   1EB1 E5 57         [ 3]  440         sbc     TIMER_TMP1
    1EB3 8D 15 02      [ 4]  441         sta     U18_timer_8T_DI                         ; set timer
-   1EB6 C6 50         [ 5]  442         dec     RAM_50                                  ; decrement these timers every timer reset (1ms)
-   1EB8 C6 51         [ 5]  443         dec     RAM_51
-   1EBA C6 52         [ 5]  444         dec     RAM_52
-   1EBC C6 53         [ 5]  445         dec     RAM_53
-   1EBE D0 10         [ 4]  446         bne     TEXIT                                   ; if timer RAM_53 expires, then wrap to 100
+   1EB6 C6 50         [ 5]  442         dec     TIMER_1MS_A                             ; decrement these timers every timer reset (1ms)
+   1EB8 C6 51         [ 5]  443         dec     TIMER_1MS_B
+   1EBA C6 52         [ 5]  444         dec     TIMER_1MS_C
+   1EBC C6 53         [ 5]  445         dec     TIMER_1MS_R
+   1EBE D0 10         [ 4]  446         bne     TEXIT                                   ; if timer TIMER_1MS_R expires, then wrap to 100
    1EC0 A9 64         [ 2]  447         lda     #0x64                                   ; 100
-   1EC2 85 53         [ 3]  448         sta     RAM_53
-   1EC4 C6 54         [ 5]  449         dec     RAM_54
-   1EC6 C6 55         [ 5]  450         dec     RAM_55
-   1EC8 D0 06         [ 4]  451         bne     TEXIT                                   ; if timer RAM_55 expires, then wrap to 100
+   1EC2 85 53         [ 3]  448         sta     TIMER_1MS_R
+   1EC4 C6 54         [ 5]  449         dec     TIMER_100MS_A
+   1EC6 C6 55         [ 5]  450         dec     TIMER_100MS_R
+   1EC8 D0 06         [ 4]  451         bne     TEXIT                                   ; if timer TIMER_100MS_R expires, then wrap to 100
    1ECA A9 64         [ 2]  452         lda     #0x64                                   ; 100
-   1ECC 85 55         [ 3]  453         sta     RAM_55
-   1ECE C6 56         [ 5]  454         dec     RAM_56
+   1ECC 85 55         [ 3]  453         sta     TIMER_100MS_R
+   1ECE C6 56         [ 5]  454         dec     TIMER_10S
    1ED0                     455 TEXIT:
    1ED0 60            [ 6]  456         rts
                             457 ;
                             458 ;       Read the AGC mic level
-                            459 ;       Take the average of 8 samples, and put it into RAM_60 (range is 0 to 8)
+                            459 ;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
                             460 ;
    1ED1                     461 AGCMICRD:
    1ED1 A9 00         [ 2]  462         lda     #0x00
-   1ED3 85 61         [ 3]  463         sta     RAM_61                                  ; init final agc value
-   1ED5 85 62         [ 3]  464         sta     RAM_62                                  ; init agc sample counter
+   1ED3 85 61         [ 3]  463         sta     AGC_ACCUM                               ; init final agc value
+   1ED5 85 62         [ 3]  464         sta     AGC_SAMPLES                             ; init agc sample counter
    1ED7 A9 0A         [ 2]  465         lda     #0x0A
-   1ED9 85 54         [ 3]  466         sta     RAM_54                                  ; Start a 1 second timer
+   1ED9 85 54         [ 3]  466         sta     TIMER_100MS_A                           ; Start a 1 second timer
    1EDB A9 64         [ 2]  467         lda     #0x64
-   1EDD 85 53         [ 3]  468         sta     RAM_53
+   1EDD 85 53         [ 3]  468         sta     TIMER_1MS_R
    1EDF                     469 $23:
    1EDF 20 8D 1E      [ 6]  470         jsr     TUPDATE                                 ; housekeeping
-   1EE2 A5 54         [ 3]  471         lda     RAM_54
+   1EE2 A5 54         [ 3]  471         lda     TIMER_100MS_A
    1EE4 D0 F9         [ 4]  472         bne     $23                                     ; if 1 sec, do housekeeping
    1EE6 A9 0A         [ 2]  473         lda     #0x0A
-   1EE8 85 54         [ 3]  474         sta     RAM_54
+   1EE8 85 54         [ 3]  474         sta     TIMER_100MS_A
    1EEA A9 64         [ 2]  475         lda     #0x64
-   1EEC 85 53         [ 3]  476         sta     RAM_53                                  ; reset timer
-   1EEE A5 62         [ 3]  477         lda     RAM_62
+   1EEC 85 53         [ 3]  476         sta     TIMER_1MS_R                             ; reset timer
+   1EEE A5 62         [ 3]  477         lda     AGC_SAMPLES
    1EF0 C9 08         [ 2]  478         cmp     #0x08                                   ; 8 samples?
    1EF2 F0 15         [ 4]  479         beq     $27                                     ; yes - jump to final calculation
-   1EF4 E6 62         [ 5]  480         inc     RAM_62                                  ; increment the sample counter
+   1EF4 E6 62         [ 5]  480         inc     AGC_SAMPLES                             ; increment the sample counter
    1EF6 A2 09         [ 2]  481         ldx     #0x09
    1EF8 38            [ 2]  482         sec
    1EF9 AD 80 03      [ 4]  483         lda     audio_periph$ddr_reg_a                  ; read the agc mic level
@@ -575,19 +575,19 @@
    1EFE 90 FC         [ 4]  487         bcc     $24
    1F00 18            [ 2]  488         clc
    1F01 8A            [ 2]  489         txa                                             ; 8=high bit7, 0=no high bits
-   1F02 65 61         [ 3]  490         adc     RAM_61                                  ; add it into RAM_61 (do this 8 times)
-   1F04 85 61         [ 3]  491         sta     RAM_61
+   1F02 65 61         [ 3]  490         adc     AGC_ACCUM                               ; add it into AGC_ACCUM (do this 8 times)
+   1F04 85 61         [ 3]  491         sta     AGC_ACCUM
    1F06 4C DF 1E      [ 3]  492         jmp     $23
                             493 ;
    1F09                     494 $27:
-   1F09 46 61         [ 5]  495         lsr     RAM_61                                  ; divide by 8 (average of 8 samples)
-   1F0B 46 61         [ 5]  496         lsr     RAM_61
-   1F0D 46 61         [ 5]  497         lsr     RAM_61
-   1F0F A5 61         [ 3]  498         lda     RAM_61
-   1F11 85 60         [ 3]  499         sta     RAM_60                                  ; store agc value in RAM_60
+   1F09 46 61         [ 5]  495         lsr     AGC_ACCUM                               ; divide by 8 (average of 8 samples)
+   1F0B 46 61         [ 5]  496         lsr     AGC_ACCUM
+   1F0D 46 61         [ 5]  497         lsr     AGC_ACCUM
+   1F0F A5 61         [ 3]  498         lda     AGC_ACCUM
+   1F11 85 60         [ 3]  499         sta     AGC_LEVEL                               ; store agc value in AGC_LEVEL
    1F13 A9 00         [ 2]  500         lda     #0x00
-   1F15 85 61         [ 3]  501         sta     RAM_61                                  ; clear these 2 and return
-   1F17 85 62         [ 3]  502         sta     RAM_62
+   1F15 85 61         [ 3]  501         sta     AGC_ACCUM                               ; clear these 2 and return
+   1F17 85 62         [ 3]  502         sta     AGC_SAMPLES
    1F19 60            [ 6]  503         rts
                             504 ;
                             505 ;        Do AGC Mic Logic
@@ -600,15 +600,15 @@
    1F21 4A            [ 2]  512         lsr     a
    1F22 4A            [ 2]  513         lsr     a
    1F23 18            [ 2]  514         clc
-   1F24 65 60         [ 3]  515         adc     RAM_60                                  ; add audio level to it
+   1F24 65 60         [ 3]  515         adc     AGC_LEVEL                               ; add audio level to it
    1F26 AA            [ 2]  516         tax
    1F27 BD 4D 1F      [ 5]  517         lda     AGCTABLE,x                              ; and get the table value
-   1F2A 85 63         [ 3]  518         sta     RAM_63                                  ; store this value in RAM_63
-   1F2C A5 52         [ 3]  519         lda     RAM_52                                  ; 10ms timer expired?
+   1F2A 85 63         [ 3]  518         sta     AGC_GAIN                                ; store this value in AGC_GAIN
+   1F2C A5 52         [ 3]  519         lda     TIMER_1MS_C                             ; 10ms timer expired?
    1F2E D0 16         [ 4]  520         bne     $26                                     ; no, just update CPU Leds
    1F30 A9 0A         [ 2]  521         lda     #0x0A
-   1F32 85 52         [ 3]  522         sta     RAM_52                                  ; restart 10ms timer
-   1F34 A5 63         [ 3]  523         lda     RAM_63                                  ; every 10ms, adjust gain by 1 if needed
+   1F32 85 52         [ 3]  522         sta     TIMER_1MS_C                             ; restart 10ms timer
+   1F34 A5 63         [ 3]  523         lda     AGC_GAIN                                ; every 10ms, adjust gain by 1 if needed
    1F36 CD 82 03      [ 4]  524         cmp     audio_periph$ddr_reg_b                  ; compare with current value
    1F39 90 08         [ 4]  525         bcc     $25
    1F3B F0 09         [ 4]  526         beq     $26
