@@ -18,7 +18,7 @@ RESET:
         ldx     #0x10
 
 ZERORAM:
-        sta     0x00,x
+        sta     RAM_start,x
         inx
         cpx     #0x80
         bne     ZERORAM
@@ -53,30 +53,26 @@ ZERORAM:
         sta     0x56
         lda     #0x0A
         sta     0x64
-        lda     #0x10
-        jsr     L1B97
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD
         lda     #0x28
         sta     0x55
         lda     #0x64
         sta     0x54
-
-
-L1A6C:
-        jsr     L1CB7
+$1:
+        jsr     TUPDATE
         lda     0x55
-        bne     L1A6C
-        jsr     L1B64
-
-
-L1A76:
+        bne     $1
+        jsr     INITBRDS
+REWIND:
         lda     #0xFA
         sta     0x66
         lda     #0x00
         sta     0x67
         sta     0x68
         lda     #0x30
-        lda     #0x40
-        jsr     L1B97
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD
 
 
 L1A87:
@@ -91,11 +87,11 @@ L1A8B:
         inc     0x59
         lda     0x59
         cmp     #0x64
-        bcs     L1AAC
+        bcs     FINDTRK
 
 
 L1A9A:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x50
         beq     L1A87
@@ -104,9 +100,9 @@ L1A9A:
         jmp     L1A8B
 
 
-L1AAC:
-        lda     #0x20
-        jsr     L1B97
+FINDTRK:
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD
         lda     #0x19
         sta     0x55
         lda     #0x64
@@ -114,66 +110,66 @@ L1AAC:
 
 
 L1AB9:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x55
         bne     L1AB9
         lda     #0x00
         sta     0x5A
-        jsr     L1BB5
-        lda     #0x40
-        jsr     L1B97
-        jsr     L1BB5
+        jsr     WAITTONE
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD
+        jsr     WAITTONE
         lda     #0xFA
         sta     0x50
 
 
 L1AD6:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x50
         bne     L1AD6
-        lda     #0x20
-        jsr     L1B97
-        jsr     L1BB5
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD
+        jsr     WAITTONE
         inc     0x5A
-        lda     #0x10
-        jsr     L1B97
-        lda     #0x80
-        jsr     L1B97
-        jsr     L1BDB
-        lda     #0x10
-        jsr     L1B97
-        jsr     L1B64
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD
+        jsr     WAITCD
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD
+        jsr     INITBRDS
 
 
-L1AFF:
-        jsr     L1CB7
+WAITPLAY:
+        jsr     TUPDATE
         jsr     AGCUPD
         jsr     L1DAB
         lda     0x5B
-        bne     L1B1C
+        bne     STARTPLAY
         lda     #0x02
         sta     U19_PORTA
         lda     #0x00
         sta     U18_PORTB
         lda     0x57
-        bne     L1AFF
+        bne     WAITPLAY
         inc     0x5B
 
 
-L1B1C:
-        jsr     L1B64
+STARTPLAY:
+        jsr     INITBRDS
         lda     #0x00
         sta     U19_PORTA
         lda     #0x80
         sta     U18_PORTB
-        lda     #0x80
-        jsr     L1B97
-        jsr     L1BDB
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD
+        jsr     WAITCD
         dec     0x5B
-        jsr     L1C0A
-        jsr     L1B64
+        jsr     PLAYTRK
+        jsr     INITBRDS
         lda     #0x18
         sta     0x57
         lda     #0x64
@@ -181,32 +177,31 @@ L1B1C:
         inc     0x5A
         lda     0x5A
         cmp     #0x1A
-        bcc     L1B4C
-        jmp     L1A76
+        bcc     NEXTTRK
+        jmp     REWIND
 
 
-L1B4C:
+NEXTTRK:
         lda     #0x00
         sta     0x67
         sta     0x68
         lda     #0xFA
         sta     0x66
-        jsr     L1BDB
-        lda     #0x10
-        jsr     L1B97
+        jsr     WAITCD
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD
         jsr     AGCMICRD
-        jmp     L1AFF
-
-
-L1B64:
+        jmp     WAITPLAY
+;
+;       Init boards
+;
+INITBRDS:
         lda     #0x3C
         sta     audio_control_reg_b
         lda     #0x34
         sta     audio_control_reg_a
         ldx     #0x00
-
-
-L1B70:
+NEXTBRD:
         lda     #0x30
         sta     0x81,x
         sta     0x83,x
@@ -224,21 +219,22 @@ L1B70:
         inx
         inx
         cpx     #0x20
-        bcc     L1B70
+        bcc     NEXTBRD
+
         lda     #0x00
         sta     0x5F
         sta     0x65
         rts
 
 
-L1B97:
+TAPECMD:
         sta     transport_periph$ddr_reg_b
         lda     #0xFA
         sta     0x50
 
 
 L1B9E:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x50
         bne     L1B9E
@@ -253,11 +249,9 @@ L1BB4:
         rts
 
 
-L1BB5:
+WAITTONE:
         lda     #0x00
         sta     0x59
-
-
 L1BB9:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
@@ -266,46 +260,38 @@ L1BB9:
         lda     0x59
         cmp     #0x21
         bcs     L1BDA
-
-
 L1BC8:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x50
-        beq     L1BB5
+        beq     WAITTONE
         lda     transport_control_reg_b
         bpl     L1BC8
         jmp     L1BB9
-
-
 L1BDA:
         rts
 
 
-L1BDB:
+WAITCD:
         lda     #0xFA
         sta     0x50
-
-
 L1BDF:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x50
         bne     L1BDF
 
 
 L1BE9:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     transport_periph$ddr_reg_b
         ror
         bcc     L1BE9
         lda     #0xA0
         sta     0x50
-
-
 L1BF9:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     transport_periph$ddr_reg_b
         ror
@@ -315,7 +301,7 @@ L1BF9:
         rts
 
 
-L1C0A:
+PLAYTRK:
         lda     transport_periph$ddr_reg_a
         lda     #0x40
         sta     0x82
@@ -328,30 +314,26 @@ L1C0A:
         sta     audio_control_reg_b
         lda     #0x60
         sta     0x82
-
-
 L1C25:
         lda     transport_periph$ddr_reg_b
         lsr
-        bcc     L1C3C
+        bcc     LOSTCD
         jsr     AGCUPD
-        jsr     L1CB7
+        jsr     TUPDATE
         lda     transport_control_reg_a
         bpl     L1C25
         jsr     PROTOHAND
         jmp     L1C25
 
 
-L1C3C:
+LOSTCD:
         lda     #0x64
         sta     0x50
-
-
 L1C40:
-        jsr     L1CB7
+        jsr     TUPDATE
         lda     transport_periph$ddr_reg_b
         lsr
-        bcs     L1C0A
+        bcs     PLAYTRK
         lda     0x50
         bne     L1C40
         rts
@@ -373,10 +355,10 @@ PROCBYTE:
         lda     0x5D
         cmp     #0x41
         bcc     $18
-        cmp     #0x4F
+        cmp     #0x4F                           ; is it >= 0x4F?
         bcs     $18
         ldx     0x65
-        sec
+        sec                                     ; (it's 0x41 to 0x4E)
         sbc     #0x41
         cmp     #0x08
         bcc     $16
@@ -432,43 +414,43 @@ MASKTBL:
 ;       Housekeeping routine
 ;
 ;
-L1CB7:
+TUPDATE:
         lda     U18_edge_detect_control_DI_pos
         sta     0x60
-        beq     L1D1A
+        beq     TEXIT
         lda     0x5C
-        bmi     L1CD0
+        bmi     $20_A
         lda     0x60
         and     #0x40
-        beq     L1CE2
+        beq     $20_B
         lda     #0x80
         sta     0x5C
         lda     #0xFA
         sta     0x51
-L1CD0:
+$20_A:
         lda     0x51
-        bne     L1CDE
+        bne     $20
         lda     #0x00
         sta     0x5C
         lda     0x5B
-        bne     L1CDE
+        bne     $20
         inc     0x5B
-L1CDE:
+$20:
         lda     0x60
-        bpl     L1D1A
+        bpl     TEXIT
 ; Adjust Timer routine
-L1CE2:
+$20_B:
         lda     U18_timer
         eor     #0xFF
         lsr
         lsr
         lsr
         sta     0x58
-        bcc     L1CF0
+        bcc     $21
         inc     0x58
 
 
-L1CF0:
+$21:
         lda     #0x7A
         sec
         sbc     0x58
@@ -477,21 +459,21 @@ L1CF0:
         dec     0x51
         dec     0x53
         dec     0x54
-        bne     L1D1A
+        bne     TEXIT
         lda     #0x64
         sta     0x54
         dec     0x55
         dec     0x66
-        bne     L1D10
+        bne     $21_A
         lda     #0xFA
         sta     0x66
-L1D10:
+$21_A:
         dec     0x56
-        bne     L1D1A
+        bne     TEXIT
         lda     #0x64
         sta     0x56
         dec     0x57
-L1D1A:
+TEXIT:
         rts
 ;
 ;       Read the AGC mic level
@@ -506,7 +488,7 @@ AGCMICRD:
         lda     #0x64
         sta     0x54
 $23:
-        jsr     L1CB7
+        jsr     TUPDATE
         jsr     L1DAB
         lda     0x55
         bne     $23
