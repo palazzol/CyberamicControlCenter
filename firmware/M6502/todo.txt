@@ -1,0 +1,25 @@
+
+Todo:
+
+X add more linux disassemblies:
+    Add vectors
+    Make Table labels start with X
+    Add ptt6502 stuff
+
+AAA
+X Switch 6 windows builds to linux
+    X fixup names
+X Fixup all bin commits
+
+BBB
+x Rearrange with src dir
+x check ptt defs across all assemblies
+
+x need to resolve fill 0xff vs 0x00
+x move build script to tools
+x create build all 
+
+-------
+
+start fixing up labels/comments?
+update front page readme?
