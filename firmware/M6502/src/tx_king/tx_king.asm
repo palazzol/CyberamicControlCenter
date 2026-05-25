@@ -1,6 +1,32 @@
 
         .area   region1 (ABS)
 
+TIMER_1MS_A     = 0x0050    ; decremented every 1ms
+TIMER_1MS_B     = 0x0051    ; decremented every 1ms
+
+TIMER_1MS_C     = 0x0053    ; decremented every 1ms
+TIMER_1MS_R     = 0x0054    ; decremented every 1ms, resets to 100
+TIMER_100MS_A   = 0X0055    ; decremented every 0.1s
+TIMER_100MS_R   = 0x0056    ; decremented every 0.1s, resets to 100
+TIMER_10S       = 0x0057    ; decremented every 10s
+TIMER_TMP1      = 0x0058    ; temp timer storage
+ZEROCROSS_CTR   = 0x0059    ; zero crossing counter
+TRACK_CTR       = 0x005A    ; track counter
+PROG_CTR        = 0x005B    ; number of PROG button presses
+PROG_STATE      = 0x005C    ; 0x00=PROG was not pushed, 0x80=Prog was pushed
+TAPE_BYTE       = 0x005D    ; storage for incoming serial byte (& 0x7F)
+SOL_MASK        = 0x005E    ; bitmask for solenoids
+CURR_CHANNEL    = 0x005F    ; current channel serial byte
+TIMER_TMP       = 0x0060    ; temp timer storage
+AGC_LEVEL       = 0x0061    ; agc mic level
+AGC_ACCUM       = 0x0062    ; agc mic level accumulator
+AGC_SAMPLES     = 0x0063    ; agc mic sample counter
+AGC_GAIN        = 0x0064    ; agc calculated gain value
+CURR_PORT       = 0x0065    ; current channel port address
+TIMER_100MS_R25 = 0x0066    ; decremented every 0.1s, resets to 250
+RAM_67          = 0x0067    ; TBD?
+RAM_68          = 0x0068    ; TBD?
+
         .include "../../include/ptt6502.def"
 
         .org    0x1000
@@ -46,30 +72,30 @@ ZERORAM:
         sta     audio_control_reg_a
         sta     audio_control_reg_b
         lda     #0x64
-        sta     0x54
+        sta     TIMER_1MS_R
         lda     #0x18
-        sta     0x57
+        sta     TIMER_10S
         lda     #0x64
-        sta     0x56
+        sta     TIMER_100MS_R
         lda     #0x0A
-        sta     0x64
+        sta     AGC_GAIN
         lda     #TAPEMODE_STOP
         jsr     TAPECMD
         lda     #0x28
-        sta     0x55
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x54
+        sta     TIMER_1MS_R
 $1:
         jsr     TUPDATE
-        lda     0x55
+        lda     TIMER_100MS_A
         bne     $1
         jsr     INITBRDS
 REWIND:
         lda     #0xFA
-        sta     0x66
+        sta     TIMER_100MS_R25
         lda     #0x00
-        sta     0x67
-        sta     0x68
+        sta     RAM_67
+        sta     RAM_68
         lda     #0x30
         lda     #TAPEMODE_REWIND
         jsr     TAPECMD
@@ -77,15 +103,15 @@ REWIND:
 
 L1A87:
         lda     #0x00
-        sta     0x59
+        sta     ZEROCROSS_CTR
 
 
 L1A8B:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     0x50
-        inc     0x59
-        lda     0x59
+        sta     TIMER_1MS_A
+        inc     ZEROCROSS_CTR
+        lda     ZEROCROSS_CTR
         cmp     #0x64
         bcs     FINDTRK
 
@@ -93,7 +119,7 @@ L1A8B:
 L1A9A:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x50
+        lda     TIMER_1MS_A
         beq     L1A87
         lda     transport_control_reg_b
         bpl     L1A9A
@@ -104,35 +130,35 @@ FINDTRK:
         lda     #TAPEMODE_FFWD
         jsr     TAPECMD
         lda     #0x19
-        sta     0x55
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x54
+        sta     TIMER_1MS_R
 
 
 L1AB9:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x55
+        lda     TIMER_100MS_A
         bne     L1AB9
         lda     #0x00
-        sta     0x5A
+        sta     TRACK_CTR
         jsr     WAITTONE
         lda     #TAPEMODE_REWIND
         jsr     TAPECMD
         jsr     WAITTONE
         lda     #0xFA
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L1AD6:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1AD6
         lda     #TAPEMODE_FFWD
         jsr     TAPECMD
         jsr     WAITTONE
-        inc     0x5A
+        inc     TRACK_CTR
         lda     #TAPEMODE_STOP
         jsr     TAPECMD
         lda     #TAPEMODE_PLAY
@@ -147,15 +173,15 @@ WAITPLAY:
         jsr     TUPDATE
         jsr     AGCUPD
         jsr     L1DAB
-        lda     0x5B
+        lda     PROG_CTR
         bne     STARTPLAY
         lda     #0x02
         sta     U19_PORTA
         lda     #0x00
         sta     U18_PORTB
-        lda     0x57
+        lda     TIMER_10S
         bne     WAITPLAY
-        inc     0x5B
+        inc     PROG_CTR
 
 
 STARTPLAY:
@@ -167,15 +193,15 @@ STARTPLAY:
         lda     #TAPEMODE_PLAY
         jsr     TAPECMD
         jsr     WAITCD
-        dec     0x5B
+        dec     PROG_CTR
         jsr     PLAYTRK
         jsr     INITBRDS
         lda     #0x18
-        sta     0x57
+        sta     TIMER_10S
         lda     #0x64
-        sta     0x56
-        inc     0x5A
-        lda     0x5A
+        sta     TIMER_100MS_R
+        inc     TRACK_CTR
+        lda     TRACK_CTR
         cmp     #0x1A
         bcc     NEXTTRK
         jmp     REWIND
@@ -183,10 +209,10 @@ STARTPLAY:
 
 NEXTTRK:
         lda     #0x00
-        sta     0x67
-        sta     0x68
+        sta     RAM_67
+        sta     RAM_68
         lda     #0xFA
-        sta     0x66
+        sta     TIMER_100MS_R25
         jsr     WAITCD
         lda     #TAPEMODE_STOP
         jsr     TAPECMD
@@ -222,24 +248,24 @@ NEXTBRD:
         bcc     NEXTBRD
 
         lda     #0x00
-        sta     0x5F
-        sta     0x65
+        sta     CURR_CHANNEL
+        sta     CURR_PORT
         rts
 
 
 TAPECMD:
         sta     transport_periph$ddr_reg_b
         lda     #0xFA
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L1B9E:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1B9E
         lda     transport_periph$ddr_reg_b
-        and     #0x60
+        and     #TIMER_TMP
         bne     L1BB4
         lda     #0x00
         sta     transport_periph$ddr_reg_b
@@ -251,19 +277,19 @@ L1BB4:
 
 WAITTONE:
         lda     #0x00
-        sta     0x59
+        sta     ZEROCROSS_CTR
 L1BB9:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     0x50
-        inc     0x59
-        lda     0x59
+        sta     TIMER_1MS_A
+        inc     ZEROCROSS_CTR
+        lda     ZEROCROSS_CTR
         cmp     #0x21
         bcs     L1BDA
 L1BC8:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x50
+        lda     TIMER_1MS_A
         beq     WAITTONE
         lda     transport_control_reg_b
         bpl     L1BC8
@@ -274,11 +300,11 @@ L1BDA:
 
 WAITCD:
         lda     #0xFA
-        sta     0x50
+        sta     TIMER_1MS_A
 L1BDF:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1BDF
 
 
@@ -289,14 +315,14 @@ L1BE9:
         ror
         bcc     L1BE9
         lda     #0xA0
-        sta     0x50
+        sta     TIMER_1MS_A
 L1BF9:
         jsr     TUPDATE
         jsr     L1DAB
         lda     transport_periph$ddr_reg_b
         ror
         bcc     L1BE9
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1BF9
         rts
 
@@ -312,7 +338,7 @@ PLAYTRK:
         sta     audio_control_reg_a
         lda     #0x34
         sta     audio_control_reg_b
-        lda     #0x60
+        lda     #TIMER_TMP
         sta     0x82
 L1C25:
         lda     transport_periph$ddr_reg_b
@@ -328,13 +354,13 @@ L1C25:
 
 LOSTCD:
         lda     #0x64
-        sta     0x50
+        sta     TIMER_1MS_A
 L1C40:
         jsr     TUPDATE
         lda     transport_periph$ddr_reg_b
         lsr
         bcs     PLAYTRK
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1C40
         rts
 ;
@@ -344,7 +370,7 @@ PROTOHAND:
         lda     transport_periph$ddr_reg_a
 PROCBYTE:
         and     #0x7F
-        sta     0x5D
+        sta     TAPE_BYTE
         and     #0x7E
         cmp     #0x22
         beq     PROCCHNL
@@ -352,12 +378,12 @@ PROCBYTE:
         bcc     $18
         cmp     #0x3A
         bcc     PROCCHNL
-        lda     0x5D
+        lda     TAPE_BYTE
         cmp     #0x41
         bcc     $18
         cmp     #0x4F                           ; is it >= 0x4F?
         bcs     $18
-        ldx     0x65
+        ldx     CURR_PORT
         sec                                     ; (it's 0x41 to 0x4E)
         sbc     #0x41
         cmp     #0x08
@@ -368,30 +394,30 @@ $16:
         and     #0x07
         tay
         lda     MASKTBL,y
-        sta     0x5E
-        lda     0x5F
+        sta     SOL_MASK
+        lda     CURR_CHANNEL
         lsr
         bcs     $17
-        lda     0x5E
+        lda     SOL_MASK
         eor     #0xFF
         and     0x00,x
         sta     0x00,x
         rts
 ;
 $17:
-        lda     0x5E
+        lda     SOL_MASK
         ora     0x00,x
         sta     0x00,x
         rts
 ;
 PROCCHNL:
-        lda     0x5D
-        sta     0x5F
+        lda     TAPE_BYTE
+        sta     CURR_CHANNEL
         and     #0x7E
         cmp     #0x22
         bne     CONVCHNL
         lda     #0x98
-        sta     0x65
+        sta     CURR_PORT
         rts
 ;
 CONVCHNL:
@@ -400,7 +426,7 @@ CONVCHNL:
         asl
         clc
         adc     #0x80
-        sta     0x65
+        sta     CURR_PORT
         rts
 $18:
         rts
@@ -416,27 +442,27 @@ MASKTBL:
 ;
 TUPDATE:
         lda     U18_edge_detect_control_DI_pos
-        sta     0x60
+        sta     TIMER_TMP
         beq     TEXIT
-        lda     0x5C
+        lda     PROG_STATE
         bmi     $20_A
-        lda     0x60
+        lda     TIMER_TMP
         and     #0x40
         beq     $20_B
         lda     #0x80
-        sta     0x5C
+        sta     PROG_STATE
         lda     #0xFA
-        sta     0x51
+        sta     TIMER_1MS_B
 $20_A:
-        lda     0x51
+        lda     TIMER_1MS_B
         bne     $20
         lda     #0x00
-        sta     0x5C
-        lda     0x5B
+        sta     PROG_STATE
+        lda     PROG_CTR
         bne     $20
-        inc     0x5B
+        inc     PROG_CTR
 $20:
-        lda     0x60
+        lda     TIMER_TMP
         bpl     TEXIT
 ; Adjust Timer routine
 $20_B:
@@ -445,34 +471,34 @@ $20_B:
         lsr
         lsr
         lsr
-        sta     0x58
+        sta     TIMER_TMP1
         bcc     $21
-        inc     0x58
+        inc     TIMER_TMP1
 
 
 $21:
         lda     #0x7A
         sec
-        sbc     0x58
+        sbc     TIMER_TMP1
         sta     U18_timer_8T_DI
-        dec     0x50
-        dec     0x51
-        dec     0x53
-        dec     0x54
+        dec     TIMER_1MS_A
+        dec     TIMER_1MS_B
+        dec     TIMER_1MS_C
+        dec     TIMER_1MS_R
         bne     TEXIT
         lda     #0x64
-        sta     0x54
-        dec     0x55
-        dec     0x66
+        sta     TIMER_1MS_R
+        dec     TIMER_100MS_A
+        dec     TIMER_100MS_R25
         bne     $21_A
-        lda     #0xFA
-        sta     0x66
+        lda     #0xFA                   ; reset to 2.5 seconds?
+        sta     TIMER_100MS_R25
 $21_A:
-        dec     0x56
+        dec     TIMER_100MS_R
         bne     TEXIT
-        lda     #0x64
-        sta     0x56
-        dec     0x57
+        lda     #0x64                   ; reset to 10 seconds?
+        sta     TIMER_100MS_R
+        dec     TIMER_10S
 TEXIT:
         rts
 ;
@@ -481,25 +507,25 @@ TEXIT:
 ;
 AGCMICRD:
         lda     #0x00
-        sta     0x62
-        sta     0x63
+        sta     AGC_ACCUM
+        sta     AGC_SAMPLES
         lda     #0x0A
-        sta     0x55
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x54
+        sta     TIMER_1MS_R
 $23:
         jsr     TUPDATE
         jsr     L1DAB
-        lda     0x55
+        lda     TIMER_100MS_A
         bne     $23
         lda     #0x0A
-        sta     0x55
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x54
-        lda     0x63
+        sta     TIMER_1MS_R
+        lda     AGC_SAMPLES
         cmp     #0x08
         beq     $27
-        inc     0x63
+        inc     AGC_SAMPLES
         ldx     #0x09
         sec
         lda     audio_periph$ddr_reg_a
@@ -509,19 +535,19 @@ $24:
         bcc     $24
         clc
         txa
-        adc     0x62
-        sta     0x62
+        adc     AGC_ACCUM
+        sta     AGC_ACCUM
         jmp     $23
 ;
 $27:
-        lsr     0x62
-        lsr     0x62
-        lsr     0x62
-        lda     0x62
-        sta     0x61
+        lsr     AGC_ACCUM
+        lsr     AGC_ACCUM
+        lsr     AGC_ACCUM
+        lda     AGC_ACCUM
+        sta     AGC_LEVEL
         lda     #0x00
-        sta     0x62
-        sta     0x63
+        sta     AGC_ACCUM
+        sta     AGC_SAMPLES
         rts
 ;
 ;        Do AGC Mic Logic
@@ -534,15 +560,15 @@ AGCUPD:
         lsr
         lsr
         clc
-        adc     0x61
+        adc     AGC_LEVEL
         tax
         lda     AGCTABLE,x
-        sta     0x64
-        lda     0x53
+        sta     AGC_GAIN
+        lda     TIMER_1MS_C
         bne     $26
         lda     #0x0A
-        sta     0x53
-        lda     0x64
+        sta     TIMER_1MS_C
+        lda     AGC_GAIN
         cmp     audio_periph$ddr_reg_b
         bcc     $25
         beq     $26
@@ -566,9 +592,9 @@ AGCTABLE:
         .db     0xFF
 
 L1DAB:
-        lda     0x67
+        lda     RAM_67
         tax
-        lda     0x68
+        lda     RAM_68
         bne     L1DE5
         lda     X1E0F,x
         cmp     #0xFE
@@ -576,21 +602,21 @@ L1DAB:
         cmp     #0xFF
         bne     L1DC4
         lda     #0x00
-        sta     0x67
+        sta     RAM_67
         jmp     L1DDB
 
 
 L1DC4:
-        cmp     0x66
+        cmp     TIMER_100MS_R25
         bne     L1DDB
         lda     X1E10,x
         jsr     PROCBYTE
         lda     X1E11,x
         jsr     PROCBYTE
-        lda     0x67
+        lda     RAM_67
         clc
         adc     #0x03
-        sta     0x67
+        sta     RAM_67
 
 
 L1DDB:
@@ -598,9 +624,9 @@ L1DDB:
 
 
 L1DDC:
-        inc     0x68
+        inc     RAM_68
         lda     #0x00
-        sta     0x67
+        sta     RAM_67
         jmp     L1DDB
 
 
@@ -609,22 +635,22 @@ L1DE5:
         cmp     #0xFF
         bne     L1DF5
         lda     #0x00
-        sta     0x67
-        sta     0x68
+        sta     RAM_67
+        sta     RAM_68
         jmp     L1DDB
 
 
 L1DF5:
-        cmp     0x66
+        cmp     TIMER_100MS_R25
         bne     L1DDB
         lda     X1EF4,x
         jsr     PROCBYTE
         lda     X1EF5,x
         jsr     PROCBYTE
-        lda     0x67
+        lda     RAM_67
         clc
         adc     #0x03
-        sta     0x67
+        sta     RAM_67
         jmp     L1DDB
 ;
 ;       Table of pairs of bytes to process

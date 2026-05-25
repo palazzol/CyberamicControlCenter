@@ -159,7 +159,7 @@ WAITPLAY:
 ;
 RETP1:
         jsr     AGCUPD                                  ; do AGC Mic Logic
-        lda     PROG_CTR                                  ; wait until we are triggered
+        lda     PROG_CTR                                ; wait until we are triggered
         bne     STARTPLAY                               ; then jump
         lda     #0x02                                   ; else
         sta     U19_PORTA                               ; turn on RESET button light
