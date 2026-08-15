@@ -72,7 +72,7 @@ ZERORAM:
         lda     #0x64
         sta     TIMER_1MS_R                             ; 100 - init 1 msec master counter
         lda     #0x1E
-        sta     TIMER_10S                               ; Init an 5 minute timer
+        sta     TIMER_10S                               ; Init a 5 minute timer
         lda     #0x64
         sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
         lda     #0x10                                   ; 16

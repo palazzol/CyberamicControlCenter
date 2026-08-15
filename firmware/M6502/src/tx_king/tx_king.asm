@@ -36,57 +36,56 @@ RAM_68          = 0x0068    ; TBD?
         .org    0x1A00
 
 RESET:
-        cld
-        sei
-        ldx     #0xF0
+        cld                                             ; No decimal mode
+        sei                                             ; Interrupts are not used
+        ldx     #0xF0                                   ; Stack is at 0x01F0
         txs
-        lda     #0x00
-        ldx     #0x10
-
+        lda     #0x00                                   ; Clear RAM
+        ldx     #0x10                                   ; from 0x0010 to 0x007F
 ZERORAM:
         sta     RAM_start,x
         inx
         cpx     #0x80
         bne     ZERORAM
-        lda     #0x00
-        sta     transport_control_reg_a
-        sta     transport_periph$ddr_reg_a
-        sta     audio_control_reg_a
-        sta     audio_periph$ddr_reg_a
-        sta     audio_control_reg_b
-        sta     U18_edge_detect_control_DI_pos
-        sta     transport_control_reg_b
-        sta     U18_DDRA
+        lda     #0x00                                   ; Initialize these registers to 0x00
+        sta     transport_control_reg_a                 ; Clear transport control A, select DDRA
+        sta     transport_periph$ddr_reg_a              ; UART data inputs
+        sta     audio_control_reg_a                     ; Clear audio control A, select DDRA
+        sta     audio_periph$ddr_reg_a                  ; Comparator inputs
+        sta     audio_control_reg_b                     ; Clear audio control B
+        sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
+        sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
+        sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
-        sta     U19_DDRA
+        sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
         lda     #0xFF
-        sta     audio_periph$ddr_reg_b
-        sta     U18_DDRB
-        sta     U19_DDRB
+        sta     audio_periph$ddr_reg_b                  ; DAC08 outputs
+        sta     U18_DDRB                                ; Button lights are outputs
+        sta     U19_DDRB                                ; CPU card lights are outputs
         lda     #0xFC
-        sta     transport_periph$ddr_reg_b
+        sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
         lda     #0x2E
-        sta     transport_control_reg_a
-        sta     transport_control_reg_b
+        sta     transport_control_reg_a                 ; transport CA2 is Read strobe (~DDR), set IRQA bit on ~DR low to high 
+        sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
         lda     #0x3C
-        sta     audio_control_reg_a
-        sta     audio_control_reg_b
+        sta     audio_control_reg_a                     ; CA2 High - Disable BG Audio
+        sta     audio_control_reg_b                     ; CB2 high - Disable Tape Audio
         lda     #0x64
-        sta     TIMER_1MS_R
+        sta     TIMER_1MS_R                             ; 100 - init 1 msec master counter
         lda     #0x18
-        sta     TIMER_10S
+        sta     TIMER_10S                               ; Init a 4 minute timer
         lda     #0x64
-        sta     TIMER_100MS_R
-        lda     #0x0A
-        sta     AGC_GAIN
+        sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
+        lda     #0x0a                                   ; 10
+        sta     AGC_GAIN                                ; Set initial AGC gain value
         lda     #TAPEMODE_STOP
-        jsr     TAPECMD
-        lda     #0x28
+        jsr     TAPECMD                                 ; STOP tape
+        lda     #0x28                                   ; this will count 4 seconds
         sta     TIMER_100MS_A
-        lda     #0x64
+        lda     #0x64                                   ; reset master timer
         sta     TIMER_1MS_R
 $1:
-        jsr     TUPDATE
+        jsr     TUPDATE                                 ; do not much for 4 seconds
         lda     TIMER_100MS_A
         bne     $1
         jsr     INITBRDS
@@ -128,9 +127,9 @@ L1A9A:
 
 FINDTRK:
         lda     #TAPEMODE_FFWD
-        jsr     TAPECMD
+        jsr     TAPECMD                                 ; FFWD tape
         lda     #0x19
-        sta     TIMER_100MS_A
+        sta     TIMER_100MS_A                           ; 2.5 secs
         lda     #0x64
         sta     TIMER_1MS_R
 

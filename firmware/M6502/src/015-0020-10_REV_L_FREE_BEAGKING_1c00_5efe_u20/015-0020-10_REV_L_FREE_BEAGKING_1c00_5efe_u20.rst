@@ -160,7 +160,7 @@
    1C4F A9 64         [ 2]   72         lda     #0x64
    1C51 85 53         [ 3]   73         sta     TIMER_1MS_R                             ; 100 - init 1 msec master counter
    1C53 A9 1E         [ 2]   74         lda     #0x1E
-   1C55 85 56         [ 3]   75         sta     TIMER_10S                               ; Init an 5 minute timer
+   1C55 85 56         [ 3]   75         sta     TIMER_10S                               ; Init a 5 minute timer
    1C57 A9 64         [ 2]   76         lda     #0x64
    1C59 85 55         [ 3]   77         sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
    1C5B A9 10         [ 2]   78         lda     #0x10                                   ; 16
