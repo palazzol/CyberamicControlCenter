@@ -5,6 +5,7 @@ run () {
     $@
     if [ $? -ne 0 ]; then
         echo -e "\e[41mError(s) during build.\e[0m"
+	paplay ../../tools/pacman_death.wav
         exit 1
     fi
 }
@@ -24,3 +25,4 @@ run cmp -b "$1_ref.bin" "$1.bin"
 echo
 
 echo -e  "\e[32mSuccess!\e[0m"
+paplay ../../tools/credit.wav
