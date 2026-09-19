@@ -21,6 +21,9 @@ It was reused in several incarnations over it's lifetime:
 
 If you have any more information or experience with this machine, and would like to help document it's history and behavior, please reach out!
 
+# Latest protocol definitions as decoded from ROM images #
+https://docs.google.com/spreadsheets/d/1zTHxSJqbsTTEe6A_9ltzb_rc91lcfIUvdmzVYEThIzg/edit?usp=sharing
+
 # Questions: #
 
 We're working on collecting as much information on how the original Pizza Time Theater system worked and have generated some questions:
