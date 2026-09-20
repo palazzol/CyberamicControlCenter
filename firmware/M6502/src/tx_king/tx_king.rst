@@ -462,7 +462,7 @@
    1C6B B0 41         [ 4]  374         bcs     $18                                     ; ignore it
    1C6D A6 65         [ 3]  375         ldx     CURR_PORT                               ; X = current board address
    1C6F 38            [ 2]  376         sec                                             ; (it's 0x41 to 0x4E)
-   1C70 E9 41         [ 2]  377         sbc     #0x41
+   1C70 E9 41         [ 2]  377         sbc     #0x41                                   ; subtract 0x41
    1C72 C9 08         [ 2]  378         cmp     #0x08
    1C74 90 02         [ 4]  379         bcc     $16                                     ; process as command
    1C76 E8            [ 2]  380         inx

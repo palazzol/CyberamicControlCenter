@@ -374,7 +374,7 @@ PROCBYTE:
         bcs     $18                                     ; ignore it
         ldx     CURR_PORT                               ; X = current board address
         sec                                             ; (it's 0x41 to 0x4E)
-        sbc     #0x41
+        sbc     #0x41                                   ; subtract 0x41
         cmp     #0x08
         bcc     $16                                     ; process as command
         inx

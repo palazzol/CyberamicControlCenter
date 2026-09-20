@@ -5,112 +5,122 @@
         
         .org    0x1000
 
-L1000:
+TIMER_1MS_A     = 0x0050    ; 1ms timer
+TIMER_1MS_B     = 0x0051    ; 1ms timer
+TIMER_1MS_C     = 0x0052    ; 1ms timer
+TIMER_1MS_R     = 0x0053    ; 1ms timer, autoload to 100
+TIMER_100MS_A   = 0x0054    ; 0.1s timer
+TIMER_100MS_B   = 0x0055    ; 0.1s timer
+TIMER_100MS_R   = 0x0056    ; 0.1s timer, autoload to 100
+TIMER_10S       = 0x0057    ; 10s timer
+
+
+TAPE_BYTE       = 0x005B    ; storage for incoming serial byte (& 0x7F)
+SOL_MASK        = 0x005C    ; bitmask for solenoids
+CURR_CHANNEL    = 0x005D    ; current channel serial byte
+
+AGC_LEVEL       = 0x005F    ; agc mic level
+AGC_ACCUM       = 0x0060    ; agc mic level accumulator
+AGC_SAMPLES     = 0x0061    ; agc mic sample counter
+AGC_GAIN        = 0x0062    ; agc calculated gain value
+CURR_PORT       = 0x0063    ; current channel port address
+TIMER_100MS_C   = 0x0064    ; 0.1s timer
+
+;
+;       IRQ handler
+;
+IRQ:
         pha
-        lda     U18_edge_detect_control_DI_pos
-        lda     U19_edge_detect_control_DI_pos
-        lda     #0x7D
-        sta     U18_1D
-        lda     0x50
+        lda     U18_edge_detect_control_DI_pos          ; clear PA7 flag
+        lda     U19_edge_detect_control_DI_pos          ; clear PA7 flag
+        lda     #0x7D                                   ; expire every 125*8=1000us=1ms
+        sta     U18_1D                                  ; div by 8, enable interrupt
+        lda     TIMER_1MS_A                             ; 1ms timer
         beq     L1012
-        dec     0x50
-
-
+        dec     TIMER_1MS_A
 L1012:
-        lda     0x51
+        lda     TIMER_1MS_B                             ; 1ms timer
         beq     L1018
-        dec     0x51
-
-
+        dec     TIMER_1MS_B
 L1018:
-        lda     0x52
+        lda     TIMER_1MS_C                             ; 1ms timer
         beq     L101E
-        dec     0x52
-
-
+        dec     TIMER_1MS_C
 L101E:
-        dec     0x53
+        dec     TIMER_1MS_R
         bne     L1046
         lda     #0x64
-        sta     0x53
-        lda     0x54
+        sta     TIMER_1MS_R
+        lda     TIMER_100MS_A
         beq     L102C
-        dec     0x54
-
-
+        dec     TIMER_100MS_A
 L102C:
-        lda     0x64
+        lda     TIMER_100MS_C
         beq     L1032
-        dec     0x64
-
-
+        dec     TIMER_100MS_C
 L1032:
-        lda     0x55
+        lda     TIMER_100MS_B
         beq     L1038
-        dec     0x55
-
-
+        dec     TIMER_100MS_B
 L1038:
-        dec     0x56
+        dec     TIMER_100MS_R
         bne     L1046
         lda     #0x64
-        sta     0x56
-        lda     0x57
+        sta     TIMER_100MS_R
+        lda     TIMER_10S
         beq     L1046
-        dec     0x57
-
-
+        dec     TIMER_10S
 L1046:
         pla
         rti
-
-L1048:
-        cld
-        sei
-        ldx     #0xF0
+;
+;       Main Program Start
+;
+RESET:
+        cld                                             ; No decimal mode
+        sei                                             ; Interrupts are not used
+        ldx     #0xF0                                   ; Stack is at 0x01F0
         txs
-        lda     #0x00
-        ldx     #0x10
-
-
-L1051:
-        sta     0x00,x
+        lda     #0x00                                   ; Clear RAM
+        ldx     #0x10                                   ; from 0x0010 to 0x007F
+ZERORAM:
+        sta     RAM_start,x
         inx
         cpx     #0x80
-        bne     L1051
+        bne     ZERORAM
         lda     #0x00
-        sta     transport_control_reg_a
-        sta     transport_periph$ddr_reg_a
-        sta     audio_control_reg_a
-        sta     audio_periph$ddr_reg_a
-        sta     audio_control_reg_b
-        sta     U18_edge_detect_control_DI_pos
-        sta     transport_control_reg_b
+        sta     transport_control_reg_a                 ; Clear transport control A, select DDRA
+        sta     transport_periph$ddr_reg_a              ; UART data inputs
+        sta     audio_control_reg_a                     ; Clear audio control A, select DDRA
+        sta     audio_periph$ddr_reg_a                  ; Comparator inputs
+        sta     audio_control_reg_b                     ; Clear audio control B
+        sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
+        sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
         sta     U18_06
         sta     U19_06
-        sta     U18_DDRA
+        sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
-        sta     U19_DDRA
+        sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
         lda     #0xFF
         sta     audio_periph$ddr_reg_b
         sta     U18_DDRB
         sta     U19_DDRB
         lda     #0xFC
-        sta     transport_periph$ddr_reg_b
+        sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
         lda     #0x2E
-        sta     transport_control_reg_a
-        sta     transport_control_reg_b
+        sta     transport_control_reg_a                 ; transport CA2 is Read strobe (~DDR), set IRQA bit on ~DR low to high 
+        sta     transport_control_reg_b                 ; transport CB2 is Write strobe (~THRL), set IRQB bit on CB1 low to high
         lda     #0x3C
-        sta     audio_control_reg_a
-        sta     audio_control_reg_b
+        sta     audio_control_reg_a                     ; CA2 High - Disable BG Audio
+        sta     audio_control_reg_b                     ; CB2 high - Disable Tape Audio
         cli
         sta     U18_1C
         lda     #0x64
-        sta     0x53
+        sta     TIMER_1MS_R                             ; 100 - init 1 msec master counter
         lda     #0x18
-        sta     0x57
+        sta     TIMER_10S                               ; Init a 4 minute timer
         lda     #0x64
-        sta     0x56
+        sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
         lda     #0x0A
         sta     0x62
         lda     #0x03
@@ -118,29 +128,29 @@ L1051:
         nop
         lda     #0x09
         sta     UART_02
-        lda     #0x10
-        jsr     L1234
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD
         lda     #0x28
-        sta     0x54
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x53
+        sta     TIMER_1MS_R
 
 
 L10C9:
-        lda     0x54
+        lda     TIMER_100MS_A
         bne     L10C9
-        jsr     L1201
+        jsr     INITBRDS
 
 
 L10D0:
         lda     #0xFA
-        sta     0x64
+        sta     TIMER_100MS_C
         lda     #0x00
         sta     0x65
         sta     0x66
         lda     #0x30
         lda     #0x40
-        jsr     L1234
+        jsr     TAPECMD
 
 
 L10E1:
@@ -151,7 +161,7 @@ L10E1:
 L10E5:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     0x50
+        sta     TIMER_1MS_A
         inc     0x58
         lda     0x58
         cmp     #0x64
@@ -160,7 +170,7 @@ L10E5:
 
 L10F4:
         jsr     L13F3
-        lda     0x50
+        lda     TIMER_1MS_A
         beq     L10E1
         lda     transport_control_reg_b
         bpl     L10F4
@@ -169,42 +179,42 @@ L10F4:
 
 L1103:
         lda     #0x20
-        jsr     L1234
+        jsr     TAPECMD
         lda     #0x19
-        sta     0x54
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x53
+        sta     TIMER_1MS_R
 
 
 L1110:
         jsr     L13F3
-        lda     0x54
+        lda     TIMER_100MS_A
         bne     L1110
         lda     #0x00
         sta     0x59
         jsr     L124F
         lda     #0x40
-        jsr     L1234
+        jsr     TAPECMD
         jsr     L124F
         lda     #0xFA
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L112A:
         jsr     L13F3
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L112A
         lda     #0x20
-        jsr     L1234
+        jsr     TAPECMD
         jsr     L124F
         inc     0x59
         lda     #0x10
-        jsr     L1234
+        jsr     TAPECMD
         lda     #0x80
-        jsr     L1234
+        jsr     TAPECMD
         jsr     L1272
         lda     #0x10
-        jsr     L1234
+        jsr     TAPECMD
 
 
 L114D:
@@ -212,7 +222,7 @@ L114D:
         sta     0x69
         lda     #0x13
         sta     0x6A
-        jsr     L13AF
+        jsr     AGCUPD
         jsr     L13F3
         jsr     L12D9
         lda     UART_02
@@ -268,7 +278,7 @@ L11A3:
 
 
 L11B6:
-        jsr     L1201
+        jsr     INITBRDS
         lda     #0x62
         sta     0x69
         lda     #0x13
@@ -278,10 +288,10 @@ L11B6:
         lda     #0xA0
         sta     U18_PORTB
         lda     #0x80
-        jsr     L1234
+        jsr     TAPECMD
         jsr     L1272
         jsr     L1298
-        jsr     L1201
+        jsr     INITBRDS
         lda     #0x80
         sta     U18_PORTB
         inc     0x59
@@ -296,65 +306,63 @@ L11E9:
         sta     0x65
         sta     0x66
         lda     #0xFA
-        sta     0x64
+        sta     TIMER_100MS_C
         jsr     L1272
         lda     #0x10
-        jsr     L1234
-        jsr     L1366
+        jsr     TAPECMD
+        jsr     AGCMICRD
         jmp     L114D
-
-
-L1201:
+;
+;       Init boards
+;
+INITBRDS:
         lda     #0x3C
-        sta     audio_control_reg_b
+        sta     audio_control_reg_b                     ; CB2 High (Disable Tape Audio)
         lda     #0x34
-        sta     audio_control_reg_a
+        sta     audio_control_reg_a                     ; CA2 Low (Enable BG Audio)
         ldx     #0x00
-
-
-L120D:
+NEXTBRD:
         lda     #0x30
-        sta     0x81,x
-        sta     0x83,x
+        sta     board_1_control_reg_a,x                 ; boardX CA2 low, DDR select
+        sta     board_1_control_reg_b,x                 ; boardX CB2 low, DDR select
         lda     #0xFF
-        sta     0x80,x
-        sta     0x82,x
+        sta     board_1_periph$ddr_reg_a,x              ; all A pins to outputs
+        sta     board_1_periph$ddr_reg_b,x              ; all B pins to outputs
         lda     #0x34
-        sta     0x81,x
-        sta     0x83,x
+        sta     board_1_control_reg_a,x                 ; A peripheral selected
+        sta     board_1_control_reg_b,x                 ; B peripheral selected
         lda     #0x00
-        sta     0x80,x
-        sta     0x82,x
+        sta     board_1_periph$ddr_reg_a,x              ; A solenoids off
+        sta     board_1_periph$ddr_reg_b,x              ; B solenoids off
         inx
         inx
         inx
         inx
-        cpx     #0x20
-        bcc     L120D
-        lda     #0x00
-        sta     0x5D
-        sta     0x63
+        cpx     #0x20                                   ; do for boards 1-8
+        bcc     NEXTBRD
+        lda     #0x00                                   ; bug fix!
+        sta     CURR_CHANNEL                            ; reset current channel serial byte
+        sta     CURR_PORT                               ; reset current channel port address
         rts
-
-
-L1234:
-        sta     transport_periph$ddr_reg_b
+;
+;
+;       Send Transport command for 0.250 sec
+;       (Unified)
+;
+TAPECMD:
+        sta     transport_periph$ddr_reg_b              ; enable output line
         lda     #0xFA
-        sta     0x50
-
-
-L123B:
-        jsr     L13F3
-        lda     0x50
-        bne     L123B
+        sta     TIMER_1MS_A
+$6:
+        jsr     L13F3                                 ; check for PROG button push
+        lda     TIMER_1MS_A
+        bne     $6
         lda     transport_periph$ddr_reg_b
-        and     #0x60
-        bne     L124E
-        lda     #0x00
-        sta     transport_periph$ddr_reg_b
-
-
-L124E:
+        and     #TAPEMODE_REWIND | #TAPEMODE_FFWD       ; Is it a REWIND or FFWD?
+        bne     $31                                     ; Yes, go to exit
+        lda     #0x00                                   ; else unassert STOP or PLAY
+        sta     transport_periph$ddr_reg_b              ; and then exit
+$31:
         rts
 
 
@@ -366,7 +374,7 @@ L124F:
 L1253:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     0x50
+        sta     TIMER_1MS_A
         inc     0x58
         lda     0x58
         cmp     #0x21
@@ -375,7 +383,7 @@ L1253:
 
 L1262:
         jsr     L13F3
-        lda     0x50
+        lda     TIMER_1MS_A
         beq     L124F
         lda     transport_control_reg_b
         bpl     L1262
@@ -388,12 +396,12 @@ L1271:
 
 L1272:
         lda     #0xFA
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L1276:
         jsr     L13F3
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L1276
 
 
@@ -403,7 +411,7 @@ L127D:
         ror
         bcc     L127D
         lda     #0xA0
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L128A:
@@ -411,7 +419,7 @@ L128A:
         lda     transport_periph$ddr_reg_b
         ror
         bcc     L127D
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L128A
         rts
 
@@ -436,7 +444,7 @@ L12B3:
         lsr
         bcc     L12CA
         jsr     L12D9
-        jsr     L13AF
+        jsr     AGCUPD
         lda     transport_control_reg_a
         bpl     L12B3
         jsr     L12F9
@@ -445,14 +453,14 @@ L12B3:
 
 L12CA:
         lda     #0x64
-        sta     0x50
+        sta     TIMER_1MS_A
 
 
 L12CE:
         lda     transport_periph$ddr_reg_b
         lsr
         bcs     L1298
-        lda     0x50
+        lda     TIMER_1MS_A
         bne     L12CE
         rts
 
@@ -482,170 +490,159 @@ L12F5:
 
 L12F8:
         rts
-
-
+;
+; Protocol handler
+;
 L12F9:
         lda     transport_periph$ddr_reg_a
-
-
 L12FC:
-        and     #0x7F
-        sta     0x5B
-        and     #0x7E
-        cmp     #0x22
-        beq     L1340
-        cmp     #0x32
-        bcc     L1359
-        cmp     #0x3A
-        bcc     L1340
-        lda     0x5B
-        cmp     #0x41
-        bcc     L1359
-        cmp     #0x4F
-        bcs     L1359
-        ldx     0x63
-        sec
-        sbc     #0x41
+        and     #0x7F                                   ; insure data is ASCII
+        sta     TAPE_BYTE                               ; store it here
+        and     #0x7E                                   ; ignore bottom bit
+        cmp     #0x22                                   ; is it 0x22 or 0x23?
+        beq     PROCCHNL                                ; if so, process as channel
+        cmp     #0x32                                   ; is it < 0x32 ?
+        bcc     $18                                     ; ignore it
+        cmp     #0x3A                                   ; is it < 0x3A
+        bcc     PROCCHNL                                ; process as channel (0x32 to 0x39)
+        lda     TAPE_BYTE
+        cmp     #0x41                                   ; is it < 0x41?
+        bcc     $18                                     ; ignore it
+        cmp     #0x4F                                   ; is it >= 0x4F?
+        bcs     $18                                     ; ignore it
+        ldx     CURR_PORT                               ; X = current board address
+        sec                                             ; (it's 0x41 to 0x4E)
+        sbc     #0x41                                   ; subtract 0x41
         cmp     #0x08
-        bcc     L1323
+        bcc     $16                                     ; process as command
         inx
         inx
-
-
-L1323:
-        and     #0x07
+$16:
+        and     #0x07                                   ; lookup bitmask in A
         tay
-        lda     X135A,y
-        sta     0x5C
-        lda     0x5D
-        lsr
-        bcs     L1339
-        lda     0x5C
+        lda     MASKTBL,y
+        sta     SOL_MASK                                ; store mask in SOL_MASK
+        lda     CURR_CHANNEL
+        lsr     a                                       ; get on/off in carry
+        bcs     $17                                     ; if on, jump
+        lda     SOL_MASK
         eor     #0xFF
-        and     0x00,x
-        sta     0x00,x
+        and     RAM_start,x
+        sta     RAM_start,x                             ; turn off solenoid
         rts
-
-
-L1339:
-        lda     0x5C
-        ora     0x00,x
-        sta     0x00,x
+;
+$17:
+        lda     SOL_MASK
+        ora     RAM_start,x
+        sta     RAM_start,x                             ; turn on solenoid
         rts
-
-
-L1340:
-        lda     0x5B
-        sta     0x5D
+;
+PROCCHNL:
+        lda     TAPE_BYTE                               ; put channel byte in CURR_CHANNEL
+        sta     CURR_CHANNEL
         and     #0x7E
         cmp     #0x22
-        bne     L134F
-        lda     #0x98
-        sta     0x63
+        bne     CONVCHNL
+        lda     #0x98                                   ; process 0x22 or 0x23
+        sta     CURR_PORT                               ; set this to 0x98 - board 7
         rts
-
-
-L134F:
-        sec
+;
+CONVCHNL:
+        sec                                             ; process channel
         sbc     #0x32
-        asl
+        asl     a
         clc
         adc     #0x80
-        sta     0x63
+        sta     CURR_PORT                               ; (X-0x32) * 2 + 0x80
         rts
-
-
-L1359:
+$18:
         rts
-
-
-X135A:
-        .byte   0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x4D,0x31,0x4D,0x32
-
-L1366:
+;
+; bit mask table
+;
+MASKTBL:
+        .byte   0x01,0x02,0x04,0x08
+        .byte   0x10,0x20,0x40,0x80
+        .byte   0x4D,0x31,0x4D,0x32
+;
+;       Read the AGC mic level
+;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
+;
+AGCMICRD:
         lda     #0x00
-        sta     0x60
-        sta     0x61
+        sta     AGC_ACCUM                               ; init final agc value
+        sta     AGC_SAMPLES                             ; init agc sample counter
         lda     #0x0A
-        sta     0x54
+        sta     TIMER_100MS_A                           ; Start a 1 second timer
         lda     #0x64
-        sta     0x53
-
-
-L1374:
-        jsr     L13F3
-        lda     0x54
-        bne     L1374
+        sta     TIMER_1MS_R
+$23:
+        jsr     L13F3                                   ; housekeeping
+        lda     TIMER_100MS_A
+        bne     $23                                     ; if 1 sec, do housekeeping
         lda     #0x0A
-        sta     0x54
+        sta     TIMER_100MS_A
         lda     #0x64
-        sta     0x53
-        lda     0x61
-        cmp     #0x08
-        beq     L139E
-        inc     0x61
+        sta     TIMER_1MS_R                             ; reset timer
+        lda     AGC_SAMPLES
+        cmp     #0x08                                   ; 8 samples?
+        beq     $27
+        inc     AGC_SAMPLES                             ; increment the sample counter
         ldx     #0x09
         sec
-        lda     audio_periph$ddr_reg_a
-
-
-L1391:
-        rol
+        lda     audio_periph$ddr_reg_a                  ; read the agc mic level
+$24:                                                    ; read the most significant high bit
+        rol     a
         dex
-        bcc     L1391
+        bcc     $24
         clc
-        txa
-        adc     0x60
-        sta     0x60
-        jmp     L1374
-
-
-L139E:
-        lsr     0x60
-        lsr     0x60
-        lsr     0x60
-        lda     0x60
-        sta     0x5F
+        txa                                             ; 8=high bit7, 0=no high bits
+        adc     AGC_ACCUM                               ; add it into AGC_ACCUM (do this 8 times)
+        sta     AGC_ACCUM
+        jmp     $23
+;
+$27:
+        lsr     AGC_ACCUM                               ; divide by 8 (average of 8 samples)
+        lsr     AGC_ACCUM
+        lsr     AGC_ACCUM
+        lda     AGC_ACCUM
+        sta     AGC_LEVEL                               ; store agc value in AGC_LEVEL
         lda     #0x00
-        sta     0x60
-        sta     0x61
+        sta     AGC_ACCUM                               ; clear these 2 and return
+        sta     AGC_SAMPLES
         rts
-
-
-L13AF:
-        lda     U19_PORTA
-        eor     #0xFF
-        lsr
-        lsr
-        lsr
-        lsr
+;
+;        Do AGC Mic Logic
+;
+AGCUPD:
+        lda     U19_PORTA                               ; read AGC knob
+        eor     #0xFF                                   ; invert the bits
+        lsr     a                                       ; get into lower nibble
+        lsr     a
+        lsr     a
+        lsr     a
         clc
-        adc     0x5F
+        adc     AGC_LEVEL                               ; add audio level to it
         tax
-        lda     AGCTABLE,x
-        sta     0x62
-        lda     0x52
-        bne     L13DB
+        lda     AGCTABLE,x                              ; and get the table value
+        sta     AGC_GAIN                                ; store this value in AGC_GAIN
+        lda     TIMER_1MS_C                             ; 10ms timer expired?
+        bne     $26                                     ; no, just update CPU Leds
         lda     #0x0A
-        sta     0x52
-        lda     0x62
-        cmp     audio_periph$ddr_reg_b
-        bcc     L13D8
-        beq     L13DB
-        inc     audio_periph$ddr_reg_b
-        jmp     L13DB
-
-
-L13D8:
-        dec     audio_periph$ddr_reg_b
-
-
-L13DB:
-        lda     audio_periph$ddr_reg_b
+        sta     TIMER_1MS_C                             ; restart 10ms timer
+        lda     AGC_GAIN                                ; every 10ms, adjust gain by 1 if needed
+        cmp     audio_periph$ddr_reg_b                  ; compare with current value
+        bcc     $25
+        beq     $26
+        inc     audio_periph$ddr_reg_b                  ; increase value
+        jmp     $26
+;
+$25:
+        dec     audio_periph$ddr_reg_b                  ; decrease value
+$26:
+        lda     audio_periph$ddr_reg_b                  ; update CPU leds with value
         sta     U19_PORTB
         rts
-
-
 ;
 ;       AGC table
 ;
@@ -655,7 +652,9 @@ AGCTABLE:
         .db     0x40, 0x5A, 0x80, 0xBF
         .db     0xFF, 0xFF, 0xFF, 0xFF
         .db     0xFF
-
+;
+;       Process RAM_65 and RAM_66
+;
 L13F3:
         lda     0x65
         tax
@@ -669,12 +668,12 @@ L13F3:
         lda     #0x00
         sta     0x65
         lda     #0xFA
-        sta     0x64
+        sta     TIMER_100MS_C
         jmp     L1427
 
 
 L1410:
-        cmp     0x64
+        cmp     TIMER_100MS_C
         bne     L1427
         lda     X145F+1,x
         jsr     L12FC
@@ -705,12 +704,12 @@ L1431:
         sta     0x65
         sta     0x66
         lda     #0xFA
-        sta     0x64
+        sta     TIMER_100MS_C
         jmp     L1427
 
 
 L1445:
-        cmp     0x64
+        cmp     TIMER_100MS_C
         bne     L1427
         lda     X1549+1,x
         jsr     L12FC
@@ -762,6 +761,6 @@ X1549:
 NMIVEC:
         .dw     0xFFFF
 RESETVEC:
-        .dw     L1048
+        .dw     RESET
 IRQVEC:
-        .dw     L1000
+        .dw     IRQ
