@@ -179,13 +179,13 @@
    1A73 20 64 1B      [ 6]   91         jsr     INITBRDS
    1A76                      92 REWIND:
    1A76 A9 FA         [ 2]   93         lda     #0xFA
-   1A78 85 66         [ 3]   94         sta     TIMER_100MS_R25
+   1A78 85 66         [ 3]   94         sta     TIMER_100MS_R25                         ; init 25 second timer
    1A7A A9 00         [ 2]   95         lda     #0x00
    1A7C 85 67         [ 3]   96         sta     RAM_67
    1A7E 85 68         [ 3]   97         sta     RAM_68
    1A80 A9 30         [ 2]   98         lda     #0x30
    1A82 A9 40         [ 2]   99         lda     #TAPEMODE_REWIND
-   1A84 20 97 1B      [ 6]  100         jsr     TAPECMD
+   1A84 20 97 1B      [ 6]  100         jsr     TAPECMD                                 ; REWIND tape
                             101 
                             102 
    1A87                     103 L1A87:
@@ -677,186 +677,165 @@
    1DA2 40 5A 80 BF         589         .db     0x40, 0x5A, 0x80, 0xBF
    1DA6 FF FF FF FF         590         .db     0xFF, 0xFF, 0xFF, 0xFF
    1DAA FF                  591         .db     0xFF
-                            592 
-   1DAB                     593 L1DAB:
-   1DAB A5 67         [ 3]  594         lda     RAM_67
-   1DAD AA            [ 2]  595         tax
-   1DAE A5 68         [ 3]  596         lda     RAM_68
-   1DB0 D0 33         [ 4]  597         bne     L1DE5
-   1DB2 BD 0F 1E      [ 5]  598         lda     X1E0F,x
-   1DB5 C9 FE         [ 2]  599         cmp     #0xFE
-   1DB7 F0 23         [ 4]  600         beq     L1DDC
-   1DB9 C9 FF         [ 2]  601         cmp     #0xFF
-   1DBB D0 07         [ 4]  602         bne     L1DC4
-   1DBD A9 00         [ 2]  603         lda     #0x00
-   1DBF 85 67         [ 3]  604         sta     RAM_67
-   1DC1 4C DB 1D      [ 3]  605         jmp     L1DDB
-                            606 
-                            607 
-   1DC4                     608 L1DC4:
-   1DC4 C5 66         [ 3]  609         cmp     TIMER_100MS_R25
-   1DC6 D0 13         [ 4]  610         bne     L1DDB
-   1DC8 BD 10 1E      [ 5]  611         lda     X1E10,x
-   1DCB 20 51 1C      [ 6]  612         jsr     PROCBYTE
-   1DCE BD 11 1E      [ 5]  613         lda     X1E11,x
-   1DD1 20 51 1C      [ 6]  614         jsr     PROCBYTE
-   1DD4 A5 67         [ 3]  615         lda     RAM_67
-   1DD6 18            [ 2]  616         clc
-   1DD7 69 03         [ 2]  617         adc     #0x03
-   1DD9 85 67         [ 3]  618         sta     RAM_67
-                            619 
-                            620 
-   1DDB                     621 L1DDB:
-   1DDB 60            [ 6]  622         rts
-                            623 
-                            624 
-   1DDC                     625 L1DDC:
-   1DDC E6 68         [ 5]  626         inc     RAM_68
-   1DDE A9 00         [ 2]  627         lda     #0x00
-   1DE0 85 67         [ 3]  628         sta     RAM_67
-   1DE2 4C DB 1D      [ 3]  629         jmp     L1DDB
-                            630 
-                            631 
-   1DE5                     632 L1DE5:
-   1DE5 BD F3 1E      [ 5]  633         lda     X1EF3,x
-   1DE8 C9 FF         [ 2]  634         cmp     #0xFF
-   1DEA D0 09         [ 4]  635         bne     L1DF5
-   1DEC A9 00         [ 2]  636         lda     #0x00
-   1DEE 85 67         [ 3]  637         sta     RAM_67
-   1DF0 85 68         [ 3]  638         sta     RAM_68
-   1DF2 4C DB 1D      [ 3]  639         jmp     L1DDB
-                            640 
-                            641 
-   1DF5                     642 L1DF5:
-   1DF5 C5 66         [ 3]  643         cmp     TIMER_100MS_R25
-   1DF7 D0 E2         [ 4]  644         bne     L1DDB
-   1DF9 BD F4 1E      [ 5]  645         lda     X1EF4,x
-   1DFC 20 51 1C      [ 6]  646         jsr     PROCBYTE
-   1DFF BD F5 1E      [ 5]  647         lda     X1EF5,x
-   1E02 20 51 1C      [ 6]  648         jsr     PROCBYTE
-   1E05 A5 67         [ 3]  649         lda     RAM_67
-   1E07 18            [ 2]  650         clc
-   1E08 69 03         [ 2]  651         adc     #0x03
-   1E0A 85 67         [ 3]  652         sta     RAM_67
-   1E0C 4C DB 1D      [ 3]  653         jmp     L1DDB
-                            654 ;
-                            655 ;       Table of pairs of bytes to process
+                            592 ;
+                            593 ;       Process RAM_67 and RAM_68
+                            594 ;
+   1DAB                     595 L1DAB:
+   1DAB A5 67         [ 3]  596         lda     RAM_67
+   1DAD AA            [ 2]  597         tax                                             ; RAM_67 - table offset
+   1DAE A5 68         [ 3]  598         lda     RAM_68                                  ; if RAM_68 != 0   
+   1DB0 D0 33         [ 4]  599         bne     L1DE5                                   ; goto other table                                  
+   1DB2 BD 0F 1E      [ 5]  600         lda     X1E0F,x                                 ; else read byte
+   1DB5 C9 FE         [ 2]  601         cmp     #0xFE                                   ; if it's 0xFE
+   1DB7 F0 23         [ 4]  602         beq     L1DDC                                   ; goto next table
+   1DB9 C9 FF         [ 2]  603         cmp     #0xFF                                   ; if it's not 0xFF
+   1DBB D0 07         [ 4]  604         bne     L1DC4                                   ; check the long timer
+   1DBD A9 00         [ 2]  605         lda     #0x00                                   ; if it is 0xFF
+   1DBF 85 67         [ 3]  606         sta     RAM_67                                  ; else clear RAM_67
+   1DC1 4C DB 1D      [ 3]  607         jmp     L1DDB                                   ; and return
+                            608 
+                            609 
+   1DC4                     610 L1DC4:
+   1DC4 C5 66         [ 3]  611         cmp     TIMER_100MS_R25
+   1DC6 D0 13         [ 4]  612         bne     L1DDB                                   ; if it's not time, return
+   1DC8 BD 10 1E      [ 5]  613         lda     X1E0F+1,x                               ; use two bytes from this table
+   1DCB 20 51 1C      [ 6]  614         jsr     PROCBYTE
+   1DCE BD 11 1E      [ 5]  615         lda     X1E0F+2,x
+   1DD1 20 51 1C      [ 6]  616         jsr     PROCBYTE
+   1DD4 A5 67         [ 3]  617         lda     RAM_67
+   1DD6 18            [ 2]  618         clc
+   1DD7 69 03         [ 2]  619         adc     #0x03
+   1DD9 85 67         [ 3]  620         sta     RAM_67                                  ; add 3 to RAM_67 and return
+                            621 
+                            622 
+   1DDB                     623 L1DDB:
+   1DDB 60            [ 6]  624         rts
+                            625 
+                            626 
+   1DDC                     627 L1DDC:
+   1DDC E6 68         [ 5]  628         inc     RAM_68                                  ; add 1 to RAM_68
+   1DDE A9 00         [ 2]  629         lda     #0x00
+   1DE0 85 67         [ 3]  630         sta     RAM_67                                  ; clear RAM_67
+   1DE2 4C DB 1D      [ 3]  631         jmp     L1DDB                                   ; return
+                            632 
+                            633 
+   1DE5                     634 L1DE5:
+   1DE5 BD F3 1E      [ 5]  635         lda     X1EF3,x
+   1DE8 C9 FF         [ 2]  636         cmp     #0xFF
+   1DEA D0 09         [ 4]  637         bne     L1DF5
+   1DEC A9 00         [ 2]  638         lda     #0x00
+   1DEE 85 67         [ 3]  639         sta     RAM_67
+   1DF0 85 68         [ 3]  640         sta     RAM_68
+   1DF2 4C DB 1D      [ 3]  641         jmp     L1DDB
+                            642 
+                            643 
+   1DF5                     644 L1DF5:
+   1DF5 C5 66         [ 3]  645         cmp     TIMER_100MS_R25
+   1DF7 D0 E2         [ 4]  646         bne     L1DDB
+   1DF9 BD F4 1E      [ 5]  647         lda     X1EF3+1,x
+   1DFC 20 51 1C      [ 6]  648         jsr     PROCBYTE
+   1DFF BD F5 1E      [ 5]  649         lda     X1EF3+2,x
+   1E02 20 51 1C      [ 6]  650         jsr     PROCBYTE
+   1E05 A5 67         [ 3]  651         lda     RAM_67
+   1E07 18            [ 2]  652         clc
+   1E08 69 03         [ 2]  653         adc     #0x03
+   1E0A 85 67         [ 3]  654         sta     RAM_67
+   1E0C 4C DB 1D      [ 3]  655         jmp     L1DDB
                             656 ;
-   1E0F                     657 X1E0F:
-   1E0F EE                  658         .byte   0xEE
-                            659 
-   1E10                     660 X1E10:
-   1E10 35                  661         .byte   0x35
-                            662 
-   1E11                     663 X1E11:
-   1E11 46 EB 35 49 E9 35   664         .byte   0x46,0xEB,0x35,0x49,0xE9,0x35,0x4A,0xE9,0x33,0x42,0xE8,0x33,0x46,0xE7,0x32,0x46
-        4A E9 33 42 E8 33
-        46 E7 32 46
-   1E21 E6 33 46 E5 32 46   665         .byte   0xE6,0x33,0x46,0xE5,0x32,0x46,0xE4,0x33,0x46,0xE3,0x32,0x46,0xE2,0x33,0x46,0xE1
-        E4 33 46 E3 32 46
-        E2 33 46 E1
-   1E31 32 46 E0 33 46 DF   666         .byte   0x32,0x46,0xE0,0x33,0x46,0xDF,0x32,0x46,0xDE,0x33,0x46,0xDD,0x32,0x46,0xDD,0x34
-        32 46 DE 33 46 DD
-        32 46 DD 34
-   1E41 46 DC 33 46 DB 32   667         .byte   0x46,0xDC,0x33,0x46,0xDB,0x32,0x46,0xDB,0x35,0x46,0xDA,0x33,0x46,0xD9,0x32,0x46
-        46 DB 35 46 DA 33
-        46 D9 32 46
-   1E51 D1 32 42 C6 33 47   668         .byte   0xD1,0x32,0x42,0xC6,0x33,0x47,0xC6,0x33,0x43,0xC5,0x32,0x47,0xC3,0x34,0x46,0xC2
-        C6 33 43 C5 32 47
-        C3 34 46 C2
-   1E61 33 47 C1 32 47 C0   669         .byte   0x33,0x47,0xC1,0x32,0x47,0xC0,0x35,0x46,0xB9,0x34,0x46,0xB9,0x32,0x43,0xB7,0x35
-        35 46 B9 34 46 B9
-        32 43 B7 35
-   1E71 46 B7 33 42 B3 33   670         .byte   0x46,0xB7,0x33,0x42,0xB3,0x33,0x46,0xB2,0x32,0x46,0xA8,0x32,0x42,0x9D,0x33,0x47
-        46 B2 32 46 A8 32
-        42 9D 33 47
-   1E81 9C 32 47 9B 33 47   671         .byte   0x9C,0x32,0x47,0x9B,0x33,0x47,0x9A,0x32,0x47,0x9A,0x34,0x46,0x99,0x33,0x47,0x99
-        9A 32 47 9A 34 46
-        99 33 47 99
-   1E91 33 43 99 35 46 98   672         .byte   0x33,0x43,0x99,0x35,0x46,0x98,0x32,0x47,0x97,0x33,0x47,0x94,0x32,0x47,0x93,0x33
-        32 47 97 33 47 94
-        32 47 93 33
-   1EA1 47 92 32 47 91 33   673         .byte   0x47,0x92,0x32,0x47,0x91,0x33,0x47,0x90,0x32,0x47,0x87,0x33,0x42,0x86,0x32,0x43
-        47 90 32 47 87 33
-        42 86 32 43
-   1EB1 7D 33 46 7C 32 46   674         .byte   0x7D,0x33,0x46,0x7C,0x32,0x46,0x77,0x32,0x42,0x77,0x34,0x46,0x75,0x32,0x43,0x75
-        77 32 42 77 34 46
-        75 32 43 75
-   1EC1 35 46 6A 33 46 69   675         .byte   0x35,0x46,0x6A,0x33,0x46,0x69,0x32,0x46,0x67,0x33,0x46,0x66,0x32,0x46,0x66,0x32
-        32 46 67 33 46 66
-        32 46 66 32
-   1ED1 43 65 34 46 62 35   676         .byte   0x43,0x65,0x34,0x46,0x62,0x35,0x46,0x62,0x33,0x42,0x56,0x33,0x46,0x55,0x32,0x46
-        46 62 33 42 56 33
-        46 55 32 46
-   1EE1 55 32 42 54 33 46   677         .byte   0x55,0x32,0x42,0x54,0x33,0x46,0x53,0x32,0x46,0x52,0x33,0x46,0x51,0x32,0x46,0xFE
-        53 32 46 52 33 46
-        51 32 46 FE
-   1EF1 FE FE               678         .byte   0xFE,0xFE
-                            679 
-   1EF3                     680 X1EF3:
-   1EF3 50                  681         .byte   0x50
-                            682 
-   1EF4                     683 X1EF4:
-   1EF4 33                  684         .byte   0x33
-                            685 
-   1EF5                     686 X1EF5:
-   1EF5 46 4F 32 46 4E 33   687         .byte   0x46,0x4F,0x32,0x46,0x4E,0x33,0x46,0x4E,0x33,0x42,0x4D,0x32,0x46,0x4C,0x33,0x46
-        46 4E 33 42 4D 32
-        46 4C 33 46
-   1F05 4B 32 46 40 34 46   688         .byte   0x4B,0x32,0x46,0x40,0x34,0x46,0x3E,0x35,0x46,0x3C,0x33,0x47,0x3B,0x32,0x47,0x3A
-        3E 35 46 3C 33 47
-        3B 32 47 3A
-   1F15 33 47 39 32 47 32   689         .byte   0x33,0x47,0x39,0x32,0x47,0x32,0x32,0x42,0x29,0x34,0x46,0x28,0x32,0x47,0x27,0x35
-        32 42 29 34 46 28
-        32 47 27 35
-   1F25 46 26 33 43 23 33   690         .byte   0x46,0x26,0x33,0x43,0x23,0x33,0x47,0x22,0x32,0x47,0x1E,0x33,0x42,0x1D,0x32,0x43
-        47 22 32 47 1E 33
-        42 1D 32 43
-   1F35 1B 33 47 1A 32 47   691         .byte   0x1B,0x33,0x47,0x1A,0x32,0x47,0x19,0x33,0x47,0x18,0x32,0x47,0x17,0x34,0x46,0x17
-        19 33 47 18 32 47
-        17 34 46 17
-   1F45 33 47 17 32 42 16   692         .byte   0x33,0x47,0x17,0x32,0x42,0x16,0x32,0x47,0x15,0x35,0x46,0x15,0x33,0x43,0x08,0x32
-        32 47 15 35 46 15
-        33 43 08 32
-   1F55 43 03 33 46 02 32   693         .byte   0x43,0x03,0x33,0x46,0x02,0x32,0x46,0x02,0x34,0x46,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
-        46 02 34 46 FF FF
-        FF FF FF FF
-   1F65 FF FF FF FF FF FF   694         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+                            657 ;       Table of bytes to process
+                            658 ;
+   1E0F EE 35 46 EB 35 49   659 X1E0F:  .byte   0xEE,0x35,0x46, 0xEB,0x35,0x49, 0xE9,0x35,0x4A, 0xE9,0x33,0x42
+        E9 35 4A E9 33 42
+   1E1B E8 33 46 E7 32 46   660         .byte   0xE8,0x33,0x46, 0xE7,0x32,0x46, 0xE6,0x33,0x46, 0xE5,0x32,0x46 
+        E6 33 46 E5 32 46
+   1E27 E4 33 46 E3 32 46   661         .byte   0xE4,0x33,0x46, 0xE3,0x32,0x46, 0xE2,0x33,0x46, 0xE1,0x32,0x46
+        E2 33 46 E1 32 46
+   1E33 E0 33 46 DF 32 46   662         .byte   0xE0,0x33,0x46, 0xDF,0x32,0x46, 0xDE,0x33,0x46, 0xDD,0x32,0x46
+        DE 33 46 DD 32 46
+   1E3F DD 34 46 DC 33 46   663         .byte   0xDD,0x34,0x46, 0xDC,0x33,0x46, 0xDB,0x32,0x46, 0xDB,0x35,0x46
+        DB 32 46 DB 35 46
+   1E4B DA 33 46 D9 32 46   664         .byte   0xDA,0x33,0x46, 0xD9,0x32,0x46, 0xD1,0x32,0x42, 0xC6,0x33,0x47
+        D1 32 42 C6 33 47
+   1E57 C6 33 43 C5 32 47   665         .byte   0xC6,0x33,0x43, 0xC5,0x32,0x47, 0xC3,0x34,0x46, 0xC2,0x33,0x47
+        C3 34 46 C2 33 47
+   1E63 C1 32 47 C0 35 46   666         .byte   0xC1,0x32,0x47, 0xC0,0x35,0x46, 0xB9,0x34,0x46, 0xB9,0x32,0x43
+        B9 34 46 B9 32 43
+   1E6F B7 35 46 B7 33 42   667         .byte   0xB7,0x35,0x46, 0xB7,0x33,0x42, 0xB3,0x33,0x46, 0xB2,0x32,0x46
+        B3 33 46 B2 32 46
+   1E7B A8 32 42 9D 33 47   668         .byte   0xA8,0x32,0x42, 0x9D,0x33,0x47, 0x9C,0x32,0x47, 0x9B,0x33,0x47
+        9C 32 47 9B 33 47
+   1E87 9A 32 47 9A 34 46   669         .byte   0x9A,0x32,0x47, 0x9A,0x34,0x46, 0x99,0x33,0x47, 0x99,0x33,0x43
+        99 33 47 99 33 43
+   1E93 99 35 46 98 32 47   670         .byte   0x99,0x35,0x46, 0x98,0x32,0x47, 0x97,0x33,0x47, 0x94,0x32,0x47
+        97 33 47 94 32 47
+   1E9F 93 33 47 92 32 47   671         .byte   0x93,0x33,0x47, 0x92,0x32,0x47, 0x91,0x33,0x47, 0x90,0x32,0x47
+        91 33 47 90 32 47
+   1EAB 87 33 42 86 32 43   672         .byte   0x87,0x33,0x42, 0x86,0x32,0x43, 0x7D,0x33,0x46, 0x7C,0x32,0x46
+        7D 33 46 7C 32 46
+   1EB7 77 32 42 77 34 46   673         .byte   0x77,0x32,0x42, 0x77,0x34,0x46, 0x75,0x32,0x43, 0x75,0x35,0x46
+        75 32 43 75 35 46
+   1EC3 6A 33 46 69 32 46   674         .byte   0x6A,0x33,0x46, 0x69,0x32,0x46, 0x67,0x33,0x46, 0x66,0x32,0x46
+        67 33 46 66 32 46
+   1ECF 66 32 43 65 34 46   675         .byte   0x66,0x32,0x43, 0x65,0x34,0x46, 0x62,0x35,0x46, 0x62,0x33,0x42
+        62 35 46 62 33 42
+   1EDB 56 33 46 55 32 46   676         .byte   0x56,0x33,0x46, 0x55,0x32,0x46, 0x55,0x32,0x42, 0x54,0x33,0x46
+        55 32 42 54 33 46
+   1EE7 53 32 46 52 33 46   677         .byte   0x53,0x32,0x46, 0x52,0x33,0x46, 0x51,0x32,0x46, 0xFE,0xFE,0xFE
+        51 32 46 FE FE FE
+                            678 
+   1EF3                     679 X1EF3:
+   1EF3 50 33 46 4F 32 46   680         .byte   0x50,0x33,0x46, 0x4F,0x32,0x46, 0x4E,0x33,0x46, 0x4E,0x33,0x42
+        4E 33 46 4E 33 42
+   1EFF 4D 32 46 4C 33 46   681         .byte   0x4D,0x32,0x46, 0x4C,0x33,0x46, 0x4B,0x32,0x46, 0x40,0x34,0x46
+        4B 32 46 40 34 46
+   1F0B 3E 35 46 3C 33 47   682         .byte   0x3E,0x35,0x46, 0x3C,0x33,0x47, 0x3B,0x32,0x47, 0x3A,0x33,0x47
+        3B 32 47 3A 33 47
+   1F17 39 32 47 32 32 42   683         .byte   0x39,0x32,0x47, 0x32,0x32,0x42, 0x29,0x34,0x46, 0x28,0x32,0x47
+        29 34 46 28 32 47
+   1F23 27 35 46 26 33 43   684         .byte   0x27,0x35,0x46, 0x26,0x33,0x43, 0x23,0x33,0x47, 0x22,0x32,0x47
+        23 33 47 22 32 47
+   1F2F 1E 33 42 1D 32 43   685         .byte   0x1E,0x33,0x42, 0x1D,0x32,0x43, 0x1B,0x33,0x47, 0x1A,0x32,0x47
+        1B 33 47 1A 32 47
+   1F3B 19 33 47 18 32 47   686         .byte   0x19,0x33,0x47, 0x18,0x32,0x47, 0x17,0x34,0x46, 0x17,0x33,0x47
+        17 34 46 17 33 47
+   1F47 17 32 42 16 32 47   687         .byte   0x17,0x32,0x42, 0x16,0x32,0x47, 0x15,0x35,0x46, 0x15,0x33,0x43
+        15 35 46 15 33 43
+   1F53 08 32 43 03 33 46   688         .byte   0x08,0x32,0x43, 0x03,0x33,0x46, 0x02,0x32,0x46, 0x02,0x34,0x46
+        02 32 46 02 34 46
+   1F5F FF FF FF FF FF FF   689         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1F75 FF FF FF FF FF FF   695         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1F6B FF FF FF FF FF FF   690         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1F85 FF FF FF FF FF FF   696         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1F77 FF FF FF FF FF FF   691         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1F95 FF FF FF FF FF FF   697         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1F83 FF FF FF FF FF FF   692         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FA5 FF FF FF FF FF FF   698         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1F8F FF FF FF FF FF FF   693         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FB5 FF FF FF FF FF FF   699         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1F9B FF FF FF FF FF FF   694         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FC5 FF FF FF FF FF FF   700         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1FA7 FF FF FF FF FF FF   695         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FD5 FF FF FF FF FF FF   701         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1FB3 FF FF FF FF FF FF   696         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FE5 FF FF FF FF FF FF   702         .byte   0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+   1FBF FF FF FF FF FF FF   697         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
         FF FF FF FF FF FF
-        FF FF FF FF
-   1FF5 FF FF FF FF FF      703         .byte   0xFF,0xFF,0xFF,0xFF,0xFF
-                            704 
-   1FFA                     705         .org    0x1FFA
+   1FCB FF FF FF FF FF FF   698         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+   1FD7 FF FF FF FF FF FF   699         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
+        FF FF FF FF FF FF
+   1FE3 FF FF FF FF FF FF   700         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF 
+        FF FF FF FF FF FF
+   1FEF FF FF FF FF FF FF   701         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF, 0xFF,0xFF
+        FF FF FF FF FF
+                            702 
+   1FFA                     703         .org    0x1FFA
+                            704         ;
+                            705         ; vectors
                             706         ;
-                            707         ; vectors
-                            708         ;
-   1FFA                     709 NMIVEC:
-   1FFA FF FF               710         .dw     0xFFFF
-   1FFC                     711 RESETVEC:
-   1FFC 00 1A               712         .dw     RESET
-   1FFE                     713 IRQVEC:
-   1FFE FF FF               714         .dw     0xFFFF
+   1FFA                     707 NMIVEC:
+   1FFA FF FF               708         .dw     0xFFFF
+   1FFC                     709 RESETVEC:
+   1FFC 00 1A               710         .dw     RESET
+   1FFE                     711 IRQVEC:
+   1FFE FF FF               712         .dw     0xFFFF
