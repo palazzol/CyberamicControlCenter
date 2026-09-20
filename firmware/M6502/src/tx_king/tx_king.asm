@@ -98,33 +98,27 @@ REWIND:
         lda     #0x30
         lda     #TAPEMODE_REWIND
         jsr     TAPECMD                                 ; REWIND tape
-
-
-L1A87:
+$22:
         lda     #0x00
-        sta     ZEROCROSS_CTR
-
-
-L1A8B:
+        sta     ZEROCROSS_CTR                           ; counter to zero
+; Look for the long tone at the beginning of tape
+$2:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     TIMER_1MS_A
+        sta     TIMER_1MS_A                             ; set 10ms second timer
         inc     ZEROCROSS_CTR
         lda     ZEROCROSS_CTR
         cmp     #0x64
-        bcs     FINDTRK
-
-
-L1A9A:
-        jsr     TUPDATE
+        bcs     FINDTRK                                 ; happened 100 times, tape is at the beginning, jump ahead
+$3:
+        jsr     TUPDATE                                 ; housekeeping
         jsr     L1DAB
         lda     TIMER_1MS_A
-        beq     L1A87
+        beq     $22
         lda     transport_control_reg_b
-        bpl     L1A9A
-        jmp     L1A8B
-
-
+        bpl     $3
+        jmp     $2
+;
 FINDTRK:
         lda     #TAPEMODE_FFWD
         jsr     TAPECMD                                 ; FFWD tape
@@ -132,235 +126,231 @@ FINDTRK:
         sta     TIMER_100MS_A                           ; 2.5 secs
         lda     #0x64
         sta     TIMER_1MS_R
-
-
-L1AB9:
-        jsr     TUPDATE
+$5:
+        jsr     TUPDATE                                 ; do housekeeping stuff
         jsr     L1DAB
         lda     TIMER_100MS_A
-        bne     L1AB9
+        bne     $5
         lda     #0x00
         sta     TRACK_CTR
-        jsr     WAITTONE
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
         lda     #TAPEMODE_REWIND
-        jsr     TAPECMD
-        jsr     WAITTONE
+        jsr     TAPECMD                                 ; REWIND tape
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
         lda     #0xFA
         sta     TIMER_1MS_A
-
-
-L1AD6:
-        jsr     TUPDATE
+$30:
+        jsr     TUPDATE                                 ; housekeeping
         jsr     L1DAB
         lda     TIMER_1MS_A
-        bne     L1AD6
+        bne     $30                                     ; delay for 250 ms
         lda     #TAPEMODE_FFWD
-        jsr     TAPECMD
-        jsr     WAITTONE
+        jsr     TAPECMD                                 ; FFWD tape
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
         inc     TRACK_CTR
         lda     #TAPEMODE_STOP
-        jsr     TAPECMD
+        jsr     TAPECMD                                 ; STOP tape
         lda     #TAPEMODE_PLAY
-        jsr     TAPECMD
-        jsr     WAITCD
+        jsr     TAPECMD                                 ; PLAY tape
+        jsr     WAITCD                                  ; wait for carrier
         lda     #TAPEMODE_STOP
-        jsr     TAPECMD
-        jsr     INITBRDS
-
-
+        jsr     TAPECMD                                 ; STOP Tape
+        jsr     INITBRDS                                ; init the boards
 WAITPLAY:
-        jsr     TUPDATE
-        jsr     AGCUPD
+        jsr     TUPDATE                                 ; do housekeeping stuff
+        jsr     AGCUPD                                  ; do AGC Mic Logic
         jsr     L1DAB
-        lda     PROG_CTR
-        bne     STARTPLAY
-        lda     #0x02
-        sta     U19_PORTA
+        lda     PROG_CTR                                ; wait until we are triggered
+        bne     STARTPLAY                               ; then jump
+        lda     #0x02                                   ; else
+        sta     U19_PORTA                               ; turn on RESET button light
         lda     #0x00
-        sta     U18_PORTB
-        lda     TIMER_10S
-        bne     WAITPLAY
-        inc     PROG_CTR
-
-
+        sta     U18_PORTB                               ; turn on all other button lights
+        lda     TIMER_10S                               ; has the 8 minute timer run out?
+        bne     WAITPLAY                                ; no, keep looping
+        inc     PROG_CTR                                ; yes, simulate a PROG button press
+;   we have been started!
 STARTPLAY:
-        jsr     INITBRDS
+        jsr     INITBRDS                                ; init the boards
         lda     #0x00
-        sta     U19_PORTA
+        sta     U19_PORTA                               ; turn off RESET button light
         lda     #0x80
-        sta     U18_PORTB
+        sta     U18_PORTB                               ; turn off all but PROG light
         lda     #TAPEMODE_PLAY
-        jsr     TAPECMD
-        jsr     WAITCD
-        dec     PROG_CTR
-        jsr     PLAYTRK
-        jsr     INITBRDS
+        jsr     TAPECMD                                 ; PLAY tape
+        jsr     WAITCD                                  ; wait for carrier
+        dec     PROG_CTR                                  ; no longer triggered
+        jsr     PLAYTRK                                 ; play a track!
+        jsr     INITBRDS                                ; init the boards
         lda     #0x18
-        sta     TIMER_10S
+        sta     TIMER_10S                               ; set a 4 min timer
         lda     #0x64
         sta     TIMER_100MS_R
-        inc     TRACK_CTR
+        inc     TRACK_CTR                               ; track counter
         lda     TRACK_CTR
-        cmp     #0x1A
+        cmp     #0x1A                                   ; 26?
         bcc     NEXTTRK
-        jmp     REWIND
-
-
+        jmp     REWIND                                  ; rewind the tape after the total number of tracks are done
+; go to next track
 NEXTTRK:
         lda     #0x00
         sta     RAM_67
         sta     RAM_68
         lda     #0xFA
         sta     TIMER_100MS_R25
-        jsr     WAITCD
+        jsr     WAITCD                                  ; wait for carrier
         lda     #TAPEMODE_STOP
-        jsr     TAPECMD
-        jsr     AGCMICRD
+        jsr     TAPECMD                                 ; STOP tape
+        jsr     AGCMICRD                                ; Read the AGC mic level
         jmp     WAITPLAY
 ;
 ;       Init boards
 ;
 INITBRDS:
         lda     #0x3C
-        sta     audio_control_reg_b
+        sta     audio_control_reg_b                     ; CB2 High (Disable Tape Audio)
         lda     #0x34
-        sta     audio_control_reg_a
+        sta     audio_control_reg_a                     ; CA2 Low (Enable BG Audio)
         ldx     #0x00
 NEXTBRD:
         lda     #0x30
-        sta     0x81,x
-        sta     0x83,x
+        sta     board_1_control_reg_a,x                 ; boardX CA2 low, DDR select
+        sta     board_1_control_reg_b,x                 ; boardX CB2 low, DDR select
         lda     #0xFF
-        sta     0x80,x
-        sta     0x82,x
+        sta     board_1_periph$ddr_reg_a,x              ; all A pins to outputs
+        sta     board_1_periph$ddr_reg_b,x              ; all B pins to outputs
         lda     #0x34
-        sta     0x81,x
-        sta     0x83,x
+        sta     board_1_control_reg_a,x                 ; A peripheral selected
+        sta     board_1_control_reg_b,x                 ; B peripheral selected
         lda     #0x00
-        sta     0x80,x
-        sta     0x82,x
+        sta     board_1_periph$ddr_reg_a,x              ; A solenoids off
+        sta     board_1_periph$ddr_reg_b,x              ; B solenoids off
         inx
         inx
         inx
         inx
-        cpx     #0x20
+        cpx     #0x20                                   ; do for boards 1-8
         bcc     NEXTBRD
 
         lda     #0x00
         sta     CURR_CHANNEL
         sta     CURR_PORT
         rts
-
-
+;
+;       Send Transport command for 0.250 sec
+;       (Unified)
+;
 TAPECMD:
         sta     transport_periph$ddr_reg_b
         lda     #0xFA
         sta     TIMER_1MS_A
-
-
-L1B9E:
-        jsr     TUPDATE
+$6:
+        jsr     TUPDATE                                 ; check for PROG button push
         jsr     L1DAB
         lda     TIMER_1MS_A
-        bne     L1B9E
+        bne     $6
         lda     transport_periph$ddr_reg_b
-        and     #TIMER_TMP
-        bne     L1BB4
-        lda     #0x00
-        sta     transport_periph$ddr_reg_b
-
-
-L1BB4:
+        and     #TAPEMODE_REWIND | #TAPEMODE_FFWD       ; Is it a REWIND or FFWD?
+        bne     $31                                     ; Yes, go to exit
+        lda     #0x00                                   ; else unassert STOP or PLAY
+        sta     transport_periph$ddr_reg_b              ; and then exit
+$31:
         rts
-
-
+;
+;       Wait for tone during Fast Forward, signaling beginning of track
+;       (50Hz or above, for 33 zero crossing) 
+;
 WAITTONE:
         lda     #0x00
         sta     ZEROCROSS_CTR
-L1BB9:
+$8:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     TIMER_1MS_A
+        sta     TIMER_1MS_A                             ; 10 msec
         inc     ZEROCROSS_CTR
         lda     ZEROCROSS_CTR
-        cmp     #0x21
-        bcs     L1BDA
-L1BC8:
-        jsr     TUPDATE
+        cmp     #0x21                                   ; wait for 33 rising edges, each within 10ms window
+        bcs     $10                                     ; timeout - exit
+$9:
+        jsr     TUPDATE                                 ; housekeeping
         jsr     L1DAB
         lda     TIMER_1MS_A
-        beq     WAITTONE
-        lda     transport_control_reg_b
-        bpl     L1BC8
-        jmp     L1BB9
-L1BDA:
+        beq     WAITTONE                                ; 10 msec done yet? then loop
+        lda     transport_control_reg_b                 ; transport CB1 rising edge?
+        bpl     $9                                      ; if not, extend the looping
+        jmp     $8                                      ; else loop but keep timeout going
+$10:
         rts
+;
+;       Wait for carrier / start of data
+;
 
-
+; Wait for 250ms
 WAITCD:
         lda     #0xFA
-        sta     TIMER_1MS_A
-L1BDF:
-        jsr     TUPDATE
+        sta     TIMER_1MS_A                             ; 250 msec
+$11:
+        jsr     TUPDATE                                 ; housekeeping
         jsr     L1DAB
         lda     TIMER_1MS_A
-        bne     L1BDF
+        bne     $11
 
-
-L1BE9:
+; Wait for 160ms of consecutive zero crossings
+$12:
+        jsr     TUPDATE                                 ; housekeeping
+        jsr     L1DAB
+        lda     transport_periph$ddr_reg_b
+        ror
+        bcc     $12
+        lda     #0xA0                                   ; 160 msec
+        sta     TIMER_1MS_A
+$13:
         jsr     TUPDATE
         jsr     L1DAB
         lda     transport_periph$ddr_reg_b
         ror
-        bcc     L1BE9
-        lda     #0xA0
-        sta     TIMER_1MS_A
-L1BF9:
-        jsr     TUPDATE
-        jsr     L1DAB
-        lda     transport_periph$ddr_reg_b
-        ror
-        bcc     L1BE9
+        bcc     $12
         lda     TIMER_1MS_A
-        bne     L1BF9
+        bne     $13
         rts
-
-
+;
+;       Play a track
+;
 PLAYTRK:
         lda     transport_periph$ddr_reg_a
         lda     #0x40
-        sta     0x82
-        sta     0x86
-        sta     0x8A
-        sta     0x8E
+        sta     board_1_periph$ddr_reg_b                ; only Board 1 PB6 on
+        sta     board_2_periph$ddr_reg_b                ; only Board 2 PB6 on
+        sta     board_3_periph$ddr_reg_b                ; only Board 3 PB6 on
+        sta     board_4_periph$ddr_reg_b                ; only Board 4 PB6 on
         lda     #0x3C
-        sta     audio_control_reg_a
+        sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
         lda     #0x34
-        sta     audio_control_reg_b
+        sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
         lda     #TIMER_TMP
-        sta     0x82
-L1C25:
+        sta     board_1_periph$ddr_reg_b                ; ???
+$14:
         lda     transport_periph$ddr_reg_b
-        lsr
-        bcc     LOSTCD
-        jsr     AGCUPD
-        jsr     TUPDATE
-        lda     transport_control_reg_a
-        bpl     L1C25
-        jsr     PROTOHAND
-        jmp     L1C25
+        lsr     a
+        bcc     LOSTCD                                  ; b0=0, no carrier, exit
+        jsr     AGCUPD                                  ; do AGC Mic Logic
+        jsr     TUPDATE                                 ; housekeeping
+        lda     transport_control_reg_a                 ; Did we get a byte?
+        bpl     $14                                     ; No, loop
+        jsr     PROTOHAND                               ; Yes, Process Incoming Byte
+        jmp     $14
 
-
+;       Lost carrier - wait 100 msec for more data before giving up
 LOSTCD:
-        lda     #0x64
+        lda     #0x64                                   ; 100 msec
         sta     TIMER_1MS_A
-L1C40:
+$15:
         jsr     TUPDATE
         lda     transport_periph$ddr_reg_b
-        lsr
-        bcs     PLAYTRK
+        lsr     a
+        bcs     PLAYTRK                                 ; carrier
         lda     TIMER_1MS_A
-        bne     L1C40
+        bne     $15
         rts
 ;
 ; Protocol handler
@@ -368,64 +358,64 @@ L1C40:
 PROTOHAND:
         lda     transport_periph$ddr_reg_a
 PROCBYTE:
-        and     #0x7F
-        sta     TAPE_BYTE
-        and     #0x7E
-        cmp     #0x22
-        beq     PROCCHNL
-        cmp     #0x32
-        bcc     $18
-        cmp     #0x3A
-        bcc     PROCCHNL
+        and     #0x7F                                   ; insure data is ASCII
+        sta     TAPE_BYTE                               ; store it here
+        and     #0x7E                                   ; ignore bottom bit
+        cmp     #0x22                                   ; is it 0x22 or 0x23?
+        beq     PROCCHNL                                ; if so, process as channel
+        cmp     #0x32                                   ; is it < 0x32 ?
+        bcc     $18                                     ; ignore it
+        cmp     #0x3A                                   ; is it < 0x3A
+        bcc     PROCCHNL                                ; process as channel (0x32 to 0x39)
         lda     TAPE_BYTE
-        cmp     #0x41
-        bcc     $18
-        cmp     #0x4F                           ; is it >= 0x4F?
-        bcs     $18
-        ldx     CURR_PORT
-        sec                                     ; (it's 0x41 to 0x4E)
+        cmp     #0x41                                   ; is it < 0x41?
+        bcc     $18                                     ; ignore it
+        cmp     #0x4F                                   ; is it >= 0x4F?
+        bcs     $18                                     ; ignore it
+        ldx     CURR_PORT                               ; X = current board address
+        sec                                             ; (it's 0x41 to 0x4E)
         sbc     #0x41
         cmp     #0x08
-        bcc     $16
+        bcc     $16                                     ; process as command
         inx
         inx
 $16:
-        and     #0x07
+        and     #0x07                                   ; lookup bitmask in A
         tay
         lda     MASKTBL,y
-        sta     SOL_MASK
+        sta     SOL_MASK                                ; store mask in SOL_MASK
         lda     CURR_CHANNEL
-        lsr
-        bcs     $17
+        lsr     a                                       ; get on/off in carry
+        bcs     $17                                     ; if on, jump
         lda     SOL_MASK
         eor     #0xFF
-        and     0x00,x
-        sta     0x00,x
+        and     RAM_start,x
+        sta     RAM_start,x                             ; turn off solenoid
         rts
 ;
 $17:
         lda     SOL_MASK
-        ora     0x00,x
-        sta     0x00,x
+        ora     RAM_start,x
+        sta     RAM_start,x                             ; turn on solenoid
         rts
 ;
 PROCCHNL:
-        lda     TAPE_BYTE
+        lda     TAPE_BYTE                               ; put channel byte in CURR_CHANNEL
         sta     CURR_CHANNEL
         and     #0x7E
         cmp     #0x22
         bne     CONVCHNL
-        lda     #0x98
-        sta     CURR_PORT
+        lda     #0x98                                   ; process 0x22 or 0x23
+        sta     CURR_PORT                               ; set this to 0x98 - board 7
         rts
 ;
 CONVCHNL:
-        sec
+        sec                                             ; process channel
         sbc     #0x32
-        asl
+        asl     a
         clc
         adc     #0x80
-        sta     CURR_PORT
+        sta     CURR_PORT                               ; (X-0x32) * 2 + 0x80
         rts
 $18:
         rts
@@ -437,14 +427,14 @@ MASKTBL:
         .db     0x10,0x20,0x40,0x80
 ;
 ;       Housekeeping routine
-;
+;       TIMER_1MS_A used on entry
 ;
 TUPDATE:
-        lda     U18_edge_detect_control_DI_pos
-        sta     TIMER_TMP
-        beq     TEXIT
+       lda     U18_edge_detect_control_DI_pos           ; Did the PROG button get pushed or timer expire?
+        sta     TIMER_TMP                               ; store this state in 5F
+        beq     TEXIT                                   ; No flags set, return
         lda     PROG_STATE
-        bmi     $20_A
+        bmi     $20_A                                   ; TBD - ???
         lda     TIMER_TMP
         and     #0x40
         beq     $20_B
@@ -461,20 +451,20 @@ $20_A:
         bne     $20
         inc     PROG_CTR
 $20:
-        lda     TIMER_TMP
-        bpl     TEXIT
+        lda     TIMER_TMP                               ; check timer irq bit
+        bpl     TEXIT                                   ; if timer not expired, return
 ; Adjust Timer routine
 $20_B:
-        lda     U18_timer
-        eor     #0xFF
-        lsr
-        lsr
-        lsr
-        sta     TIMER_TMP1
-        bcc     $21
-        inc     TIMER_TMP1
-
-
+        lda     U18_timer                               ; read timer in U18
+        eor     #0xFF                                   ; flip the bits
+        lsr     a                                       ; keep the top 5 bits
+        lsr     a
+        lsr     a
+        sta     TIMER_TMP1                              ; store them
+        bcc     $21                                     ; bcc on timer bit D2
+        inc     TIMER_TMP1                              ; round up?
+                                                        ; now TIMER_TMP1 has the number of 8us 
+                           
 $21:
         lda     #0x7A
         sec
@@ -502,82 +492,82 @@ TEXIT:
         rts
 ;
 ;       Read the AGC mic level
-;       Take the average of 8 samples
+;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
 ;
 AGCMICRD:
         lda     #0x00
-        sta     AGC_ACCUM
-        sta     AGC_SAMPLES
+        sta     AGC_ACCUM                               ; init final agc value
+        sta     AGC_SAMPLES                             ; init agc sample counter
         lda     #0x0A
-        sta     TIMER_100MS_A
+        sta     TIMER_100MS_A                           ; Start a 1 second timer
         lda     #0x64
         sta     TIMER_1MS_R
 $23:
-        jsr     TUPDATE
+        jsr     TUPDATE                                 ; housekeeping
         jsr     L1DAB
         lda     TIMER_100MS_A
-        bne     $23
+        bne     $23                                     ; if 1 sec, do housekeeping
         lda     #0x0A
         sta     TIMER_100MS_A
         lda     #0x64
-        sta     TIMER_1MS_R
+        sta     TIMER_1MS_R                             ; reset timer
         lda     AGC_SAMPLES
-        cmp     #0x08
-        beq     $27
-        inc     AGC_SAMPLES
+        cmp     #0x08                                   ; 8 samples?
+        beq     $27                                     ; yes - jump to final calculation
+        inc     AGC_SAMPLES                             ; increment the sample counter
         ldx     #0x09
         sec
-        lda     audio_periph$ddr_reg_a
-$24:
-        rol
+        lda     audio_periph$ddr_reg_a                  ; read the agc mic level
+$24:                                                    ; read the most significant high bit
+        rol     a
         dex
         bcc     $24
         clc
-        txa
-        adc     AGC_ACCUM
+        txa                                             ; 8=high bit7, 0=no high bits
+        adc     AGC_ACCUM                               ; add it into AGC_ACCUM (do this 8 times)
         sta     AGC_ACCUM
         jmp     $23
 ;
 $27:
-        lsr     AGC_ACCUM
+        lsr     AGC_ACCUM                               ; divide by 8 (average of 8 samples)
         lsr     AGC_ACCUM
         lsr     AGC_ACCUM
         lda     AGC_ACCUM
-        sta     AGC_LEVEL
+        sta     AGC_LEVEL                               ; store agc value in AGC_LEVEL
         lda     #0x00
-        sta     AGC_ACCUM
+        sta     AGC_ACCUM                               ; clear these 2 and return
         sta     AGC_SAMPLES
         rts
 ;
 ;        Do AGC Mic Logic
 ;
 AGCUPD:
-        lda     U19_PORTA
-        eor     #0xFF
-        lsr
-        lsr
-        lsr
-        lsr
+        lda     U19_PORTA                               ; read AGC knob
+        eor     #0xFF                                   ; invert the bits
+        lsr     a                                       ; get into lower nibble
+        lsr     a
+        lsr     a
+        lsr     a
         clc
-        adc     AGC_LEVEL
+        adc     AGC_LEVEL                               ; add audio level to it
         tax
-        lda     AGCTABLE,x
-        sta     AGC_GAIN
-        lda     TIMER_1MS_C
-        bne     $26
+        lda     AGCTABLE,x                              ; and get the table value
+        sta     AGC_GAIN                                ; store this value in AGC_GAIN
+        lda     TIMER_1MS_C                             ; 10ms timer expired?
+        bne     $26                                     ; no, just update CPU Leds
         lda     #0x0A
-        sta     TIMER_1MS_C
-        lda     AGC_GAIN
-        cmp     audio_periph$ddr_reg_b
+        sta     TIMER_1MS_C                             ; restart 10ms timer
+        lda     AGC_GAIN                                ; every 10ms, adjust gain by 1 if needed
+        cmp     audio_periph$ddr_reg_b                  ; compare with current value
         bcc     $25
         beq     $26
-        inc     audio_periph$ddr_reg_b
+        inc     audio_periph$ddr_reg_b                  ; increase value
         jmp     $26
 ;
 $25:
-        dec     audio_periph$ddr_reg_b
+        dec     audio_periph$ddr_reg_b                  ; decrease value
 $26:
-        lda     audio_periph$ddr_reg_b
+        lda     audio_periph$ddr_reg_b                  ; update CPU leds with value
         sta     U19_PORTB
         rts
 ;
