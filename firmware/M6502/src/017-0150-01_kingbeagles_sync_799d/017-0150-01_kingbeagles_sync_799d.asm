@@ -212,7 +212,7 @@ L114D:
         lda     #0x64
         sta     RAM_69
         lda     #0x13
-        sta     0x6A
+        sta     0x6A                                    ; set address to 0x1364?
         jsr     AGCUPD
         jsr     L13F3
         jsr     L12D9
@@ -222,7 +222,7 @@ L114D:
         lda     RAM_67
         bne     L1175
         lda     UART_01
-        cmp     #0x53
+        cmp     #0x53                                   ; 'S' - start command?
         bne     L1188
         inc     RAM_67
         jmp     L1188
@@ -230,15 +230,16 @@ L1175:
         lda     #0x00
         sta     RAM_67
         lda     UART_01
-        cmp     #0x31
+        cmp     #0x31                                   ; '1' - 2nd byte startplay command?
         beq     STARTPLAY
-        cmp     #0x32
+        cmp     #0x32                                   ; '2' - 2nd byte lights command?
         beq     L118E
-        cmp     #0x33
+        cmp     #0x33                                   ; '3' - 2nd byte lights command?
         beq     L11A3
 L1188:
         jmp     L114D
         jmp     REWIND
+; lights to all ones
 L118E:
         lda     #0xFF
         sta     board_7_periph$ddr_reg_a
@@ -249,6 +250,7 @@ L118E:
         lda     #0x02
         sta     U19_PORTA
         jmp     L114D
+; lights to all zeros
 L11A3:
         lda     #0x00
         sta     board_7_periph$ddr_reg_a
@@ -265,7 +267,7 @@ STARTPLAY:
         lda     #0x62
         sta     RAM_69
         lda     #0x13
-        sta     0x6A
+        sta     0x6A                                    ; set address to 0x1362?
         lda     #0x00
         sta     U19_PORTA                               ; turn off RESET button light
         lda     #0xA0
@@ -531,7 +533,10 @@ $18:
 MASKTBL:
         .byte   0x01,0x02,0x04,0x08
         .byte   0x10,0x20,0x40,0x80
-        .byte   0x4D,0x31,0x4D,0x32
+;
+; This table is referenced by UART code
+        .byte   0x4D,0x31                               ; M1
+        .byte   0x4D,0x32                               ; M2
 ;
 ;       Read the AGC mic level
 ;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
@@ -652,17 +657,14 @@ L1410:
         adc     #0x03
         sta     RAM_65
 
-
 L1427:
         rts
-
 
 L1428:
         inc     RAM_66
         lda     #0x00
         sta     RAM_65
         jmp     L1427
-
 
 L1431:
         lda     X1549,x
@@ -674,7 +676,6 @@ L1431:
         lda     #0xFA
         sta     TIMER_100MS_C
         jmp     L1427
-
 
 L1445:
         cmp     TIMER_100MS_C
