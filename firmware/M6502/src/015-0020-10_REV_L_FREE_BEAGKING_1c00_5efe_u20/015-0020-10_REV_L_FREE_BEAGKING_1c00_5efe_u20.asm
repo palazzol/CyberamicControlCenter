@@ -311,7 +311,7 @@ PLAYTRK:
         sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
         lda     #0x34
         sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
-        lda     #AGC_LEVEL
+        lda     #0x60
         sta     board_1_periph$ddr_reg_b                ; ???
 $14:
         lda     transport_periph$ddr_reg_b

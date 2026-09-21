@@ -399,7 +399,7 @@
    1DEF 8D 81 03      [ 4]  311         sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
    1DF2 A9 34         [ 2]  312         lda     #0x34
    1DF4 8D 83 03      [ 4]  313         sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
-   1DF7 A9 60         [ 2]  314         lda     #AGC_LEVEL
+   1DF7 A9 60         [ 2]  314         lda     #0x60
    1DF9 85 82         [ 3]  315         sta     board_1_periph$ddr_reg_b                ; ???
    1DFB                     316 $14:
    1DFB AD 02 03      [ 4]  317         lda     transport_periph$ddr_reg_b

@@ -13,7 +13,8 @@ TIMER_100MS_A   = 0x0054    ; 0.1s timer
 TIMER_100MS_B   = 0x0055    ; 0.1s timer
 TIMER_100MS_R   = 0x0056    ; 0.1s timer, autoload to 100
 TIMER_10S       = 0x0057    ; 10s timer
-
+ZEROCROSS_CTR   = 0x0058    ; zero crossing counter
+TRACK_CTR       = 0x0059    ; track counter
 
 TAPE_BYTE       = 0x005B    ; storage for incoming serial byte (& 0x7F)
 SOL_MASK        = 0x005C    ; bitmask for solenoids
@@ -25,7 +26,12 @@ AGC_SAMPLES     = 0x0061    ; agc mic sample counter
 AGC_GAIN        = 0x0062    ; agc calculated gain value
 CURR_PORT       = 0x0063    ; current channel port address
 TIMER_100MS_C   = 0x0064    ; 0.1s timer
-
+RAM_65          = 0x0065    ; TBD?
+RAM_66          = 0x0066    ; TBD?
+RAM_67          = 0x0067    ; TBD?
+RAM_68          = 0x0068    ; TBD?
+RAM_69          = 0x0069    ; TBD?
+RAM_6A          = 0x006A    ; TBD?
 ;
 ;       IRQ handler
 ;
@@ -96,15 +102,15 @@ ZERORAM:
         sta     audio_control_reg_b                     ; Clear audio control B
         sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
         sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
-        sta     U18_06
-        sta     U19_06
+        sta     U18_06                                  ; ???
+        sta     U19_06                                  ; ???
         sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
         sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
         lda     #0xFF
-        sta     audio_periph$ddr_reg_b
-        sta     U18_DDRB
-        sta     U19_DDRB
+        sta     audio_periph$ddr_reg_b                  ; DAC08 outputs
+        sta     U18_DDRB                                ; Button lights are outputs
+        sta     U19_DDRB                                ; CPU card lights are outputs
         lda     #0xFC
         sta     transport_periph$ddr_reg_b              ; transport control, chip control are outputs, PB1 & PB0 inputs
         lda     #0x2E
@@ -121,105 +127,90 @@ ZERORAM:
         sta     TIMER_10S                               ; Init a 4 minute timer
         lda     #0x64
         sta     TIMER_100MS_R                           ; 100 - init 0.1 sec master counter
-        lda     #0x0A
-        sta     0x62
+        lda     #0x0A                                   ; 10
+        sta     AGC_GAIN                                ; Set initial AGC gain value
         lda     #0x03
-        sta     UART_02
-        nop
+        sta     UART_02                                 ; ???
+        nop                                             ; ???
         lda     #0x09
-        sta     UART_02
+        sta     UART_02                                 ; ???
         lda     #TAPEMODE_STOP
-        jsr     TAPECMD
-        lda     #0x28
+        jsr     TAPECMD                                 ; STOP tape
+        lda     #0x28                                   ; this will count 4 seconds
         sta     TIMER_100MS_A
-        lda     #0x64
+        lda     #0x64                                   ; reset master timer
         sta     TIMER_1MS_R
-
-
-L10C9:
-        lda     TIMER_100MS_A
-        bne     L10C9
+$1:
+        lda     TIMER_100MS_A                           ; do not much for 4 seconds
+        bne     $1
         jsr     INITBRDS
-
-
-L10D0:
+REWIND:
         lda     #0xFA
         sta     TIMER_100MS_C
         lda     #0x00
-        sta     0x65
-        sta     0x66
+        sta     RAM_65
+        sta     RAM_66
         lda     #0x30
-        lda     #0x40
-        jsr     TAPECMD
-
-
-L10E1:
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD                                 ; REWIND tape
+$22:
         lda     #0x00
-        sta     0x58
-
-
-L10E5:
+        sta     ZEROCROSS_CTR                           ; counter to zero
+$3:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     TIMER_1MS_A
-        inc     0x58
-        lda     0x58
+        sta     TIMER_1MS_A                             ; set a 10ms timer
+        inc     ZEROCROSS_CTR                           ; count transitions
+        lda     ZEROCROSS_CTR
         cmp     #0x64
-        bcs     L1103
-
-
-L10F4:
+        bcs     FINDTRK                                 ; happened 100 times, tape is at the beginning, jump ahead
+$4:
         jsr     L13F3
         lda     TIMER_1MS_A
-        beq     L10E1
+        beq     $22
         lda     transport_control_reg_b
-        bpl     L10F4
-        jmp     L10E5
-
-
-L1103:
-        lda     #0x20
-        jsr     TAPECMD
+        bpl     $4
+        jmp     $3
+;
+FINDTRK:
+        lda     #TAPEMODE_FFWD
+        jsr     TAPECMD                                 ; FFWD tape
         lda     #0x19
-        sta     TIMER_100MS_A
+        sta     TIMER_100MS_A                           ; 2.5 secs
         lda     #0x64
         sta     TIMER_1MS_R
-
-
-L1110:
+$5:
         jsr     L13F3
         lda     TIMER_100MS_A
-        bne     L1110
+        bne     $5
         lda     #0x00
-        sta     0x59
-        jsr     L124F
-        lda     #0x40
-        jsr     TAPECMD
-        jsr     L124F
+        sta     TRACK_CTR
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
+        lda     #TAPEMODE_REWIND
+        jsr     TAPECMD                                 ; REWIND tape
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
         lda     #0xFA
         sta     TIMER_1MS_A
-
-
-L112A:
+$30:
         jsr     L13F3
         lda     TIMER_1MS_A
-        bne     L112A
-        lda     #0x20
+        bne     $30                                     ; delay for 250 ms
+        lda     #TAPEMODE_FFWD
         jsr     TAPECMD
-        jsr     L124F
-        inc     0x59
-        lda     #0x10
-        jsr     TAPECMD
-        lda     #0x80
-        jsr     TAPECMD
-        jsr     L1272
-        lda     #0x10
-        jsr     TAPECMD
+        jsr     WAITTONE                                ; wait for tone signaling beginning of track
+        inc     TRACK_CTR
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY tape
+        jsr     WAITCD                                  ; wait for carrier
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP Tape
 
 
 L114D:
         lda     #0x64
-        sta     0x69
+        sta     RAM_69
         lda     #0x13
         sta     0x6A
         jsr     AGCUPD
@@ -228,89 +219,79 @@ L114D:
         lda     UART_02
         and     #0x05
         beq     L1188
-        lda     0x67
+        lda     RAM_67
         bne     L1175
         lda     UART_01
         cmp     #0x53
         bne     L1188
-        inc     0x67
+        inc     RAM_67
         jmp     L1188
-
-
 L1175:
         lda     #0x00
-        sta     0x67
+        sta     RAM_67
         lda     UART_01
         cmp     #0x31
-        beq     L11B6
+        beq     STARTPLAY
         cmp     #0x32
         beq     L118E
         cmp     #0x33
         beq     L11A3
-
-
 L1188:
         jmp     L114D
-        jmp     L10D0
-
-
+        jmp     REWIND
 L118E:
         lda     #0xFF
-        sta     0x98
-        sta     0x9A
-        sta     0x9C
-        sta     0x9E
+        sta     board_7_periph$ddr_reg_a
+        sta     board_7_periph$ddr_reg_b
+        sta     board_8_periph$ddr_reg_a
+        sta     board_8_periph$ddr_reg_b
         sta     U18_PORTB
         lda     #0x02
         sta     U19_PORTA
         jmp     L114D
-
-
 L11A3:
         lda     #0x00
-        sta     0x98
-        sta     0x9A
-        sta     0x9C
-        sta     0x9E
+        sta     board_7_periph$ddr_reg_a
+        sta     board_7_periph$ddr_reg_b
+        sta     board_8_periph$ddr_reg_a
+        sta     board_8_periph$ddr_reg_b
         sta     U18_PORTB
         sta     U19_PORTA
         jmp     L114D
 
-
-L11B6:
+;   we have been started!
+STARTPLAY:
         jsr     INITBRDS
         lda     #0x62
-        sta     0x69
+        sta     RAM_69
         lda     #0x13
         sta     0x6A
         lda     #0x00
-        sta     U19_PORTA
+        sta     U19_PORTA                               ; turn off RESET button light
         lda     #0xA0
-        sta     U18_PORTB
+        sta     U18_PORTB                               ; turn off some lights - TBD
+        lda     #TAPEMODE_PLAY
+        jsr     TAPECMD                                 ; PLAY tape
+        jsr     WAITCD                                  ; wait for carrier
+        jsr     PLAYTRK                                 ; play a track!
+        jsr     INITBRDS                                ; init the boards
         lda     #0x80
-        jsr     TAPECMD
-        jsr     L1272
-        jsr     L1298
-        jsr     INITBRDS
-        lda     #0x80
-        sta     U18_PORTB
-        inc     0x59
-        lda     0x59
-        cmp     #0x1A
-        bcc     L11E9
-        jmp     L10D0
-
-
-L11E9:
+        sta     U18_PORTB                               ; turn off all but PROG light
+        inc     TRACK_CTR                               ; track counter
+        lda     TRACK_CTR
+        cmp     #0x1A                                   ; 26?
+        bcc     NEXTTRK
+        jmp     REWIND                                  ; rewind the tape after the total number of tracks are done
+NEXTTRK:
         lda     #0x00
-        sta     0x65
-        sta     0x66
+        sta     RAM_65
+        sta     RAM_66
         lda     #0xFA
         sta     TIMER_100MS_C
-        jsr     L1272
-        lda     #0x10
-        jsr     TAPECMD
-        jsr     AGCMICRD
+        jsr     WAITCD                                  ; wait for carrier
+        lda     #TAPEMODE_STOP
+        jsr     TAPECMD                                 ; STOP tape
+        jsr     AGCMICRD                                ; Read the AGC mic level
         jmp     L114D
 ;
 ;       Init boards
@@ -345,7 +326,6 @@ NEXTBRD:
         sta     CURR_PORT                               ; reset current channel port address
         rts
 ;
-;
 ;       Send Transport command for 0.250 sec
 ;       (Unified)
 ;
@@ -354,7 +334,7 @@ TAPECMD:
         lda     #0xFA
         sta     TIMER_1MS_A
 $6:
-        jsr     L13F3                                 ; check for PROG button push
+        jsr     L13F3                                 ; check for PROG button push??
         lda     TIMER_1MS_A
         bne     $6
         lda     transport_periph$ddr_reg_b
@@ -364,138 +344,126 @@ $6:
         sta     transport_periph$ddr_reg_b              ; and then exit
 $31:
         rts
-
-
-L124F:
+;
+;       Wait for tone during Fast Forward, signaling beginning of track
+;       (50Hz or above, for 33 zero crossing) 
+;
+WAITTONE:
         lda     #0x00
-        sta     0x58
-
-
-L1253:
+        sta     ZEROCROSS_CTR
+$8:
         lda     transport_periph$ddr_reg_b
         lda     #0x0A
-        sta     TIMER_1MS_A
-        inc     0x58
-        lda     0x58
-        cmp     #0x21
-        bcs     L1271
-
-
-L1262:
+        sta     TIMER_1MS_A                             ; 10 msec
+        inc     ZEROCROSS_CTR
+        lda     ZEROCROSS_CTR
+        cmp     #0x21                                   ; wait for 33 rising edges, each within 10ms window
+        bcs     $10                                     ; timeout - exit
+$9:
         jsr     L13F3
         lda     TIMER_1MS_A
-        beq     L124F
-        lda     transport_control_reg_b
-        bpl     L1262
-        jmp     L1253
+        beq     WAITTONE                                ; 10 msec done yet? then loop
+        lda     transport_control_reg_b                 ; transport CB1 rising edge?
+        bpl     $9                                      ; if not, extend the looping
+        jmp     $8                                      ; else loop but keep timeout going
 
-
-L1271:
+$10:
         rts
+;
+;       Wait for carrier / start of data
+;
 
-
-L1272:
+; Wait for 250ms
+WAITCD:
         lda     #0xFA
-        sta     TIMER_1MS_A
-
-
-L1276:
+        sta     TIMER_1MS_A                             ; 250 msec
+$11:
         jsr     L13F3
         lda     TIMER_1MS_A
-        bne     L1276
+        bne     $11
 
-
-L127D:
+; Wait for 160ms of consecutive zero crossings
+$12:
         jsr     L13F3
         lda     transport_periph$ddr_reg_b
         ror
-        bcc     L127D
-        lda     #0xA0
+        bcc     $12
+        lda     #0xA0                                   ; 160 msec
         sta     TIMER_1MS_A
-
-
-L128A:
+$13:
         jsr     L13F3
         lda     transport_periph$ddr_reg_b
         ror
-        bcc     L127D
+        bcc     $12
         lda     TIMER_1MS_A
-        bne     L128A
+        bne     $13
         rts
-
-
-L1298:
+;
+;       Play a track
+;
+PLAYTRK:
         lda     transport_periph$ddr_reg_a
         lda     #0x40
-        sta     0x82
-        sta     0x86
-        sta     0x8A
-        sta     0x8E
+        sta     board_1_periph$ddr_reg_b                ; only Board 1 PB6 on
+        sta     board_2_periph$ddr_reg_b                ; only Board 2 PB6 on
+        sta     board_3_periph$ddr_reg_b                ; only Board 3 PB6 on
+        sta     board_4_periph$ddr_reg_b                ; only Board 4 PB6 on
         lda     #0x3C
-        sta     audio_control_reg_a
+        sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
         lda     #0x34
-        sta     audio_control_reg_b
+        sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
         lda     #0x60
-        sta     0x82
-
-
-L12B3:
+        sta     board_1_periph$ddr_reg_b                ; ???
+$14:
         lda     transport_periph$ddr_reg_b
-        lsr
-        bcc     L12CA
-        jsr     L12D9
+        lsr     a
+        bcc     LOSTCD                                  ; b0=0, no carrier, exit
+        jsr     L12D9                                   ; ??? Unknown UART routine
         jsr     AGCUPD
-        lda     transport_control_reg_a
-        bpl     L12B3
-        jsr     L12F9
-        jmp     L12B3
+        lda     transport_control_reg_a                 ; Did we get a byte?
+        bpl     $14                                     ; No, loop
+        jsr     PROTOHAND                               ; Yes, Process Incoming Byte
+        jmp     $14
 
-
-L12CA:
-        lda     #0x64
+;       Lost carrier - wait 100 msec for more data before giving up
+LOSTCD:
+        lda     #0x64                                   ; 100 msec
         sta     TIMER_1MS_A
-
-
-L12CE:
+$15:
         lda     transport_periph$ddr_reg_b
         lsr
-        bcs     L1298
+        bcs     PLAYTRK                                 ; carrier
         lda     TIMER_1MS_A
-        bne     L12CE
+        bne     $15
         rts
-
-
+;
+;   TBD - Unknown UART routine
+;
 L12D9:
         lda     UART_02
         and     #0x02
         beq     L12F8
-        lda     0x68
+        lda     RAM_68
         bne     L12ED
         ldy     #0x00
-        lda     [0x69],y
-        inc     0x68
+        lda     [RAM_69],y
+        inc     RAM_68
         jmp     L12F5
-
-
 L12ED:
         lda     #0x00
-        sta     0x68
+        sta     RAM_68
         ldy     #0x01
-        lda     [0x69],y
-
-
+        lda     [RAM_69],y
 L12F5:
         sta     UART_01
-
-
 L12F8:
         rts
 ;
 ; Protocol handler
 ;
-L12F9:
+PROTOHAND:
         lda     transport_periph$ddr_reg_a
-L12FC:
+PROCBYTE:
         and     #0x7F                                   ; insure data is ASCII
         sta     TAPE_BYTE                               ; store it here
         and     #0x7E                                   ; ignore bottom bit
@@ -656,9 +624,9 @@ AGCTABLE:
 ;       Process RAM_65 and RAM_66
 ;
 L13F3:
-        lda     0x65
+        lda     RAM_65
         tax
-        lda     0x66
+        lda     RAM_66
         bne     L1431
         lda     X145F,x
         cmp     #0xFE
@@ -666,7 +634,7 @@ L13F3:
         cmp     #0xFF
         bne     L1410
         lda     #0x00
-        sta     0x65
+        sta     RAM_65
         lda     #0xFA
         sta     TIMER_100MS_C
         jmp     L1427
@@ -676,13 +644,13 @@ L1410:
         cmp     TIMER_100MS_C
         bne     L1427
         lda     X145F+1,x
-        jsr     L12FC
+        jsr     PROCBYTE
         lda     X145F+2,x
-        jsr     L12FC
-        lda     0x65
+        jsr     PROCBYTE
+        lda     RAM_65
         clc
         adc     #0x03
-        sta     0x65
+        sta     RAM_65
 
 
 L1427:
@@ -690,9 +658,9 @@ L1427:
 
 
 L1428:
-        inc     0x66
+        inc     RAM_66
         lda     #0x00
-        sta     0x65
+        sta     RAM_65
         jmp     L1427
 
 
@@ -701,8 +669,8 @@ L1431:
         cmp     #0xFF
         bne     L1445
         lda     #0x00
-        sta     0x65
-        sta     0x66
+        sta     RAM_65
+        sta     RAM_66
         lda     #0xFA
         sta     TIMER_100MS_C
         jmp     L1427
@@ -712,13 +680,13 @@ L1445:
         cmp     TIMER_100MS_C
         bne     L1427
         lda     X1549+1,x
-        jsr     L12FC
+        jsr     PROCBYTE
         lda     X1549+2,x
-        jsr     L12FC
-        lda     0x65
+        jsr     PROCBYTE
+        lda     RAM_65
         clc
         adc     #0x03
-        sta     0x65
+        sta     RAM_65
         jmp     L1427
 
 X145F:
