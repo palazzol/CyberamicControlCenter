@@ -1089,7 +1089,7 @@ L16D5:
         lda     RAM_33
         bne     L16EC
         lda     UART_01
-        cmp     #0x4D
+        cmp     #0x4D                                   ; 'M' - command?
         bne     L16FB
         inc     RAM_33
         jmp     L16FB

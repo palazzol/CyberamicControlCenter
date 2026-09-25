@@ -1258,7 +1258,7 @@ L172A:
         lda     0x33
         bne     L1741
         lda     UART_01
-        cmp     #0x4D
+        cmp     #0x4D                                   ; 'M' - command?
         bne     L1750
         inc     0x33
         jmp     L1750

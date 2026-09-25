@@ -218,7 +218,7 @@ L1147:
         lda     0x67
         bne     L116F
         lda     UART_01
-        cmp     #0x53
+        cmp     #0x53                                   ; 'S' - start command?
         bne     L1182
         inc     0x67
         jmp     L1182
@@ -557,8 +557,12 @@ L1353:
 
 
 X1354:
-        .byte   0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x4D,0x31,0x4D,0x32
-
+        .byte   0x01,0x02,0x04,0x08
+        .byte   0x10,0x20,0x40,0x80
+;
+; This table is referenced by UART code
+        .byte   0x4D,0x31                               ; M1
+        .byte   0x4D,0x32                               ; M2
 L1360:
         lda     #0x00
         sta     0x60

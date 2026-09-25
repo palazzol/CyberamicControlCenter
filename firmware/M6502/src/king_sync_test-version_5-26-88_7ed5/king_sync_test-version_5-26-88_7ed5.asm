@@ -546,7 +546,10 @@ L1353:
 X1354:
         .byte   0x01,0x02,0x04,0x08
         .byte   0x10,0x20,0x40,0x80
-        .byte   0x4D,0x31,0x4D,0x32
+;
+; This table is referenced by UART code
+        .byte   0x4D,0x31                               ; M1
+        .byte   0x4D,0x32                               ; M2
 ;
 ;       Read the AGC mic level
 ;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)

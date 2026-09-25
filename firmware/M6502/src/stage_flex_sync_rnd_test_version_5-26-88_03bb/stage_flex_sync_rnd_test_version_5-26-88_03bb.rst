@@ -1178,7 +1178,7 @@
    16DC A5 33         [ 3] 1089         lda     RAM_33
    16DE D0 0C         [ 4] 1090         bne     L16EC
    16E0 AD 01 01      [ 4] 1091         lda     UART_01
-   16E3 C9 4D         [ 2] 1092         cmp     #0x4D
+   16E3 C9 4D         [ 2] 1092         cmp     #0x4D                                   ; 'M' - command?
    16E5 D0 14         [ 4] 1093         bne     L16FB
    16E7 E6 33         [ 5] 1094         inc     RAM_33
    16E9 4C FB 16      [ 3] 1095         jmp     L16FB

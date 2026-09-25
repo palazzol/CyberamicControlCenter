@@ -1141,7 +1141,7 @@ L1679:
         lda     0x33
         bne     L1690
         lda     UART_01
-        cmp     #0x4D
+        cmp     #0x4D                                   ; 'M' - command?
         bne     L169F
         inc     0x33
         jmp     L169F
