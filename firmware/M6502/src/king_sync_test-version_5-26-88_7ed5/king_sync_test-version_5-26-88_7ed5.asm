@@ -220,7 +220,7 @@ L1147:
         bne     L116F
         lda     UART_01
         cmp     #0x53                                   ; 'S' - start command?
-       bne     L1182
+        bne     L1182
         inc     0x67
         jmp     L1182
 L116F:
