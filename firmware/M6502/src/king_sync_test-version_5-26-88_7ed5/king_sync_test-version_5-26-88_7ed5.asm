@@ -1,10 +1,6 @@
 
         .area   region1 (ABS)
 
-        .include "../../include/ptt6502.def"
-
-        .org    0x1000
-
 TIMER_1MS_A     = 0x0050    ; 1ms timer
 TIMER_1MS_B     = 0x0051    ; 1ms timer
 TIMER_1MS_C     = 0x0052    ; 1ms timer
@@ -28,9 +24,14 @@ CURR_PORT       = 0x0063    ; current channel port address
 TIMER_100MS_C   = 0x0064    ; 0.1s timer
 KTABLE_OFFS     = 0x0065    ; offset into King table
 KTABLE_SEL      = 0x0066    ; select King table
-RAM_67          = 0x0067    ; TBD?
-RAM_68          = 0x0068    ; TBD?
-RAM_69          = 0x0069    ; TBD?
+UART_RBYTE      = 0x0067    ; UART routine recv byte (0 or 1)
+UART_SBYTE      = 0x0068    ; UART routine send byte (0 or 1)
+UART_ADDR       = 0x0069    ; Address of UART send table (2 bytes)
+
+        .include "../../include/ptt6502.def"
+
+        .org    0x1000
+
 ;
 ;       IRQ handler
 ;
@@ -41,41 +42,41 @@ IRQ:
         lda     #0x7D                                   ; expire every 125*8=1000us=1ms
         sta     U18_1D                                  ; div by 8, enable interrupt
         lda     TIMER_1MS_A                             ; 1ms timer
-        beq     L1012
+        beq     $50
         dec     TIMER_1MS_A
-L1012:
+$50:
         lda     TIMER_1MS_B                             ; 1ms timer
-        beq     L1018
+        beq     $51
         dec     TIMER_1MS_B
-L1018:
+$51:
         lda     TIMER_1MS_C                             ; 1ms timer
-        beq     L101E
+        beq     $52
         dec     TIMER_1MS_C
-L101E:
+$52:
         dec     TIMER_1MS_R
-        bne     L1046
+        bne     $56
         lda     #0x64
         sta     TIMER_1MS_R
         lda     TIMER_100MS_A
-        beq     L102C
+        beq     $53
         dec     TIMER_100MS_A
-L102C:
+$53:
         lda     TIMER_100MS_C
-        beq     L1032
+        beq     $54
         dec     TIMER_100MS_C
-L1032:
+$54:
         lda     TIMER_100MS_B
-        beq     L1038
+        beq     $55
         dec     TIMER_100MS_B
-L1038:
+$55:
         dec     TIMER_100MS_R
-        bne     L1046
+        bne     $56
         lda     #0x64
         sta     TIMER_100MS_R
         lda     TIMER_10S
-        beq     L1046
+        beq     $56
         dec     TIMER_10S
-L1046:
+$56:
         pla
         rti
 ;
@@ -203,41 +204,39 @@ $30:
         jsr     WAITCD                                  ; wait for carrier
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP Tape
-
-
-L1147:
-        lda     #0x5E
-        sta     RAM_69
-        lda     #0x13
-        sta     0x6A                                    ; set address to 0x135E?
+WAITPLAY:
+        lda     #<UTABLE_M2
+        sta     UART_ADDR
+        lda     #>UTABLE_M2
+        sta     UART_ADDR+1                             ; set UTABLE address
         jsr     AGCUPD
         jsr     KUPDATE
-        jsr     L12D3
+        jsr     UARTPROC
         lda     UART_02
         and     #0x05
-        beq     L1182
-        lda     0x67
-        bne     L116F
+        beq     $46
+        lda     UART_RBYTE
+        bne     $45
         lda     UART_01
-        cmp     #0x53                                   ; 'S' - start command?
-        bne     L1182
-        inc     0x67
-        jmp     L1182
-L116F:
+        cmp     #'S                                     ; 'S' - start command?
+        bne     $46
+        inc     UART_RBYTE
+        jmp     $46
+$45:
         lda     #0x00
-        sta     RAM_67
+        sta     UART_RBYTE
         lda     UART_01
-        cmp     #0x31                                   ; '1' - 2nd byte startplay command?
+        cmp     #'1                                     ; '1' - 2nd byte startplay command?
         beq     STARTPLAY
-        cmp     #0x32                                   ; '2' - 2nd byte lights command?
-        beq     L1188
-        cmp     #0x33                                   ; '3' - 2nd byte lights command?
-        beq     L119D
-L1182:
-        jmp     L1147
+        cmp     #'2                                     ; '2' - 2nd byte lights command?
+        beq     $47
+        cmp     #'3                                     ; '3' - 2nd byte lights command?
+        beq     $48
+$46:
+        jmp     WAITPLAY
         jmp     REWIND
 ; lights to all ones
-L1188:
+$47:
         lda     #0xFF
         sta     board_7_periph$ddr_reg_a
         sta     board_7_periph$ddr_reg_b
@@ -246,9 +245,9 @@ L1188:
         sta     U18_PORTB
         lda     #0x02
         sta     U19_PORTA
-        jmp     L1147
+        jmp     WAITPLAY
 ; lights to all zeros
-L119D:
+$48:
         lda     #0x00
         sta     board_7_periph$ddr_reg_a
         sta     board_7_periph$ddr_reg_b
@@ -256,15 +255,15 @@ L119D:
         sta     board_8_periph$ddr_reg_b
         sta     U18_PORTB
         sta     U19_PORTA
-        jmp     L1147
+        jmp     WAITPLAY
 
 ;   we have been started!
 STARTPLAY:
         jsr     INITBRDS
-        lda     #0x5C
-        sta     RAM_69
-        lda     #0x13
-        sta     0x6A                                    ; set address to 0x1362?
+        lda     #<UTABLE_M1
+        sta     UART_ADDR
+        lda     #>UTABLE_M1
+        sta     UART_ADDR+1                             ; set UTABLE address
         lda     #0x00
         sta     U19_PORTA                               ; turn off RESET button light
         lda     #0xA0
@@ -292,7 +291,7 @@ NEXTTRK:
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP tape
         jsr     AGCMICRD                                ; Read the AGC mic level
-        jmp     L1147
+        jmp     WAITPLAY
 ;
 ;       Init boards
 ;
@@ -420,7 +419,7 @@ $14:
         lda     transport_periph$ddr_reg_b
         lsr     a
         bcc     LOSTCD                                  ; b0=0, no carrier, exit
-        jsr     L12D3                                   ; ??? Unknown UART routine
+        jsr     UARTPROC                                   ; ??? Unknown UART routine
         jsr     AGCUPD
         lda     transport_control_reg_a                 ; Did we get a byte?
         bpl     $14                                     ; No, loop
@@ -440,25 +439,26 @@ $15:
         rts
 ;
 ;   TBD - Unknown UART routine
+;   Send first or second byte from the UART table to UART_01
 ;
-L12D3:
-        lda     UART_02
-        and     #0x02
-        beq     L12F2
-        lda     RAM_68
-        bne     L12E7
+UARTPROC:
+        lda     UART_02                                 ; check UART_02.bit2 == 0
+        and     #0x02                                   
+        beq     $42                                     ; if so, return
+        lda     UART_SBYTE                              ; else, check byte number
+        bne     $40
         ldy     #0x00
-        lda     [RAM_69],y
-        inc     RAM_68
-        jmp     L12EF
-L12E7:
+        lda     [UART_ADDR],y                           ; send first byte
+        inc     UART_SBYTE
+        jmp     $41
+$40:
         lda     #0x00
-        sta     RAM_68
+        sta     UART_SBYTE
         ldy     #0x01
-        lda     [RAM_69],y
-L12EF:
+        lda     [UART_ADDR],y                           ; send second byte
+$41:
         sta     UART_01
-L12F2:
+$42:
         rts
 ;
 ; Protocol handler
@@ -535,8 +535,11 @@ MASKTBL:
         .byte   0x10,0x20,0x40,0x80
 ;
 ; This table is referenced by UART code
-        .byte   0x4D,0x31                               ; M1
-        .byte   0x4D,0x32                               ; M2
+;
+UTABLE_M1:
+        .byte   'M,'1                                   ; M1
+UTABLE_M2:
+        .byte   'M,'2                                   ; M2
 ;
 ;       Read the AGC mic level
 ;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
@@ -683,7 +686,9 @@ $39:
         adc     #0x03
         sta     KTABLE_OFFS
         jmp     $36
-
+;
+;       Table of bytes to process
+;
 KTABLE1:
         .byte   0xF5,0x35,0x46, 0xF5,0x35,0x46, 0xEE,0x35,0x46, 0xEB,0x33,0x46 
         .byte   0xE9,0x32,0x46, 0xE9,0x33,0x42, 0xE8,0x33,0x46, 0xE7,0x32,0x46

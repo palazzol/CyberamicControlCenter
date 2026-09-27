@@ -1,10 +1,6 @@
 
         .area   region1 (ABS)
 
-        .include "../../include/ptt6502.def"
-        
-        .org    0x1000
-
 TIMER_1MS_A     = 0x0050    ; 1ms timer
 TIMER_1MS_B     = 0x0051    ; 1ms timer
 TIMER_1MS_C     = 0x0052    ; 1ms timer
@@ -31,6 +27,10 @@ KTABLE_SEL      = 0x0066    ; select King table
 UART_RBYTE      = 0x0067    ; UART routine recv byte (0 or 1)
 UART_SBYTE      = 0x0068    ; UART routine send byte (0 or 1)
 UART_ADDR       = 0x0069    ; Address of UART send table (2 bytes)
+
+        .include "../../include/ptt6502.def"
+        
+        .org    0x1000
 ;
 ;       IRQ handler
 ;
@@ -41,41 +41,41 @@ IRQ:
         lda     #0x7D                                   ; expire every 125*8=1000us=1ms
         sta     U18_1D                                  ; div by 8, enable interrupt
         lda     TIMER_1MS_A                             ; 1ms timer
-        beq     L1012
+        beq     $50
         dec     TIMER_1MS_A
-L1012:
+$50:
         lda     TIMER_1MS_B                             ; 1ms timer
-        beq     L1018
+        beq     $51
         dec     TIMER_1MS_B
-L1018:
+$51:
         lda     TIMER_1MS_C                             ; 1ms timer
-        beq     L101E
+        beq     $52
         dec     TIMER_1MS_C
-L101E:
+$52:
         dec     TIMER_1MS_R
-        bne     L1046
+        bne     $56
         lda     #0x64
         sta     TIMER_1MS_R
         lda     TIMER_100MS_A
-        beq     L102C
+        beq     $53
         dec     TIMER_100MS_A
-L102C:
+$53:
         lda     TIMER_100MS_C
-        beq     L1032
+        beq     $54
         dec     TIMER_100MS_C
-L1032:
+$54:
         lda     TIMER_100MS_B
-        beq     L1038
+        beq     $55
         dec     TIMER_100MS_B
-L1038:
+$55:
         dec     TIMER_100MS_R
-        bne     L1046
+        bne     $56
         lda     #0x64
         sta     TIMER_100MS_R
         lda     TIMER_10S
-        beq     L1046
+        beq     $56
         dec     TIMER_10S
-L1046:
+$56:
         pla
         rti
 ;
@@ -205,9 +205,7 @@ $30:
         jsr     WAITCD                                  ; wait for carrier
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP Tape
-
-
-L114D:
+WAITPLAY:
         lda     #<UTABLE_M2
         sta     UART_ADDR
         lda     #>UTABLE_M2
@@ -217,29 +215,29 @@ L114D:
         jsr     UARTPROC
         lda     UART_02
         and     #0x05
-        beq     L1188
+        beq     $46
         lda     UART_RBYTE
-        bne     L1175
+        bne     $45
         lda     UART_01
         cmp     #'S                                     ; 'S' - start command?
-        bne     L1188
+        bne     $46
         inc     UART_RBYTE
-        jmp     L1188
-L1175:
+        jmp     $46
+$45:
         lda     #0x00
         sta     UART_RBYTE
         lda     UART_01
         cmp     #'1                                     ; '1' - 2nd byte startplay command?
         beq     STARTPLAY
         cmp     #'2                                     ; '2' - 2nd byte lights command?
-        beq     L118E
+        beq     $47
         cmp     #'3                                     ; '3' - 2nd byte lights command?
-        beq     L11A3
-L1188:
-        jmp     L114D
+        beq     $48
+$46:
+        jmp     WAITPLAY
         jmp     REWIND
 ; lights to all ones
-L118E:
+$47:
         lda     #0xFF
         sta     board_7_periph$ddr_reg_a
         sta     board_7_periph$ddr_reg_b
@@ -248,9 +246,9 @@ L118E:
         sta     U18_PORTB
         lda     #0x02
         sta     U19_PORTA
-        jmp     L114D
+        jmp     WAITPLAY
 ; lights to all zeros
-L11A3:
+$48:
         lda     #0x00
         sta     board_7_periph$ddr_reg_a
         sta     board_7_periph$ddr_reg_b
@@ -258,7 +256,7 @@ L11A3:
         sta     board_8_periph$ddr_reg_b
         sta     U18_PORTB
         sta     U19_PORTA
-        jmp     L114D
+        jmp     WAITPLAY
 
 ;   we have been started!
 STARTPLAY:
@@ -293,7 +291,7 @@ NEXTTRK:
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP tape
         jsr     AGCMICRD                                ; Read the AGC mic level
-        jmp     L114D
+        jmp     WAITPLAY
 ;
 ;       Init boards
 ;
@@ -686,7 +684,9 @@ $39:
         adc     #0x03
         sta     KTABLE_OFFS
         jmp     $36
-
+;
+;       Table of bytes to process
+;
 KTABLE1:
         .byte   0xF5,0x35,0x49, 0xF5,0x35,0x4A, 0xEE,0x35,0x46, 0xEB,0x33,0x46
         .byte   0xE9,0x32,0x46, 0xE9,0x33,0x42, 0xE8,0x33,0x46, 0xE7,0x32,0x46
