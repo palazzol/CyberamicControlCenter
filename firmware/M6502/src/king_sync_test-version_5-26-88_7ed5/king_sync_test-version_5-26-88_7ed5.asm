@@ -419,7 +419,7 @@ $14:
         lda     transport_periph$ddr_reg_b
         lsr     a
         bcc     LOSTCD                                  ; b0=0, no carrier, exit
-        jsr     UARTPROC                                   ; ??? Unknown UART routine
+        jsr     UARTPROC                                ; ??? Unknown UART routine
         jsr     AGCUPD
         lda     transport_control_reg_a                 ; Did we get a byte?
         bpl     $14                                     ; No, loop

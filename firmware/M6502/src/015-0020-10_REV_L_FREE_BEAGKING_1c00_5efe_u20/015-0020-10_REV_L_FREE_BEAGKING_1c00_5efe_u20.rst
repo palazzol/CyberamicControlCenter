@@ -537,7 +537,7 @@
    1EC4 C6 54         [ 5]  449         dec     TIMER_100MS_A
    1EC6 C6 55         [ 5]  450         dec     TIMER_100MS_R
    1EC8 D0 06         [ 4]  451         bne     TEXIT                                   ; if timer TIMER_100MS_R expires, then wrap to 100
-   1ECA A9 64         [ 2]  452         lda     #0x64                                   ; 100
+   1ECA A9 64         [ 2]  452         lda     #0x64                                   ; reset to 10 seconds?
    1ECC 85 55         [ 3]  453         sta     TIMER_100MS_R
    1ECE C6 56         [ 5]  454         dec     TIMER_10S
    1ED0                     455 TEXIT:

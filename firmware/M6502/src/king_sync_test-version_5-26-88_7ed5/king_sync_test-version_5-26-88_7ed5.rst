@@ -507,7 +507,7 @@
    12AD AD 02 03      [ 4]  419         lda     transport_periph$ddr_reg_b
    12B0 4A            [ 2]  420         lsr     a
    12B1 90 11         [ 4]  421         bcc     LOSTCD                                  ; b0=0, no carrier, exit
-   12B3 20 D3 12      [ 6]  422         jsr     UARTPROC                                   ; ??? Unknown UART routine
+   12B3 20 D3 12      [ 6]  422         jsr     UARTPROC                                ; ??? Unknown UART routine
    12B6 20 A9 13      [ 6]  423         jsr     AGCUPD
    12B9 AD 01 03      [ 4]  424         lda     transport_control_reg_a                 ; Did we get a byte?
    12BC 10 EF         [ 4]  425         bpl     $14                                     ; No, loop

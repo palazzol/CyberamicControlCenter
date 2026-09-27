@@ -141,8 +141,6 @@ $1:
         lda     TIMER_100MS_A                           ; do not much for 4 seconds
         bne     $1
         jsr     INITBRDS
-
-
 REWIND:
         lda     #0xFA
         sta     TIMER_100MS_C
@@ -262,10 +260,10 @@ $48:
 ;   we have been started!
 STARTPLAY:
         jsr     INITBRDS
-        lda     #0x5C
+        lda     #<UTABLE_M1
         sta     UART_ADDR
-        lda     #0x13
-        sta     UART_ADDR+1                             ; set address to 0x1362?
+        lda     #>UTABLE_M1
+        sta     UART_ADDR+1                             ; set UTABLE address
         lda     #0x00
         sta     U19_PORTA                               ; turn off RESET button light
         lda     #0xA0
@@ -570,7 +568,7 @@ $23:
         sec
         lda     audio_periph$ddr_reg_a                  ; read the agc mic level
 $24:                                                    ; read the most significant high bit
-         rol     a
+        rol     a
         dex
         bcc     $24
         clc
@@ -625,10 +623,10 @@ $26:
 ;       AGC table
 ;
 AGCTABLE:
-        .db     0x03,0x04,0x06,0x08
-        .db     0x10,0x16,0x20,0x2D
-        .db     0x40,0x5A,0x80,0xBF
-        .db     0xFF,0xFF,0xFF,0xFF
+        .db     0x03, 0x04, 0x06, 0x08
+        .db     0x10, 0x16, 0x20, 0x2D
+        .db     0x40, 0x5A, 0x80, 0xBF
+        .db     0xFF, 0xFF, 0xFF, 0xFF
         .db     0xFF
 ;
 ;       Process King Tables

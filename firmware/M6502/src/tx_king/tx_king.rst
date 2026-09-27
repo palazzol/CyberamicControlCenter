@@ -388,15 +388,15 @@
    1BE9 20 B7 1C      [ 6]  300         jsr     TUPDATE                                 ; housekeeping
    1BEC 20 AB 1D      [ 6]  301         jsr     KUPDATE
    1BEF AD 02 03      [ 4]  302         lda     transport_periph$ddr_reg_b
-   1BF2 6A            [ 2]  303         ror
+   1BF2 6A            [ 2]  303         ror     a
    1BF3 90 F4         [ 4]  304         bcc     $12
    1BF5 A9 A0         [ 2]  305         lda     #0xA0                                   ; 160 msec
    1BF7 85 50         [ 3]  306         sta     TIMER_1MS_A
    1BF9                     307 $13:
-   1BF9 20 B7 1C      [ 6]  308         jsr     TUPDATE
+   1BF9 20 B7 1C      [ 6]  308         jsr     TUPDATE                                 ; housekeeping
    1BFC 20 AB 1D      [ 6]  309         jsr     KUPDATE
    1BFF AD 02 03      [ 4]  310         lda     transport_periph$ddr_reg_b
-   1C02 6A            [ 2]  311         ror
+   1C02 6A            [ 2]  311         ror     a
    1C03 90 E4         [ 4]  312         bcc     $12
    1C05 A5 50         [ 3]  313         lda     TIMER_1MS_A
    1C07 D0 F0         [ 4]  314         bne     $13
@@ -415,7 +415,7 @@
    1C19 8D 81 03      [ 4]  327         sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
    1C1C A9 34         [ 2]  328         lda     #0x34
    1C1E 8D 83 03      [ 4]  329         sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
-   1C21 A9 60         [ 2]  330         lda     #TIMER_TMP
+   1C21 A9 60         [ 2]  330         lda     #0x60
    1C23 85 82         [ 3]  331         sta     board_1_periph$ddr_reg_b                ; ???
    1C25                     332 $14:
    1C25 AD 02 03      [ 4]  333         lda     transport_periph$ddr_reg_b
@@ -552,28 +552,28 @@
    1CEC 90 02         [ 4]  464         bcc     $21                                     ; bcc on timer bit D2
    1CEE E6 58         [ 5]  465         inc     TIMER_TMP1                              ; round up?
                             466                                                         ; now TIMER_TMP1 has the number of 8us 
-                            467                            
+                            467                                                         ;   intervals since timer expired                           
    1CF0                     468 $21:
-   1CF0 A9 7A         [ 2]  469         lda     #0x7A
-   1CF2 38            [ 2]  470         sec
+   1CF0 A9 7A         [ 2]  469         lda     #0x7A                                   ; reset timer to expire every 0x7A*8 ~= 976 usec?
+   1CF2 38            [ 2]  470         sec                                             ; with programming delays, this is 1 msec
    1CF3 E5 58         [ 3]  471         sbc     TIMER_TMP1
-   1CF5 8D 15 02      [ 4]  472         sta     U18_timer_8T_DI
-   1CF8 C6 50         [ 5]  473         dec     TIMER_1MS_A
+   1CF5 8D 15 02      [ 4]  472         sta     U18_timer_8T_DI                         ; set timer
+   1CF8 C6 50         [ 5]  473         dec     TIMER_1MS_A                             ; decrement these timers every timer reset (1ms)
    1CFA C6 51         [ 5]  474         dec     TIMER_1MS_B
    1CFC C6 53         [ 5]  475         dec     TIMER_1MS_C
    1CFE C6 54         [ 5]  476         dec     TIMER_1MS_R
-   1D00 D0 18         [ 4]  477         bne     TEXIT
-   1D02 A9 64         [ 2]  478         lda     #0x64
+   1D00 D0 18         [ 4]  477         bne     TEXIT                                   ; if timer TIMER_1MS_R expires, then wrap to 100
+   1D02 A9 64         [ 2]  478         lda     #0x64                                   ; 100
    1D04 85 54         [ 3]  479         sta     TIMER_1MS_R
    1D06 C6 55         [ 5]  480         dec     TIMER_100MS_A
    1D08 C6 66         [ 5]  481         dec     TIMER_100MS_R25
    1D0A D0 04         [ 4]  482         bne     $21_A
-   1D0C A9 FA         [ 2]  483         lda     #0xFA                   ; reset to 2.5 seconds?
+   1D0C A9 FA         [ 2]  483         lda     #0xFA                                   ; reset to 2.5 seconds?
    1D0E 85 66         [ 3]  484         sta     TIMER_100MS_R25
    1D10                     485 $21_A:
    1D10 C6 56         [ 5]  486         dec     TIMER_100MS_R
-   1D12 D0 06         [ 4]  487         bne     TEXIT
-   1D14 A9 64         [ 2]  488         lda     #0x64                   ; reset to 10 seconds?
+   1D12 D0 06         [ 4]  487         bne     TEXIT                                   ; if timer TIMER_100MS_R expires, then wrap to 100
+   1D14 A9 64         [ 2]  488         lda     #0x64                                   ; reset to 10 seconds?
    1D16 85 56         [ 3]  489         sta     TIMER_100MS_R
    1D18 C6 57         [ 5]  490         dec     TIMER_10S
    1D1A                     491 TEXIT:

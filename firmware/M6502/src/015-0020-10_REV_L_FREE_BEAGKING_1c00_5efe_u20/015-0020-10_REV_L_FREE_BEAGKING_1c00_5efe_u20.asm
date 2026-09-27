@@ -449,7 +449,7 @@ $21:
         dec     TIMER_100MS_A
         dec     TIMER_100MS_R
         bne     TEXIT                                   ; if timer TIMER_100MS_R expires, then wrap to 100
-        lda     #0x64                                   ; 100
+        lda     #0x64                                   ; reset to 10 seconds?
         sta     TIMER_100MS_R
         dec     TIMER_10S
 TEXIT:

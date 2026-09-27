@@ -300,15 +300,15 @@ $12:
         jsr     TUPDATE                                 ; housekeeping
         jsr     KUPDATE
         lda     transport_periph$ddr_reg_b
-        ror
+        ror     a
         bcc     $12
         lda     #0xA0                                   ; 160 msec
         sta     TIMER_1MS_A
 $13:
-        jsr     TUPDATE
+        jsr     TUPDATE                                 ; housekeeping
         jsr     KUPDATE
         lda     transport_periph$ddr_reg_b
-        ror
+        ror     a
         bcc     $12
         lda     TIMER_1MS_A
         bne     $13
@@ -327,7 +327,7 @@ PLAYTRK:
         sta     audio_control_reg_a                     ; CA2 High (Disable Other Audio)
         lda     #0x34
         sta     audio_control_reg_b                     ; CB2 Low (Enable Tape Audio)
-        lda     #TIMER_TMP
+        lda     #0x60
         sta     board_1_periph$ddr_reg_b                ; ???
 $14:
         lda     transport_periph$ddr_reg_b
@@ -464,28 +464,28 @@ $20_B:
         bcc     $21                                     ; bcc on timer bit D2
         inc     TIMER_TMP1                              ; round up?
                                                         ; now TIMER_TMP1 has the number of 8us 
-                           
+                                                        ;   intervals since timer expired                           
 $21:
-        lda     #0x7A
-        sec
+        lda     #0x7A                                   ; reset timer to expire every 0x7A*8 ~= 976 usec?
+        sec                                             ; with programming delays, this is 1 msec
         sbc     TIMER_TMP1
-        sta     U18_timer_8T_DI
-        dec     TIMER_1MS_A
+        sta     U18_timer_8T_DI                         ; set timer
+        dec     TIMER_1MS_A                             ; decrement these timers every timer reset (1ms)
         dec     TIMER_1MS_B
         dec     TIMER_1MS_C
         dec     TIMER_1MS_R
-        bne     TEXIT
-        lda     #0x64
+        bne     TEXIT                                   ; if timer TIMER_1MS_R expires, then wrap to 100
+        lda     #0x64                                   ; 100
         sta     TIMER_1MS_R
         dec     TIMER_100MS_A
         dec     TIMER_100MS_R25
         bne     $21_A
-        lda     #0xFA                   ; reset to 2.5 seconds?
+        lda     #0xFA                                   ; reset to 2.5 seconds?
         sta     TIMER_100MS_R25
 $21_A:
         dec     TIMER_100MS_R
-        bne     TEXIT
-        lda     #0x64                   ; reset to 10 seconds?
+        bne     TEXIT                                   ; if timer TIMER_100MS_R expires, then wrap to 100
+        lda     #0x64                                   ; reset to 10 seconds?
         sta     TIMER_100MS_R
         dec     TIMER_10S
 TEXIT:
