@@ -24,8 +24,8 @@ AGC_SAMPLES     = 0x0063    ; agc mic sample counter
 AGC_GAIN        = 0x0064    ; agc calculated gain value
 CURR_PORT       = 0x0065    ; current channel port address
 TIMER_100MS_R25 = 0x0066    ; decremented every 0.1s, resets to 250
-RAM_67          = 0x0067    ; TBD?
-RAM_68          = 0x0068    ; TBD?
+KTABLE_OFFS     = 0x0067    ; offset into King table
+KTABLE_SEL      = 0x0068    ; select King table
 
         .include "../../include/ptt6502.def"
 
@@ -93,8 +93,8 @@ REWIND:
         lda     #0xFA
         sta     TIMER_100MS_R25                         ; init 25 second timer
         lda     #0x00
-        sta     RAM_67
-        sta     RAM_68
+        sta     KTABLE_OFFS                             ; init KTABLE
+        sta     KTABLE_SEL
         lda     #0x30
         lda     #TAPEMODE_REWIND
         jsr     TAPECMD                                 ; REWIND tape
@@ -112,7 +112,7 @@ $2:
         bcs     FINDTRK                                 ; happened 100 times, tape is at the beginning, jump ahead
 $3:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_1MS_A
         beq     $22
         lda     transport_control_reg_b
@@ -128,7 +128,7 @@ FINDTRK:
         sta     TIMER_1MS_R
 $5:
         jsr     TUPDATE                                 ; do housekeeping stuff
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_100MS_A
         bne     $5
         lda     #0x00
@@ -141,7 +141,7 @@ $5:
         sta     TIMER_1MS_A
 $30:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_1MS_A
         bne     $30                                     ; delay for 250 ms
         lda     #TAPEMODE_FFWD
@@ -159,7 +159,7 @@ $30:
 WAITPLAY:
         jsr     TUPDATE                                 ; do housekeeping stuff
         jsr     AGCUPD                                  ; do AGC Mic Logic
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     PROG_CTR                                ; wait until we are triggered
         bne     STARTPLAY                               ; then jump
         lda     #0x02                                   ; else
@@ -194,8 +194,8 @@ STARTPLAY:
 ; go to next track
 NEXTTRK:
         lda     #0x00
-        sta     RAM_67
-        sta     RAM_68
+        sta     KTABLE_OFFS                             ; init KTABLE
+        sta     KTABLE_SEL
         lda     #0xFA
         sta     TIMER_100MS_R25
         jsr     WAITCD                                  ; wait for carrier
@@ -246,7 +246,7 @@ TAPECMD:
         sta     TIMER_1MS_A
 $6:
         jsr     TUPDATE                                 ; check for PROG button push
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_1MS_A
         bne     $6
         lda     transport_periph$ddr_reg_b
@@ -273,7 +273,7 @@ $8:
         bcs     $10                                     ; timeout - exit
 $9:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_1MS_A
         beq     WAITTONE                                ; 10 msec done yet? then loop
         lda     transport_control_reg_b                 ; transport CB1 rising edge?
@@ -291,14 +291,14 @@ WAITCD:
         sta     TIMER_1MS_A                             ; 250 msec
 $11:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_1MS_A
         bne     $11
 
 ; Wait for 160ms of consecutive zero crossings
 $12:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     transport_periph$ddr_reg_b
         ror
         bcc     $12
@@ -306,7 +306,7 @@ $12:
         sta     TIMER_1MS_A
 $13:
         jsr     TUPDATE
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     transport_periph$ddr_reg_b
         ror
         bcc     $12
@@ -430,7 +430,7 @@ MASKTBL:
 ;       TIMER_1MS_A used on entry
 ;
 TUPDATE:
-       lda     U18_edge_detect_control_DI_pos           ; Did the PROG button get pushed or timer expire?
+        lda     U18_edge_detect_control_DI_pos          ; Did the PROG button get pushed or timer expire?
         sta     TIMER_TMP                               ; store this state in 5F
         beq     TEXIT                                   ; No flags set, return
         lda     PROG_STATE
@@ -504,7 +504,7 @@ AGCMICRD:
         sta     TIMER_1MS_R
 $23:
         jsr     TUPDATE                                 ; housekeeping
-        jsr     L1DAB
+        jsr     KUPDATE
         lda     TIMER_100MS_A
         bne     $23                                     ; if 1 sec, do housekeeping
         lda     #0x0A
@@ -580,73 +580,64 @@ AGCTABLE:
         .db     0xFF, 0xFF, 0xFF, 0xFF
         .db     0xFF
 ;
-;       Process RAM_67 and RAM_68
+;       Process King Tables
 ;
-L1DAB:
-        lda     RAM_67
-        tax                                             ; RAM_67 - table offset
-        lda     RAM_68                                  ; if RAM_68 != 0   
-        bne     L1DE5                                   ; goto other table                                  
-        lda     X1E0F,x                                 ; else read byte
+KUPDATE:
+        lda     KTABLE_OFFS
+        tax                                             ; KTABLE_OFFS - table offset
+        lda     KTABLE_SEL                              ; if KTABLE_SEL != 0   
+        bne     $38                                     ; goto other table                                  
+        lda     KTABLE1,x                               ; else read byte
         cmp     #0xFE                                   ; if it's 0xFE
-        beq     L1DDC                                   ; goto next table
+        beq     $37                                     ; goto next table
         cmp     #0xFF                                   ; if it's not 0xFF
-        bne     L1DC4                                   ; check the long timer
+        bne     $35                                     ; check the long timer
         lda     #0x00                                   ; if it is 0xFF
-        sta     RAM_67                                  ; else clear RAM_67
-        jmp     L1DDB                                   ; and return
-
-
-L1DC4:
+        sta     KTABLE_OFFS                             ; else clear KTABLE_OFFS
+        jmp     $36                                     ; and return
+$35:
         cmp     TIMER_100MS_R25
-        bne     L1DDB                                   ; if it's not time, return
-        lda     X1E0F+1,x                               ; use two bytes from this table
+        bne     $36                                     ; if it's not time, return
+        lda     KTABLE1+1,x                             ; use two bytes from this table
         jsr     PROCBYTE
-        lda     X1E0F+2,x
+        lda     KTABLE1+2,x
         jsr     PROCBYTE
-        lda     RAM_67
+        lda     KTABLE_OFFS
         clc
         adc     #0x03
-        sta     RAM_67                                  ; add 3 to RAM_67 and return
-
-
-L1DDB:
+        sta     KTABLE_OFFS                             ; add 3 to KTABLE_OFFS and return
+$36:
         rts
-
-
-L1DDC:
-        inc     RAM_68                                  ; add 1 to RAM_68
+$37:
+        inc     KTABLE_SEL                              ; add 1 to KTABLE_SEL
         lda     #0x00
-        sta     RAM_67                                  ; clear RAM_67
-        jmp     L1DDB                                   ; return
-
-
-L1DE5:
-        lda     X1EF3,x
+        sta     KTABLE_OFFS                             ; clear KTABLE_OFFS
+        jmp     $36                                     ; return
+$38:
+        lda     KTABLE2,x
         cmp     #0xFF
-        bne     L1DF5
+        bne     $39
         lda     #0x00
-        sta     RAM_67
-        sta     RAM_68
-        jmp     L1DDB
-
-
-L1DF5:
+        sta     KTABLE_OFFS
+        sta     KTABLE_SEL
+        jmp     $36
+$39:
         cmp     TIMER_100MS_R25
-        bne     L1DDB
-        lda     X1EF3+1,x
+        bne     $36
+        lda     KTABLE2+1,x
         jsr     PROCBYTE
-        lda     X1EF3+2,x
+        lda     KTABLE2+2,x
         jsr     PROCBYTE
-        lda     RAM_67
+        lda     KTABLE_OFFS
         clc
         adc     #0x03
-        sta     RAM_67
-        jmp     L1DDB
+        sta     KTABLE_OFFS
+        jmp     $36
 ;
 ;       Table of bytes to process
 ;
-X1E0F:  .byte   0xEE,0x35,0x46, 0xEB,0x35,0x49, 0xE9,0x35,0x4A, 0xE9,0x33,0x42
+KTABLE1:
+        .byte   0xEE,0x35,0x46, 0xEB,0x35,0x49, 0xE9,0x35,0x4A, 0xE9,0x33,0x42
         .byte   0xE8,0x33,0x46, 0xE7,0x32,0x46, 0xE6,0x33,0x46, 0xE5,0x32,0x46 
         .byte   0xE4,0x33,0x46, 0xE3,0x32,0x46, 0xE2,0x33,0x46, 0xE1,0x32,0x46
         .byte   0xE0,0x33,0x46, 0xDF,0x32,0x46, 0xDE,0x33,0x46, 0xDD,0x32,0x46
@@ -666,7 +657,7 @@ X1E0F:  .byte   0xEE,0x35,0x46, 0xEB,0x35,0x49, 0xE9,0x35,0x4A, 0xE9,0x33,0x42
         .byte   0x56,0x33,0x46, 0x55,0x32,0x46, 0x55,0x32,0x42, 0x54,0x33,0x46
         .byte   0x53,0x32,0x46, 0x52,0x33,0x46, 0x51,0x32,0x46, 0xFE,0xFE,0xFE
 
-X1EF3:
+KTABLE2:
         .byte   0x50,0x33,0x46, 0x4F,0x32,0x46, 0x4E,0x33,0x46, 0x4E,0x33,0x42
         .byte   0x4D,0x32,0x46, 0x4C,0x33,0x46, 0x4B,0x32,0x46, 0x40,0x34,0x46
         .byte   0x3E,0x35,0x46, 0x3C,0x33,0x47, 0x3B,0x32,0x47, 0x3A,0x33,0x47

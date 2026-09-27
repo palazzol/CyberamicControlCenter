@@ -114,8 +114,8 @@
                      0062    26 AGC_GAIN        = 0x0062    ; agc calculated gain value
                      0063    27 CURR_PORT       = 0x0063    ; current channel port address
                      0064    28 TIMER_100MS_C   = 0x0064    ; 0.1s timer
-                     0065    29 RAM_65          = 0x0065    ; TBD?
-                     0066    30 RAM_66          = 0x0066    ; TBD?
+                     0065    29 KTABLE_OFFS     = 0x0065    ; offset into King table
+                     0066    30 KTABLE_SEL      = 0x0066    ; select King table
                      0067    31 RAM_67          = 0x0067    ; TBD?
                      0068    32 RAM_68          = 0x0068    ; TBD?
                      0069    33 RAM_69          = 0x0069    ; TBD?
@@ -235,8 +235,8 @@
    10CA A9 FA         [ 2]  147         lda     #0xFA
    10CC 85 64         [ 3]  148         sta     TIMER_100MS_C
    10CE A9 00         [ 2]  149         lda     #0x00
-   10D0 85 65         [ 3]  150         sta     RAM_65
-   10D2 85 66         [ 3]  151         sta     RAM_66
+   10D0 85 65         [ 3]  150         sta     KTABLE_OFFS
+   10D2 85 66         [ 3]  151         sta     KTABLE_SEL
    10D4 A9 30         [ 2]  152         lda     #0x30
    10D6 A9 40         [ 2]  153         lda     #0x40
    10D8 20 2E 12      [ 6]  154         jsr     TAPECMD
@@ -258,7 +258,7 @@
                             170 
                             171 
    10EE                     172 L10EE:
-   10EE 20 ED 13      [ 6]  173         jsr     L13ED
+   10EE 20 ED 13      [ 6]  173         jsr     KUPDATE
    10F1 A5 50         [ 3]  174         lda     0x50
    10F3 F0 E6         [ 4]  175         beq     L10DB
    10F5 AD 03 03      [ 4]  176         lda     transport_control_reg_b
@@ -276,7 +276,7 @@
                             188 
                             189 
    110A                     190 L110A:
-   110A 20 ED 13      [ 6]  191         jsr     L13ED
+   110A 20 ED 13      [ 6]  191         jsr     KUPDATE
    110D A5 54         [ 3]  192         lda     0x54
    110F D0 F9         [ 4]  193         bne     L110A
    1111 A9 00         [ 2]  194         lda     #0x00
@@ -290,7 +290,7 @@
                             202 
                             203 
    1124                     204 L1124:
-   1124 20 ED 13      [ 6]  205         jsr     L13ED
+   1124 20 ED 13      [ 6]  205         jsr     KUPDATE
    1127 A5 50         [ 3]  206         lda     0x50
    1129 D0 F9         [ 4]  207         bne     L1124
    112B A9 20         [ 2]  208         lda     #0x20
@@ -310,9 +310,9 @@
    1147 A9 5E         [ 2]  222         lda     #0x5E
    1149 85 69         [ 3]  223         sta     RAM_69
    114B A9 13         [ 2]  224         lda     #0x13
-   114D 85 6A         [ 3]  225         sta     RAM_6A                                    ; set address to 0x135E?
+   114D 85 6A         [ 3]  225         sta     RAM_6A                                  ; set address to 0x135E?
    114F 20 A9 13      [ 6]  226         jsr     AGCUPD
-   1152 20 ED 13      [ 6]  227         jsr     L13ED
+   1152 20 ED 13      [ 6]  227         jsr     KUPDATE
    1155 20 D3 12      [ 6]  228         jsr     L12D3
    1158 AD 02 01      [ 4]  229         lda     UART_02
    115B 29 05         [ 2]  230         and     #0x05
@@ -387,8 +387,8 @@
                             299 
    11E3                     300 NEXTTRK:
    11E3 A9 00         [ 2]  301         lda     #0x00
-   11E5 85 65         [ 3]  302         sta     RAM_65
-   11E7 85 66         [ 3]  303         sta     RAM_66
+   11E5 85 65         [ 3]  302         sta     KTABLE_OFFS
+   11E7 85 66         [ 3]  303         sta     KTABLE_SEL
    11E9 A9 FA         [ 2]  304         lda     #0xFA
    11EB 85 64         [ 3]  305         sta     TIMER_100MS_C
    11ED 20 6C 12      [ 6]  306         jsr     WAITCD                                  ; wait for carrier
@@ -437,7 +437,7 @@
    1231 A9 FA         [ 2]  349         lda     #0xFA
    1233 85 50         [ 3]  350         sta     TIMER_1MS_A
    1235                     351 $6:
-   1235 20 ED 13      [ 6]  352         jsr     L13ED                               ; check for PROG button push??
+   1235 20 ED 13      [ 6]  352         jsr     KUPDATE                                 ; housekeeping
    1238 A5 50         [ 3]  353         lda     TIMER_1MS_A
    123A D0 F9         [ 4]  354         bne     $6
    123C AD 02 03      [ 4]  355         lda     transport_periph$ddr_reg_b
@@ -463,7 +463,7 @@
    1258 C9 21         [ 2]  375         cmp     #0x21                                   ; wait for 33 rising edges, each within 10ms window
    125A B0 0F         [ 4]  376         bcs     $10                                     ; timeout - exit
    125C                     377 $9:
-   125C 20 ED 13      [ 6]  378         jsr     L13ED
+   125C 20 ED 13      [ 6]  378         jsr     KUPDATE
    125F A5 50         [ 3]  379         lda     TIMER_1MS_A
    1261 F0 E6         [ 4]  380         beq     WAITTONE                                ; 10 msec done yet? then loop
    1263 AD 03 03      [ 4]  381         lda     transport_control_reg_b                 ; transport CB1 rising edge?
@@ -481,13 +481,13 @@
    126C A9 FA         [ 2]  393         lda     #0xFA
    126E 85 50         [ 3]  394         sta     TIMER_1MS_A                             ; 250 msec
    1270                     395 $11:
-   1270 20 ED 13      [ 6]  396         jsr     L13ED
+   1270 20 ED 13      [ 6]  396         jsr     KUPDATE
    1273 A5 50         [ 3]  397         lda     TIMER_1MS_A
    1275 D0 F9         [ 4]  398         bne     $11
                             399 
                             400 ; Wait for 160ms of consecutive zero crossings
    1277                     401 $12:
-   1277 20 ED 13      [ 6]  402         jsr     L13ED
+   1277 20 ED 13      [ 6]  402         jsr     KUPDATE
    127A AD 02 03      [ 4]  403         lda     transport_periph$ddr_reg_b
    127D 6A            [ 2]  404         ror
    127E 90 F7         [ 4]  405         bcc     $12
@@ -496,7 +496,7 @@
                             408 
                             409 
    1284                     410 $13:
-   1284 20 ED 13      [ 6]  411         jsr     L13ED
+   1284 20 ED 13      [ 6]  411         jsr     KUPDATE
    1287 AD 02 03      [ 4]  412         lda     transport_periph$ddr_reg_b
    128A 6A            [ 2]  413         ror
    128B 90 EA         [ 4]  414         bcc     $12
@@ -653,7 +653,7 @@
    136A A9 64         [ 2]  565         lda     #0x64
    136C 85 53         [ 3]  566         sta     TIMER_1MS_R
    136E                     567 $23:
-   136E 20 ED 13      [ 6]  568         jsr     L13ED                                   ; housekeeping
+   136E 20 ED 13      [ 6]  568         jsr     KUPDATE                                 ; housekeeping
    1371 A5 54         [ 3]  569         lda     TIMER_100MS_A
    1373 D0 F9         [ 4]  570         bne     $23                                     ; if 1 sec, do housekeeping
    1375 A9 0A         [ 2]  571         lda     #0x0A
@@ -729,144 +729,133 @@
    13E8 FF FF FF FF         641         .db     0xFF,0xFF,0xFF,0xFF
    13EC FF                  642         .db     0xFF
                             643 ;
-                            644 ;       Process RAM_65 and RAM_66
+                            644 ;       Process King Tables
                             645 ;
-   13ED                     646 L13ED:
-   13ED A5 65         [ 3]  647         lda     RAM_65
-   13EF AA            [ 2]  648         tax
-   13F0 A5 66         [ 3]  649         lda     RAM_66
-   13F2 D0 37         [ 4]  650         bne     L142B
-   13F4 BD 59 14      [ 5]  651         lda     X1459,x
-   13F7 C9 FE         [ 2]  652         cmp     #0xFE
-   13F9 F0 27         [ 4]  653         beq     L1422
-   13FB C9 FF         [ 2]  654         cmp     #0xFF
-   13FD D0 0B         [ 4]  655         bne     L140A
-   13FF A9 00         [ 2]  656         lda     #0x00
-   1401 85 65         [ 3]  657         sta     RAM_65
-   1403 A9 FA         [ 2]  658         lda     #0xFA
-   1405 85 64         [ 3]  659         sta     TIMER_100MS_C
-   1407 4C 21 14      [ 3]  660         jmp     L1421
-                            661 
-                            662 
-   140A                     663 L140A:
-   140A C5 64         [ 3]  664         cmp     TIMER_100MS_C
-   140C D0 13         [ 4]  665         bne     L1421
-   140E BD 5A 14      [ 5]  666         lda     X1459+1,x
-   1411 20 F6 12      [ 6]  667         jsr     PROCBYTE
-   1414 BD 5B 14      [ 5]  668         lda     X1459+2,x
-   1417 20 F6 12      [ 6]  669         jsr     PROCBYTE
-   141A A5 65         [ 3]  670         lda     RAM_65
-   141C 18            [ 2]  671         clc
-   141D 69 03         [ 2]  672         adc     #0x03
-   141F 85 65         [ 3]  673         sta     RAM_65
-                            674 
-                            675 
-   1421                     676 L1421:
-   1421 60            [ 6]  677         rts
-                            678 
-                            679 
-   1422                     680 L1422:
-   1422 E6 66         [ 5]  681         inc     RAM_66
-   1424 A9 00         [ 2]  682         lda     #0x00
-   1426 85 65         [ 3]  683         sta     RAM_65
-   1428 4C 21 14      [ 3]  684         jmp     L1421
-                            685 
-                            686 
-   142B                     687 L142B:
-   142B BD 43 15      [ 5]  688         lda     X1543,x
-   142E C9 FF         [ 2]  689         cmp     #0xFF
-   1430 D0 0D         [ 4]  690         bne     L143F
-   1432 A9 00         [ 2]  691         lda     #0x00
-   1434 85 65         [ 3]  692         sta     RAM_65
-   1436 85 66         [ 3]  693         sta     RAM_66
-   1438 A9 FA         [ 2]  694         lda     #0xFA
-   143A 85 64         [ 3]  695         sta     TIMER_100MS_C
-   143C 4C 21 14      [ 3]  696         jmp     L1421
-                            697 
-                            698 
-   143F                     699 L143F:
-   143F C5 64         [ 3]  700         cmp     TIMER_100MS_C
-   1441 D0 DE         [ 4]  701         bne     L1421
-   1443 BD 44 15      [ 5]  702         lda     X1543+1,x
-   1446 20 F6 12      [ 6]  703         jsr     PROCBYTE
-   1449 BD 45 15      [ 5]  704         lda     X1543+2,x
-   144C 20 F6 12      [ 6]  705         jsr     PROCBYTE
-   144F A5 65         [ 3]  706         lda     RAM_65
-   1451 18            [ 2]  707         clc
-   1452 69 03         [ 2]  708         adc     #0x03
-   1454 85 65         [ 3]  709         sta     RAM_65
-   1456 4C 21 14      [ 3]  710         jmp     L1421
-                            711 
-                            712 
-   1459                     713 X1459:
-   1459 F5 35 49 F5 35 4A   714         .byte   0xF5,0x35,0x49, 0xF5,0x35,0x4A, 0xEE,0x35,0x46, 0xEB,0x33,0x46 
+   13ED                     646 KUPDATE:
+   13ED A5 65         [ 3]  647         lda     KTABLE_OFFS
+   13EF AA            [ 2]  648         tax                                             ; KTABLE_OFFS - table offset
+   13F0 A5 66         [ 3]  649         lda     KTABLE_SEL                              ; if KTABLE_SEL != 0   
+   13F2 D0 37         [ 4]  650         bne     $38                                     ; goto other table                                  
+   13F4 BD 59 14      [ 5]  651         lda     KTABLE1,x                               ; else read byte
+   13F7 C9 FE         [ 2]  652         cmp     #0xFE                                   ; if it's 0xFE
+   13F9 F0 27         [ 4]  653         beq     $37                                     ; goto next table
+   13FB C9 FF         [ 2]  654         cmp     #0xFF                                   ; if it's not 0xFF
+   13FD D0 0B         [ 4]  655         bne     $35                                     ; check the long timer
+   13FF A9 00         [ 2]  656         lda     #0x00                                   ; if it is 0xFF
+   1401 85 65         [ 3]  657         sta     KTABLE_OFFS                             ; else clear KTABLE_OFFS
+   1403 A9 FA         [ 2]  658         lda     #0xFA   
+   1405 85 64         [ 3]  659         sta     TIMER_100MS_C                           ; init 25 second timer
+   1407 4C 21 14      [ 3]  660         jmp     $36                                     ; and return
+   140A                     661 $35:
+   140A C5 64         [ 3]  662         cmp     TIMER_100MS_C
+   140C D0 13         [ 4]  663         bne     $36                                     ; if it's not time, return
+   140E BD 5A 14      [ 5]  664         lda     KTABLE1+1,x                             ; use two bytes from this table
+   1411 20 F6 12      [ 6]  665         jsr     PROCBYTE
+   1414 BD 5B 14      [ 5]  666         lda     KTABLE1+2,x
+   1417 20 F6 12      [ 6]  667         jsr     PROCBYTE
+   141A A5 65         [ 3]  668         lda     KTABLE_OFFS
+   141C 18            [ 2]  669         clc
+   141D 69 03         [ 2]  670         adc     #0x03
+   141F 85 65         [ 3]  671         sta     KTABLE_OFFS                             ; add 3 to KTABLE_OFFS and return
+   1421                     672 $36:
+   1421 60            [ 6]  673         rts
+   1422                     674 $37:
+   1422 E6 66         [ 5]  675         inc     KTABLE_SEL                              ; add 1 to KTABLE_SEL
+   1424 A9 00         [ 2]  676         lda     #0x00
+   1426 85 65         [ 3]  677         sta     KTABLE_OFFS                             ; clear KTABLE_OFFS
+   1428 4C 21 14      [ 3]  678         jmp     $36                                     ; return
+   142B                     679 $38:
+   142B BD 43 15      [ 5]  680         lda     KTABLE2,x
+   142E C9 FF         [ 2]  681         cmp     #0xFF
+   1430 D0 0D         [ 4]  682         bne     $39
+   1432 A9 00         [ 2]  683         lda     #0x00
+   1434 85 65         [ 3]  684         sta     KTABLE_OFFS
+   1436 85 66         [ 3]  685         sta     KTABLE_SEL
+   1438 A9 FA         [ 2]  686         lda     #0xFA
+   143A 85 64         [ 3]  687         sta     TIMER_100MS_C
+   143C 4C 21 14      [ 3]  688         jmp     $36
+   143F                     689 $39:
+   143F C5 64         [ 3]  690         cmp     TIMER_100MS_C
+   1441 D0 DE         [ 4]  691         bne     $36
+   1443 BD 44 15      [ 5]  692         lda     KTABLE2+1,x
+   1446 20 F6 12      [ 6]  693         jsr     PROCBYTE
+   1449 BD 45 15      [ 5]  694         lda     KTABLE2+2,x
+   144C 20 F6 12      [ 6]  695         jsr     PROCBYTE
+   144F A5 65         [ 3]  696         lda     KTABLE_OFFS
+   1451 18            [ 2]  697         clc
+   1452 69 03         [ 2]  698         adc     #0x03
+   1454 85 65         [ 3]  699         sta     KTABLE_OFFS
+   1456 4C 21 14      [ 3]  700         jmp     $36
+                            701 
+   1459                     702 KTABLE1:
+   1459 F5 35 49 F5 35 4A   703         .byte   0xF5,0x35,0x49, 0xF5,0x35,0x4A, 0xEE,0x35,0x46, 0xEB,0x33,0x46 
         EE 35 46 EB 33 46
-   1465 E9 32 46 E9 33 42   715         .byte   0xE9,0x32,0x46, 0xE9,0x33,0x42, 0xE8,0x33,0x46, 0xE7,0x32,0x46
+   1465 E9 32 46 E9 33 42   704         .byte   0xE9,0x32,0x46, 0xE9,0x33,0x42, 0xE8,0x33,0x46, 0xE7,0x32,0x46
         E8 33 46 E7 32 46
-   1471 E6 33 46 E5 32 46   716         .byte   0xE6,0x33,0x46, 0xE5,0x32,0x46, 0xE4,0x33,0x46, 0xE3,0x32,0x46
+   1471 E6 33 46 E5 32 46   705         .byte   0xE6,0x33,0x46, 0xE5,0x32,0x46, 0xE4,0x33,0x46, 0xE3,0x32,0x46
         E4 33 46 E3 32 46
-   147D E2 33 46 E1 32 46   717         .byte   0xE2,0x33,0x46, 0xE1,0x32,0x46, 0xE0,0x33,0x46, 0xDF,0x32,0x46
+   147D E2 33 46 E1 32 46   706         .byte   0xE2,0x33,0x46, 0xE1,0x32,0x46, 0xE0,0x33,0x46, 0xDF,0x32,0x46
         E0 33 46 DF 32 46
-   1489 DE 33 46 DD 32 46   718         .byte   0xDE,0x33,0x46, 0xDD,0x32,0x46, 0xDD,0x34,0x46, 0xDC,0x33,0x46
+   1489 DE 33 46 DD 32 46   707         .byte   0xDE,0x33,0x46, 0xDD,0x32,0x46, 0xDD,0x34,0x46, 0xDC,0x33,0x46
         DD 34 46 DC 33 46
-   1495 DB 32 46 DB 35 46   719         .byte   0xDB,0x32,0x46, 0xDB,0x35,0x46, 0xDA,0x33,0x46, 0xD9,0x32,0x46
+   1495 DB 32 46 DB 35 46   708         .byte   0xDB,0x32,0x46, 0xDB,0x35,0x46, 0xDA,0x33,0x46, 0xD9,0x32,0x46
         DA 33 46 D9 32 46
-   14A1 D1 32 42 C6 33 47   720         .byte   0xD1,0x32,0x42, 0xC6,0x33,0x47, 0xC6,0x33,0x43, 0xC5,0x32,0x47
+   14A1 D1 32 42 C6 33 47   709         .byte   0xD1,0x32,0x42, 0xC6,0x33,0x47, 0xC6,0x33,0x43, 0xC5,0x32,0x47
         C6 33 43 C5 32 47
-   14AD C3 34 46 C2 33 47   721         .byte   0xC3,0x34,0x46, 0xC2,0x33,0x47, 0xC1,0x32,0x47, 0xC0,0x35,0x46
+   14AD C3 34 46 C2 33 47   710         .byte   0xC3,0x34,0x46, 0xC2,0x33,0x47, 0xC1,0x32,0x47, 0xC0,0x35,0x46
         C1 32 47 C0 35 46
-   14B9 B9 34 46 B9 32 43   722         .byte   0xB9,0x34,0x46, 0xB9,0x32,0x43, 0xB7,0x35,0x46, 0xB7,0x33,0x42
+   14B9 B9 34 46 B9 32 43   711         .byte   0xB9,0x34,0x46, 0xB9,0x32,0x43, 0xB7,0x35,0x46, 0xB7,0x33,0x42
         B7 35 46 B7 33 42
-   14C5 B3 33 46 B2 32 46   723         .byte   0xB3,0x33,0x46, 0xB2,0x32,0x46, 0xA8,0x32,0x42, 0x9D,0x33,0x47
+   14C5 B3 33 46 B2 32 46   712         .byte   0xB3,0x33,0x46, 0xB2,0x32,0x46, 0xA8,0x32,0x42, 0x9D,0x33,0x47
         A8 32 42 9D 33 47
-   14D1 9C 32 47 9B 33 47   724         .byte   0x9C,0x32,0x47, 0x9B,0x33,0x47, 0x9A,0x32,0x47, 0x9A,0x34,0x46
+   14D1 9C 32 47 9B 33 47   713         .byte   0x9C,0x32,0x47, 0x9B,0x33,0x47, 0x9A,0x32,0x47, 0x9A,0x34,0x46
         9A 32 47 9A 34 46
-   14DD 99 33 47 99 33 43   725         .byte   0x99,0x33,0x47, 0x99,0x33,0x43, 0x99,0x35,0x46, 0x98,0x32,0x47
+   14DD 99 33 47 99 33 43   714         .byte   0x99,0x33,0x47, 0x99,0x33,0x43, 0x99,0x35,0x46, 0x98,0x32,0x47
         99 35 46 98 32 47
-   14E9 97 33 47 94 32 47   726         .byte   0x97,0x33,0x47, 0x94,0x32,0x47, 0x93,0x33,0x47, 0x92,0x32,0x47
+   14E9 97 33 47 94 32 47   715         .byte   0x97,0x33,0x47, 0x94,0x32,0x47, 0x93,0x33,0x47, 0x92,0x32,0x47
         93 33 47 92 32 47
-   14F5 91 33 47 90 32 47   727         .byte   0x91,0x33,0x47, 0x90,0x32,0x47, 0x87,0x33,0x42, 0x86,0x32,0x43
+   14F5 91 33 47 90 32 47   716         .byte   0x91,0x33,0x47, 0x90,0x32,0x47, 0x87,0x33,0x42, 0x86,0x32,0x43
         87 33 42 86 32 43
-   1501 7D 33 46 7C 32 46   728         .byte   0x7D,0x33,0x46, 0x7C,0x32,0x46, 0x77,0x32,0x42, 0x77,0x34,0x46
+   1501 7D 33 46 7C 32 46   717         .byte   0x7D,0x33,0x46, 0x7C,0x32,0x46, 0x77,0x32,0x42, 0x77,0x34,0x46
         77 32 42 77 34 46
-   150D 75 32 43 75 35 46   729         .byte   0x75,0x32,0x43, 0x75,0x35,0x46, 0x6A,0x33,0x46, 0x69,0x32,0x46
+   150D 75 32 43 75 35 46   718         .byte   0x75,0x32,0x43, 0x75,0x35,0x46, 0x6A,0x33,0x46, 0x69,0x32,0x46
         6A 33 46 69 32 46
-   1519 67 33 46 66 32 46   730         .byte   0x67,0x33,0x46, 0x66,0x32,0x46, 0x66,0x32,0x43, 0x65,0x34,0x46
+   1519 67 33 46 66 32 46   719         .byte   0x67,0x33,0x46, 0x66,0x32,0x46, 0x66,0x32,0x43, 0x65,0x34,0x46
         66 32 43 65 34 46
-   1525 62 35 46 62 33 42   731         .byte   0x62,0x35,0x46, 0x62,0x33,0x42, 0x56,0x33,0x46, 0x55,0x32,0x46
+   1525 62 35 46 62 33 42   720         .byte   0x62,0x35,0x46, 0x62,0x33,0x42, 0x56,0x33,0x46, 0x55,0x32,0x46
         56 33 46 55 32 46
-   1531 55 32 42 54 33 46   732         .byte   0x55,0x32,0x42, 0x54,0x33,0x46, 0x53,0x32,0x46, 0x52,0x33,0x46
+   1531 55 32 42 54 33 46   721         .byte   0x55,0x32,0x42, 0x54,0x33,0x46, 0x53,0x32,0x46, 0x52,0x33,0x46
         53 32 46 52 33 46
-   153D 51 32 46 FE FE FE   733         .byte   0x51,0x32,0x46, 0xFE,0xFE,0xFE
-                            734 
-   1543                     735 X1543:
-   1543 50 33 46 4F 32 46   736         .byte   0x50,0x33,0x46, 0x4F,0x32,0x46, 0x4E,0x33,0x46, 0x4E,0x33,0x42
+   153D 51 32 46 FE FE FE   722         .byte   0x51,0x32,0x46, 0xFE,0xFE,0xFE
+                            723 
+   1543                     724 KTABLE2:
+   1543 50 33 46 4F 32 46   725         .byte   0x50,0x33,0x46, 0x4F,0x32,0x46, 0x4E,0x33,0x46, 0x4E,0x33,0x42
         4E 33 46 4E 33 42
-   154F 4D 32 46 4C 33 46   737         .byte   0x4D,0x32,0x46, 0x4C,0x33,0x46, 0x4B,0x32,0x46, 0x40,0x34,0x46
+   154F 4D 32 46 4C 33 46   726         .byte   0x4D,0x32,0x46, 0x4C,0x33,0x46, 0x4B,0x32,0x46, 0x40,0x34,0x46
         4B 32 46 40 34 46
-   155B 3E 35 46 3C 33 47   738         .byte   0x3E,0x35,0x46, 0x3C,0x33,0x47, 0x3B,0x32,0x47, 0x3A,0x33,0x47
+   155B 3E 35 46 3C 33 47   727         .byte   0x3E,0x35,0x46, 0x3C,0x33,0x47, 0x3B,0x32,0x47, 0x3A,0x33,0x47
         3B 32 47 3A 33 47
-   1567 39 32 47 32 32 42   739         .byte   0x39,0x32,0x47, 0x32,0x32,0x42, 0x29,0x34,0x46, 0x28,0x32,0x47
+   1567 39 32 47 32 32 42   728         .byte   0x39,0x32,0x47, 0x32,0x32,0x42, 0x29,0x34,0x46, 0x28,0x32,0x47
         29 34 46 28 32 47
-   1573 27 35 46 26 33 43   740         .byte   0x27,0x35,0x46, 0x26,0x33,0x43, 0x23,0x33,0x47, 0x22,0x32,0x47
+   1573 27 35 46 26 33 43   729         .byte   0x27,0x35,0x46, 0x26,0x33,0x43, 0x23,0x33,0x47, 0x22,0x32,0x47
         23 33 47 22 32 47
-   157F 1E 33 42 1D 32 43   741         .byte   0x1E,0x33,0x42, 0x1D,0x32,0x43, 0x1B,0x33,0x47, 0x1A,0x32,0x47
+   157F 1E 33 42 1D 32 43   730         .byte   0x1E,0x33,0x42, 0x1D,0x32,0x43, 0x1B,0x33,0x47, 0x1A,0x32,0x47
         1B 33 47 1A 32 47
-   158B 19 33 47 18 32 47   742         .byte   0x19,0x33,0x47, 0x18,0x32,0x47, 0x17,0x34,0x46, 0x17,0x33,0x47
+   158B 19 33 47 18 32 47   731         .byte   0x19,0x33,0x47, 0x18,0x32,0x47, 0x17,0x34,0x46, 0x17,0x33,0x47
         17 34 46 17 33 47
-   1597 17 32 42 16 32 47   743         .byte   0x17,0x32,0x42, 0x16,0x32,0x47, 0x15,0x35,0x46, 0x15,0x33,0x43
+   1597 17 32 42 16 32 47   732         .byte   0x17,0x32,0x42, 0x16,0x32,0x47, 0x15,0x35,0x46, 0x15,0x33,0x43
         15 35 46 15 33 43
-   15A3 08 32 43 03 33 46   744         .byte   0x08,0x32,0x43, 0x03,0x33,0x46, 0x02,0x32,0x46, 0x02,0x34,0x46
+   15A3 08 32 43 03 33 46   733         .byte   0x08,0x32,0x43, 0x03,0x33,0x46, 0x02,0x32,0x46, 0x02,0x34,0x46
         02 32 46 02 34 46
-   15AF FF FF FF FF FF FF   745         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
-                            746 
-   1FFA                     747         .org    0x1FFA
-                            748         ;
-                            749         ; vectors
-                            750         ;
-   1FFA                     751 NMIVEC:
-   1FFA FF FF               752         .dw     0xFFFF
-   1FFC                     753 RESETVEC:
-   1FFC 48 10               754         .dw     RESET
-   1FFE                     755 IRQVEC:
-   1FFE 00 10               756         .dw     IRQ
+   15AF FF FF FF FF FF FF   734         .byte   0xFF,0xFF,0xFF, 0xFF,0xFF,0xFF
+                            735 
+   1FFA                     736         .org    0x1FFA
+                            737         ;
+                            738         ; vectors
+                            739         ;
+   1FFA                     740 NMIVEC:
+   1FFA FF FF               741         .dw     0xFFFF
+   1FFC                     742 RESETVEC:
+   1FFC 48 10               743         .dw     RESET
+   1FFE                     744 IRQVEC:
+   1FFE 00 10               745         .dw     IRQ
