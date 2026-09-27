@@ -28,10 +28,9 @@ CURR_PORT       = 0x0063    ; current channel port address
 TIMER_100MS_C   = 0x0064    ; 0.1s timer
 KTABLE_OFFS     = 0x0065    ; offset into King table
 KTABLE_SEL      = 0x0066    ; select King table
-RAM_67          = 0x0067    ; TBD?
-RAM_68          = 0x0068    ; TBD?
-RAM_69          = 0x0069    ; TBD?
-RAM_6A          = 0x006A    ; TBD?
+UART_RBYTE      = 0x0067    ; UART routine recv byte (0 or 1)
+UART_SBYTE      = 0x0068    ; UART routine send byte (0 or 1)
+UART_ADDR       = 0x0069    ; Address of UART send table (2 bytes)
 ;
 ;       IRQ handler
 ;
@@ -102,8 +101,8 @@ ZERORAM:
         sta     audio_control_reg_b                     ; Clear audio control B
         sta     U18_edge_detect_control_DI_pos          ; Detect PROG button release
         sta     transport_control_reg_b                 ; Clear transport control B, select DDRB
-        sta     U18_06                                  ; ???
-        sta     U19_06                                  ; ???
+        sta     U18_06                                  ; Enable PROG falling edge irq
+        sta     U19_06                                  ; Enable AGC8 falling edge irq
         sta     U18_DDRA                                ; Buttons are inputs
         lda     #0x02
         sta     U19_DDRA                                ; AGC and MIKESW are inputs, RESET Light output
@@ -209,32 +208,32 @@ $30:
 
 
 L114D:
-        lda     #0x64
-        sta     RAM_69
-        lda     #0x13
-        sta     0x6A                                    ; set address to 0x1364?
+        lda     #<UTABLE_M2
+        sta     UART_ADDR
+        lda     #>UTABLE_M2
+        sta     UART_ADDR+1                             ; set UTABLE address
         jsr     AGCUPD
         jsr     KUPDATE
-        jsr     L12D9
+        jsr     UARTPROC
         lda     UART_02
         and     #0x05
         beq     L1188
-        lda     RAM_67
+        lda     UART_RBYTE
         bne     L1175
         lda     UART_01
-        cmp     #0x53                                   ; 'S' - start command?
+        cmp     #'S                                     ; 'S' - start command?
         bne     L1188
-        inc     RAM_67
+        inc     UART_RBYTE
         jmp     L1188
 L1175:
         lda     #0x00
-        sta     RAM_67
+        sta     UART_RBYTE
         lda     UART_01
-        cmp     #0x31                                   ; '1' - 2nd byte startplay command?
+        cmp     #'1                                     ; '1' - 2nd byte startplay command?
         beq     STARTPLAY
-        cmp     #0x32                                   ; '2' - 2nd byte lights command?
+        cmp     #'2                                     ; '2' - 2nd byte lights command?
         beq     L118E
-        cmp     #0x33                                   ; '3' - 2nd byte lights command?
+        cmp     #'3                                     ; '3' - 2nd byte lights command?
         beq     L11A3
 L1188:
         jmp     L114D
@@ -264,10 +263,10 @@ L11A3:
 ;   we have been started!
 STARTPLAY:
         jsr     INITBRDS
-        lda     #0x62
-        sta     RAM_69
-        lda     #0x13
-        sta     0x6A                                    ; set address to 0x1362?
+        lda     #<UTABLE_M1
+        sta     UART_ADDR
+        lda     #>UTABLE_M1
+        sta     UART_ADDR+1                             ; set UTABLE address
         lda     #0x00
         sta     U19_PORTA                               ; turn off RESET button light
         lda     #0xA0
@@ -420,7 +419,7 @@ $14:
         lda     transport_periph$ddr_reg_b
         lsr     a
         bcc     LOSTCD                                  ; b0=0, no carrier, exit
-        jsr     L12D9                                   ; ??? Unknown UART routine
+        jsr     UARTPROC                                ; ??? Unknown UART routine
         jsr     AGCUPD
         lda     transport_control_reg_a                 ; Did we get a byte?
         bpl     $14                                     ; No, loop
@@ -440,25 +439,26 @@ $15:
         rts
 ;
 ;   TBD - Unknown UART routine
+;   Send first or second byte from the UART table to UART_01
 ;
-L12D9:
-        lda     UART_02
-        and     #0x02
-        beq     L12F8
-        lda     RAM_68
-        bne     L12ED
+UARTPROC:
+        lda     UART_02                                 ; check UART_02.bit2 == 0
+        and     #0x02                                   
+        beq     $42                                     ; if so, return
+        lda     UART_SBYTE                              ; else, check byte number
+        bne     $40
         ldy     #0x00
-        lda     [RAM_69],y
-        inc     RAM_68
-        jmp     L12F5
-L12ED:
+        lda     [UART_ADDR],y                           ; send first byte
+        inc     UART_SBYTE
+        jmp     $41
+$40:
         lda     #0x00
-        sta     RAM_68
+        sta     UART_SBYTE
         ldy     #0x01
-        lda     [RAM_69],y
-L12F5:
+        lda     [UART_ADDR],y                           ; send second byte
+$41:
         sta     UART_01
-L12F8:
+$42:
         rts
 ;
 ; Protocol handler
@@ -535,8 +535,11 @@ MASKTBL:
         .byte   0x10,0x20,0x40,0x80
 ;
 ; This table is referenced by UART code
-        .byte   0x4D,0x31                               ; M1
-        .byte   0x4D,0x32                               ; M2
+;
+UTABLE_M1:
+        .byte   'M,'1                                   ; M1
+UTABLE_M2:
+        .byte   'M,'2                                   ; M2
 ;
 ;       Read the AGC mic level
 ;       Take the average of 8 samples, and put it into AGC_LEVEL (range is 0 to 8)
