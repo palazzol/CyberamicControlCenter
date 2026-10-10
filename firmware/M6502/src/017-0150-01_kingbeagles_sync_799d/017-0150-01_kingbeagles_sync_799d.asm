@@ -129,10 +129,13 @@ ZERORAM:
         lda     #0x0A                                   ; 10
         sta     AGC_GAIN                                ; Set initial AGC gain value
         lda     #0x03
-        sta     UART_02                                 ; ???
-        nop                                             ; ???
+        sta     UART_02                                 ; 6850 Master Reset
+        nop                                             ; Wait a bit
         lda     #0x09
-        sta     UART_02                                 ; ???
+        sta     UART_02                                 ; 000 010 01
+                                                        ;  |   |   |__ div by 16 
+                                                        ;  |   |______ 7E1 
+                                                        ;  |__________ all interrupts disabled 
         lda     #TAPEMODE_STOP
         jsr     TAPECMD                                 ; STOP tape
         lda     #0x28                                   ; this will count 4 seconds
@@ -214,7 +217,7 @@ WAITPLAY:
         jsr     KUPDATE
         jsr     UARTPROC
         lda     UART_02
-        and     #0x05
+        and     #0x05                                   ; bit 0 = rcv data, bit 2 = ~DCD pin
         beq     $46
         lda     UART_RBYTE
         bne     $45
@@ -441,7 +444,7 @@ $15:
 ;
 UARTPROC:
         lda     UART_02                                 ; check UART_02.bit2 == 0
-        and     #0x02                                   
+        and     #0x02                                   ; transmit register empty reg
         beq     $42                                     ; if so, return
         lda     UART_SBYTE                              ; else, check byte number
         bne     $40

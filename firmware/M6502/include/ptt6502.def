@@ -38,9 +38,9 @@ board_7_periph$ddr_reg_b        = 0x009A
 board_8_periph$ddr_reg_a        = 0x009C
 board_8_periph$ddr_reg_b        = 0x009E
 
-; UART / Board Select 11
-UART_01                         = 0x0101
-UART_02                         = 0x0102
+; UART / Board Select 11 - 6850?
+UART_01                         = 0x0101    ; 6850 Control Register
+UART_02                         = 0x0102    ; 6850 Data Register
 
 ; 1st 6532 on CPU board
 U18_PORTA                       = 0x0200
